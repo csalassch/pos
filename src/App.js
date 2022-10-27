@@ -11,7 +11,7 @@ import { AuthProvider } from './Context/authContext';
 /****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('./layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('./layouts/BlankLayout')));
-/***** Pages ****/
+/***** Pages ****/ 
 
 const Analytical = Loadable(lazy(() => import('./views/dashboards/Analytical')));
 const Demographical = Loadable(lazy(() => import('./views/dashboards/Demographical')));
