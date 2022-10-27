@@ -4,11 +4,11 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import ThemeSelector from './layouts/theme/ThemeSelector';
 import Loader from './layouts/loader/Loader';
 import Loadable from './layouts/loader/Loadable';
- 
+
 //Autenticacion del logeo
 import { ProtectedRoute } from './routes/Enrutador';
 import { AuthProvider } from './Context/authContext';
-/****Layouts*****/ 
+/****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('./layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('./layouts/BlankLayout')));
 /***** Pages ****/
