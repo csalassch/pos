@@ -22,12 +22,17 @@ import user1 from '../../assets/images/users/user4.jpg';
 import Logo from '../logo/Logo';
 import { ToggleMiniSidebar, ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
+import { useAuth } from '../../Context/authContext';
+
 
 const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const dispatch = useDispatch();
-
+  const { logout } = useAuth();
+  const handleLogout = async () => {
+    await logout();
+  }
   return (
     <>
       <Navbar
@@ -147,7 +152,7 @@ const Header = () => {
             <DropdownMenu className="ddWidth profile-dd">
               <ProfileDD />
               <div className="p-2 px-3">
-                <Button color="danger" size="sm">
+                <Button color="danger" size="sm" onClick={handleLogout}>
                   Logout
                 </Button>
               </div>

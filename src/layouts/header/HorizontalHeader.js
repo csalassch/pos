@@ -138,9 +138,7 @@ const HorizontalHeader = () => {
               <ProfileDD />
 
               <div className="p-2 px-3">
-                <Button color="danger" size="sm" onclick={handleLogout}>
-                  Logout
-                </Button>
+              <button className='bg-red' size="sm" type='submit' onClick={handleLogout}>logout</button>
               </div>
             </DropdownMenu>
           </UncontrolledDropdown>
