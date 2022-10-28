@@ -24,13 +24,17 @@ import { ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
 
 import HorizontalLogo from '../logo/HorizontalLogo';
+import {useAuth} from '../../Context/authContext';
 
 const HorizontalHeader = () => {
+  const { logout } = useAuth();
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const isMobileSidebar = useSelector((state) => state.customizer.isMobileSidebar);
   const dispatch = useDispatch();
-
+  const handleLogout = async () => {
+    await logout();
+  }
   return (
     <Navbar
       color={topbarColor}
@@ -134,7 +138,7 @@ const HorizontalHeader = () => {
               <ProfileDD />
 
               <div className="p-2 px-3">
-                <Button color="danger" size="sm">
+                <Button color="danger" size="sm" onclick={handleLogout}>
                   Logout
                 </Button>
               </div>
