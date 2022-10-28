@@ -106,6 +106,10 @@ const Maintanance = Loadable(lazy(() => import('./views/auth/Maintanance')));
 const LockScreen = Loadable(lazy(() => import('./views/auth/LockScreen')));
 const RecoverPassword = Loadable(lazy(() => import('./views/auth/RecoverPassword')));
 
+
+//Paneles Desarrollo Freebug
+const PanelLicencias = Loadable(lazy(() => import('./views/Servicios/PanelLicencias')));
+
 /*****Routes******/
 
 const App = () => {
@@ -129,6 +133,7 @@ const App = () => {
             <Route path='/' element={<ProtectedRoute><FullLayout /></ProtectedRoute>}>
               <Route path='/' name='Home' element={<Navigate to="/dashboards/analytical" />} />,
               <Route path='/dashboards/analytical' name='Analytical' element={<Analytical />} />
+              <Route path='/dashboards/PanelLicencias' name='PanelLicencias' element={<PanelLicencias />} />
               <Route path='/dashboards/demographical' name='Demographical' element={<Demographical />} />,
               <Route path='/dashboards/modern' name='Modern' element={<Modern />} />,
               <Route path='/about' name='about' element={<About />} />,
