@@ -44,7 +44,7 @@ const LoginFormik = () => {
               <CardBody className="p-4 m-1">
                 <h4 className="mb-0 fw-bold">Login</h4>
                 <small className="pb-4 d-block">
-                  Do not have an account? <Link to="/registerformik">Sign Up</Link>
+                  Do not have an account? <Link to="/auth/registerformik">Sign Up</Link>
                 </small>
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(fields) => {   
                   // eslint-disable-next-line no-alert   

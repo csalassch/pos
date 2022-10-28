@@ -50,6 +50,7 @@
     "no-nested-ternary": "off",
     "react/react-in-jsx-scope": "off",
     "react/destructuring-assignment": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "object-shorthand": 0
   }
 }

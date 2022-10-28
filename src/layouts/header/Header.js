@@ -29,10 +29,12 @@ const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const dispatch = useDispatch();
-  const { logout } = useAuth();
+
+  const { logout,user } = useAuth();
   const handleLogout = async () => {
     await logout();
   }
+  console.log(user);
   return (
     <>
       <Navbar

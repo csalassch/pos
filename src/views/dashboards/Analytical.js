@@ -17,16 +17,11 @@ import MyContact from '../../components/dashboard/analytical/MyContact';
 import Feeds from '../../components/dashboard/analytical/Feeds';
 import RecentComments from '../../components/dashboard/analytical/RecentComments';
 import RecentChat from '../../components/dashboard/analytical/RecentChat';
-import { useAuth } from '../../Context/authContext';
 
 const Analytical = () => {
-  const { logout } = useAuth();
-  const handleLogout = async () => {
-    await logout();
-  }
+  
   return (
     <>
-      <button className='bg-black' type='submit' onClick={handleLogout}>hola</button>
       <BreadCrumbs />
       <TopCards />
       <Row>
