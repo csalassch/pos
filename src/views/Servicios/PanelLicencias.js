@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ProjectTables from '../../components/dashboard/ProjectTable';
+import TablePanelLicencias from '../../components/Services/TablePanelLicencias';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import user1 from '../../assets/images/users/user1.jpg';
 
@@ -29,7 +29,7 @@ const PanelLicencias = () => {
     return (
         <>
             <BreadCrumbs />
-            <ProjectTables lista = {users}/>
+            <TablePanelLicencias lista = {users}/>
         </>
     );
 };

@@ -1,61 +1,9 @@
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
-import user1 from '../../assets/images/users/user1.jpg';
-import user2 from '../../assets/images/users/user2.jpg';
-import user3 from '../../assets/images/users/user3.jpg';
-import user4 from '../../assets/images/users/user4.jpg';
-import user5 from '../../assets/images/users/user5.jpg';
 
-const tableData = [
-  {
-    avatar: user1,
-    name: 'Hanna Gover',
-    email: 'hgover@gmail.com',
-    project: 'Flexy React',
-    status: 'pending',
-    weeks: '35',
-    budget: '95K',
-  },
-  {
-    avatar: user2,
-    name: 'Jonathan Gover',
-    email: 'hgover@gmail.com',
-    project: 'Lading pro React',
-    status: 'done',
-    weeks: '35',
-    budget: '95K',
-  },
-  {
-    avatar: user3,
-    name: 'Steave',
-    email: 'hgover@gmail.com',
-    project: 'Elite React',
-    status: 'holt',
-    weeks: '35',
-    budget: '95K',
-  },
-  {
-    avatar: user4,
-    name: 'Mukesh chava',
-    email: 'hgover@gmail.com',
-    project: 'Flexy React',
-    status: 'pending',
-    weeks: '35',
-    budget: '95K',
-  },
-  {
-    avatar: user5,
-    name: 'Thuklk luu',
-    email: 'hgover@gmail.com',
-    project: 'Ample React',
-    status: 'done',
-    weeks: '35',
-    budget: '95K',
-  },
-];
-
-const ProjectTables = () => {
+const TablePanelLicencias = ({lista}) => {
   return (
     <div>
+      {console.log("hola",lista)}
       <Card>
         <CardBody>
           <CardTitle tag="h5">Project Listing</CardTitle>
@@ -75,7 +23,7 @@ const ProjectTables = () => {
               </tr>
             </thead>
             <tbody>
-              {tableData.map((tdata) => (
+              {lista.map((tdata) => (
                 <tr key={tdata.name} className="border-top">
                   <td>
                     <div className="d-flex align-items-center p-2">
@@ -114,4 +62,4 @@ const ProjectTables = () => {
   );
 };
 
-export default ProjectTables;
+export default TablePanelLicencias;
