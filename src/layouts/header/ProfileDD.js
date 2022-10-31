@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { DropdownItem } from 'reactstrap';
 import { User, FileText, Star, Settings, Droplet } from 'react-feather';
-import {ref,onValue} from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 
 import user1 from '../../assets/images/users/user4.jpg';
 import { useAuth } from '../../Context/authContext';
@@ -9,22 +9,21 @@ import { useAuth } from '../../Context/authContext';
 import { db } from '../../FirebaseConfig/firebase';
 
 const ProfileDD = () => {
- 
-  const {user } = useAuth();
-  const [userData,setUserData]=useState("");
-  function getDatoUnico()
-    { 
-        onValue(ref(db, `usuarios/${user.uid}`),(snapshot=> {
-            const username=(snapshot.val() && snapshot.val().userName) || "Anonymous";
-            console.log("ID USUARIO: ",username)
-            setUserData(username);
-            
-        }))
-    }
-    
+
+  const { user } = useAuth();
+  const [userData, setUserData] = useState("");
+  function getDatoUnico() {
+    onValue(ref(db, `usuarios/${user.uid}`), (snapshot => {
+      const username = (snapshot.val() && snapshot.val().userName) || "Anonymous";
+      console.log("ID USUARIO: ", username)
+      setUserData(username);
+
+    }))
+  }
+
   useEffect(() => {
     getDatoUnico()
-}, [])
+  }, [])
 
   return (
     <div>
