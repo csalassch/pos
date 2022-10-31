@@ -45,7 +45,7 @@ const SidebarData = [
   {
     title: 'Inventarios',
     href: '/servicios/Inventarios',
-    icon: <Icon.FileText />,
+    icon: <Icon.Package />,
     id: 2.1,
     collapisble: false,
   },
