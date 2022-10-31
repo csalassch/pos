@@ -34,6 +34,14 @@ const SidebarData = [
       },
     ],
   },
+  { caption: 'Servicios' },
+  {
+    title: 'Panel Licencias',
+    href: '/apps/panellicencias',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
+  },
   { caption: 'Apps' },
   {
     title: 'Notes',
