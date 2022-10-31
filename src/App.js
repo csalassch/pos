@@ -109,6 +109,7 @@ const RecoverPassword = Loadable(lazy(() => import('./views/auth/RecoverPassword
 
 //Paneles Desarrollo Freebug
 const PanelLicencias = Loadable(lazy(() => import('./views/Servicios/PanelLicencias')));
+const Inventarios = Loadable(lazy(() => import('./views/Servicios/Inventarios')));
 
 /*****Routes******/
 
@@ -134,6 +135,7 @@ const App = () => {
               <Route path='/' name='Home' element={<Navigate to="/dashboards/analytical" />} />,
               <Route path='/dashboards/analytical' name='Analytical' element={<Analytical />} />
               <Route path='/dashboards/PanelLicencias' name='PanelLicencias' element={<PanelLicencias />} />
+              <Route path='/dashboards/Inventarios' name='Inventarios' element={<Inventarios />} />
               <Route path='/dashboards/demographical' name='Demographical' element={<Demographical />} />,
               <Route path='/dashboards/modern' name='Modern' element={<Modern />} />,
               <Route path='/about' name='about' element={<About />} />,
