@@ -37,7 +37,14 @@ const SidebarData = [
   { caption: 'Servicios' },
   {
     title: 'Panel Licencias',
-    href: '/apps/panellicencias',
+    href: '/servicios/PanelLicencias',
+    icon: <Icon.FileText />,
+    id: 2.1,
+    collapisble: false,
+  },
+  {
+    title: 'Inventarios',
+    href: '/servicios/Inventarios',
     icon: <Icon.FileText />,
     id: 2.1,
     collapisble: false,
