@@ -1,9 +1,10 @@
+import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
 
 const TablePanelLicencias = ({ lista }) => {
+  
   return (
     <div>
-      {console.log("hola", lista)}
       <Card>
         <CardBody>
           <CardTitle tag="h5">Licencias compradas</CardTitle>
@@ -27,10 +28,11 @@ const TablePanelLicencias = ({ lista }) => {
               {lista.map((tdata) => (
                 <tr key={tdata.ID_Licencia} className="border-top">
                   <td>
-                    <div className="d-flex align-items-center p-2">
+                    <div className="d-flex align-items-center p-2 ">
 
-                      <div className="ms-3">
-                        <h6 className="mb-0">{tdata.ID_Licencia}</h6>
+                      <div className="ms-3 ">
+                        <Link to={`/servicios/Licencia/${tdata.ID_Licencia}`} className="border border-0 bg-transparent">{tdata.ID_Licencia}</Link>
+                        <br/>
                         <span className="text-muted">{tdata.Descripcion}</span>
                       </div>
                     </div>

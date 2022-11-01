@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import TablePanelLicencias from '../../components/Services/TablePanelLicencias';
-import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
+import TablePanelLicencias from '../../../components/Services/PanelLicencias/TablePanelLicencias';
+import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
 
 const PanelLicencias = () => {
     const [users, setUsers] = useState([]);
