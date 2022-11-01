@@ -109,6 +109,8 @@ const RecoverPassword = Loadable(lazy(() => import('./views/auth/RecoverPassword
 
 //Paneles Desarrollo Freebug
 const PanelLicencias = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/PanelLicencias')));
+const PanelLicenciasAdmin = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/Admin/PanelLicenciasAdmin')));
+const Alta = Loadable(lazy(() => import('./components/Services/PanelLicencias/Admin/Alta')));
 const InfoLicencia = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/InfoLicencia')));
 const Inventarios = Loadable(lazy(() => import('./views/Servicios/Inventarios')));
 
@@ -136,7 +138,9 @@ const App = () => {
               <Route path='/' name='Home' element={<Navigate to="/dashboards/analytical" />} />,
               <Route path='/dashboards/analytical' name='Analytical' element={<Analytical />} />
               <Route path='/servicios/PanelLicencias' name='PanelLicencias' element={<PanelLicencias />} />
-              <Route path='/servicios/Licencia/:id' name='Licencia' element={<InfoLicencia />} />
+              <Route path='/servicios/PanelLicenciasAdmin' name='PanelLicenciasAdmin' element={<PanelLicenciasAdmin />} />
+              <Route path='/servicios/PanelLicenciasAdmin/Alta' name='Alta' element={<Alta />} />
+              <Route path='/servicios/PanelLicencias/Licencia/:id' name='Licencia' element={<InfoLicencia />} />
               <Route path='/servicios/Inventarios' name='Inventarios' element={<Inventarios />} />
               <Route path='/dashboards/demographical' name='Demographical' element={<Demographical />} />,
               <Route path='/dashboards/modern' name='Modern' element={<Modern />} />,

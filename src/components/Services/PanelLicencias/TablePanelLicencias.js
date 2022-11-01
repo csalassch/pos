@@ -31,7 +31,7 @@ const TablePanelLicencias = ({ lista }) => {
                     <div className="d-flex align-items-center p-2 ">
 
                       <div className="ms-3 ">
-                        <Link to={`/servicios/Licencia/${tdata.ID_Licencia}`} className="border border-0 bg-transparent">{tdata.ID_Licencia}</Link>
+                        <Link to={`/servicios/PanelLicencias/Licencia/${tdata.ID_Licencia}`} className="border border-0 bg-transparent">{tdata.ID_Licencia}</Link>
                         <br/>
                         <span className="text-muted">{tdata.Descripcion}</span>
                       </div>
