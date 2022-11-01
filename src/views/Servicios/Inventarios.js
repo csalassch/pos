@@ -202,6 +202,7 @@ const Inventarios = () => {
             {/*--------------------------------------------------------------------------------*/}
             {/* Start Inner Div*/}
             {/*--------------------------------------------------------------------------------*/}
+            
             <Row>
 
                 <Col md="6">
@@ -218,29 +219,29 @@ const Inventarios = () => {
             </Row>
             <Row>
                 <Col md="12">
-                    <ComponentCard title="Bootstrap DataTable">
+                    <ComponentCard title="Inventario">
                         <BootstrapTable
                             striped
                             hover
                             condensed
                             search
                             data={data.JsonData}
-                            deleteRow
+                            
                             selectRow={selectRowProp}
                             pagination
-                            insertRow
+                            
                             options={options}
                             cellEdit={cellEditProp}
                             tableHeaderClass="mb-0"
                         >
                             <TableHeaderColumn width="100" dataField="name" isKey>
-                                Name
+                                Producto
                             </TableHeaderColumn>
                             <TableHeaderColumn width="100" dataField="gender">
-                                Gender
+                                Cantidad Existente
                             </TableHeaderColumn>
                             <TableHeaderColumn width="100" dataField="company">
-                                Company
+                                Monto
                             </TableHeaderColumn>
                         </BootstrapTable>
                     </ComponentCard>
