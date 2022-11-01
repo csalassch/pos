@@ -51,6 +51,7 @@
     "react/react-in-jsx-scope": "off",
     "react/destructuring-assignment": "off",
     "react/prop-types": "off",
-    "object-shorthand": 0
+    "object-shorthand": 0,
+    "import/prefer-default-export": "off"
   }
 }

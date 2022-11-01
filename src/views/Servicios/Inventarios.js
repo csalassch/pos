@@ -1,11 +1,13 @@
-import React from 'react';
-import { Row, Col } from 'reactstrap';
+import { useState } from 'react';
+import { Row, Col, FormGroup, Label, Form, Input, Button, Alert } from 'reactstrap';
 import Chart from 'react-apexcharts';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { ref, uploadBytesResumable } from 'firebase/storage';
+
 import * as data from '../tables/DataBootstrapTable';
 import '../tables/ReactBootstrapTable.scss';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-
+import { dbStorage } from '../../FirebaseConfig/firebase';
 import ComponentCard from '../../components/ComponentCard';
 
 
@@ -191,8 +193,44 @@ const Inventarios = () => {
     ];
 
 
+    //For alerts
+    // For Dismiss Button with Alert
+
+    const [visible, setVisible] = useState(false);
+    const [message, setMessage] = useState("");
+    const [colorAlert, setAlertColor] = useState("success");
+    const onDismiss = () => {
+        setVisible(false);
+    };
+
+    const [file, setImage] = useState('');
+    const upload = () => {
+        if (file == null)
+            return;
+        // Allowing file type
+        console.log(file.name);
+        const allowedExtensions = /(\.csv)$/i;
+
+        if (!allowedExtensions.exec(file.name)) {
+            setVisible(true);
+            setAlertColor("danger");
+            setMessage("Error! favor de seleccionar archivos .CSV");
+            //alert('Tipo de archivo invalido');
 
 
+        } else {
+            const storageRef = ref(dbStorage, `/inventarios/${file.name}`);
+            uploadBytesResumable(storageRef, file);
+            setAlertColor("success");
+            setVisible(true);
+            setMessage("Archivo subido con éxito");
+            setImage('ahhhh');
+            
+        }
+
+
+
+    }
 
 
 
@@ -202,7 +240,23 @@ const Inventarios = () => {
             {/*--------------------------------------------------------------------------------*/}
             {/* Start Inner Div*/}
             {/*--------------------------------------------------------------------------------*/}
-            
+
+            <Row>
+                <Col md="12">
+                    <ComponentCard title="Cargar Inventario">
+                        <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
+                            {message}
+                        </Alert>
+                        <Form>
+                            <FormGroup>
+                                <Label htmlFor="exampleFile">Carga Masiva por .CSV</Label>
+                                <Input type="file" placeholder='selecciona archivo' onChange={(e) => { setImage(e.target.files[0]) }} />
+                            </FormGroup>
+                        </Form>
+                        <Button onClick={upload} type="submit" className="btn btn-success">Subir</Button>
+                    </ComponentCard>
+                </Col>
+            </Row>
             <Row>
 
                 <Col md="6">
@@ -226,10 +280,10 @@ const Inventarios = () => {
                             condensed
                             search
                             data={data.JsonData}
-                            
+
                             selectRow={selectRowProp}
                             pagination
-                            
+
                             options={options}
                             cellEdit={cellEditProp}
                             tableHeaderClass="mb-0"

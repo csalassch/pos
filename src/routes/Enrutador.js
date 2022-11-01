@@ -1,5 +1,5 @@
-import { useAuth } from '../Context/authContext';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from '../Context/authContext';
 //const LoginFormik = Loadable(lazy(() => import('../views/auth/LoginFormik')));
 
 export function ProtectedRoute({ children }) {
