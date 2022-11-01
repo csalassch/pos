@@ -1,46 +1,44 @@
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
 
-const TablePanelLicencias = ({lista}) => {
+const TablePanelLicencias = ({ lista }) => {
   return (
     <div>
-      {console.log("hola",lista)}
+      {console.log("hola", lista)}
       <Card>
         <CardBody>
-          <CardTitle tag="h5">Project Listing</CardTitle>
+          <CardTitle tag="h5">Licencias compradas</CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
-            Overview of the projects
+            Aqui se visualizaran todas las licencias adquiridas
           </CardSubtitle>
 
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
-                <th>Team Lead</th>
-                <th>Project</th>
-
+                <th>ID Licencia</th>
+                <th>Plan/Contrato</th>
+                <th>Monto</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
                 <th>Status</th>
-                <th>Weeks</th>
-                <th>Budget</th>
+                <th>Recurrente</th>
               </tr>
             </thead>
             <tbody>
               {lista.map((tdata) => (
-                <tr key={tdata.name} className="border-top">
+                <tr key={tdata.ID_Licencia} className="border-top">
                   <td>
                     <div className="d-flex align-items-center p-2">
-                      <img
-                        src={tdata.avatar}
-                        className="rounded-circle"
-                        alt="avatar"
-                        width="45"
-                        height="45"
-                      />
+
                       <div className="ms-3">
-                        <h6 className="mb-0">{tdata.name}</h6>
-                        <span className="text-muted">{tdata.email}</span>
+                        <h6 className="mb-0">{tdata.ID_Licencia}</h6>
+                        <span className="text-muted">{tdata.Descripcion}</span>
                       </div>
                     </div>
                   </td>
-                  <td>{tdata.project}</td>
+                  <td>{tdata.Plan}</td>
+                  <td>{tdata.Monto}</td>
+                  <td>{tdata.Fecha_Inicio}</td>
+                  <td>{tdata.Fecha_Inicio}</td>
                   <td>
                     {tdata.status === 'pending' ? (
                       <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
@@ -50,8 +48,7 @@ const TablePanelLicencias = ({lista}) => {
                       <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
                     )}
                   </td>
-                  <td>{tdata.weeks}</td>
-                  <td>{tdata.budget}</td>
+                  <td>{tdata.recurrente}</td>
                 </tr>
               ))}
             </tbody>

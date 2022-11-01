@@ -1,21 +1,22 @@
 import { useState, useEffect } from 'react';
 import TablePanelLicencias from '../../components/Services/TablePanelLicencias';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import user1 from '../../assets/images/users/user1.jpg';
 
 const PanelLicencias = () => {
     const [users, setUsers] = useState([]);
     const arr = [];
+    //Obtenemos todos los datos de las licencias adquiridas
     const getDataLicenses = async()=> {
         for (let i = 0; i < 10; i++) {
             const obj = {
-                avatar: user1,
-                name: `Hanna Gover${i}`,
-                email: `hgover@gmail.com${i}`,
-                project: `Flexy React${i}`,
-                status: `pending`,
-                weeks: `35${i}`,
-                budget: `95K${i}`,
+                ID_Licencia: i,
+                Plan: `Plan ${i}`,
+                Descripcion: `Descripcion ${i}`,
+                Monto: `$ ${i} peso`,
+                Fecha_Inicio: (new Date()).toString(),
+                Fecha_Fin: (new Date()).toString(),
+                status: `done`,
+                recurrente: `si`
             }
             arr.push(obj);
         }
