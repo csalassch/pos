@@ -40,12 +40,41 @@ const SidebarData = [
     href: '/servicios/PanelLicencias',
     icon: <Icon.Clipboard />,
     id: 10.1,
-    collapisble: false,
+    collapisble: true,
+    children: [
+      {
+        title: 'Alta/Edicion de licencias',
+        href: '/servicios/PanelLicenciasAdmin/Alta',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Administracion de licencias',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Alta/Edicion de productos',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Administracion de productos',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Consulta usuarios',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+    ]
   },
   {
     title: 'Artículos',
     href: '/Articulos',
     icon: <Icon.Package />,
+    suffix: 'huaraches',
+    suffixColor: 'bg-success text-dark-white',
     id: 10.2,
     collapisble: true,
     children: [
