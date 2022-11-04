@@ -39,15 +39,73 @@ const SidebarData = [
     title: 'Panel Licencias',
     href: '/servicios/PanelLicencias',
     icon: <Icon.Clipboard />,
-    id: 2.1,
+    id: 10.1,
     collapisble: false,
   },
   {
-    title: 'Inventarios',
-    href: '/servicios/Inventarios',
+    title: 'Artículos',
+    href: '/Articulos',
     icon: <Icon.Package />,
-    id: 2.1,
-    collapisble: false,
+    id: 10.2,
+    collapisble: true,
+    children: [
+      {
+        title: 'Colección de artículos',
+        href: '/servicios/ColeccionArticulos',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Listado de canales',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Colección de imágenes',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Modificadores',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Categorías',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Descuentos',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Impuestos de ventas',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Opciones',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Unidades',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Atibutos personalizados',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Ajustes',
+        href: '/servicios/Inventarios',
+        icon: <Icon.Disc />,
+      },
+      
+    ],
   },
   { caption: 'Apps' },
   {

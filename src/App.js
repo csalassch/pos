@@ -112,7 +112,8 @@ const PanelLicencias = Loadable(lazy(() => import('./views/Servicios/PanelLicenc
 const PanelLicenciasAdmin = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/Admin/PanelLicenciasAdmin')));
 const Alta = Loadable(lazy(() => import('./components/Services/PanelLicencias/Admin/Alta')));
 const InfoLicencia = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/InfoLicencia')));
-const Inventarios = Loadable(lazy(() => import('./views/Servicios/Inventarios')));
+const Inventarios = Loadable(lazy(() => import('./views/Servicios/Articulos/Inventarios')));
+const ColeccionArticulos = Loadable(lazy(() => import('./views/Servicios/Articulos/ColeccionArticulos')));
 
 /*****Routes******/
 
@@ -143,6 +144,7 @@ const App = () => {
               <Route path='/servicios/PanelLicenciasAdmin/Alta' name='Alta' element={<Alta />} />
               <Route path='/servicios/PanelLicencias/Licencia/:id' name='Licencia' element={<InfoLicencia />} />
               <Route path='/servicios/Inventarios' name='Inventarios' element={<Inventarios />} />
+              <Route path='/servicios/ColeccionArticulos' name='ColeccionArticulos' element={<ColeccionArticulos />} />
               <Route path='/dashboards/demographical' name='Demographical' element={<Demographical />} />,
               <Route path='/dashboards/modern' name='Modern' element={<Modern />} />,
               <Route path='/about' name='about' element={<About />} />,

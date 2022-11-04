@@ -4,11 +4,11 @@ import Chart from 'react-apexcharts';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { ref, uploadBytesResumable } from 'firebase/storage';
 
-import * as data from '../tables/DataBootstrapTable';
-import '../tables/ReactBootstrapTable.scss';
-import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
-import { dbStorage } from '../../FirebaseConfig/firebase';
-import ComponentCard from '../../components/ComponentCard';
+import * as data from '../../tables/DataBootstrapTable';
+import '../../tables/ReactBootstrapTable.scss';
+import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
+import { dbStorage } from '../../../FirebaseConfig/firebase';
+import ComponentCard from '../../../components/ComponentCard';
 
 
 const Inventarios = () => {
