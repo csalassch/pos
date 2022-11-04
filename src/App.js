@@ -5,7 +5,7 @@ import ThemeSelector from './layouts/theme/ThemeSelector';
 import Loader from './layouts/loader/Loader';
 import Loadable from './layouts/loader/Loadable';
 
-//Autenticacion del logeo
+//Autenticacion del logeo 
 import { ProtectedRoute } from './routes/Enrutador';
 import { AuthProvider } from './Context/authContext';
 /****Layouts*****/
@@ -119,6 +119,7 @@ const Inventarios = Loadable(lazy(() => import('./views/Servicios/Inventarios'))
 const App = () => {
   const direction = useSelector((state) => state.customizer.isRTL);
   const isMode = useSelector((state) => state.customizer.isDark);
+
   return (
     <Suspense fallback={<Loader />}>
       <div className={`${direction ? 'rtl' : 'ltr'} ${isMode ? 'dark' : ''}`} dir={direction ? 'rtl' : 'ltr'}>
