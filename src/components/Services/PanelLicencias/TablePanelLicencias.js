@@ -1,8 +1,31 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
 
-const TablePanelLicencias = ({ lista }) => {
+const TablePanelLicencias = () => {
+  const [lista, setLista] = useState([]);
   
+  function getDatosTableLicences(){
+    const arr=[];
+    for (let i = 0; i < 5; i++) {
+      const obj = {
+        ID_Licencia: i,
+        Descripcion: `Descripcion ${i}`,
+        Plan: `Plan ${i}`,
+        Monto: `$ ${i}`,
+        Fecha_Inicio:(new Date().toString()),
+        Fecha_Fin:(new Date().toString()),
+        status: 'done',
+        recurrente: 'si'
+      }
+      arr.push(obj);
+    }
+    setLista(arr);
+  }
+
+  useEffect(()=>{
+    getDatosTableLicences();
+  },[])
   return (
     <div>
       <Card>
@@ -40,7 +63,7 @@ const TablePanelLicencias = ({ lista }) => {
                   <td>{tdata.Plan}</td>
                   <td>{tdata.Monto}</td>
                   <td>{tdata.Fecha_Inicio}</td>
-                  <td>{tdata.Fecha_Inicio}</td>
+                  <td>{tdata.Fecha_Fin}</td>
                   <td>
                     {tdata.status === 'pending' ? (
                       <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>

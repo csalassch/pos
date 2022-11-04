@@ -4,15 +4,17 @@ import BreadCrumbs from '../../../../layouts/breadcrumbs/BreadCrumbs';
 
 const PanelLicenciasAdmin = () => {
     const navigate = useNavigate();
-    function redireccionaMe(direccion){
-        console.log("Hola")
-        navigate(direccion);
+    //Funcion para redireccionar a las diferentes opciones que proporciona un administrador
+    function redireccionaMe(ruta){
+        if(ruta === 1){
+            navigate("/servicios/PanelLicenciasAdmin/Alta");
+        }
     }
     return (
         <>
             <BreadCrumbs />
             <p>¿Que desea realizar?</p>
-            <button type='button' className='botoncito' onClick={redireccionaMe("/servicios/PanelLicenciasAdmin/Alta")}>Alta de licencias</button>
+            <Button type='button' className='botoncito' onClick={()=>{ redireccionaMe(1)}}>Alta de licencias</Button>
             <Button>Alta de licencias</Button>
             <Button>Alta de licencias</Button>
             <Button>Alta de licencias</Button>

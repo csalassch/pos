@@ -1,8 +1,10 @@
+import TablePanelLicencias from "../TablePanelLicencias";
 
 const Alta = () => {
+    
     return (
         <>
-        Alta licencias
+        <TablePanelLicencias />
         </>
     );
 };
