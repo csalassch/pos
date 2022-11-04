@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import { Row, Col, FormGroup, Label, Form, Input, Button, Alert } from 'reactstrap';
+import {
+    Row, Col, FormGroup, Label, Form, Input, Button, Alert, InputGroup,
+    InputGroupText
+
+} from 'reactstrap';
 import { ref, uploadBytesResumable } from 'firebase/storage';
 
 import '../../tables/ReactBootstrapTable.scss';
@@ -48,10 +52,40 @@ const ColeccionArticulos = () => {
                             <FormGroup>
                                 <Label htmlFor="exampleFile">Carga Masiva por .CSV</Label>
                                 <Input type="file" placeholder='selecciona archivo' onChange={(e) => { setImage(e.target.files[0]); }} />
-
                             </FormGroup>
                         </Form>
                         <Button onClick={upload} type="submit" className="btn btn-success">Subir</Button>
+                    </ComponentCard>
+                </Col>
+                {/*--------------------------------------------------------------------------------*/}
+                {/* Input Groups                                                                   */}
+                {/*--------------------------------------------------------------------------------*/}
+                <Col md="12">
+                    <ComponentCard title="Añadir Variantes Artículo">
+                        <FormGroup>
+                            <InputGroup>
+                                <InputGroupText>SKU</InputGroupText>
+                                <Input placeholder="UGG-BB-PUR-06" />
+                            </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                            <Row>
+                                <Col>
+                                    <FormGroup>
+                                        <Input type="select" name="SelectApply">
+                                            <option>Por Artículo</option>
+                                            <option>Por Paquete</option>
+                                        </Input>
+                                    </FormGroup>
+                                </Col>
+                                <Col>
+                                    <InputGroup>
+                                        <InputGroupText>$</InputGroupText>
+                                        <Input placeholder="Precio" type="text" />
+                                    </InputGroup>
+                                </Col>
+                            </Row>
+                        </FormGroup>
                     </ComponentCard>
                 </Col>
             </Row>
