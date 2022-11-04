@@ -21,12 +21,12 @@ const Inventarios = () => {
     //This is for the insert new row
     /*
     function onAfterInsertRow(row) {
-      let newRowStr = '';
+    let newRowStr = '';
     
-      for (const prop in row) {
+    for (const prop in row) {
         newRowStr += prop + ': ' + row[prop] + ' \n';
-      }
-      alert('The new row is:\n ' + newRowStr);
+    }
+    alert('The new row is:\n ' + newRowStr);
     }*/
     //This is for the Search item
     function afterSearch(searchText, result) {
@@ -195,7 +195,6 @@ const Inventarios = () => {
 
     //For alerts
     // For Dismiss Button with Alert
-
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState("");
     const [colorAlert, setAlertColor] = useState("success");
@@ -204,6 +203,7 @@ const Inventarios = () => {
     };
 
     const [file, setImage] = useState('');
+
     const upload = () => {
         if (file == null)
             return;
@@ -224,15 +224,8 @@ const Inventarios = () => {
             setAlertColor("success");
             setVisible(true);
             setMessage("Archivo subido con éxito");
-            setImage('ahhhh');
-            
         }
-
-
-
     }
-
-
 
     return (
         <div>
@@ -250,7 +243,8 @@ const Inventarios = () => {
                         <Form>
                             <FormGroup>
                                 <Label htmlFor="exampleFile">Carga Masiva por .CSV</Label>
-                                <Input type="file" placeholder='selecciona archivo' onChange={(e) => { setImage(e.target.files[0]) }} />
+                                <Input type="file" placeholder='selecciona archivo' onChange={(e) => { setImage(e.target.files[0]); }} />
+
                             </FormGroup>
                         </Form>
                         <Button onClick={upload} type="submit" className="btn btn-success">Subir</Button>
