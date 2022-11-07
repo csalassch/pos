@@ -6,10 +6,10 @@ import {
 } from 'reactstrap';
 import { ref, uploadBytesResumable } from 'firebase/storage';
 
-import '../../tables/ReactBootstrapTable.scss';
-import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
-import { dbStorage } from '../../../FirebaseConfig/firebase';
-import ComponentCard from '../../../components/ComponentCard';
+import '../tables/ReactBootstrapTable.scss';
+import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
+import { dbStorage } from '../../FirebaseConfig/firebase';
+import ComponentCard from '../../components/ComponentCard';
 
 
 const ColeccionArticulos = () => {

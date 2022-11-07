@@ -108,12 +108,12 @@ const RecoverPassword = Loadable(lazy(() => import('./views/auth/RecoverPassword
 
 
 //Paneles Desarrollo Freebug
-const PanelLicencias = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/PanelLicencias')));
-const PanelLicenciasAdmin = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/Admin/PanelLicenciasAdmin')));
-const Alta = Loadable(lazy(() => import('./components/Services/PanelLicencias/Admin/Alta')));
-const InfoLicencia = Loadable(lazy(() => import('./views/Servicios/PanelLicencias/InfoLicencia')));
-const Inventarios = Loadable(lazy(() => import('./views/Servicios/Articulos/Inventarios')));
-const ColeccionArticulos = Loadable(lazy(() => import('./views/Servicios/Articulos/ColeccionArticulos')));
+const PanelLicencias = Loadable(lazy(() => import('./views/PanelLicencias/PanelLicencias')));
+const PanelLicenciasAdmin = Loadable(lazy(() => import('./views/PanelLicencias/Admin/PanelLicenciasAdmin')));
+const Alta = Loadable(lazy(() => import('./components/PanelLicencias/Admin/Alta')));
+const InfoLicencia = Loadable(lazy(() => import('./views/PanelLicencias/InfoLicencia')));
+const Inventarios = Loadable(lazy(() => import('./views/Articulos/Inventarios')));
+const ColeccionArticulos = Loadable(lazy(() => import('./views/Articulos/ColeccionArticulos')));
 
 /*****Routes******/
 

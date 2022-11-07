@@ -43,15 +43,16 @@ const SidebarData = [
     collapisble: true,
     children: [
       {
+        title: 'Administracion de licencias',
+        href: '/servicios/PanelLicenciasAdmin',
+        icon: <Icon.Disc />,
+      },
+      {
         title: 'Alta/Edicion de licencias',
         href: '/servicios/PanelLicenciasAdmin/Alta',
         icon: <Icon.Disc />,
       },
-      {
-        title: 'Administracion de licencias',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
+      
       {
         title: 'Alta/Edicion de productos',
         href: '/servicios/Inventarios',
