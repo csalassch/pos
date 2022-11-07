@@ -43,29 +43,19 @@ const SidebarData = [
     collapisble: true,
     children: [
       {
-        title: 'Administracion de licencias',
+        title: 'Gestion de licencias',
         href: '/servicios/PanelLicenciasAdmin',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Alta/Edicion de licencias',
-        href: '/servicios/PanelLicenciasAdmin/Alta',
         icon: <Icon.Disc />,
       },
       
       {
-        title: 'Alta/Edicion de productos',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Administracion de productos',
+        title: 'Gestion de productos',
         href: '/servicios/Inventarios',
         icon: <Icon.Disc />,
       },
       {
         title: 'Consulta usuarios',
-        href: '/servicios/Inventarios',
+        href: '/servicios/PanelLicencias/ConsultaUsuario',
         icon: <Icon.Disc />,
       },
     ]

@@ -1,37 +1,46 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import 'react-table-v6/react-table.css';
+import { Pagination, PaginationItem, PaginationLink} from 'reactstrap';
 import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
+
+import ComponentCard from '../../../components/ComponentCard';
 import TablePanelLicencias from '../../../components/PanelLicencias/TablePanelLicencias';
 
 const PanelLicenciasAdmin = () => {
-    const [users, setUsers] = useState([]);
-    const arr = [];
-    //Obtenemos todos los datos de las licencias adquiridas
-    const getDataLicenses = async()=> {
-        for (let i = 0; i < 10; i++) {
-            const obj = {
-                ID_Licencia: i,
-                Plan: `Plan ${i}`,
-                Descripcion: `Descripcion ${i}`,
-                Monto: `$ ${i} peso`,
-                Fecha_Inicio: (new Date()).toString(),
-                Fecha_Fin: (new Date()).toString(),
-                status: `done`,
-                recurrente: `si`
-            }
-            arr.push(obj);
-        }
-        console.log(arr)
-        setUsers(arr);
-    }
-    useEffect(() =>{
-        getDataLicenses();
-        console.log("Dato users ",users)
-    },[]);
+
+    useEffect(() => {
+    }, [])
     return (
-        <>
+        <div>
             <BreadCrumbs />
-            <TablePanelLicencias lista = {users}/>
-        </>
+            <ComponentCard title="Agregar Licencias">
+            </ComponentCard>
+            <TablePanelLicencias />
+            <Pagination aria-label="Page navigation example">
+                <PaginationItem disabled>
+                    <PaginationLink previous href="#" />
+                </PaginationItem>
+                <PaginationItem active>
+                    <PaginationLink href="#">1</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationLink href="#">2</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationLink href="#">3</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationLink href="#">4</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationLink href="#">5</PaginationLink>
+                </PaginationItem>
+                <PaginationItem>
+                    <PaginationLink next href="#" />
+                </PaginationItem>
+            </Pagination>
+        </div>
     );
 };
+
 export default PanelLicenciasAdmin;
