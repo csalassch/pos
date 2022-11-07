@@ -73,7 +73,7 @@ const SidebarData = [
     title: 'Artículos',
     href: '/Articulos',
     icon: <Icon.Package />,
-    suffix: 'huaraches',
+    suffix: '4',
     suffixColor: 'bg-success text-dark-white',
     id: 10.2,
     collapisble: true,
