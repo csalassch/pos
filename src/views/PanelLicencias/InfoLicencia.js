@@ -1,5 +1,5 @@
-import Licencia from '../../../components/Services/PanelLicencias/Licencia';
-import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
+import Licencia from '../../components/PanelLicencias/Licencia';
+import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
 const InfoLicencia = () => {
     return (

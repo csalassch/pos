@@ -43,15 +43,16 @@ const SidebarData = [
     collapisble: true,
     children: [
       {
+        title: 'Administracion de licencias',
+        href: '/servicios/PanelLicenciasAdmin',
+        icon: <Icon.Disc />,
+      },
+      {
         title: 'Alta/Edicion de licencias',
         href: '/servicios/PanelLicenciasAdmin/Alta',
         icon: <Icon.Disc />,
       },
-      {
-        title: 'Administracion de licencias',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
+      
       {
         title: 'Alta/Edicion de productos',
         href: '/servicios/Inventarios',
@@ -73,7 +74,7 @@ const SidebarData = [
     title: 'Artículos',
     href: '/Articulos',
     icon: <Icon.Package />,
-    suffix: 'huaraches',
+    suffix: '4',
     suffixColor: 'bg-success text-dark-white',
     id: 10.2,
     collapisble: true,
