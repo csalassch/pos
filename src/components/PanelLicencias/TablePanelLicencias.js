@@ -4,33 +4,44 @@ import { Card, CardBody, CardTitle, CardSubtitle, Table } from 'reactstrap';
 
 const TablePanelLicencias = () => {
   const [lista, setLista] = useState([]);
-  
-  function getDatosTableLicences(){
-    const arr=[];
-    for (let i = 0; i < 5; i++) {
-      const obj = {
-        ID_Licencia: i,
-        Descripcion: `Descripcion ${i}`,
-        Plan: `Plan ${i}`,
-        Monto: `$ ${i}`,
-        Fecha_Inicio:(new Date().toString()),
-        Fecha_Fin:(new Date().toString()),
-        status: 'done',
-        recurrente: 'si'
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * (max));
+  }
+
+  function getDatosLicencia() {
+    const arr = [];
+    for (let i = 0; i < 20; i++) {
+      const caracteristicas = [];
+      const numCarac = getRandomInt(4);
+      for (let j = 0; j < numCarac; j++) {
+        caracteristicas.push(`Caracteristica ${j + 1}`)
       }
-      arr.push(obj);
+      const licencia = {
+        id: i,
+        nombre: `Licencia ${i + 1}`,
+        descripcion: `Descripcion ${i + 1}`,
+        monto: (i + 1) * 100,
+        caracteristicas: caracteristicas
+      }
+
+      arr.push(licencia)
     }
     setLista(arr);
   }
-
-  useEffect(()=>{
-    getDatosTableLicences();
-  },[])
+  const listItems =(datos)=> datos.map((carac) =>
+    <li key={carac.id}>
+      {carac}
+    </li>
+  );
+  useEffect(() => {
+    getDatosLicencia();
+  }, [])
   return (
     <div>
       <Card>
         <CardBody>
-          <CardTitle tag="h5">Licencias compradas</CardTitle>
+          <CardTitle tag="h5">Lista de licencias </CardTitle>
           <CardSubtitle className="mb-2 text-muted" tag="h6">
             Aqui se visualizaran todas las licencias adquiridas
           </CardSubtitle>
@@ -38,46 +49,34 @@ const TablePanelLicencias = () => {
           <Table className="no-wrap mt-3 align-middle" responsive borderless>
             <thead>
               <tr>
-                <th>ID Licencia</th>
-                <th>Plan/Contrato</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
                 <th>Monto</th>
-                <th>Fecha inicio</th>
-                <th>Fecha fin</th>
-                <th>Status</th>
-                <th>Recurrente</th>
+                <th>Caracteristicas</th>
+                <th>Accion</th>
               </tr>
             </thead>
             <tbody>
               {lista.map((tdata) => (
-                <tr key={tdata.ID_Licencia} className="border-top">
+                <tr key={tdata.id} className="border-top">
+                  <td>{tdata.nombre}</td>
+                  <td>{tdata.descripcion}</td>
+                  <td>{tdata.monto}</td>
+                  <td>
+                    <ul>{listItems(tdata.caracteristicas)}</ul>
+                  </td>
                   <td>
                     <div className="d-flex align-items-center p-2 ">
-
                       <div className="ms-3 ">
-                        <Link to={`/servicios/PanelLicencias/Licencia/${tdata.ID_Licencia}`} className="border border-0 bg-transparent">{tdata.ID_Licencia}</Link>
-                        <br/>
-                        <span className="text-muted">{tdata.Descripcion}</span>
+                        <Link to={`/servicios/PanelLicencias/Licencia/${tdata.id}`} className="border border-0 bg-transparent">Editar</Link>
                       </div>
                     </div>
                   </td>
-                  <td>{tdata.Plan}</td>
-                  <td>{tdata.Monto}</td>
-                  <td>{tdata.Fecha_Inicio}</td>
-                  <td>{tdata.Fecha_Fin}</td>
-                  <td>
-                    {tdata.status === 'pending' ? (
-                      <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
-                    ) : tdata.status === 'holt' ? (
-                      <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
-                    ) : (
-                      <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
-                    )}
-                  </td>
-                  <td>{tdata.recurrente}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
+          
         </CardBody>
       </Card>
     </div>
