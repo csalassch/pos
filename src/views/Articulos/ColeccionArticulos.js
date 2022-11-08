@@ -85,7 +85,7 @@ const ColeccionArticulos = () => {
         singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
     };
 
-   //const [checkBoxVariante, setcheckBoxVariante] = useState(false);
+    //const [checkBoxVariante, setcheckBoxVariante] = useState(false);
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState("");
     const [colorAlert, setAlertColor] = useState("success");
@@ -258,7 +258,7 @@ const ColeccionArticulos = () => {
 
                                     <FormGroup>
                                         <FormGroup check>
-                                            <Input type="checkbox" id="checkVariantes" onChange={(e) => { setCollapse(e.target.checked);setIsDisabled(!isDisabled);}}/>
+                                            <Input type="checkbox" id="checkVariantes" onChange={(e) => { setCollapse(e.target.checked); setIsDisabled(!isDisabled); }} />
                                             <Label check>Tiene Variantes</Label>
                                         </FormGroup>
 
@@ -267,6 +267,30 @@ const ColeccionArticulos = () => {
                                             Ver Variantes
                                         </Button> */}
                                         <Collapse isOpen={collapse}>
+                                            <Row>
+                                                <Col>
+                                                    <InputGroup>
+                                                        <InputGroupText>Nombre</InputGroupText>
+                                                        <Input placeholder="Nombre" />
+                                                    </InputGroup>
+                                                </Col>
+                                                <Col>
+                                                    <InputGroup>
+                                                        <InputGroupText>SKU</InputGroupText>
+                                                        <Input placeholder="UGG-BB-PUR-06" />
+                                                    </InputGroup>
+                                                </Col>
+                                                <Col>
+                                                    <InputGroup>
+                                                        <InputGroupText>$</InputGroupText>
+                                                        <Input placeholder="Precio" />
+                                                    </InputGroup>
+                                                </Col>
+                                                <Col>
+                                                    <Button onClick={upload} type="submit" className="btn btn-info">Añadir</Button>
+
+                                                </Col>
+                                            </Row>
                                             <Table responsive>
                                                 <thead>
                                                     <tr>
@@ -301,10 +325,10 @@ const ColeccionArticulos = () => {
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText>$</InputGroupText>
-                                            <Input placeholder="Precio" type="text" disabled={isDisabled}/>
+                                            <Input placeholder="Precio" type="text" disabled={isDisabled} />
                                         </InputGroup>
-                                        
-                                        
+
+
 
                                     </FormGroup>
                                     <Button onClick={upload} type="submit" className="btn btn-success">Añadir Artículo</Button>

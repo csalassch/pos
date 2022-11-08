@@ -111,7 +111,7 @@ const SidebarData = [
       },
       {
         title: 'Unidades',
-        href: '/servicios/Inventarios',
+        href: '/servicios/Unidades',
         icon: <Icon.Disc />,
       },
       {
