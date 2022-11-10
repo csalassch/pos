@@ -130,7 +130,6 @@ const UnidadesComp = () => {
                                                 <tr key={data.id}>
                                                     <td>{data.id}</td>
                                                     <td>{data.name}</td>
-                                                    {/* toggle.bind(null) */}
                                                     <td><div><Row><Col md="2"><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
                                                     <Col md="2">
                                                         <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={()=>{setNameUnitBeingDeleted(data.name);setModal(true);setKeyAux(data.key)}}><Icon.Trash2 /></div>
