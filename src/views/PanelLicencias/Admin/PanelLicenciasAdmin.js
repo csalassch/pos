@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import 'react-table-v6/react-table.css';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Card, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import * as Icon from 'react-feather';
+import { Link } from 'react-router-dom';
 import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
 
 import ComponentCard from '../../../components/ComponentCard';
-//import TablePanelLicencias from '../../../components/PanelLicencias/TablePanelLicencias';
+import TablePanelLicencias from '../../../components/PanelLicencias/TablePanelLicencias';
 
 const PanelLicenciasAdmin = () => {
-    const [lista, setLista] = useState([]);
+    const [lista, setLista] = useState([{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]);
 
     function getDatosLicencia() {
-        const longitud= 41;
-        const paginas = [];
-        let pagina = [];
-        let cont =0;
+        const longitud = 41;
+        const listaLicencias = [];
         for (let i = 0; i < longitud; i++) {
-
             //Obtiene las caracteristicas
             const caracteristicas = [];
             const numCarac = 2;
@@ -30,21 +29,10 @@ const PanelLicenciasAdmin = () => {
                 monto: (i + 1) * 100,
                 caracteristicas: caracteristicas
             }
-            //Hacemos la paginacion de 10 elementos
-            pagina.push(licencia)
-            if (cont === 9) {
-                paginas.push(pagina)
-                pagina = [];
-                cont = -1;
-            }
-            if(i === (longitud-1)){
-                paginas.push(pagina)
-                pagina = [];
-            }
-            cont++;
+            listaLicencias.push(licencia)
         }
-        console.log(paginas)
-        setLista(paginas);
+        console.log(listaLicencias)
+        setLista(listaLicencias);
     }
 
     useEffect(() => {
@@ -55,31 +43,21 @@ const PanelLicenciasAdmin = () => {
         <div>
             <BreadCrumbs />
             <ComponentCard title="Agregar Licencias">
+                <Link to={`/servicios/PanelLicenciasAdmin/${"A"}`}>
+                    <Button className="btn" color="primary" size="lg" block><Icon.Plus /></Button>
+                </Link>
             </ComponentCard>
-            {/* <TablePanelLicencias lista={lista[1]} /> */}
-            <Pagination aria-label="Page navigation example">
-                <PaginationItem disabled>
-                    <PaginationLink previous href="#" />
-                </PaginationItem>
-                <PaginationItem active>
-                    <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#">4</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink href="#">5</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                    <PaginationLink next href="#" />
-                </PaginationItem>
-            </Pagination>
+
+            <Card>
+                <CardBody>
+                    <CardTitle tag="h5">Lista de licencias </CardTitle>
+                    <CardSubtitle className="mb-2 text-muted" tag="h6">
+                        Aqui se visualizaran todas las licencias adquiridas
+                    </CardSubtitle>
+
+                    <TablePanelLicencias lista={lista} />
+                </CardBody>
+            </Card>
         </div>
     );
 };
