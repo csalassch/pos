@@ -114,6 +114,7 @@ const AccionLicencia = Loadable(lazy(() => import('./views/PanelLicencias/Admin/
 const InfoLicencia = Loadable(lazy(() => import('./views/PanelLicencias/InfoLicencia')));
 const ConsultaUsuario = Loadable(lazy(() => import('./views/PanelLicencias/Admin/ConsultaUsuario')));
 const Inventarios = Loadable(lazy(() => import('./views/Articulos/Inventarios')));
+const Categorias = Loadable(lazy(() => import('./views/Articulos/Categorias')));
 const Unidades = Loadable(lazy(() => import('./views/Articulos/Unidades')));
 const ColeccionArticulos = Loadable(lazy(() => import('./views/Articulos/ColeccionArticulos')));
 
@@ -147,6 +148,7 @@ const App = () => {
               <Route path='/servicios/PanelLicenciasAdmin/:action/:id' name='Licencia' element={<InfoLicencia />} />
               <Route path='/servicios/PanelLicencias/ConsultaUsuario' name='ConsultaUsuario' element={<ConsultaUsuario />} />
               <Route path='/servicios/Inventarios' name='Inventarios' element={<Inventarios />} />
+              <Route path='/servicios/Categorias' name='Categorias' element={<Categorias />} />
               <Route path='/servicios/Unidades' name='Unidades' element={<Unidades />} />
               <Route path='/servicios/ColeccionArticulos' name='ColeccionArticulos' element={<ColeccionArticulos />} />
               <Route path='/dashboards/demographical' name='Demographical' element={<Demographical />} />,

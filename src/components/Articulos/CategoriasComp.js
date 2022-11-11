@@ -1,0 +1,203 @@
+import { useState, useEffect } from 'react';
+
+import {
+    Row, Col, FormGroup, Input, Button, InputGroup,
+    InputGroupText, Table,
+    Modal, ModalHeader,
+    ModalBody,
+    ModalFooter, FormFeedback, Alert
+
+} from 'reactstrap';
+import { push, ref, onValue, update, remove } from 'firebase/database';
+import * as Icon from 'react-feather';
+import { db } from '../../FirebaseConfig/firebase';
+import ComponentCard from '../ComponentCard';
+
+
+
+
+const CategoriasComp = () => {
+
+    const [arr, setArr] = useState([{ id: 0, name: '', key: "" }]);
+    const fetchDataCategories = () => {
+        const arrAux = [];
+        let i = 1;
+        onValue(ref(db, "categories/"), snapshot => {
+            snapshot.forEach(snap => {
+                const obj = {
+                    id: i,
+                    name: snap.val().name,
+                    key: snap.key
+                }
+
+                arrAux.push(obj);
+                i++;
+
+            })
+            console.log("arrAux:", arrAux);
+            setArr(arrAux);
+        });
+    }
+
+
+
+
+    const [btnMessage, setBtnMessage] = useState("Agregar");
+    const [messageFeedback, setMessageFeedback] = useState("");
+    const [isValidInput, setIsValidInput] = useState(true);
+    const [keyAux, setKeyAux] = useState("");
+    const [nameUnitBeingDeleted, setNameUnitBeingDeleted] = useState("");
+    const [nameUnit, setNameUnit] = useState("");
+    const [modal, setModal] = useState(false);
+    const [colorAlert, setAlertColor] = useState("success");
+    const [visible, setVisible] = useState(false);
+    const [message, setMessage] = useState("");
+    const onDismiss = () => {
+        setVisible(false);
+    };
+
+    const toggle = () => {
+        setModal(!modal);
+    };
+    const deleteToggleConfirmation = () => {
+
+        console.log("Deleted selected: ", keyAux);
+        remove(ref(db, `categories/${keyAux}`));
+        setModal(false);
+        fetchDataCategories();
+    }
+
+
+    const newUnit = () => {
+        if (nameUnit) {
+            if (btnMessage === "Guardar Cambios") {
+                console.log("btnCllicked for update: ", keyAux);
+                update(ref(db, `categories/${keyAux}`), {
+                    name: nameUnit
+                });
+                setBtnMessage("Agregar");
+                setKeyAux("");
+                setVisible(true);
+            setAlertColor("info");
+            setMessage("¡Registro actualizado con éxito!");
+            } else {
+
+                push(ref(db, 'categories/'), {
+                    name: nameUnit
+                });
+                setVisible(true);
+            setAlertColor("success");
+            setMessage("¡Registrado con éxito!");
+
+            }
+
+            fetchDataCategories();
+            setNameUnit("");
+            setIsValidInput(true);
+            
+
+        } else {
+            setIsValidInput(false);
+            setMessageFeedback("Favor de no llenar el campo");
+            setVisible(false);
+        }
+
+    }
+    const editUnit = (keyDB) => {
+        console.log("Key of clicked: ", keyDB);
+        setKeyAux(keyDB);
+        onValue(ref(db, `categories/${keyDB}`), snapshot => {
+            //console.log("snapshot from selected for edition:", snapshot.val().name);
+            setNameUnit(snapshot.val().name);
+        });
+        setBtnMessage("Guardar Cambios");
+
+    }
+
+    useEffect(() => {
+        fetchDataCategories();
+
+        console.log(arr);
+    }, [nameUnitBeingDeleted]);
+    return (
+        <>
+            <Row>
+
+                <Col md="12">
+                    <ComponentCard title="Definir Categorías">
+
+                        <FormGroup>
+                            <Row>
+                            <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
+                                        {message}
+                                    </Alert>
+                                <Col md="4">
+                                    
+                                    <FormGroup>
+                                        <InputGroup>
+                                            <InputGroupText>Nombre</InputGroupText>
+                                            <Input placeholder="Nombre" value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true);setVisible(false); }} />
+                                            <FormFeedback>{messageFeedback}</FormFeedback>
+                                        </InputGroup>
+                                    </FormGroup>
+                                    <FormGroup>
+                                    </FormGroup>
+                                    <Button onClick={newUnit} type="submit" className="btn btn-success">{btnMessage}</Button>
+
+                                </Col>
+                                <Col>
+                                    <Table responsive style={{ overflow: 'hidden' }}>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nombre Categoría</th>
+                                                <th>Opciones</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody >
+                                            {arr.map((data) => (
+
+                                                <tr key={data.id}>
+                                                    <td>{data.id}</td>
+                                                    <td>{data.name}</td>
+                                                    <td><div><Row><Col md="2"><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
+                                                        <Col md="2">
+                                                            <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setNameUnitBeingDeleted(data.name); setModal(true); setKeyAux(data.key) }}><Icon.Trash2 /></div>
+                                                        </Col></Row></div></td>
+
+                                                </tr>
+
+
+                                            ))}
+
+
+                                        </tbody>
+                                    </Table>
+
+                                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Categoría</ModalHeader>
+                                        <ModalBody>
+                                            ¿Seguro que quieres eliminar: {nameUnitBeingDeleted} ?
+                                        </ModalBody>
+                                        <ModalFooter>
+                                            <Button color="primary" onClick={() => { deleteToggleConfirmation() }}>
+                                                Confirmar
+                                            </Button>
+                                            <Button color="secondary" onClick={toggle.bind(null)}>
+                                                Cancelar
+                                            </Button>
+                                        </ModalFooter>
+                                    </Modal>
+                                </Col>
+
+                            </Row>
+                        </FormGroup>
+                    </ComponentCard>
+                </Col>
+            </Row>
+        </>
+    );
+};
+
+export default CategoriasComp;

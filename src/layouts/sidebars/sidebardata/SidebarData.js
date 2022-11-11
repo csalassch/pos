@@ -91,7 +91,7 @@ const SidebarData = [
       },
       {
         title: 'Categorías',
-        href: '/servicios/Inventarios',
+        href: '/servicios/Categorias',
         icon: <Icon.Disc />,
       },
       {
