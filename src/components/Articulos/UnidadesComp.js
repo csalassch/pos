@@ -185,7 +185,7 @@ const UnidadesComp = () => {
                                                 Confirmar
                                             </Button>
                                             <Button color="secondary" onClick={toggle.bind(null)}>
-                                                No cheto
+                                                Cancelar
                                             </Button>
                                         </ModalFooter>
                                     </Modal>
