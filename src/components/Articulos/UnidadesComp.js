@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react';
 import {
     Row, Col, FormGroup, Input, Button, InputGroup,
     InputGroupText, Table,
-    Modal,ModalHeader,
+    Modal, ModalHeader,
     ModalBody,
-    ModalFooter,
+    ModalFooter, FormFeedback, Alert
 
 } from 'reactstrap';
 import { push, ref, onValue, update, remove } from 'firebase/database';
@@ -38,43 +38,69 @@ const UnidadesComp = () => {
             setArr(arrAux);
         });
     }
-   
+
 
 
 
     const [btnMessage, setBtnMessage] = useState("Agregar");
+    const [messageFeedback, setMessageFeedback] = useState("");
+    const [isValidInput, setIsValidInput] = useState(true);
     const [keyAux, setKeyAux] = useState("");
     const [nameUnitBeingDeleted, setNameUnitBeingDeleted] = useState("");
     const [nameUnit, setNameUnit] = useState("");
     const [modal, setModal] = useState(false);
+    const [colorAlert, setAlertColor] = useState("success");
+    const [visible, setVisible] = useState(false);
+    const [message, setMessage] = useState("");
+    const onDismiss = () => {
+        setVisible(false);
+    };
+
     const toggle = () => {
         setModal(!modal);
     };
-    const deleteToggleConfirmation=()=>{
-        
-        console.log("Deleted selected: ",keyAux);
+    const deleteToggleConfirmation = () => {
+
+        console.log("Deleted selected: ", keyAux);
         remove(ref(db, `units/${keyAux}`));
         setModal(false);
         fetchDataUnits();
     }
-    
-    
+
+
     const newUnit = () => {
-        if (btnMessage === "Guardar Cambios") {
-            console.log("btnCllicked for update: ", keyAux);
-            update(ref(db, `units/${keyAux}`), {
-                name: nameUnit
-            });
-            setBtnMessage("Agregar");
-            setKeyAux("");
+        if (nameUnit) {
+            if (btnMessage === "Guardar Cambios") {
+                console.log("btnCllicked for update: ", keyAux);
+                update(ref(db, `units/${keyAux}`), {
+                    name: nameUnit
+                });
+                setBtnMessage("Agregar");
+                setKeyAux("");
+                setVisible(true);
+            setAlertColor("info");
+            setMessage("¡Registro actualizado con éxito!");
+            } else {
+
+                push(ref(db, 'units/'), {
+                    name: nameUnit
+                });
+                setVisible(true);
+            setAlertColor("success");
+            setMessage("¡Registrado con éxito!");
+
+            }
+
+            fetchDataUnits();
+            setNameUnit("");
+            setIsValidInput(true);
+            
+
         } else {
-            push(ref(db, 'units/'), {
-                name: nameUnit
-            });
+            setIsValidInput(false);
+            setMessageFeedback("Favor de no llenar el campo");
         }
 
-        fetchDataUnits();
-        setNameUnit("");
     }
     const editUnit = (keyDB) => {
         console.log("Key of clicked: ", keyDB);
@@ -86,10 +112,10 @@ const UnidadesComp = () => {
         setBtnMessage("Guardar Cambios");
 
     }
-   
+
     useEffect(() => {
         fetchDataUnits();
-        
+
         console.log(arr);
     }, [nameUnitBeingDeleted]);
     return (
@@ -101,12 +127,16 @@ const UnidadesComp = () => {
 
                         <FormGroup>
                             <Row>
-
+                            <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
+                                        {message}
+                                    </Alert>
                                 <Col md="4">
+                                    
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText>Nombre</InputGroupText>
-                                            <Input placeholder="Nombre" value={nameUnit} onChange={(e) => { setNameUnit(e.target.value) }} />
+                                            <Input placeholder="Nombre" value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true) }} />
+                                            <FormFeedback>{messageFeedback}</FormFeedback>
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup>
@@ -131,9 +161,9 @@ const UnidadesComp = () => {
                                                     <td>{data.id}</td>
                                                     <td>{data.name}</td>
                                                     <td><div><Row><Col md="2"><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
-                                                    <Col md="2">
-                                                        <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={()=>{setNameUnitBeingDeleted(data.name);setModal(true);setKeyAux(data.key)}}><Icon.Trash2 /></div>
-                                                    </Col></Row></div></td>
+                                                        <Col md="2">
+                                                            <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setNameUnitBeingDeleted(data.name); setModal(true); setKeyAux(data.key) }}><Icon.Trash2 /></div>
+                                                        </Col></Row></div></td>
 
                                                 </tr>
 
@@ -147,10 +177,10 @@ const UnidadesComp = () => {
                                     <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                         <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
                                         <ModalBody>
-                                        ¿Seguro que quieres eliminar: {nameUnitBeingDeleted} ?
+                                            ¿Seguro que quieres eliminar: {nameUnitBeingDeleted} ?
                                         </ModalBody>
                                         <ModalFooter>
-                                            <Button color="primary" onClick={()=>{deleteToggleConfirmation()}}>
+                                            <Button color="primary" onClick={() => { deleteToggleConfirmation() }}>
                                                 Confirmar
                                             </Button>
                                             <Button color="secondary" onClick={toggle.bind(null)}>
