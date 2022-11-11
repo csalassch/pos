@@ -11,9 +11,8 @@ const Alta = () => {
     // const [lista, setLista] = useState([]);
     const [lista, setLista] = useState([{ id: 0, caracteristica: '' }]);
     const [Formvalue, setFormvalue] = useState({nombre:'', descripcion:'', producto:'', monto:''});
-    const onSubmit = (data) => {
+    const onSubmit = () => {
         setLista([{ id: 0, caracteristica: '' }])
-        console.log(data)
     };
     const handleChange = ({ target: { name, value } }) => {
         setFormvalue({...Formvalue, [name]: value});
