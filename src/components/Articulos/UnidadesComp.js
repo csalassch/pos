@@ -99,6 +99,7 @@ const UnidadesComp = () => {
         } else {
             setIsValidInput(false);
             setMessageFeedback("Favor de no llenar el campo");
+            setVisible(false);
         }
 
     }
@@ -135,7 +136,7 @@ const UnidadesComp = () => {
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText>Nombre</InputGroupText>
-                                            <Input placeholder="Nombre" value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true) }} />
+                                            <Input placeholder="Nombre" value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true);setVisible(false); }} />
                                             <FormFeedback>{messageFeedback}</FormFeedback>
                                         </InputGroup>
                                     </FormGroup>
