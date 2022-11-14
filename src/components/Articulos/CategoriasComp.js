@@ -16,13 +16,13 @@ import ComponentCard from '../ComponentCard';
 
 
 
-const UnidadesComp = () => {
+const CategoriasComp = () => {
 
     const [arr, setArr] = useState([{ id: 0, name: '', key: "" }]);
-    const fetchDataUnits = () => {
+    const fetchDataCategories = () => {
         const arrAux = [];
         let i = 1;
-        onValue(ref(db, "units/"), snapshot => {
+        onValue(ref(db, "categories/"), snapshot => {
             snapshot.forEach(snap => {
                 const obj = {
                     id: i,
@@ -62,9 +62,9 @@ const UnidadesComp = () => {
     const deleteToggleConfirmation = () => {
 
         console.log("Deleted selected: ", keyAux);
-        remove(ref(db, `units/${keyAux}`));
+        remove(ref(db, `categories/${keyAux}`));
         setModal(false);
-        fetchDataUnits();
+        fetchDataCategories();
     }
 
 
@@ -72,7 +72,7 @@ const UnidadesComp = () => {
         if (nameUnit) {
             if (btnMessage === "Guardar Cambios") {
                 console.log("btnCllicked for update: ", keyAux);
-                update(ref(db, `units/${keyAux}`), {
+                update(ref(db, `categories/${keyAux}`), {
                     name: nameUnit
                 });
                 setBtnMessage("Agregar");
@@ -82,7 +82,7 @@ const UnidadesComp = () => {
             setMessage("¡Registro actualizado con éxito!");
             } else {
 
-                push(ref(db, 'units/'), {
+                push(ref(db, 'categories/'), {
                     name: nameUnit
                 });
                 setVisible(true);
@@ -91,7 +91,7 @@ const UnidadesComp = () => {
 
             }
 
-            fetchDataUnits();
+            fetchDataCategories();
             setNameUnit("");
             setIsValidInput(true);
             
@@ -106,7 +106,7 @@ const UnidadesComp = () => {
     const editUnit = (keyDB) => {
         console.log("Key of clicked: ", keyDB);
         setKeyAux(keyDB);
-        onValue(ref(db, `units/${keyDB}`), snapshot => {
+        onValue(ref(db, `categories/${keyDB}`), snapshot => {
             //console.log("snapshot from selected for edition:", snapshot.val().name);
             setNameUnit(snapshot.val().name);
         });
@@ -115,7 +115,7 @@ const UnidadesComp = () => {
     }
 
     useEffect(() => {
-        fetchDataUnits();
+        fetchDataCategories();
 
         console.log(arr);
     }, [nameUnitBeingDeleted]);
@@ -124,7 +124,7 @@ const UnidadesComp = () => {
             <Row>
 
                 <Col md="12">
-                    <ComponentCard title="Definir Unidades">
+                    <ComponentCard title="Definir Categorías">
 
                         <FormGroup>
                             <Row>
@@ -150,7 +150,7 @@ const UnidadesComp = () => {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombre Unidad</th>
+                                                <th>Nombre Categoría</th>
                                                 <th>Opciones</th>
 
                                             </tr>
@@ -176,7 +176,7 @@ const UnidadesComp = () => {
                                     </Table>
 
                                     <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
+                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Categoría</ModalHeader>
                                         <ModalBody>
                                             ¿Seguro que quieres eliminar: {nameUnitBeingDeleted} ?
                                         </ModalBody>
@@ -200,4 +200,4 @@ const UnidadesComp = () => {
     );
 };
 
-export default UnidadesComp;
+export default CategoriasComp;

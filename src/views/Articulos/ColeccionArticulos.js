@@ -9,13 +9,15 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 import '../tables/ReactBootstrapTable.scss';
 import Select from 'react-select';
-import chroma from 'chroma-js';
+import { onValue,ref as refDB } from 'firebase/database';
+
+
 
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
-import { dbStorage } from '../../FirebaseConfig/firebase';
+import { dbStorage, db } from '../../FirebaseConfig/firebase';
 import ComponentCard from '../../components/ComponentCard';
-import { colourOptions } from '../form-pickers/Data';
+// import { colourOptions } from '../form-pickers/Data';
 
 
 
@@ -24,66 +26,31 @@ import { colourOptions } from '../form-pickers/Data';
 const ColeccionArticulos = () => {
 
     //For categorias multiselect
-    const dot = (color = '#ccc') => ({
-        alignItems: 'center',
-        display: 'flex',
 
-        ':before': {
-            backgroundColor: color,
-            borderRadius: 10,
-            content: '""',
-            display: 'block',
-            marginRight: 8,
-            height: 10,
-            width: 10,
-        },
-    });
-    const colourStyles = {
-        control: (styles) => ({ ...styles, backgroundColor: 'white' }),
-        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-            const color = chroma(data.color);
-            return {
-                ...styles,
-                backgroundColor: isDisabled
-                    ? null
-                    : isSelected
-                        ? data.color
-                        : isFocused
-                            ? color.alpha(0.1).css()
-                            : null,
-                color: isDisabled
-                    ? '#ccc'
-                    : isSelected
-                        ? chroma.contrast(color, 'white') > 2
-                            ? 'white'
-                            : 'black'
-                        : data.color,
-                cursor: isDisabled ? 'not-allowed' : 'default',
-            };
-        },
-        multiValue: (styles, { data }) => {
-            const color = chroma(data.color);
-            return {
-                ...styles,
-                backgroundColor: color.alpha(0.1).css(),
-            };
-        },
-        multiValueLabel: (styles, { data }) => ({
-            ...styles,
-            color: data.color,
-        }),
-        multiValueRemove: (styles, { data }) => ({
-            ...styles,
-            color: data.color,
-            ':hover': {
-                backgroundColor: data.color,
-                color: 'white',
-            },
-        }),
-        input: (styles) => ({ ...styles, ...dot() }),
-        placeholder: (styles) => ({ ...styles, ...dot() }),
-        singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
-    };
+
+    const [arrayCategories, setArrayCategories] = useState([{ value: '', label: '' }]);
+    const optionsCategories = () => {
+        const arrCat = [];
+        onValue(refDB(db, "categories/"), snapshot => {
+            snapshot.forEach(snap => {
+                const obj = {
+
+                    value: snap.val().name,
+                    label: snap.val().name,
+                    color: '#00B8D9',
+                    key:snap.key
+                }
+
+                arrCat.push(obj);
+
+
+            })
+
+            setArrayCategories(arrCat);
+            
+        });
+        console.log("arrCat:", arrayCategories);
+    }
 
     //const [checkBoxVariante, setcheckBoxVariante] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -156,7 +123,8 @@ const ColeccionArticulos = () => {
     // }
     useEffect(() => {
         addProductImage(); // This is be executed when the state changes
-    });
+         optionsCategories();
+    },[imageProduct]);
     const style = { width: "450px" };
     //For collapse in Variantes
     const [collapse, setCollapse] = useState(false);
@@ -245,15 +213,18 @@ const ColeccionArticulos = () => {
 
                                         <Select
                                             closeMenuOnSelect={false}
-                                            defaultValue={[colourOptions[0], colourOptions[1]]}
+                                            defaultValue={[ arrayCategories[1]]}
                                             isMulti
-                                            options={colourOptions}
-                                            styles={colourStyles}
+                                            options={arrayCategories}
+
                                         />
                                     </FormGroup>
                                     <FormGroup>
-                                        <Label>Descripción</Label>
+                                    <InputGroup>
+                                    <InputGroupText>Descripción</InputGroupText>
                                         <Input type="textarea" rows="5" />
+                                    </InputGroup>
+                                    
                                     </FormGroup>
 
                                     <FormGroup>
