@@ -8,6 +8,7 @@ import Loadable from './layouts/loader/Loadable';
 //Autenticacion del logeo 
 import { ProtectedRoute } from './routes/Enrutador';
 import { AuthProvider } from './Context/authContext';
+import Home from './views/dashboards/Home';
 /****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('./layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('./layouts/BlankLayout')));
@@ -110,8 +111,9 @@ const RecoverPassword = Loadable(lazy(() => import('./views/auth/RecoverPassword
 //Paneles Desarrollo Freebug
 const PanelLicencias = Loadable(lazy(() => import('./views/PanelLicencias/PanelLicencias')));
 const PanelLicenciasAdmin = Loadable(lazy(() => import('./views/PanelLicencias/Admin/PanelLicenciasAdmin')));
+const PanelProductosAdmin = Loadable(lazy(() => import('./views/PanelLicencias/Admin/PanelProductosAdmin')));
 const AccionLicencia = Loadable(lazy(() => import('./views/PanelLicencias/Admin/AccionLicencia')));
-const InfoLicencia = Loadable(lazy(() => import('./views/PanelLicencias/InfoLicencia')));
+//const InfoLicencia = Loadable(lazy(() => import('./views/PanelLicencias/InfoLicencia')));
 const ConsultaUsuario = Loadable(lazy(() => import('./views/PanelLicencias/Admin/ConsultaUsuario')));
 const Inventarios = Loadable(lazy(() => import('./views/Articulos/Inventarios')));
 const Unidades = Loadable(lazy(() => import('./views/Articulos/Unidades')));
@@ -139,12 +141,16 @@ const App = () => {
               <Route path='recoverpwd' element={<RecoverPassword />} />,
             </Route>
             <Route path='/' element={<ProtectedRoute><FullLayout /></ProtectedRoute>}>
-              <Route path='/' name='Home' element={<Navigate to="/dashboards/analytical" />} />,
+              <Route path='/' name='Home' element={<Navigate to="/home" />} />,
+              <Route path='/home' name='HomeMenu' element={<Home />} />
               <Route path='/dashboards/analytical' name='Analytical' element={<Analytical />} />
               <Route path='/servicios/PanelLicencias' name='PanelLicencias' element={<PanelLicencias />} />
               <Route path='/servicios/PanelLicenciasAdmin' name='PanelLicenciasAdmin' element={<PanelLicenciasAdmin />} />
+              <Route path='/servicios/PanelProductosAdmin' name='PanelProductosAdmin' element={<PanelProductosAdmin />} />
               <Route path='/servicios/PanelLicenciasAdmin/:action' name='Alta' element={<AccionLicencia />} />
-              <Route path='/servicios/PanelLicenciasAdmin/:action/:id' name='Licencia' element={<InfoLicencia />} />
+              <Route path='/servicios/PanelProductosAdmin/:action' name='Alta' element={<AccionLicencia />} />
+              <Route path='/servicios/PanelLicenciasAdmin/:action/:id' name='Editar' element={<AccionLicencia />} />
+              <Route path='/servicios/PanelProductosAdmin/:action/:id' name='Editar' element={<AccionLicencia />} />
               <Route path='/servicios/PanelLicencias/ConsultaUsuario' name='ConsultaUsuario' element={<ConsultaUsuario />} />
               <Route path='/servicios/Inventarios' name='Inventarios' element={<Inventarios />} />
               <Route path='/servicios/Unidades' name='Unidades' element={<Unidades />} />

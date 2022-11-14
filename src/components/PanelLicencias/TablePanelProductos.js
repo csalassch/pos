@@ -4,7 +4,7 @@ import * as Icon from 'react-feather';
 import { Link } from 'react-router-dom';
 import { Pagination, PaginationItem, PaginationLink, Table } from 'reactstrap';
 
-const TablePanelLicencias = ({ lista }) => {
+const TablePanelProductos = ({ lista }) => {
   useEffect(() => {
   }, [lista])
   return (
@@ -36,7 +36,7 @@ const TablePanelLicencias = ({ lista }) => {
               </td>
               <td>
                 <div className="d-flex align-items-center p-2 ms-3 ">
-                  <Link to={`/servicios/PanelLicenciasAdmin/${"EL"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link>
+                  <Link to={`/servicios/PanelProductosAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link>
                 </div>
               </td>
             </tr>
@@ -72,4 +72,4 @@ const TablePanelLicencias = ({ lista }) => {
   );
 };
 
-export default TablePanelLicencias;
+export default TablePanelProductos;

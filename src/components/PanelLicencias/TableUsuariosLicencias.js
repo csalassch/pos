@@ -9,7 +9,7 @@ const TableUsuariosLicencias = () => {
     for (let i = 0; i < 5; i++) {
       const obj = {
         id: i,
-        cliente: `Chencho ${i+1}`,
+        cliente: `Cliente ${i+1}`,
         licencia: `Licencia ${i+1}`,
         vigencia:(new Date().toString()),
         activo: 'false'

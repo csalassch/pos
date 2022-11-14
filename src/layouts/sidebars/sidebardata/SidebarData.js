@@ -50,7 +50,7 @@ const SidebarData = [
       
       {
         title: 'Gestion de productos',
-        href: '/servicios/Inventarios',
+        href: '/servicios/PanelProductosAdmin',
         icon: <Icon.Disc />,
       },
       {
@@ -436,6 +436,26 @@ const SidebarData = [
     id: 5.2,
     collapisble: false,
   },
+  { caption: 'Bugcarios' },
+  {
+    title: 'Soporte',
+    href: '/tekiio/freebug/bugcarios',
+    icon: <Icon.Tool />,
+    id: 20.1,
+    collapisble: true,
+    children: [
+      {
+        title: 'Gestion personal',
+        href: '/servicios/PanelLicenciasAdmin',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Gestion Empresa',
+        href: '/servicios/PanelLicenciasAdmin',
+        icon: <Icon.Disc />,
+      }
+    ]
+  },
   { caption: 'Extra' },
   {
     title: 'Sample Pages',
@@ -574,6 +594,7 @@ const SidebarData = [
       },
     ],
   },
+  
 ];
 
 export default SidebarData;

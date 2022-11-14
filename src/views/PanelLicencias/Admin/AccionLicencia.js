@@ -1,19 +1,23 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BreadCrumbs from "../../../layouts/breadcrumbs/BreadCrumbs";
-import Alta from "../../../components/PanelLicencias/Admin/Alta";
-import Editar from "../../../components/PanelLicencias/Admin/Editar";
+import Alta from "../../../components/PanelLicencias/Admin/Licencias/Alta";
+import Editar from "../../../components/PanelLicencias/Admin/Licencias/Editar";
+import AltaP from "../../../components/PanelLicencias/Admin/Productos/AltaP";
+import EditarP from "../../../components/PanelLicencias/Admin/Productos/EditarP";
+
 
 const AccionLicencia = () => {
     const { action, id } = useParams();
     useEffect(()=>{
-        console.log(id)
     },[])
     return (
         <>
             <BreadCrumbs />
-            {action ==="A" ? <Alta />:<div></div>}
-            {action ==="E" ?<Editar />:<div></div>}
+            {action ==="AL" ? <Alta />:<div></div>}
+            {action ==="EL" ?<Editar id={id}/>:<div></div>}
+            {action ==="AP" ? <AltaP />:<div></div>}
+            {action ==="EP" ?<EditarP id={id}/>:<div></div>}
         </>
     );
 };

@@ -7,9 +7,9 @@ import { onValue, ref } from 'firebase/database';
 import { db } from '../../../FirebaseConfig/firebase';
 import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
 import ComponentCard from '../../../components/ComponentCard';
-import TablePanelLicencias from '../../../components/PanelLicencias/TablePanelLicencias';
+import TableProductosLicencias from '../../../components/PanelLicencias/TablePanelProductos';
 
-const PanelLicenciasAdmin = () => {
+const PanelProductosAdmin = () => {
     const [lista, setLista] = useState([{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]);
 
     function getDatosLicencia() {
@@ -44,15 +44,15 @@ const PanelLicenciasAdmin = () => {
     return (
         <div>
             <BreadCrumbs />
-            <ComponentCard title="Agregar Licencias">
-                <Link to={`/servicios/PanelLicenciasAdmin/${"AL"}`}>
+            <ComponentCard title="Agregar Productos">
+                <Link to={`/servicios/PanelProductosAdmin/${"AP"}`}>
                     <Button className="btn" color="primary" size="lg" block><Icon.Plus /></Button>
                 </Link>
             </ComponentCard>
 
             <Card>
                 <CardBody>
-                    <CardTitle tag="h5">Lista de licencias </CardTitle>
+                    <CardTitle tag="h5">Lista de Productos </CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                         Aqui se visualizaran todas las licencias adquiridas
                     </CardSubtitle>
@@ -63,11 +63,11 @@ const PanelLicenciasAdmin = () => {
                             <p>Recargar</p>
                         </div>
                     </div>
-                    <TablePanelLicencias lista={lista} />
+                    <TableProductosLicencias lista={lista} />
                 </CardBody>
             </Card>
         </div>
     );
 };
 
-export default PanelLicenciasAdmin;
+export default PanelProductosAdmin;
