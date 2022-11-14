@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, FormGroup, Label, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -23,7 +23,7 @@ const Editar = ({ id }) => {
     const toggle = () => {
         setModal(!modal);
     };
-    
+
     const handleChange = ({ target: { name, value } }) => {
         setFormvalue({ ...Formvalue, [name]: value });
         console.log(Formvalue)
@@ -77,7 +77,7 @@ const Editar = ({ id }) => {
     const onSubmit = () => {
         getCaracteristicasLicencia();
         if (Formvalue !== FormvalueRef) {
-            console.log(Formvalue," ",FormvalueRef)
+            console.log(Formvalue, " ", FormvalueRef)
             if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== '' && lista.length !== 0) {
                 update(ref(db, `licenses/${id}`), {
                     name: Formvalue.nombre,
@@ -86,9 +86,7 @@ const Editar = ({ id }) => {
                     amount: Formvalue.monto,
                     caracteristicas: lista
                 });
-                setFormvalue({ nombre: '', descripcion: '', producto: '', monto: '' })
                 setAction("envio");
-                setLista([]);
             }
             else {
                 setAction("vacio");
@@ -108,40 +106,37 @@ const Editar = ({ id }) => {
                     <div className='row'>
                         <div className='col'>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="nombre">Nombre *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} value={Formvalue.nombre} type="text" name="nombre" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText>Nombre *</InputGroupText>
+                                    <Input onChange={handleChange} value={Formvalue.nombre} type="text" name="nombre" className="form-control" placeholder="Nombre" />
+                                </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="descripcion">Descripcion *</Label>
-                                <div className="mb-2">
-                                    <textarea onChange={handleChange} value={Formvalue.descripcion} type="text" name="descripcion" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText>Descripcion *</InputGroupText>
+                                    <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripcion" />
+                                </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="producto">Producto *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} value={Formvalue.producto} type="text" name="producto" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText>Producto *</InputGroupText>
+                                    <Input onChange={handleChange} value={Formvalue.producto} type="text" name="producto" className="form-control" placeholder="Producto" />
+                                </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="monto">Monto $ *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} value={Formvalue.monto} type="number" name="monto" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText>Monto $ *</InputGroupText>
+                                    <Input onChange={handleChange} value={Formvalue.monto} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
+                                </InputGroup>
                             </FormGroup>
                         </div>
-
                         <div className='col'>
-                            <Label className="control-Label" htmlFor="caracteristica">Nueva caracteristica *</Label>
                             <div className='row'>
                                 <div className="col mb-2">
-                                    <input type="text" name="caracteristica" className="form-control" value={caracteristica} onChange={handleChangeList} />
+                                    <InputGroup>
+                                        <InputGroupText>Nueva Caracteristica *</InputGroupText>
+                                        <Input onChange={handleChangeList} type="text" name="caracteristica" value={caracteristica} className="form-control" placeholder="Caracteristica" />
+                                    </InputGroup>
                                 </div>
                                 <div className='col-2' type="submit" onClick={addLicense}>
                                     <Icon.PlusCircle style={{ color: "blue" }} />
@@ -209,7 +204,7 @@ const Editar = ({ id }) => {
                             <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                 <ModalHeader toggle={toggle.bind(null)} ><Icon.Check /> Exito</ModalHeader>
                                 <ModalBody>
-                                    Carga Exitosa
+                                    Modificacion Exitosa
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="primary" onClick={() => { setModal(false); navigate("/servicios/PanelLicenciasAdmin") }}>

@@ -1,12 +1,25 @@
 
-import { useEffect } from 'react';
+import { useEffect,  useState } from 'react';
 import * as Icon from 'react-feather';
 import { Link } from 'react-router-dom';
-import { Pagination, PaginationItem, PaginationLink, Table } from 'reactstrap';
+import { Pagination, PaginationItem, PaginationLink, Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { ref, remove } from 'firebase/database';
+import { db } from '../../FirebaseConfig/firebase';
 
 const TablePanelProductos = ({ lista }) => {
+  const [uidEliminar, setUidEliminar] = useState('');
+  const [nombreEliminar, setNombreEliminar] = useState('');
+  const [modal, setModal] = useState(false);
+  const toggle = () => {
+    setModal(!modal);
+  };
+  function deleteProducto() {
+    remove(ref(db, `products/${uidEliminar}`));
+    setUidEliminar('');
+    setNombreEliminar('');
+  }
   useEffect(() => {
-  }, [lista])
+  }, [lista, uidEliminar, nombreEliminar])
   return (
     <div>
       <Table className="no-wrap mt-3 align-middle" responsive borderless>
@@ -14,9 +27,7 @@ const TablePanelProductos = ({ lista }) => {
           <tr>
             <th>Nombre</th>
             <th>Descripcion</th>
-            <th>Monto</th>
-            <th>Caracteristicas</th>
-            <th>Accion</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -24,19 +35,14 @@ const TablePanelProductos = ({ lista }) => {
             <tr key={tdata.id} className="border-top">
               <td>{tdata.nombre}</td>
               <td>{tdata.descripcion}</td>
-              <td>{tdata.monto}</td>
               <td>
-                <ul>
-                  {tdata.caracteristicas.map((carac) =>
-                    <li key={carac.id}>
-                      {carac.caracteristica}
-                    </li>
-                  )}
-                </ul>
-              </td>
-              <td>
-                <div className="d-flex align-items-center p-2 ms-3 ">
-                  <Link to={`/servicios/PanelProductosAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link>
+              <div className='d-flex align-items-center p-2 ms-3'>
+                  <div>
+                    <Link to={`/servicios/PanelLicenciasAdmin/${"EL"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link>
+                  </div>
+                  <div onClick={() => {setNombreEliminar(tdata.nombre); setUidEliminar(tdata.id); setModal(true)}}>
+                    <Icon.Trash2 style={{ color: "#d54747" }} />
+                  </div>
                 </div>
               </td>
             </tr>
@@ -68,7 +74,21 @@ const TablePanelProductos = ({ lista }) => {
           </PaginationItem>
         </Pagination>
       </div>
-    </div>
+      <Modal isOpen={modal} toggle={toggle.bind(null)}>
+        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
+        <ModalBody>
+          ¿Seguro que quieres eliminar el producto {nombreEliminar} ?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => { setModal(false); deleteProducto() }}>
+            Confirmar
+          </Button>
+          <Button color="secondary" onClick={toggle.bind(null)}>
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div >
   );
 };
 

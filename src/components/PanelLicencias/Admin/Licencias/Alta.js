@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, FormGroup, Label, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -22,6 +22,8 @@ const Alta = () => {
         setModal(!modal);
     };
     const onSubmit = () => {
+        console.log(Formvalue)
+        console.log(lista)
         if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== '' && lista.length !== 0) {
             push(ref(db, 'licenses/'), {
                 name: Formvalue.nombre,
@@ -30,9 +32,7 @@ const Alta = () => {
                 amount: Formvalue.monto,
                 caracteristicas: lista
             });
-            setFormvalue({ nombre: '', descripcion: '', producto: '', monto: '' })
             setAction("envio");
-            setLista([]);
             navigate("/servicios/PanelLicenciasAdmin")
         }
         else {
@@ -41,6 +41,7 @@ const Alta = () => {
     }
     const handleChange = ({ target: { name, value } }) => {
         setFormvalue({ ...Formvalue, [name]: value });
+        console.log(Formvalue)
     };
     const handleChangeList = ({ target: { value } }) => {
         setCaracteristica(value)
@@ -73,39 +74,37 @@ const Alta = () => {
                     <div className='row'>
                         <div className='col'>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="nombre">Nombre *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} type="text" name="nombre" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText style={{width:"100px"}}>Nombre *</InputGroupText>
+                                    <Input onChange={handleChange} type="text" name="nombre" className="form-control" placeholder="Nombre" />
+                                </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="descripcion">Descripcion *</Label>
-                                <div className="mb-2">
-                                    <textarea onChange={handleChange} type="text" name="descripcion" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText style={{width:"101px"}}>Descripcion *</InputGroupText>
+                                    <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripcion" />
+                                </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="producto">Producto *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} type="text" name="producto" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText style={{width:"102px"}}>Producto *</InputGroupText>
+                                    <Input onChange={handleChange} type="text" name="producto" className="form-control" placeholder="Producto" />
+                                </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="monto">Monto $ *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} type="number" name="monto" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText style={{width:"103px"}}>Monto $ *</InputGroupText>
+                                    <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
+                                </InputGroup>
                             </FormGroup>
                         </div>
                         <div className='col'>
-                            <Label className="control-Label" htmlFor="caracteristica">Nueva caracteristica *</Label>
                             <div className='row'>
                                 <div className="col mb-2">
-                                    <input type="text" name="caracteristica" className="form-control" value={caracteristica} onChange={handleChangeList} />
+                                    <InputGroup>
+                                        <InputGroupText style={{width:"160px"}}>Nueva Caracteristica</InputGroupText>
+                                        <Input onChange={handleChangeList} type="text" name="caracteristica" value={caracteristica} className="form-control" placeholder="Caracteristica" />
+                                    </InputGroup>
                                 </div>
                                 <div className='col-2' type="submit" onClick={addLicense}>
                                     <Icon.PlusCircle style={{ color: "blue" }} />
@@ -155,8 +154,8 @@ const Alta = () => {
                                 </Modal> :
                                 <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                     {action === "vacio" ?
-                                    <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader>:
-                                    <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
+                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader> :
+                                        <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
                                     {action === "vacio" ?
                                         <ModalBody>
                                             Debe llenar todos los campos
@@ -166,7 +165,7 @@ const Alta = () => {
                                         </ModalBody>
                                     }
                                     <ModalFooter>
-                                        <Button color="primary" onClick={() => {setModal(false); setFormvalue({}); }}>
+                                        <Button color="primary" onClick={() => { setModal(false); setFormvalue({}); }}>
                                             Confirmar
                                         </Button>
                                     </ModalFooter>

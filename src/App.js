@@ -9,6 +9,7 @@ import Loadable from './layouts/loader/Loadable';
 import { ProtectedRoute } from './routes/Enrutador';
 import { AuthProvider } from './Context/authContext';
 import Home from './views/dashboards/Home';
+
 /****Layouts*****/
 const FullLayout = Loadable(lazy(() => import('./layouts/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('./layouts/BlankLayout')));
@@ -119,6 +120,7 @@ const Inventarios = Loadable(lazy(() => import('./views/Articulos/Inventarios'))
 const Categorias = Loadable(lazy(() => import('./views/Articulos/Categorias')));
 const Unidades = Loadable(lazy(() => import('./views/Articulos/Unidades')));
 const ColeccionArticulos = Loadable(lazy(() => import('./views/Articulos/ColeccionArticulos')));
+const Soporte = Loadable(lazy(() => import('./views/Soporte/Soporte')));
 
 /*****Routes******/
 
@@ -153,6 +155,7 @@ const App = () => {
               <Route path='/servicios/PanelLicenciasAdmin/:action/:id' name='Editar' element={<AccionLicencia />} />
               <Route path='/servicios/PanelProductosAdmin/:action/:id' name='Editar' element={<AccionLicencia />} />
               <Route path='/servicios/PanelLicencias/ConsultaUsuario' name='ConsultaUsuario' element={<ConsultaUsuario />} />
+              <Route path='/Soporte' name='Soporte' element={<Soporte />} />
               <Route path='/servicios/Inventarios' name='Inventarios' element={<Inventarios />} />
               <Route path='/servicios/Categorias' name='Categorias' element={<Categorias />} />
               <Route path='/servicios/Unidades' name='Unidades' element={<Unidades />} />
