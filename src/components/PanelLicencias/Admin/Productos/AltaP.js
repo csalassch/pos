@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, FormGroup, Label, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -12,27 +12,19 @@ import ComponentCard from '../../../ComponentCard';
 const AltaP = () => {
     const navigate = useNavigate();
     const { handleSubmit } = useForm();
-    const [lista, setLista] = useState([]);
-    const [caracteristica, setCaracteristica] = useState('');
-    const [idEliminar, setIdEliminar] = useState(0);
     const [action, setAction] = useState("");
-    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
+    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '' });
     const [modal, setModal] = useState(false);
     const toggle = () => {
         setModal(!modal);
     };
     const onSubmit = () => {
-        if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== '' && lista.length !== 0) {
-            push(ref(db, 'licenses/'), {
+        if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' ) {
+            push(ref(db, 'products/'), {
                 name: Formvalue.nombre,
-                description: Formvalue.descripcion,
-                product: Formvalue.producto,
-                amount: Formvalue.monto,
-                caracteristicas: lista
+                description: Formvalue.descripcion
             });
-            setFormvalue({ nombre: '', descripcion: '', producto: '', monto: '' })
-            setAction("envio");
-            setLista([]);
+            setAction("envio")
             navigate("/servicios/PanelProductosAdmin")
         }
         else {
@@ -42,30 +34,9 @@ const AltaP = () => {
     const handleChange = ({ target: { name, value } }) => {
         setFormvalue({ ...Formvalue, [name]: value });
     };
-    const handleChangeList = ({ target: { value } }) => {
-        setCaracteristica(value)
-    };
-    function deleteCharacteristic() {
-        const listaF = lista;
-        const listaAux = []
-        const listaFiltrada = listaF.filter((item) => item.id !== (idEliminar));
-        for (let i = 0; i < listaFiltrada.length; i++) {
-            console.log(listaFiltrada[i])
-            listaAux.push({ id: (i + 1), caracteristica: listaFiltrada[i].caracteristica });
-        }
-        setLista(listaAux)
-        console.log(lista);
-    }
-    function addLicense() {
-        if (caracteristica !== '') {
-            const listAux = lista;
-            listAux.push({ id: (lista.length + 1), caracteristica: caracteristica });
-            setLista(listAux);
-            setCaracteristica('');
-        }
-    }
+    
     useEffect(() => {
-    }, [Formvalue, caracteristica, lista])
+    }, [Formvalue])
     return (
         <>
             <ComponentCard title="INTRODUZCA LOS DATOS DEL PRODUCTO">
@@ -73,71 +44,19 @@ const AltaP = () => {
                     <div className='row'>
                         <div className='col'>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="nombre">Nombre *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} type="text" name="nombre" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
+                                <InputGroup>
+                                    <InputGroupText style={{width:"100px"}}>Nombre </InputGroupText>
+                                    <Input onChange={handleChange} type="text" name="nombre" className="form-control" />
+                                </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <Label className="control-Label" htmlFor="descripcion">Descripcion *</Label>
-                                <div className="mb-2">
-                                    <textarea onChange={handleChange} type="text" name="descripcion" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label className="control-Label" htmlFor="producto">Producto *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} type="text" name="producto" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label className="control-Label" htmlFor="monto">Monto $ *</Label>
-                                <div className="mb-2">
-                                    <input onChange={handleChange} type="number" name="monto" className="form-control" />
-                                </div>
-                                <span className="text-danger"></span>
-                            </FormGroup>
+                            <InputGroup>
+                                    <InputGroupText style={{width:"100px"}}>Descripcion </InputGroupText>
+                                    <Input onChange={handleChange} type="textarea" row="5" name="descripcion" className="form-control" />
+                                </InputGroup>
+                                </FormGroup>
                         </div>
                         <div className='col'>
-                            <Label className="control-Label" htmlFor="caracteristica">Nueva caracteristica *</Label>
-                            <div className='row'>
-                                <div className="col mb-2">
-                                    <input type="text" name="caracteristica" className="form-control" value={caracteristica} onChange={handleChangeList} />
-                                </div>
-                                <div className='col-2' type="submit" onClick={addLicense}>
-                                    <Icon.PlusCircle style={{ color: "blue" }} />
-                                </div>
-                            </div>
-                            <Table className="no-wrap mt-3 align-middle" responsive borderless>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Caracteristica</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {lista.map((tdata) => (
-                                        <tr key={tdata.id} className="border-top">
-                                            <td>{tdata.id}</td>
-                                            <td>{tdata.caracteristica}</td>
-                                            <td>
-                                                <div>
-                                                    <Row>
-                                                        <Col md="2">
-                                                            <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); setModal(true); }}><Icon.Trash2 /></div>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-
-                                </tbody>
-                            </Table>
                             {action === "del" ?
                                 <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                     <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
@@ -145,7 +64,7 @@ const AltaP = () => {
                                         ¿Seguro que quieres eliminar la caracteristica?
                                     </ModalBody>
                                     <ModalFooter>
-                                        <Button color="primary" onClick={() => { deleteCharacteristic(); setModal(false) }}>
+                                        <Button color="primary" onClick={() => { setModal(false) }}>
                                             Confirmar
                                         </Button>
                                         <Button color="secondary" onClick={toggle.bind(null)}>
@@ -155,8 +74,8 @@ const AltaP = () => {
                                 </Modal> :
                                 <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                     {action === "vacio" ?
-                                    <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader>:
-                                    <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
+                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader> :
+                                        <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
                                     {action === "vacio" ?
                                         <ModalBody>
                                             Debe llenar todos los campos
@@ -166,7 +85,7 @@ const AltaP = () => {
                                         </ModalBody>
                                     }
                                     <ModalFooter>
-                                        <Button color="primary" onClick={() => {setModal(false); setFormvalue({}); }}>
+                                        <Button color="primary" onClick={() => { setModal(false); setFormvalue({}); }}>
                                             Confirmar
                                         </Button>
                                     </ModalFooter>

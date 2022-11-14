@@ -61,6 +61,31 @@ const SidebarData = [
     ]
   },
   {
+    title: 'Licencias Cliente',
+    href: '/',
+    icon: <Icon.Clipboard />,
+    id: 10.1,
+    collapisble: true,
+    children: [
+      {
+        title: 'Planes',
+        href: '/',
+        icon: <Icon.Disc />,
+      },
+      
+      {
+        title: 'Compras',
+        href: '/',
+        icon: <Icon.Disc />,
+      },
+      {
+        title: 'Acerca de las licencias',
+        href: '/',
+        icon: <Icon.Disc />,
+      },
+    ]
+  },
+  {
     title: 'Artículos',
     href: '/Articulos',
     icon: <Icon.Package />,
