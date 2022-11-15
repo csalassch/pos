@@ -161,7 +161,7 @@ const UnidadesComp = () => {
                                         <thead className='text-center'>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Status</th>
+                                                <th>Activo</th>
                                                 <th>Nombre Unidad</th>
                                                 <th>Opciones</th>
 

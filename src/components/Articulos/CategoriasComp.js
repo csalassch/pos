@@ -162,7 +162,7 @@ const CategoriasComp = () => {
                                             <thead className='text-center'>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Status</th>
+                                                    <th>Activo</th>
                                                     <th>Nombre Categoría</th>
                                                     <th>Opciones</th>
 
