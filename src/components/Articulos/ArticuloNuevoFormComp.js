@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import Select from 'react-select';
 
-import { push,onValue, ref as refDB } from 'firebase/database';
+import { push, onValue, ref as refDB } from 'firebase/database';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 import { dbStorage, db } from '../../FirebaseConfig/firebase';
@@ -20,23 +20,25 @@ import ComponentCard from '../ComponentCard';
 
 
 const ArticuloNuevoFormComp = () => {
-    const colourStyles={option: (provided) => ({
-        ...provided,
-        // borderBottom: '0.7px dotted gray',
-        color:"black",
-        padding: 20,
-      }),multiValue: (styles) => {
-        
-        return {
-          ...styles,
-          backgroundColor: "#d2cef9",
-        };
-      },
-      multiValueLabel: (styles) => ({
-        ...styles,
-        color: "#212121",
-        
-      }),};
+    const colourStyles = {
+        option: (provided) => ({
+            ...provided,
+            // borderBottom: '0.7px dotted gray',
+            color: "black",
+            padding: 20,
+        }), multiValue: (styles) => {
+
+            return {
+                ...styles,
+                backgroundColor: "#d2cef9",
+            };
+        },
+        multiValueLabel: (styles) => ({
+            ...styles,
+            color: "#212121",
+
+        }),
+    };
     const { user } = useAuth();
     const [arrayUnits, setArrayUnits] = useState([{ value: '', label: '' }]);
     const [arrayCategories, setArrayCategories] = useState([{ value: '', label: '' }]);
@@ -44,15 +46,18 @@ const ArticuloNuevoFormComp = () => {
         const arrUnit = [];
         onValue(refDB(db, "units/"), snapshot => {
             snapshot.forEach(snap => {
-                const obj = {
+                if(snap.val().active==="true"){
+                    const obj = {
 
-                    value: snap.val().name,
-                    label: snap.val().name,
-                    color: '#00B8D9',
-                    key: snap.key
+                        value: snap.val().name,
+                        label: snap.val().name,
+                        color: '#00B8D9',
+                        key: snap.key
+                    }
+    
+                    arrUnit.push(obj);
                 }
-
-                arrUnit.push(obj);
+                
 
 
             })
@@ -66,15 +71,18 @@ const ArticuloNuevoFormComp = () => {
         const arrCat = [];
         onValue(refDB(db, "categories/"), snapshot => {
             snapshot.forEach(snap => {
-                const obj = {
+                if(snap.val().active==="true"){
+                    const obj = {
 
-                    value: snap.val().name,
-                    label: snap.val().name,
-                    color: '#00B8D9',
-                    key: snap.key
+                        value: snap.val().name,
+                        label: snap.val().name,
+                        color: '#00B8D9',
+                        key: snap.key
+                    }
+    
+                    arrCat.push(obj);
                 }
-
-                arrCat.push(obj);
+                
 
 
             })
@@ -91,7 +99,7 @@ const ArticuloNuevoFormComp = () => {
         setVisible(false);
     };
     const [colorAlert, setAlertColor] = useState("success");
-    const [idImage, setIdImage] = useState({name:"",url:"",extension:""});
+    const [idImage, setIdImage] = useState({ name: "", url: "", extension: "" });
     const style = { width: "450px" };
     //const [imageProduct, setProductImage] = useState('');
     const addProductImage = (imageTemp) => {
@@ -113,22 +121,22 @@ const ArticuloNuevoFormComp = () => {
         }
 
         const storageRef = ref(dbStorage, `/ProductImages/${user.uid}/${imageTemp.name}`);
-        
+
         uploadBytes(storageRef, imageTemp).then(() => {
             setProcessing(false);
             getDownloadURL(storageRef).then((url) => {
 
                 const img = document.getElementById('imageProductRetrieved');
-                
+
                 img.setAttribute('src', url);
-                setIdImage({name:imageTemp.name,url:url,extension:"jpg"});
+                setIdImage({ name: imageTemp.name, url: url, extension: "jpg" });
 
             })
                 .catch((error) => {
                     // Handle any errors
                     console.log(error);
                 });
-                    
+
         });
 
         setAlertColor("success");
@@ -147,25 +155,33 @@ const ArticuloNuevoFormComp = () => {
     const [nameItem, setNameItem] = useState("");
     const [sku, setSku] = useState("");
     const [description, setDescription] = useState("");
-    // const [idUnit, setIdUnit] = useState("");
-    
+    const [idUnit, setIdUnit] = useState("");
+    const [idCategoriesArr, setIdCategoriesArr] = useState([]);
 
-    const newArticuloBtn=()=>{
-        push(refDB(db, 'files/'), {
+
+    const newArticuloBtn = () => {
+        const pushedFile = push(refDB(db, 'files/'), {
             name: idImage.name,
-            url:idImage.url,
-            extension:idImage.extension,
-            
-        }).then(()=>{
+            url: idImage.url,
+            extension: idImage.extension,
+
+        });
+        const fileKey = pushedFile.key;
+        pushedFile.then(() => {
+
             push(refDB(db, 'items/'), {
                 name: nameItem,
-                sku:sku,
-                description:description,
-                idUnit:"a",
-                idImage:idImage.name
+                sku: sku,
+                description: description,
+                idUnit: idUnit,
+                idImage: fileKey,
+                idCategory:idCategoriesArr
             });
+
         });
-       
+
+        console.log("pushed keyy: ", fileKey);
+
     }
     return (
         <>
@@ -208,13 +224,13 @@ const ArticuloNuevoFormComp = () => {
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText style={{ width: "135px" }}>Nombre Artículo</InputGroupText>
-                                            <Input placeholder="Nombre" value={nameItem} onChange={(e) => { setNameItem(e.target.value); }}/>
+                                            <Input placeholder="Nombre" value={nameItem} onChange={(e) => { setNameItem(e.target.value); }} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText style={{ width: "135px" }}>SKU</InputGroupText>
-                                            <Input placeholder="UGG-BB-PUR-06" value={sku} onChange={(e) => { setSku(e.target.value); }}/>
+                                            <Input placeholder="UGG-BB-PUR-06" value={sku} onChange={(e) => { setSku(e.target.value); }} />
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup>
@@ -226,13 +242,14 @@ const ArticuloNuevoFormComp = () => {
                                             isMulti
                                             options={arrayCategories}
                                             styles={colourStyles}
+                                            onChange={(e)=>{const arrCatAux=[];for(let i=0;i<e.length;i++){if(!arrCatAux.includes(e[i].key) ){arrCatAux.push(e[i].key)}}console.log(arrCatAux);setIdCategoriesArr(arrCatAux)}}
 
                                         />
                                     </FormGroup>
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText style={{ width: "135px" }} className="text-center">Descripción</InputGroupText>
-                                            <Input type="textarea" rows="5" value={description} onChange={(e) => { setDescription(e.target.value); }}/>
+                                            <Input type="textarea" rows="5" value={description} onChange={(e) => { setDescription(e.target.value); }} />
                                         </InputGroup>
 
                                     </FormGroup>
@@ -313,17 +330,18 @@ const ArticuloNuevoFormComp = () => {
                                             <FormGroup>
                                                 <InputGroup >
                                                     <InputGroupText>Aplicar por</InputGroupText>
-                                                    <div style={{width:"230px"}}>
-                                                    <Select
-                                                        
-                                                        defaultValue={[arrayUnits[1]]}
-                                                        options={arrayUnits}
-                                                        style={{width:100}}
-                                                    />
+                                                    <div style={{ width: "230px" }}>
+                                                        <Select
+
+                                                            defaultValue={[arrayUnits[1]]}
+                                                            options={arrayUnits}
+                                                            style={{ width: 100 }}
+                                                            onChange={(e)=>{setIdUnit(e.key)}}
+                                                        />
                                                     </div>
-                                                   
-                                                   
-                                                    
+
+
+
                                                 </InputGroup>
                                             </FormGroup>
                                         </Col>
