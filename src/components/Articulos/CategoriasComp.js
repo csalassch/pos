@@ -100,7 +100,7 @@ const CategoriasComp = () => {
 
         } else {
             setIsValidInput(false);
-            setMessageFeedback("Favor de no llenar el campo");
+            setMessageFeedback("Favor de llenar el campo");
             setVisible(false);
         }
 

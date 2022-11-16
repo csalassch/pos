@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 import {
     Row, Col, FormGroup, Input, Button, InputGroup,
-    InputGroupText, Table, Collapse, Label, Alert, Form, Spinner
+    InputGroupText, Table, Collapse, Label, Alert, Form, Spinner, FormFeedback
 
 
 
@@ -40,13 +40,14 @@ const ArticuloNuevoFormComp = () => {
         }),
     };
     const { user } = useAuth();
+    // const [arrayUnits, setArray]Units] = useState([]);
     const [arrayUnits, setArrayUnits] = useState([{ value: '', label: '' }]);
     const [arrayCategories, setArrayCategories] = useState([{ value: '', label: '' }]);
     const optionsUnits = () => {
         const arrUnit = [];
         onValue(refDB(db, "units/"), snapshot => {
             snapshot.forEach(snap => {
-                if(snap.val().active==="true"){
+                if (snap.val().active === "true") {
                     const obj = {
 
                         value: snap.val().name,
@@ -54,24 +55,25 @@ const ArticuloNuevoFormComp = () => {
                         color: '#00B8D9',
                         key: snap.key
                     }
-    
+
                     arrUnit.push(obj);
                 }
-                
+
 
 
             })
 
-            setArrayUnits(arrUnit);
+            
 
         });
+        setArrayUnits(arrUnit);
         console.log("arrUnit:", arrayUnits);
     }
     const optionsCategories = () => {
         const arrCat = [];
         onValue(refDB(db, "categories/"), snapshot => {
             snapshot.forEach(snap => {
-                if(snap.val().active==="true"){
+                if (snap.val().active === "true") {
                     const obj = {
 
                         value: snap.val().name,
@@ -79,10 +81,10 @@ const ArticuloNuevoFormComp = () => {
                         color: '#00B8D9',
                         key: snap.key
                     }
-    
+
                     arrCat.push(obj);
                 }
-                
+
 
 
             })
@@ -101,7 +103,6 @@ const ArticuloNuevoFormComp = () => {
     const [colorAlert, setAlertColor] = useState("success");
     const [idImage, setIdImage] = useState({ name: "", url: "", extension: "" });
     const style = { width: "450px" };
-    //const [imageProduct, setProductImage] = useState('');
     const addProductImage = (imageTemp) => {
         console.log("here");
         setProcessing(true);
@@ -146,41 +147,105 @@ const ArticuloNuevoFormComp = () => {
     }
     useEffect(() => {
         optionsCategories();
-        optionsUnits();
+        if (arrayUnits[0].label === '') {
+            arrayUnits[0].label="sdghsdg";
+            arrayUnits[0].value="sdghsdg";
+            optionsUnits();
+            console.log("arrU:", arrayUnits[0]);
+        }
+
+
+
     }, [processing]);
     //For collapse in Variantes
     const [collapse, setCollapse] = useState(false);
-    //const toggle = () => setCollapse(!collapse);
     const [isDisabled, setIsDisabled] = useState(false);
+
+    //Variables para validacion de campos
+    const [isValidInput, setIsValidInput] = useState({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true });
+    const [messageFeedback, setMessageFeedback] = useState({ nombreItem: "", skuItem: "", descriptionItem: "", priceItem: "" });
+
+    //Variables for Item form being pushed to DB
     const [nameItem, setNameItem] = useState("");
     const [sku, setSku] = useState("");
     const [description, setDescription] = useState("");
     const [idUnit, setIdUnit] = useState("");
+    const [price, setPrice] = useState(0);
     const [idCategoriesArr, setIdCategoriesArr] = useState([]);
 
 
     const newArticuloBtn = () => {
-        const pushedFile = push(refDB(db, 'files/'), {
-            name: idImage.name,
-            url: idImage.url,
-            extension: idImage.extension,
+        if (nameItem && sku && description && price && idUnit && idCategoriesArr.length > 0) {
 
-        });
-        const fileKey = pushedFile.key;
-        pushedFile.then(() => {
 
-            push(refDB(db, 'items/'), {
-                name: nameItem,
-                sku: sku,
-                description: description,
-                idUnit: idUnit,
-                idImage: fileKey,
-                idCategory:idCategoriesArr
+            const pushedFile = push(refDB(db, 'files/'), {
+                name: idImage.name,
+                url: idImage.url,
+                extension: idImage.extension,
+
+            });
+            const fileKey = pushedFile.key;
+            pushedFile.then(() => {
+
+
+                push(refDB(db, 'items/'), {
+                    name: nameItem,
+                    sku: sku,
+                    description: description,
+                    idUnit: idUnit,
+                    idImage: fileKey,
+                    idCategory: idCategoriesArr,
+                    price: price
+                });
+
             });
 
-        });
+            console.log("pushed keyy: ", fileKey);
+            // setIsValidInput(true);
+            setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true });
+        } else {
 
-        console.log("pushed keyy: ", fileKey);
+            const objMessages = {
+                nombreItem: "",
+                skuItem: "",
+                descriptionItem: "",
+                priceItem: ""
+            }
+            const objValidInput = {
+                nombreItem: true,
+                skuItem: true,
+                descriptionItem: true,
+                priceItem: true
+            }
+            if (!nameItem) {
+                objMessages.nombreItem = "Favor de llenar el campo";
+                objValidInput.nombreItem = false;
+            }
+            if (!sku) {
+                objMessages.skuItem = "Favor de llenar el campo";
+                objValidInput.skuItem = false;
+            }
+            if (!description) {
+                objMessages.descriptionItem = "Favor de llenar el campo";
+                objValidInput.descriptionItem = false;
+            }
+            if (!price || price <= 0) {
+                objMessages.priceItem = "Favor de llenar el campo";
+                objValidInput.priceItem = false;
+            }
+            if (!idCategoriesArr.length > 0) {
+                setVisible(true);
+                setAlertColor("danger");
+                setMessage("Favor de introducir categorías");
+            }
+            if (!idUnit) {
+                setVisible(true);
+                setAlertColor("danger");
+                setMessage("Favor de introducir unidades");
+            }
+            setIsValidInput(objValidInput);
+            setMessageFeedback(objMessages);
+        }
 
     }
     return (
@@ -224,13 +289,15 @@ const ArticuloNuevoFormComp = () => {
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText style={{ width: "135px" }}>Nombre Artículo</InputGroupText>
-                                            <Input placeholder="Nombre" value={nameItem} onChange={(e) => { setNameItem(e.target.value); }} />
+                                            <Input placeholder="Nombre" invalid={!isValidInput.nombreItem} value={nameItem} onChange={(e) => { setNameItem(e.target.value); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }} />
+                                            <FormFeedback>{messageFeedback.nombreItem}</FormFeedback>
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText style={{ width: "135px" }}>SKU</InputGroupText>
-                                            <Input placeholder="UGG-BB-PUR-06" value={sku} onChange={(e) => { setSku(e.target.value); }} />
+                                            <Input placeholder="UGG-BB-PUR-06" value={sku} invalid={!isValidInput.skuItem} onChange={(e) => { setSku(e.target.value); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }} />
+                                            <FormFeedback>{messageFeedback.skuItem}</FormFeedback>
                                         </InputGroup>
                                     </FormGroup>
                                     <FormGroup>
@@ -242,14 +309,15 @@ const ArticuloNuevoFormComp = () => {
                                             isMulti
                                             options={arrayCategories}
                                             styles={colourStyles}
-                                            onChange={(e)=>{const arrCatAux=[];for(let i=0;i<e.length;i++){if(!arrCatAux.includes(e[i].key) ){arrCatAux.push(e[i].key)}}console.log(arrCatAux);setIdCategoriesArr(arrCatAux)}}
+                                            onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key) } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
 
                                         />
                                     </FormGroup>
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText style={{ width: "135px" }} className="text-center">Descripción</InputGroupText>
-                                            <Input type="textarea" rows="5" value={description} onChange={(e) => { setDescription(e.target.value); }} />
+                                            <Input type="textarea" invalid={!isValidInput.descriptionItem} rows="5" value={description} onChange={(e) => { setDescription(e.target.value); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }} />
+                                            <FormFeedback>{messageFeedback.descriptionItem}</FormFeedback>
                                         </InputGroup>
 
                                     </FormGroup>
@@ -277,7 +345,7 @@ const ArticuloNuevoFormComp = () => {
                                                 <Col md="3">
                                                     <InputGroup>
                                                         <InputGroupText>$</InputGroupText>
-                                                        <Input placeholder="Precio" />
+                                                        <Input type='number' step='any' placeholder="Precio" value={price} onChange={(e) => { setPrice(e.target.value); console.log(e) }} />
                                                     </InputGroup>
                                                 </Col>
                                                 <Col>
@@ -322,7 +390,8 @@ const ArticuloNuevoFormComp = () => {
                                             <FormGroup>
                                                 <InputGroup>
                                                     <InputGroupText>$</InputGroupText>
-                                                    <Input placeholder="Precio" type="text" disabled={isDisabled} />
+                                                    <Input type='number' step='any' min={0.1} placeholder="Precio" value={price} invalid={!isValidInput.priceItem} onChange={(e) => { setPrice(e.target.value); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }} disabled={isDisabled} />
+                                                    <FormFeedback>{messageFeedback.priceItem}</FormFeedback>
                                                 </InputGroup>
                                             </FormGroup>
                                         </Col>
@@ -330,13 +399,18 @@ const ArticuloNuevoFormComp = () => {
                                             <FormGroup>
                                                 <InputGroup >
                                                     <InputGroupText>Aplicar por</InputGroupText>
-                                                    <div style={{ width: "230px" }}>
-                                                        <Select
+                                                    <div style={{ minWidth: "200px" }}>
 
-                                                            defaultValue={[arrayUnits[1]]}
+                                                        <Select
+                                                            // defaultValue={()=>{const obj={};optionsUnits();obj.label=arrayUnits[0].label; obj.value=arrayUnits[0].value; console.log(obj); return obj;}}
+                                                            defaultValue={{label:arrayUnits[0].label,value:idUnit}}
+                                                            // defaultValue={{ label: arrayUnits[0].label, value: arrayUnits[0].value }}
+                                                            label="Single select"
                                                             options={arrayUnits}
                                                             style={{ width: 100 }}
-                                                            onChange={(e)=>{setIdUnit(e.key)}}
+                                                           
+                                                            onChange={(e) => { console.log(arrayUnits[0]); setIdUnit(e.key); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
+
                                                         />
                                                     </div>
 
