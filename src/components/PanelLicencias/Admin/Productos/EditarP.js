@@ -25,14 +25,14 @@ const EditarP = ({ id }) => {
         console.log(Formvalue)
     }
     function getDatosProducto() {
-        onValue(ref(db, `licenses/${id}`), snapshot => {
-            const licencia = {
+        onValue(ref(db, `products/${id}`), snapshot => {
+            const productos = {
                 id: snapshot.key,
                 nombre: snapshot.val().name,
                 descripcion: snapshot.val().description
             }
-            setFormvalue({ nombre: licencia.nombre, descripcion: licencia.descripcion })
-            setFormvalueRef({ nombre: licencia.nombre, descripcion: licencia.descripcion })
+            setFormvalue({ nombre: productos.nombre, descripcion: productos.descripcion })
+            setFormvalueRef({ nombre: productos.nombre, descripcion: productos.descripcion })
         });
     }
     const onSubmit = () => {
@@ -58,7 +58,7 @@ const EditarP = ({ id }) => {
     }, [])
     return (
         <>
-            <ComponentCard title="EDITE LOS DATOS LICENCIA">
+            <ComponentCard title="EDITE LOS DATOS productos">
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <div className='row'>
                         <div className='col'>
