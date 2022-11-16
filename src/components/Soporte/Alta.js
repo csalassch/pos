@@ -13,7 +13,9 @@ const Alta = () => {
     const navigate = useNavigate();
     const { handleSubmit } = useForm();
     const [action, setAction] = useState("");
-    const [Formvalue, setFormvalue] = useState({ nombre: '' });
+    // const [companyQ, setCompanyQ] = useState("off");
+    const [stamp, setStamp] = useState("off");
+    const [Formvalue, setFormvalue] = useState({ name: '', lastname: '', companyName: '', rfc: '', mail: '', mainPhone: '', paymentForm: '', paymentMethod: '', cfdiUssage: '', entityType: '' });
     const [modal, setModal] = useState(false);
     const toggle = () => {
         setModal(!modal);
@@ -36,10 +38,10 @@ const Alta = () => {
     };
 
     useEffect(() => {
-    }, [Formvalue])
+    }, [Formvalue, stamp])
     return (
         <>
-            <ComponentCard title="INTRODUZCA LOS DATOS DEL REGISTRO">
+            <ComponentCard title="Datos del usuario">
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <div className='row'>
                         <div className='col'>
@@ -47,19 +49,19 @@ const Alta = () => {
 
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Nombre </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="nombre" className="form-control" />
+                                    <Input onChange={handleChange} type="text" name="name" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Apellido </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="apellido" className="form-control" />
+                                    <Input onChange={handleChange} type="text" name="lastname" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Compañia </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="compania" className="form-control" />
+                                    <Input onChange={handleChange} type="text" name="companyName" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
@@ -71,28 +73,66 @@ const Alta = () => {
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Correo </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="correo" className="form-control" />
+                                    <Input onChange={handleChange} type="text" name="mail" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
-                            <div className='d-flex align-items-center p-2'>
+                            <FormGroup>
+                                <InputGroup>
+                                    <InputGroupText style={{ width: "100px" }}>Contraseña </InputGroupText>
+                                    <Input onChange={handleChange} type="text" name="password" className="form-control" />
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                                <InputGroup>
+                                    <InputGroupText style={{ width: "120px" }}>No. Telefonico </InputGroupText>
+                                    <Input onChange={handleChange} type="text" name="mainPhone" className="form-control" />
+                                </InputGroup>
+                            </FormGroup>
+                            {/* <div className='d-flex align-items-center p-2'>
                                 <Label check>¿Es compañia?</Label>
                                 <FormGroup check>
-                                    <Input type="checkbox" name="esCompania" />
+                                    <Input onClick={()=>{
+                                        if (companyQ === "on") {
+                                            setCompanyQ("off")
+                                        }
+                                        else {
+                                            setCompanyQ("on")
+                                        }
+                                    }} value={companyQ} type="checkbox" name="isCompany" />
+                                </FormGroup>
+                            </div> */}
+                            {/* <FormGroup>
+                                <InputGroup>
+                                    <InputGroupText style={{ width: "100px" }}>Web Site </InputGroupText>
+                                    <Input onClick={()=>{
+                                        if (stamp === "on") {
+                                            setStamp("off")
+                                        }
+                                        else {
+                                            setStamp("on")
+                                        }
+                                    }} value={stamp} type="text" name="webSite" className="form-control" />
+                                </InputGroup> 
+                            </FormGroup>*/}
+                            <div className='d-flex align-items-center p-2'>
+                                <Label check>¿Requiere factura?</Label>
+                                <FormGroup check>
+                                    <Input onClick={() => {
+                                        if (stamp === "on") {
+                                            setStamp("off")
+                                        }
+                                        else {
+                                            setStamp("on")
+                                        }
+                                    }} value={stamp} type="checkbox" name="requiredStamp" />
                                 </FormGroup>
                             </div>
                             <FormGroup>
                                 <InputGroup>
-                                    <InputGroupText style={{ width: "100px" }}>Web Site </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="webSite" className="form-control" />
+                                    <InputGroupText style={{ width: "100px" }}>CFDI </InputGroupText>
+                                    <Input onChange={handleChange} type="text" name="cfdiUssage" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
-                            <div className='d-flex align-items-center p-2'>
-                                <Label check>¿Requiere factura?</Label>
-                                <FormGroup check>
-                                    <Input type="checkbox" name="factura" />
-                                </FormGroup>
-                            </div>
-                            
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "150px" }}>Forma de pago </InputGroupText>
@@ -107,13 +147,7 @@ const Alta = () => {
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup>
-                                    <InputGroupText style={{ width: "100px" }}>CFDI </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="cfdiUssage" className="form-control" />
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{ width: "100px" }}>Tipo de entidad </InputGroupText>
+                                    <InputGroupText style={{ width: "150px" }}>Tipo de entidad </InputGroupText>
                                     <Input onChange={handleChange} type="text" name="entityType" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
