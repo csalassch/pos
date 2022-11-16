@@ -18,16 +18,18 @@ import ComponentCard from '../ComponentCard';
 
 const UnidadesComp = () => {
 
-    const [arr, setArr] = useState([{ id: 0, name: '', key: "" }]);
+    const [arr, setArr] = useState([{ id: 0, name: '', key: "",active:"" }]);
     const fetchDataUnits = () => {
         const arrAux = [];
         let i = 1;
         onValue(ref(db, "units/"), snapshot => {
             snapshot.forEach(snap => {
+                
                 const obj = {
                     id: i,
                     name: snap.val().name,
-                    key: snap.key
+                    key: snap.key,
+                    active:snap.val().active
                 }
 
                 arrAux.push(obj);
@@ -46,7 +48,7 @@ const UnidadesComp = () => {
     const [messageFeedback, setMessageFeedback] = useState("");
     const [isValidInput, setIsValidInput] = useState(true);
     const [keyAux, setKeyAux] = useState("");
-    const [nameUnitBeingDeleted, setNameUnitBeingDeleted] = useState("");
+    // const [nameUnitBeingDeleted, setNameUnitBeingDeleted] = useState("");
     const [nameUnit, setNameUnit] = useState("");
     const [modal, setModal] = useState(false);
     const [colorAlert, setAlertColor] = useState("success");
@@ -83,7 +85,8 @@ const UnidadesComp = () => {
             } else {
 
                 push(ref(db, 'units/'), {
-                    name: nameUnit
+                    name: nameUnit,
+                    active: "true"
                 });
                 setVisible(true);
             setAlertColor("success");
@@ -113,12 +116,19 @@ const UnidadesComp = () => {
         setBtnMessage("Guardar Cambios");
 
     }
+     function modifiedActive(dataPib) {
+        update(ref(db, `units/${dataPib.key}`), {
+            active: dataPib.active === "true" ? "false" : "true"
+        });
+        fetchDataUnits();
+
+    }
 
     useEffect(() => {
         fetchDataUnits();
 
         console.log(arr);
-    }, [nameUnitBeingDeleted]);
+    }, []);
     return (
         <>
             <Row>
@@ -146,25 +156,30 @@ const UnidadesComp = () => {
 
                                 </Col>
                                 <Col>
-                                    <Table responsive style={{ overflow: 'hidden' }}>
-                                        <thead>
+                                <Table responsive style={{ overflow: 'hidden' }}>
+                                        
+                                        <thead className='text-center'>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Activo</th>
                                                 <th>Nombre Unidad</th>
                                                 <th>Opciones</th>
 
                                             </tr>
                                         </thead>
-                                        <tbody >
+                                        <tbody className='text-center'>
                                             {arr.map((data) => (
 
                                                 <tr key={data.id}>
+
                                                     <td>{data.id}</td>
+                                                    <td><div onClick={() => { modifiedActive(data) }}>
+                                                        {data.active === "true" ? <div><Icon.ToggleRight style={{ color: "#00b26f" }} /></div>
+                                                            : <div><Icon.ToggleLeft /></div>}
+                                                    </div></td>
                                                     <td>{data.name}</td>
-                                                    <td><div><Row><Col md="2"><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
-                                                        <Col md="2">
-                                                            <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setNameUnitBeingDeleted(data.name); setModal(true); setKeyAux(data.key) }}><Icon.Trash2 /></div>
-                                                        </Col></Row></div></td>
+                                                    <td><div><Row><Col ><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
+                                                    </Row></div></td>
 
                                                 </tr>
 
@@ -173,12 +188,13 @@ const UnidadesComp = () => {
 
 
                                         </tbody>
+                                        
                                     </Table>
 
                                     <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                         <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
                                         <ModalBody>
-                                            ¿Seguro que quieres eliminar: {nameUnitBeingDeleted} ?
+                                            ¿Seguro que quieres eliminar: ?
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button color="primary" onClick={() => { deleteToggleConfirmation() }}>

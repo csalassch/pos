@@ -1,22 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
     Row, Col, FormGroup, Label, Form, Input, Button, Alert, InputGroup,
-    InputGroupText, Collapse,
-    Table
+    InputGroupText
 
 } from 'reactstrap';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytesResumable} from 'firebase/storage';
 
 import '../tables/ReactBootstrapTable.scss';
-import Select from 'react-select';
-import { onValue,ref as refDB } from 'firebase/database';
 
 
 
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
-import { dbStorage, db } from '../../FirebaseConfig/firebase';
+import { dbStorage} from '../../FirebaseConfig/firebase';
 import ComponentCard from '../../components/ComponentCard';
+import ArticuloNuevoFormComp from '../../components/Articulos/ArticuloNuevoFormComp';
 // import { colourOptions } from '../form-pickers/Data';
 
 
@@ -28,29 +26,7 @@ const ColeccionArticulos = () => {
     //For categorias multiselect
 
 
-    const [arrayCategories, setArrayCategories] = useState([{ value: '', label: '' }]);
-    const optionsCategories = () => {
-        const arrCat = [];
-        onValue(refDB(db, "categories/"), snapshot => {
-            snapshot.forEach(snap => {
-                const obj = {
-
-                    value: snap.val().name,
-                    label: snap.val().name,
-                    color: '#00B8D9',
-                    key:snap.key
-                }
-
-                arrCat.push(obj);
-
-
-            })
-
-            setArrayCategories(arrCat);
-            
-        });
-        console.log("arrCat:", arrayCategories);
-    }
+    
 
     //const [checkBoxVariante, setcheckBoxVariante] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -60,7 +36,6 @@ const ColeccionArticulos = () => {
         setVisible(false);
     };
     //const [imageProductOnView, setProductImageOnView] = useState('https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg');
-    const [imageProduct, setProductImage] = useState('');
     const [file, setFile] = useState('');
     const upload = () => {
         if (file == null)
@@ -80,56 +55,6 @@ const ColeccionArticulos = () => {
         }
     }
 
-    const addProductImage = () => {
-        console.log("here");
-        if (imageProduct == null || !imageProduct) {
-            console.log("file is null");
-            return;
-
-        }
-        console.log(imageProduct.name);
-        const allowedExtensions = /(\.jpg|\.jpeg|\.png|)$/i;
-        if (!allowedExtensions.exec(imageProduct.name)) {
-            console.log("here2");
-            setVisible(true);
-            setAlertColor("danger");
-            setMessage("Error! favor de seleccionar archivos .CSV");
-        } else {
-            const storageRef = ref(dbStorage, `/ProductImages/${imageProduct.name}`);
-            uploadBytesResumable(storageRef, imageProduct);
-            setAlertColor("success");
-            setVisible(true);
-            setMessage("Archivo subido con éxito");
-            getDownloadURL(storageRef).then((url) => {
-                // `url` is the download URL for 'images/stars.jpg'
-
-
-
-                // Or inserted into an <img> element
-                const img = document.getElementById('imageProductRetrieved');
-                img.setAttribute('src', url);
-            })
-                .catch((error) => {
-                    // Handle any errors
-                    console.log(error);
-                });
-
-        }
-    }
-    // const updateProductImage = (image2Update) => {
-    //     console.log(image2Update);
-    //     return image2Update;
-
-    // }
-    useEffect(() => {
-        addProductImage(); // This is be executed when the state changes
-         optionsCategories();
-    },[imageProduct]);
-    const style = { width: "450px" };
-    //For collapse in Variantes
-    const [collapse, setCollapse] = useState(false);
-    //const toggle = () => setCollapse(!collapse);
-    const [isDisabled, setIsDisabled] = useState(false);
     return (
         <div>
             <BreadCrumbs />
@@ -179,138 +104,9 @@ const ColeccionArticulos = () => {
                         </FormGroup>
                     </ComponentCard>
                 </Col>
-                {/* Input Form for new product */}
-                <Col md="12">
-                    <ComponentCard title="Nuevo Artículo">
-
-                        <FormGroup>
-                            <Row>
-                                <Col md="4">
-                                    <FormGroup>
-                                        <Label htmlFor="exampleFile">Imagen Artículo</Label>
-                                        <img id="imageProductRetrieved"
-                                            alt="..."
-                                            className=" img-fluid rounded shadow-lg"
-                                            src="https://i0.wp.com/zaveriamexico.com/wp-content/uploads/2022/02/04-scaled.jpg?fit=2560%2C1707&ssl=1"
-                                            style={style}
-                                        ></img>
-                                    </FormGroup>
-                                    <Form>
-                                        <FormGroup>
-                                            <Input type="file" placeholder='selecciona archivo' onChange={(e) => { console.log("file selected: ", e.target.files[0]); setProductImage(e.target.files[0]); addProductImage(); }} />
-                                        </FormGroup>
-                                    </Form>
-                                </Col>
-                                <Col>
-                                    <FormGroup>
-                                        <InputGroup>
-                                            <InputGroupText>Nombre Artículo</InputGroupText>
-                                            <Input placeholder="Nombre" />
-                                        </InputGroup>
-                                    </FormGroup>
-                                    <FormGroup>
-                                        <Label htmlFor="exampleFile">Categorías</Label>
-
-                                        <Select
-                                            closeMenuOnSelect={false}
-                                            defaultValue={[ arrayCategories[1]]}
-                                            isMulti
-                                            options={arrayCategories}
-
-                                        />
-                                    </FormGroup>
-                                    <FormGroup>
-                                    <InputGroup>
-                                    <InputGroupText>Descripción</InputGroupText>
-                                        <Input type="textarea" rows="5" />
-                                    </InputGroup>
-                                    
-                                    </FormGroup>
-
-                                    <FormGroup>
-                                        <FormGroup check>
-                                            <Input type="checkbox" id="checkVariantes" onChange={(e) => { setCollapse(e.target.checked); setIsDisabled(!isDisabled); }} />
-                                            <Label check>Tiene Variantes</Label>
-                                        </FormGroup>
-
-
-                                        {/* <Button color="link" onClick={toggle.bind(null)} style={{ marginBottom: '1rem' }}>
-                                            Ver Variantes
-                                        </Button> */}
-                                        <Collapse isOpen={collapse}>
-                                            <Row>
-                                                <Col>
-                                                    <InputGroup>
-                                                        <InputGroupText>Nombre</InputGroupText>
-                                                        <Input placeholder="Nombre" />
-                                                    </InputGroup>
-                                                </Col>
-                                                <Col>
-                                                    <InputGroup>
-                                                        <InputGroupText>SKU</InputGroupText>
-                                                        <Input placeholder="UGG-BB-PUR-06" />
-                                                    </InputGroup>
-                                                </Col>
-                                                <Col>
-                                                    <InputGroup>
-                                                        <InputGroupText>$</InputGroupText>
-                                                        <Input placeholder="Precio" />
-                                                    </InputGroup>
-                                                </Col>
-                                                <Col>
-                                                    <Button onClick={upload} type="submit" className="btn btn-info">Añadir</Button>
-
-                                                </Col>
-                                            </Row>
-                                            <Table responsive>
-                                                <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>First Name</th>
-                                                        <th>Last Name</th>
-                                                        <th>Username</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">2</th>
-                                                        <td>Jacob</td>
-                                                        <td>Thornton</td>
-                                                        <td>@fat</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">3</th>
-                                                        <td>Larry</td>
-                                                        <td>the Bird</td>
-                                                        <td>@twitter</td>
-                                                    </tr>
-                                                </tbody>
-                                            </Table>
-                                        </Collapse>                                  </FormGroup>
-                                    <FormGroup>
-                                        <InputGroup>
-                                            <InputGroupText>$</InputGroupText>
-                                            <Input placeholder="Precio" type="text" disabled={isDisabled} />
-                                        </InputGroup>
-
-
-
-                                    </FormGroup>
-                                    <Button onClick={upload} type="submit" className="btn btn-success">Añadir Artículo</Button>
-
-                                </Col>
-
-                            </Row>
-                        </FormGroup>
-                    </ComponentCard>
-                </Col>
+                
             </Row>
+            <ArticuloNuevoFormComp></ArticuloNuevoFormComp>
         </div>
     );
 };

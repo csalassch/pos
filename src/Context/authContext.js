@@ -14,6 +14,7 @@ export const useAuth = () => {
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setloading] = useState(true);
+    
     //Constante para registrarse y hacer un registro en la base de datos
     const signup = (email, password, UserName) => createUserWithEmailAndPassword(auth, email, password).
         then((userCredential) => {

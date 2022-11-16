@@ -18,7 +18,7 @@ import ComponentCard from '../ComponentCard';
 
 const CategoriasComp = () => {
 
-    const [arr, setArr] = useState([{ id: 0, name: '', key: "" }]);
+    const [arr, setArr] = useState([{ id: 0, name: '', key: "", active: "" }]);
     const fetchDataCategories = () => {
         const arrAux = [];
         let i = 1;
@@ -27,7 +27,8 @@ const CategoriasComp = () => {
                 const obj = {
                     id: i,
                     name: snap.val().name,
-                    key: snap.key
+                    key: snap.key,
+                    active: snap.val().active
                 }
 
                 arrAux.push(obj);
@@ -46,7 +47,7 @@ const CategoriasComp = () => {
     const [messageFeedback, setMessageFeedback] = useState("");
     const [isValidInput, setIsValidInput] = useState(true);
     const [keyAux, setKeyAux] = useState("");
-    const [nameUnitBeingDeleted, setNameUnitBeingDeleted] = useState("");
+    // const [nameUnitBeingDeleted, setNameUnitBeingDeleted] = useState("");
     const [nameUnit, setNameUnit] = useState("");
     const [modal, setModal] = useState(false);
     const [colorAlert, setAlertColor] = useState("success");
@@ -78,23 +79,24 @@ const CategoriasComp = () => {
                 setBtnMessage("Agregar");
                 setKeyAux("");
                 setVisible(true);
-            setAlertColor("info");
-            setMessage("¡Registro actualizado con éxito!");
+                setAlertColor("info");
+                setMessage("¡Registro actualizado con éxito!");
             } else {
 
                 push(ref(db, 'categories/'), {
-                    name: nameUnit
+                    name: nameUnit,
+                    active: "true"
                 });
                 setVisible(true);
-            setAlertColor("success");
-            setMessage("¡Registrado con éxito!");
+                setAlertColor("success");
+                setMessage("¡Registrado con éxito!");
 
             }
 
             fetchDataCategories();
             setNameUnit("");
             setIsValidInput(true);
-            
+
 
         } else {
             setIsValidInput(false);
@@ -113,12 +115,20 @@ const CategoriasComp = () => {
         setBtnMessage("Guardar Cambios");
 
     }
+    // const [checkIcono, setCheckIcono] = useState(0);
+    function modifiedActive(dataPib) {
+        update(ref(db, `categories/${dataPib.key}`), {
+            active: dataPib.active === "true" ? "false" : "true"
+        });
+        fetchDataCategories();
 
+    }
     useEffect(() => {
         fetchDataCategories();
 
+
         console.log(arr);
-    }, [nameUnitBeingDeleted]);
+    }, []);
     return (
         <>
             <Row>
@@ -128,15 +138,15 @@ const CategoriasComp = () => {
 
                         <FormGroup>
                             <Row>
-                            <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
-                                        {message}
-                                    </Alert>
+                                <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
+                                    {message}
+                                </Alert>
                                 <Col md="4">
-                                    
+
                                     <FormGroup>
                                         <InputGroup>
                                             <InputGroupText>Nombre</InputGroupText>
-                                            <Input placeholder="Nombre" value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true);setVisible(false); }} />
+                                            <Input placeholder="Nombre" value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); }} />
                                             <FormFeedback>{messageFeedback}</FormFeedback>
                                         </InputGroup>
                                     </FormGroup>
@@ -146,39 +156,46 @@ const CategoriasComp = () => {
 
                                 </Col>
                                 <Col>
-                                    <Table responsive style={{ overflow: 'hidden' }}>
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Nombre Categoría</th>
-                                                <th>Opciones</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody >
-                                            {arr.map((data) => (
-
-                                                <tr key={data.id}>
-                                                    <td>{data.id}</td>
-                                                    <td>{data.name}</td>
-                                                    <td><div><Row><Col md="2"><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
-                                                        <Col md="2">
-                                                            <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setNameUnitBeingDeleted(data.name); setModal(true); setKeyAux(data.key) }}><Icon.Trash2 /></div>
-                                                        </Col></Row></div></td>
+                                    
+                                        <Table responsive style={{ overflow: 'hidden' }}>
+                                        
+                                            <thead className='text-center'>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Activo</th>
+                                                    <th>Nombre Categoría</th>
+                                                    <th>Opciones</th>
 
                                                 </tr>
+                                            </thead>
+                                            <tbody className='text-center'>
+                                                {arr.map((data) => (
+
+                                                    <tr key={data.id}>
+
+                                                        <td>{data.id}</td>
+                                                        <td><div onClick={() => { modifiedActive(data) }}>
+                                                            {data.active === "true" ? <div><Icon.ToggleRight style={{ color: "#00b26f" }} /></div>
+                                                                : <div><Icon.ToggleLeft /></div>}
+                                                        </div></td>
+                                                        <td>{data.name}</td>
+                                                        <td><div><Row><Col ><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
+                                                        </Row></div></td>
+
+                                                    </tr>
 
 
-                                            ))}
+                                                ))}
 
 
-                                        </tbody>
-                                    </Table>
-
+                                            </tbody>
+                                            
+                                        </Table>
+                                   
                                     <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                         <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Categoría</ModalHeader>
                                         <ModalBody>
-                                            ¿Seguro que quieres eliminar: {nameUnitBeingDeleted} ?
+                                            ¿Seguro que quieres eliminar:  ?
                                         </ModalBody>
                                         <ModalFooter>
                                             <Button color="primary" onClick={() => { deleteToggleConfirmation() }}>
