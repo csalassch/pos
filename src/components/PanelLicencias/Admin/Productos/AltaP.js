@@ -22,7 +22,8 @@ const AltaP = () => {
         if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' ) {
             push(ref(db, 'products/'), {
                 name: Formvalue.nombre,
-                description: Formvalue.descripcion
+                description: Formvalue.descripcion,
+                active:"true"
             });
             setAction("envio")
             navigate("/servicios/PanelProductosAdmin")

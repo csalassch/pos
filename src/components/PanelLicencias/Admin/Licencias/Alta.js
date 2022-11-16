@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import {  Input, InputGroup, InputGroupText, Button, FormGroup, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import Select from 'react-select';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
-import { ref, push, } from 'firebase/database';
+import { ref, push, onValue} from 'firebase/database';
 import * as Icon from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../../FirebaseConfig/firebase';
@@ -16,6 +17,7 @@ const Alta = () => {
     const [caracteristica, setCaracteristica] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [action, setAction] = useState("");
+    const [arrayProducts, setArrayProducts] = useState([]);
     const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
     const [modal, setModal] = useState(false);
     const toggle = () => {
@@ -30,7 +32,8 @@ const Alta = () => {
                 description: Formvalue.descripcion,
                 product: Formvalue.producto,
                 amount: Formvalue.monto,
-                caracteristicas: lista
+                caracteristicas: lista,
+                active: "true"
             });
             setAction("envio");
             navigate("/servicios/PanelLicenciasAdmin")
@@ -65,7 +68,25 @@ const Alta = () => {
             setCaracteristica('');
         }
     }
+    const getProductos = () => {
+        const arr = [];
+        onValue(ref(db, "products/"), snapshot => {
+            snapshot.forEach(snap => {
+                if (snap.val().active === "true") {
+                    const obj = {
+                        id: snap.key,
+                        value: snap.val().name,
+                        label: snap.val().name,
+                        product: snap.val().name
+                    }
+                    arr.push(obj);
+                }
+            })
+            setArrayProducts(arr);
+        });
+    }
     useEffect(() => {
+        getProductos();
     }, [Formvalue, caracteristica, lista])
     return (
         <>
@@ -75,25 +96,33 @@ const Alta = () => {
                         <div className='col'>
                             <FormGroup>
                                 <InputGroup>
-                                    <InputGroupText style={{width:"100px"}}>Nombre *</InputGroupText>
+                                    <InputGroupText style={{ width: "100px" }}>Nombre *</InputGroupText>
                                     <Input onChange={handleChange} type="text" name="nombre" className="form-control" placeholder="Nombre" />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup>
-                                    <InputGroupText style={{width:"101px"}}>Descripcion *</InputGroupText>
+                                    <InputGroupText style={{ width: "101px" }}>Descripcion *</InputGroupText>
                                     <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripcion" />
                                 </InputGroup>
                             </FormGroup>
+                            
                             <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{width:"102px"}}>Producto *</InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="producto" className="form-control" placeholder="Producto" />
+                                <InputGroup >
+                                    <InputGroupText>Producto</InputGroupText>
+                                    <div style={{ width: "230px" }}>
+                                        <Select
+                                            options={arrayProducts}
+                                            style={{ width: 100 }}
+                                            name="producto"
+                                            onChange={(e)=>{setFormvalue({ ...Formvalue, producto: e.id });console.log(Formvalue)}}
+                                        />
+                                    </div>
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup>
-                                    <InputGroupText style={{width:"103px"}}>Monto $ *</InputGroupText>
+                                    <InputGroupText style={{ width: "103px" }}>Monto $ *</InputGroupText>
                                     <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
                                 </InputGroup>
                             </FormGroup>
@@ -102,7 +131,7 @@ const Alta = () => {
                             <div className='row'>
                                 <div className="col mb-2">
                                     <InputGroup>
-                                        <InputGroupText style={{width:"160px"}}>Nueva Caracteristica</InputGroupText>
+                                        <InputGroupText style={{ width: "160px" }}>Nueva Caracteristica</InputGroupText>
                                         <Input onChange={handleChangeList} type="text" name="caracteristica" value={caracteristica} className="form-control" placeholder="Caracteristica" />
                                     </InputGroup>
                                 </div>

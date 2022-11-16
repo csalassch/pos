@@ -64,7 +64,7 @@ const SidebarData = [
     title: 'Licencias Cliente',
     href: '/',
     icon: <Icon.Clipboard />,
-    id: 10.2,
+    id: 30.1,
     collapisble: true,
     children: [
       {
@@ -471,7 +471,7 @@ const SidebarData = [
     children: [
       {
         title: 'Gestion personal',
-        href: '/servicios/PanelLicenciasAdmin',
+        href: '/Soporte',
         icon: <Icon.Disc />,
       },
       {
