@@ -91,7 +91,7 @@ const SidebarData = [
     icon: <Icon.Package />,
     suffix: '4',
     suffixColor: 'bg-success text-dark-white',
-    id: 10.2,
+    id: 10.3,
     collapisble: true,
     children: [
       {
