@@ -7,28 +7,42 @@ import { db } from '../../FirebaseConfig/firebase';
 
 const TablePanelLicencias = () => {
   const [lista, setLista] = useState([{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]);
-  //const [listaGeneral, setListaGeneral] = useState([{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]);
+  const [listaGeneral, setListaGeneral] = useState([[{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]]);
+  const [arrPib, setArrPib] = useState([]);
   const [modal, setModal] = useState(false);
+  const [pag, setPag] = useState(0);
   const toggle = () => {
     setModal(!modal);
   };
   function createPagination() {
+    setListaGeneral([]);
     let listita = [];
-    const listones= [];
-    let cont = -1;
+    let listones = [];
+    let listones2 = [];
+    let cont = 0;
+    let pib = 0;
     for (let i = 0; i < lista.length; i++) {
-      cont++;
-      listita.push(lista[i])
-      if(cont === 9){
+      listita.push(lista[i]);
+      if (cont === 9) {
+        listones2.push({ id: pib });
         listones.push(listita)
         listita = []
-        cont = -1;
+        cont = 0;
+        pib++;
       }
-      if(cont === (lista.length-1)){
-        listones.push(listita)
+      if (i === (lista.length - 1)) {
+        listones2.push({ id: pib });
+        listones.push(listita);
+        pib++;
       }
+      cont++;
     }
-    console.log(listones)
+    setArrPib(listones2);
+    setListaGeneral(listones);
+    console.log(listaGeneral);
+    listones = [];
+    listones2 = [];
+    listita = [];
   }
   function getDatosLicencia() {
     const listaLicencias = [];
@@ -57,7 +71,7 @@ const TablePanelLicencias = () => {
     setLista(listaLicencias);
     createPagination();
   }
-  
+
   function modifiedActive(data) {
     update(ref(db, `licenses/${data.id}`), {
       active: data.active === "true" ? "false" : "true"
@@ -66,7 +80,7 @@ const TablePanelLicencias = () => {
   }
   useEffect(() => {
     getDatosLicencia();
-  }, [])
+  }, [pag])
   return (
     <div>
       <br />
@@ -88,7 +102,7 @@ const TablePanelLicencias = () => {
           </tr>
         </thead>
         <tbody>
-          {lista.map((tdata) => (
+          {listaGeneral[pag].map((tdata) => (
             <tr key={tdata.id} className="border-top">
               <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
                 {tdata.active === "true" ?
@@ -123,24 +137,14 @@ const TablePanelLicencias = () => {
           <PaginationItem disabled>
             <PaginationLink previous href="#" />
           </PaginationItem>
-          <PaginationItem active>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">4</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">5</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
+          {arrPib.map((pagi) => (
+            <PaginationItem key={pagi.id} >
+              <PaginationLink href="#" onClick={() => { setPag(pagi.id);}}>{pagi.id + 1}</PaginationLink>
+            </PaginationItem>))
+          }
+          <PaginationItem disabled>
             <PaginationLink next href="#" />
-          </PaginationItem>
+          </PaginationItem> 
         </Pagination>
       </div>
       <Modal isOpen={modal} toggle={toggle.bind(null)}>
