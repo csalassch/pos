@@ -43,9 +43,13 @@ const ArticuloNuevoFormComp = () => {
     // const [arrayUnits, setArray]Units] = useState([]);
     const [arrayUnits, setArrayUnits] = useState([{ value: '', label: '' }]);
     const [arrayCategories, setArrayCategories] = useState([{ value: '', label: '' }]);
+    const [idUnit, setIdUnit] = useState({txt:"",id:""});
+
     const optionsUnits = () => {
-        const arrUnit = [];
+        console.log("ejecuta: ",document.getElementById("selectUnidades").value);
+        
         onValue(refDB(db, "units/"), snapshot => {
+            const arrUnit = [{label:"",value:"ddd",color:"",key:""}];
             snapshot.forEach(snap => {
                 if (snap.val().active === "true") {
                     const obj = {
@@ -62,12 +66,14 @@ const ArticuloNuevoFormComp = () => {
 
 
             })
-
-            
+            const listaFiltrada = arrUnit.filter((item) => item.value !== ('ddd'));
+            setIdUnit({txt:listaFiltrada[0].label,id:listaFiltrada[0].key});
+            setArrayUnits(listaFiltrada);
+            console.log("arrUnit:", arrayUnits);
 
         });
-        setArrayUnits(arrUnit);
-        console.log("arrUnit:", arrayUnits);
+        
+       
     }
     const optionsCategories = () => {
         const arrCat = [];
@@ -145,18 +151,7 @@ const ArticuloNuevoFormComp = () => {
         setMessage("Archivo subido con éxito");
         console.log("file uploaded:", imageTemp);
     }
-    useEffect(() => {
-        optionsCategories();
-        if (arrayUnits[0].label === '') {
-            arrayUnits[0].label="sdghsdg";
-            arrayUnits[0].value="sdghsdg";
-            optionsUnits();
-            console.log("arrU:", arrayUnits[0]);
-        }
-
-
-
-    }, [processing]);
+    
     //For collapse in Variantes
     const [collapse, setCollapse] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -169,13 +164,12 @@ const ArticuloNuevoFormComp = () => {
     const [nameItem, setNameItem] = useState("");
     const [sku, setSku] = useState("");
     const [description, setDescription] = useState("");
-    const [idUnit, setIdUnit] = useState("");
     const [price, setPrice] = useState(0);
     const [idCategoriesArr, setIdCategoriesArr] = useState([]);
 
 
     const newArticuloBtn = () => {
-        if (nameItem && sku && description && price && idUnit && idCategoriesArr.length > 0) {
+        if (nameItem && sku && description && price && idUnit.id && idCategoriesArr.length > 0) {
 
 
             const pushedFile = push(refDB(db, 'files/'), {
@@ -192,7 +186,7 @@ const ArticuloNuevoFormComp = () => {
                     name: nameItem,
                     sku: sku,
                     description: description,
-                    idUnit: idUnit,
+                    idUnit: idUnit.id,
                     idImage: fileKey,
                     idCategory: idCategoriesArr,
                     price: price
@@ -238,7 +232,7 @@ const ArticuloNuevoFormComp = () => {
                 setAlertColor("danger");
                 setMessage("Favor de introducir categorías");
             }
-            if (!idUnit) {
+            if (!idUnit.id) {
                 setVisible(true);
                 setAlertColor("danger");
                 setMessage("Favor de introducir unidades");
@@ -248,6 +242,14 @@ const ArticuloNuevoFormComp = () => {
         }
 
     }
+    useEffect(() => {
+        optionsCategories();
+    
+        optionsUnits();
+            console.log("arrU:", arrayUnits[0]);
+        
+
+    }, [processing]);
     return (
         <>
             <Row>
@@ -403,13 +405,14 @@ const ArticuloNuevoFormComp = () => {
 
                                                         <Select
                                                             // defaultValue={()=>{const obj={};optionsUnits();obj.label=arrayUnits[0].label; obj.value=arrayUnits[0].value; console.log(obj); return obj;}}
-                                                            defaultValue={{label:arrayUnits[0].label,value:idUnit}}
                                                             // defaultValue={{ label: arrayUnits[0].label, value: arrayUnits[0].value }}
                                                             label="Single select"
                                                             options={arrayUnits}
                                                             style={{ width: 100 }}
+                                                            id="selectUnidades"
+                                                            value={{ value: idUnit.txt, label: idUnit.txt }}
                                                            
-                                                            onChange={(e) => { console.log(arrayUnits[0]); setIdUnit(e.key); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
+                                                            onChange={(e) => { console.log(e); setIdUnit({txt:e.label,id:e.key}); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
 
                                                         />
                                                     </div>
