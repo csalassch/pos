@@ -172,7 +172,7 @@ const ArticuloNuevoFormComp = () => {
     const [sku, setSku] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
-    const [idCategoriesArr, setIdCategoriesArr] = useState([]);
+    const [idCategoriesArr, setIdCategoriesArr] = useState([{txt:[],id:[]}]);
 
 
     const newArticuloBtn = () => {
@@ -249,9 +249,9 @@ const ArticuloNuevoFormComp = () => {
             setPrice(0);
             optionsUnits();
 
-            // const img = document.getElementById('imageProductRetrieved');
+            const img = document.getElementById('imageProductRetrieved');
 
-            // img.setAttribute('src', "https://i0.wp.com/zaveriamexico.com/wp-content/uploads/2022/02/04-scaled.jpg?fit=2560%2C1707&ssl=1");
+            img.setAttribute('src', "https://i0.wp.com/zaveriamexico.com/wp-content/uploads/2022/02/04-scaled.jpg?fit=2560%2C1707&ssl=1");
 
 
         } else {
@@ -366,13 +366,13 @@ const ArticuloNuevoFormComp = () => {
 
                                         <Select
                                             closeMenuOnSelect={false}
-                                            defaultValue={[arrayCategories[1]]}
+                                            // defaultValue={[arrayCategories[1]]}
                                             isMulti
                                             options={arrayCategories}
                                             styles={colourStyles}
-                                            // value={{ value: idUnit.txt, label: idUnit.txt }}
+                                            // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
 
-                                            onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key) } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
+                                            onChange={(e) => { const arrCatAux = []; const arrCatAuxTxt=[]; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); arrCatAuxTxt.push(e[i].label) } } console.log(arrCatAux);setIdCategoriesArr({txt:arrCatAuxTxt,id:arrCatAux}); }}
 
                                         />
                                     </FormGroup>
