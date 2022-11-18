@@ -89,7 +89,7 @@ const About = () => {
         {/* Card-1*/}
         {/* --------------------------------------------------------------------------------*/}
         <ComponentCard
-          title="Admin Pro React Version"
+          title="FreePOS"
           subtitle={
             <p>
               3 Dashboard Variations Admin Template, 160+ Page Templates, Unlimited Color Schemes, 5

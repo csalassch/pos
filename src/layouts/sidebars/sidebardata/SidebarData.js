@@ -67,55 +67,15 @@ const SidebarData = [
         icon: <Icon.Disc />,
       },
       {
-        title: 'Listado de canales',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Colección de imágenes',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Modificadores',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
-      {
         title: 'Categorías',
         href: '/servicios/Categorias',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Descuentos',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Impuestos de ventas',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Opciones',
-        href: '/servicios/Inventarios',
         icon: <Icon.Disc />,
       },
       {
         title: 'Unidades',
         href: '/servicios/Unidades',
         icon: <Icon.Disc />,
-      },
-      {
-        title: 'Atibutos personalizados',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Ajustes',
-        href: '/servicios/Inventarios',
-        icon: <Icon.Disc />,
-      },
+      }
       
     ],
   },
