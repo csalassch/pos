@@ -1,9 +1,10 @@
-import React from 'react';
-import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input } from 'reactstrap';
+import React , {useState}from 'react';
+import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import * as Icon from 'react-feather';
 import AuthLogo from '../../layouts/logo/AuthLogo';
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
@@ -13,9 +14,13 @@ import { useAuth } from '../../Context/authContext'
 const LoginFormik = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [modal, setModal] = useState(false);
+    const toggle = () => {
+        setModal(!modal);
+    };
 
-  const handleSubmit = async(email, password) => {
-  //const handleSubmit(email, password) {
+  const handleSubmit = async (email, password) => {
+    //const handleSubmit(email, password) {
     try {
       await login(email, password);
       navigate('/');
@@ -46,20 +51,21 @@ const LoginFormik = () => {
                 <small className="pb-4 d-block">
                   Do not have an account? <Link to="/auth/registerformik">Sign Up</Link>
                 </small>
-                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(fields) => {   
+                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(fields) => {
                   // eslint-disable-next-line no-alert   
-                  alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`); 
-                  handleSubmit(fields.email, fields.password) }}
+                  // alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`); 
+                  handleSubmit(fields.email, fields.password)
+                }}
                   render={({ errors, touched }) => (
                     <Form>
                       <FormGroup>
                         <Label htmlFor="email">Email</Label>
-                        <Field name="email" type="text" className={`form-control${   errors.email && touched.email ? ' is-invalid' : '' }`}  />
+                        <Field name="email" type="text" className={`form-control${errors.email && touched.email ? ' is-invalid' : ''}`} />
                         <ErrorMessage name="email" component="div" className="invalid-feedback" />
                       </FormGroup>
                       <FormGroup>
                         <Label htmlFor="password">Password</Label>
-                        <Field name="password" type="password" className={`form-control${   errors.password && touched.password ? ' is-invalid' : '' }`}  />
+                        <Field name="password" type="password" className={`form-control${errors.password && touched.password ? ' is-invalid' : ''}`} />
                         <ErrorMessage name="password" component="div" className="invalid-feedback" />
                       </FormGroup>
                       <FormGroup className="form-check d-flex" inline>
@@ -87,6 +93,20 @@ const LoginFormik = () => {
           </Col>
         </Row>
       </Container>
+      <Modal isOpen={modal} toggle={toggle.bind(null)}>
+        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
+        <ModalBody>
+          ¿Seguro que quieres eliminar la caracteristica?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={() => { setModal(false) }}>
+            Confirmar
+          </Button>
+          <Button color="secondary" onClick={toggle.bind(null)}>
+            Cancelar
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };
