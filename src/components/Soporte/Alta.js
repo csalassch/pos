@@ -13,8 +13,8 @@ const Alta = () => {
     const navigate = useNavigate();
     const { handleSubmit } = useForm();
     const [action, setAction] = useState("");
-    // const [companyQ, setCompanyQ] = useState("off");
-    const [stamp, setStamp] = useState("off");
+    const [companyQ, setCompanyQ] = useState(false);
+    const [stamp, setStamp] = useState(false);
     const [Formvalue, setFormvalue] = useState({ name: '', lastname: '', companyName: '', rfc: '', mail: '', mainPhone: '', paymentForm: '', paymentMethod: '', cfdiUssage: '', entityType: '' });
     const [modal, setModal] = useState(false);
     const toggle = () => {
@@ -88,43 +88,22 @@ const Alta = () => {
                                     <Input onChange={handleChange} type="text" name="mainPhone" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
-                            {/* <div className='d-flex align-items-center p-2'>
+                            <div className='d-flex align-items-center p-2'>
                                 <Label check>¿Es compañia?</Label>
                                 <FormGroup check>
-                                    <Input onClick={()=>{
-                                        if (companyQ === "on") {
-                                            setCompanyQ("off")
-                                        }
-                                        else {
-                                            setCompanyQ("on")
-                                        }
-                                    }} value={companyQ} type="checkbox" name="isCompany" />
+                                    <Input onClick={(e)=>{setCompanyQ(e.target.checked)}} defaultValue={companyQ} type="checkbox" name="isCompany" />
                                 </FormGroup>
-                            </div> */}
-                            {/* <FormGroup>
+                            </div>
+                            <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Web Site </InputGroupText>
-                                    <Input onClick={()=>{
-                                        if (stamp === "on") {
-                                            setStamp("off")
-                                        }
-                                        else {
-                                            setStamp("on")
-                                        }
-                                    }} value={stamp} type="text" name="webSite" className="form-control" />
+                                    <Input type="text" name="webSite" className="form-control" />
                                 </InputGroup> 
-                            </FormGroup>*/}
+                            </FormGroup>
                             <div className='d-flex align-items-center p-2'>
                                 <Label check>¿Requiere factura?</Label>
                                 <FormGroup check>
-                                    <Input onClick={() => {
-                                        if (stamp === "on") {
-                                            setStamp("off")
-                                        }
-                                        else {
-                                            setStamp("on")
-                                        }
-                                    }} value={stamp} type="checkbox" name="requiredStamp" />
+                                    <Input onClick={(e) => {setStamp(e.target.checked)}} defaultValue={companyQ} type="checkbox" name="requiredStamp" />
                                 </FormGroup>
                             </div>
                             <FormGroup>
