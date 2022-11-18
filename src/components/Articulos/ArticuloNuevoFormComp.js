@@ -188,7 +188,8 @@ const ArticuloNuevoFormComp = () => {
                         idUnit: idUnit.id,
                         idImage: "0",
                         idCategory: idCategoriesArr,
-                        price: price
+                        price: price,
+                        active:true
                     });
 
                 
@@ -219,7 +220,8 @@ const ArticuloNuevoFormComp = () => {
                                 idUnit: idUnit.id,
                                 idImage: fileKey,
                                 idCategory: idCategoriesArr,
-                                price: price
+                                price: price,
+                                active:true
                             });
 
                         });

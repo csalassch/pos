@@ -15,6 +15,7 @@ import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import { dbStorage} from '../../FirebaseConfig/firebase';
 import ComponentCard from '../../components/ComponentCard';
 import ArticuloNuevoFormComp from '../../components/Articulos/ArticuloNuevoFormComp';
+import TableItemsComp from '../../components/Articulos/TableItemsComp';
 // import { colourOptions } from '../form-pickers/Data';
 
 
@@ -107,6 +108,7 @@ const ColeccionArticulos = () => {
                 
             </Row>
             <ArticuloNuevoFormComp></ArticuloNuevoFormComp>
+            <TableItemsComp></TableItemsComp>
         </div>
     );
 };
