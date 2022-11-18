@@ -13,8 +13,8 @@ const TablePanelProductos = () => {
     setModal(!modal);
   };
   function getDatosProductos() {
-    const listaProductos = [];
     onValue(ref(db, "products/"), snapshot => {
+      const listaProductos = [];
       snapshot.forEach(snap => {
         const Producto = {
           id: snap.key,
@@ -24,8 +24,8 @@ const TablePanelProductos = () => {
         }
         listaProductos.push(Producto)
       })
+      setLista(listaProductos);
     });
-    setLista(listaProductos);
   }
   function modifiedActive(data) {
     update(ref(db, `products/${data.id}`), {

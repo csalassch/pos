@@ -1,53 +1,21 @@
 import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
 import { Link } from 'react-router-dom';
-import { Pagination, PaginationItem, PaginationLink, Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import {  Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
 
 const TablePanelLicencias = () => {
   const [lista, setLista] = useState([{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]);
-  const [listaGeneral, setListaGeneral] = useState([[{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]]);
-  const [arrPib, setArrPib] = useState([]);
   const [modal, setModal] = useState(false);
-  const [pag, setPag] = useState(0);
   const toggle = () => {
     setModal(!modal);
   };
-  function createPagination() {
-    setListaGeneral([]);
-    let listita = [];
-    let listones = [];
-    let listones2 = [];
-    let cont = 0;
-    let pib = 0;
-    for (let i = 0; i < lista.length; i++) {
-      listita.push(lista[i]);
-      if (cont === 9) {
-        listones2.push({ id: pib });
-        listones.push(listita)
-        listita = []
-        cont = 0;
-        pib++;
-      }
-      if (i === (lista.length - 1)) {
-        listones2.push({ id: pib });
-        listones.push(listita);
-        pib++;
-      }
-      cont++;
-    }
-    setArrPib(listones2);
-    setListaGeneral(listones);
-    console.log(listaGeneral);
-    listones = [];
-    listones2 = [];
-    listita = [];
-  }
+  
   function getDatosLicencia() {
-    const listaLicencias = [];
-    let caract = [];
     onValue(ref(db, "licenses/"), snapshot => {
+      const listaLicencias = [];
+      let caract = [];
       snapshot.forEach(snap => {
         for (let i = 0; i < snap.val().caracteristicas.length; i++) {
           const obj = {
@@ -67,9 +35,8 @@ const TablePanelLicencias = () => {
         listaLicencias.push(licencia)
         caract = []
       })
+      setLista(listaLicencias);
     });
-    setLista(listaLicencias);
-    createPagination();
   }
 
   function modifiedActive(data) {
@@ -80,7 +47,7 @@ const TablePanelLicencias = () => {
   }
   useEffect(() => {
     getDatosLicencia();
-  }, [pag])
+  }, [])
   return (
     <div>
       <br />
@@ -102,7 +69,7 @@ const TablePanelLicencias = () => {
           </tr>
         </thead>
         <tbody>
-          {listaGeneral[pag].map((tdata) => (
+          {lista.map((tdata) => (
             <tr key={tdata.id} className="border-top">
               <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
                 {tdata.active === "true" ?
@@ -132,21 +99,6 @@ const TablePanelLicencias = () => {
           ))}
         </tbody>
       </Table>
-      <div className='w-full d-flex justify-content-center'>
-        <Pagination aria-label="Page navigation example">
-          <PaginationItem disabled>
-            <PaginationLink previous href="#" />
-          </PaginationItem>
-          {arrPib.map((pagi) => (
-            <PaginationItem key={pagi.id} >
-              <PaginationLink href="#" onClick={() => { setPag(pagi.id);}}>{pagi.id + 1}</PaginationLink>
-            </PaginationItem>))
-          }
-          <PaginationItem disabled>
-            <PaginationLink next href="#" />
-          </PaginationItem> 
-        </Pagination>
-      </div>
       <Modal isOpen={modal} toggle={toggle.bind(null)}>
         <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
         <ModalBody>
