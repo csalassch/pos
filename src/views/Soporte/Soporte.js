@@ -12,12 +12,13 @@ const Soporte = () => {
     return (
         <>
             <BreadCrumbs />
-            <div className="w-full d-flex align-items-center" style={{ background: "white" }} onClick={() => { if (addPersonalShow === 0) { setAddPersonalShow(1) } else { setAddPersonalShow(0) } }}>
-                {addPersonalShow === 1 ? <div><Icon.ChevronRight /></div> :
-                    <div><Icon.ChevronDown /></div>}
+            <div className="w-full d-flex align-items-center" style={{ background: "white" }} onClick={() => {
+                if (addPersonalShow === 0) { setAddPersonalShow(1) } else { setAddPersonalShow(0) }
+            }}>
+                {addPersonalShow === 1 ? <div  className="w-full d-flex align-items-center m-4"><Icon.ChevronDown /></div> :
+                    <div className="w-full d-flex align-items-center m-4"><Icon.ChevronRight /> <h4 className='m-2'>Agregue una entidad</h4></div>}
             </div>
-            {addPersonalShow === 1 ? <div><Alta /></div> :
-                <div></div>}
+            {addPersonalShow === 1 ? <div><Alta /></div> :<div></div>}
         </>
     );
 };

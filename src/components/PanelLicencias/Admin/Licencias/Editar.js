@@ -13,9 +13,9 @@ const Editar = ({ id }) => {
     const navigate = useNavigate()
     const { handleSubmit } = useForm();
     const [lista, setLista] = useState([]);
+    const [listaAuxComp, setListaAuxComp] = useState([]);
     const [caracteristica, setCaracteristica] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
-    const [muestraCaracteristicas, setMuestraCaracteristicas] = useState(0);
     const [action, setAction] = useState("");
     const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
     const [FormvalueRef, setFormvalueRef] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
@@ -52,6 +52,16 @@ const Editar = ({ id }) => {
             setCaracteristica('');
         }
     }
+    function getCaracteristicasLicencia() {
+        onValue(ref(db, `licenses/${id}`), snapshot => {
+            const licencia = {
+                id: snapshot.key,
+                caracteristicas: snapshot.val().caracteristicas
+            }
+            setLista(licencia.caracteristicas);
+            setListaAuxComp(licencia.caracteristicas);
+        });
+    }
     function getDatosLicencia() {
         onValue(ref(db, `licenses/${id}`), snapshot => {
             const licencia = {
@@ -64,41 +74,49 @@ const Editar = ({ id }) => {
             setFormvalue({ nombre: licencia.nombre, descripcion: licencia.descripcion, producto: licencia.producto, monto: licencia.monto })
             setFormvalueRef({ nombre: licencia.nombre, descripcion: licencia.descripcion, producto: licencia.producto, monto: licencia.monto })
         });
+        getCaracteristicasLicencia();
     }
-    function getCaracteristicasLicencia() {
-        onValue(ref(db, `licenses/${id}`), snapshot => {
-            const licencia = {
-                id: snapshot.key,
-                caracteristicas: snapshot.val().caracteristicas
-            }
-            setLista(licencia.caracteristicas);
-        });
+    function isEquals(a, b) {
+        console.log(a.join() === b.join())
+        return a.join() === b.join();
     }
     const onSubmit = () => {
-        getCaracteristicasLicencia();
-        if (Formvalue !== FormvalueRef) {
-            console.log(Formvalue, " ", FormvalueRef)
-            if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== '' && lista.length !== 0) {
-                update(ref(db, `licenses/${id}`), {
-                    name: Formvalue.nombre,
-                    description: Formvalue.descripcion,
-                    product: Formvalue.producto,
-                    amount: Formvalue.monto,
-                    caracteristicas: lista
-                });
-                setAction("envio");
+        const A = listaAuxComp;
+        const B = lista;
+
+        if (lista.length !== 0) {
+            if (Formvalue !== FormvalueRef) {
+                if (!isEquals(A, B)) {
+                    console.log(Formvalue, " ", FormvalueRef)
+                    if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== '') {
+                        update(ref(db, `licenses/${id}`), {
+                            name: Formvalue.nombre,
+                            description: Formvalue.descripcion,
+                            product: Formvalue.producto,
+                            amount: Formvalue.monto,
+                            caracteristicas: lista
+                        });
+                        setAction("envio");
+                    }
+                    else {
+                        setAction("vacio");
+                    }
+                }
+                else {
+                    setAction("ESC")
+                }
+            } else {
+                setAction("SC")
             }
-            else {
-                setAction("vacio");
-            }
-        }
-        else {
-            setAction("ESC")
+        } else {
+            setAction("SC")
         }
     }
     useEffect(() => {
-        getDatosLicencia();
-    }, [caracteristica, lista])
+        if (lista.length === 0) {
+            getDatosLicencia()
+        }
+    }, [caracteristica])
     return (
         <>
             <ComponentCard title="EDITE LOS DATOS LICENCIA">
@@ -142,48 +160,36 @@ const Editar = ({ id }) => {
                                     <Icon.PlusCircle style={{ color: "blue" }} />
                                 </div>
                             </div>
-                            <div className='w-full' onClick={() => {
-                                getCaracteristicasLicencia();
-                                if (muestraCaracteristicas === 0) { setMuestraCaracteristicas(1); }
-                                else {
-                                    setMuestraCaracteristicas(0);
-                                }
-                            }}>
-                                {muestraCaracteristicas === 1 ?
-                                    <div><Icon.ChevronRight /></div> :
-                                    <div className='d-flex flex-row mb-4'><Icon.ChevronDown /><p>Muestra las caracteristicas</p></div>}
-                            </div>
-                            {muestraCaracteristicas === 1 ?
-                                <div>
-                                    <Table className="no-wrap mt-3 align-middle" responsive borderless>
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Caracteristica</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {lista.map((tdata) => (
-                                                <tr key={tdata.id} className="border-top">
-                                                    <td>{tdata.id}</td>
-                                                    <td>{tdata.caracteristica}</td>
-                                                    <td>
-                                                        <div>
-                                                            <Row>
-                                                                <Col md="2">
-                                                                    <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); setModal(true); }}><Icon.Trash2 /></div>
-                                                                </Col>
-                                                            </Row>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
 
-                                        </tbody>
-                                    </Table>
-                                </div> : <div></div>
-                            }
+                            <div>
+                                <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Caracteristica</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {lista.map((tdata) => (
+                                            <tr key={tdata.id} className="border-top">
+                                                <td>{tdata.id}</td>
+                                                <td>{tdata.caracteristica}</td>
+                                                <td>
+                                                    <div>
+                                                        <Row>
+                                                            <Col md="2">
+                                                                <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); setModal(true); }}><Icon.Trash2 /></div>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+
+                                    </tbody>
+                                </Table>
+                            </div>
                         </div>
                         {action === "del" ?
                             <Modal isOpen={modal} toggle={toggle.bind(null)}>
@@ -229,6 +235,18 @@ const Editar = ({ id }) => {
                                 <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
                                 <ModalBody>
                                     Tiene que realizar cambios
+                                </ModalBody>
+                                <ModalFooter>
+                                    <Button color="primary" onClick={() => { setModal(false); }}>
+                                        Confirmar
+                                    </Button>
+                                </ModalFooter>
+                            </Modal> : <Modal></Modal>}
+                        {action === "SC" ?
+                            <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                                <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
+                                <ModalBody>
+                                    Tiene que tener al menos una caracteristica
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="primary" onClick={() => { setModal(false); }}>
