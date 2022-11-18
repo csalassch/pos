@@ -172,7 +172,7 @@ const ArticuloNuevoFormComp = () => {
     const [sku, setSku] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
-    const [idCategoriesArr, setIdCategoriesArr] = useState([{txt:[],id:[]}]);
+    const [idCategoriesArr, setIdCategoriesArr] = useState([]);
 
 
     const newArticuloBtn = () => {
@@ -231,7 +231,7 @@ const ArticuloNuevoFormComp = () => {
                         });
 
                     // Create a reference to the file to delete
-                    const deleteRef = ref(dbStorage, `/temp/${user.uid}`);
+                    const deleteRef = ref(dbStorage, `/temp/${user.uid}/`);
                     deleteObject(deleteRef);
                 });
             }
@@ -372,7 +372,7 @@ const ArticuloNuevoFormComp = () => {
                                             styles={colourStyles}
                                             // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
 
-                                            onChange={(e) => { const arrCatAux = []; const arrCatAuxTxt=[]; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); arrCatAuxTxt.push(e[i].label) } } console.log(arrCatAux);setIdCategoriesArr({txt:arrCatAuxTxt,id:arrCatAux}); }}
+                                            onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux);setIdCategoriesArr(arrCatAux); }}
 
                                         />
                                     </FormGroup>
