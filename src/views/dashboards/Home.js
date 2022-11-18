@@ -2,6 +2,7 @@ import Chart from 'react-apexcharts';
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
 import ComponentCard from '../../components/ComponentCard';
+import Feeds from '../../components/dashboard/analytical/Feeds';
 
 const Home = () => {
   const seriescolumn = [
@@ -84,9 +85,17 @@ const Home = () => {
   return (
     <>
       <BreadCrumbs />
-      <ComponentCard title="Column Chart">
-        <Chart options={optionscolumn} series={seriescolumn} type="bar" height="280" />
-      </ComponentCard>
+      <div className='row'>
+        <div className='col'>
+          <ComponentCard title="Column Chart">
+            <Chart options={optionscolumn} series={seriescolumn} type="bar" height="280" />
+          </ComponentCard>
+        </div >
+        <div className='col'>
+            <Feeds />
+        </div >
+      </div>
+      
     </>
   );
 };

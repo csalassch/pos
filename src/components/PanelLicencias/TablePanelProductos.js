@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import { Link } from 'react-router-dom';
-import { Pagination, PaginationItem, PaginationLink, Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
 
@@ -76,31 +76,6 @@ const TablePanelProductos = () => {
           ))}
         </tbody>
       </Table>
-      <div className='w-full d-flex justify-content-center'>
-        <Pagination aria-label="Page navigation example">
-          <PaginationItem disabled>
-            <PaginationLink previous href="#" />
-          </PaginationItem>
-          <PaginationItem active>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">4</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">5</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink next href="#" />
-          </PaginationItem>
-        </Pagination>
-      </div>
       <Modal isOpen={modal} toggle={toggle.bind(null)}>
         <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
         <ModalBody>
