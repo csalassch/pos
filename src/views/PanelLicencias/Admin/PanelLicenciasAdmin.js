@@ -20,7 +20,7 @@ const PanelLicenciasAdmin = () => {
                 <CardBody>
                     <CardTitle tag="h5">Lista de licencias </CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        Aqui se visualizaran todas las licencias adquiridas
+                        Aqui se visualizaran todas las licencias
                     </CardSubtitle>
                     <TablePanelLicencias />
                 </CardBody>

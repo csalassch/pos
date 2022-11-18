@@ -98,7 +98,7 @@ const EditarP = ({ id }) => {
                                     Carga Exitosa
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="primary" onClick={() => { setModal(false); navigate("/servicios/PanelLicenciasAdmin") }}>
+                                    <Button color="primary" onClick={() => { setModal(false); navigate("/servicios/PanelProductosAdmin") }}>
                                         Confirmar
                                     </Button>
                                 </ModalFooter>

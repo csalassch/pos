@@ -25,8 +25,8 @@ const AltaP = () => {
                 description: Formvalue.descripcion,
                 active:"true"
             });
-            setAction("envio")
-            navigate("/servicios/PanelProductosAdmin")
+            setAction("envio");
+            navigate("/servicios/PanelProductosAdmin");
         }
         else {
             setAction("vacio");

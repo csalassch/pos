@@ -38,7 +38,6 @@ const TablePanelProductos = () => {
   }, [])
   return (
     <div>
-
       <br />
       <div className='w-full d-flex justify-content-start m-6'>
         <div className="d-flex justify-content-center" onClick={getDatosProductos}>

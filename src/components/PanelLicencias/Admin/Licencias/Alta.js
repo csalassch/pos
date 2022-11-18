@@ -109,7 +109,7 @@ const Alta = () => {
                             
                             <FormGroup>
                                 <InputGroup >
-                                    <InputGroupText>Producto</InputGroupText>
+                                    <InputGroupText style={{ width: "102px" }}>Producto</InputGroupText>
                                     <div style={{ width: "230px" }}>
                                         <Select
                                             options={arrayProducts}

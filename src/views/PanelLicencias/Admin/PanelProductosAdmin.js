@@ -20,7 +20,7 @@ const PanelProductosAdmin = () => {
                 <CardBody>
                     <CardTitle tag="h5">Lista de Productos </CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
-                        Aqui se visualizaran todas las Productos adquiridas
+                        Aqui se visualizaran todos los Productos 
                     </CardSubtitle>
                     <TablePanelProductos />
                 </CardBody>
