@@ -10,7 +10,7 @@ import {
 import Select from 'react-select';
 
 import { push, onValue, ref as refDB } from 'firebase/database';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 import { dbStorage, db } from '../../FirebaseConfig/firebase';
 import { useAuth } from '../../Context/authContext';
@@ -43,13 +43,13 @@ const ArticuloNuevoFormComp = () => {
     // const [arrayUnits, setArray]Units] = useState([]);
     const [arrayUnits, setArrayUnits] = useState([{ value: '', label: '' }]);
     const [arrayCategories, setArrayCategories] = useState([{ value: '', label: '' }]);
-    const [idUnit, setIdUnit] = useState({txt:"",id:""});
+    const [idUnit, setIdUnit] = useState({ txt: "", id: "" });
 
     const optionsUnits = () => {
-        console.log("ejecuta: ",document.getElementById("selectUnidades").value);
-        
+        console.log("ejecuta: ", document.getElementById("selectUnidades").value);
+
         onValue(refDB(db, "units/"), snapshot => {
-            const arrUnit = [{label:"",value:"ddd",color:"",key:""}];
+            const arrUnit = [{ label: "", value: "ddd", color: "", key: "" }];
             snapshot.forEach(snap => {
                 if (snap.val().active === "true") {
                     const obj = {
@@ -67,13 +67,13 @@ const ArticuloNuevoFormComp = () => {
 
             })
             const listaFiltrada = arrUnit.filter((item) => item.value !== ('ddd'));
-            setIdUnit({txt:listaFiltrada[0].label,id:listaFiltrada[0].key});
+            setIdUnit({ txt: listaFiltrada[0].label, id: listaFiltrada[0].key });
             setArrayUnits(listaFiltrada);
             console.log("arrUnit:", arrayUnits);
 
         });
-        
-       
+
+
     }
     const optionsCategories = () => {
         const arrCat = [];
@@ -108,8 +108,13 @@ const ArticuloNuevoFormComp = () => {
     };
     const [colorAlert, setAlertColor] = useState("success");
     const [idImage, setIdImage] = useState({ name: "", url: "", extension: "" });
+    const [idImageTemp, setIdImageTemp] = useState({ name: "", url: "", extension: "" });
+    const [picture, setPicture] = useState([]);
     const style = { width: "450px" };
+    // const [resetValImage, setResetValImage] = useState([]);
+
     const addProductImage = (imageTemp) => {
+
         console.log("here");
         setProcessing(true);
         if (imageTemp == null || !imageTemp) {
@@ -118,25 +123,28 @@ const ArticuloNuevoFormComp = () => {
 
         }
         console.log(imageTemp.name);
-        const allowedExtensions = /(\.jpg|\.jpeg|\.png|)$/i;
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
         if (!allowedExtensions.exec(imageTemp.name)) {
             console.log("here2");
             setVisible(true);
             setAlertColor("danger");
-            setMessage("Error! favor de seleccionar archivos .CSV");
+            setMessage("Error! favor de seleccionar archivos .JPG, .JPEG, .PNG");
+            setProcessing(false);
+            setPicture([]);
             return;
         }
-
-        const storageRef = ref(dbStorage, `/ProductImages/${user.uid}/${imageTemp.name}`);
+        setPicture(imageTemp);
+        const storageRef = ref(dbStorage, `/temp/${user.uid}/${imageTemp.name}`);
 
         uploadBytes(storageRef, imageTemp).then(() => {
             setProcessing(false);
+
             getDownloadURL(storageRef).then((url) => {
 
                 const img = document.getElementById('imageProductRetrieved');
 
                 img.setAttribute('src', url);
-                setIdImage({ name: imageTemp.name, url: url, extension: "jpg" });
+                setIdImageTemp({ name: imageTemp.name, url: url, extension: "jpg" });
 
             })
                 .catch((error) => {
@@ -146,12 +154,11 @@ const ArticuloNuevoFormComp = () => {
 
         });
 
-        setAlertColor("success");
-        setVisible(true);
-        setMessage("Archivo subido con éxito");
+
+        // setResetValImage(imageTemp.name);
         console.log("file uploaded:", imageTemp);
     }
-    
+
     //For collapse in Variantes
     const [collapse, setCollapse] = useState(false);
     const [isDisabled, setIsDisabled] = useState(false);
@@ -170,33 +177,83 @@ const ArticuloNuevoFormComp = () => {
 
     const newArticuloBtn = () => {
         if (nameItem && sku && description && price && idUnit.id && idCategoriesArr.length > 0) {
+            console.log(picture);
+            if (picture.length===0) {
+                
+
+                    push(refDB(db, 'items/'), {
+                        name: nameItem,
+                        sku: sku,
+                        description: description,
+                        idUnit: idUnit.id,
+                        idImage: "0",
+                        idCategory: idCategoriesArr,
+                        price: price
+                    });
+
+                
+            } else {
+                const storageRef = ref(dbStorage, `/ItemImages/${user.uid}/${picture.name}`);
+                
+                uploadBytes(storageRef, picture).then(() => {
+                    setProcessing(false);
+                    getDownloadURL(storageRef).then((url) => {
 
 
-            const pushedFile = push(refDB(db, 'files/'), {
-                name: idImage.name,
-                url: idImage.url,
-                extension: idImage.extension,
+                        setIdImage({ name: idImageTemp.name, url: url, extension: "jpg" });
+                        console.log(url);
+                        const pushedFile = push(refDB(db, 'files/'), {
+                            name: idImageTemp.name,
+                            url: url,
+                            extension: picture.type,
 
-            });
-            const fileKey = pushedFile.key;
-            pushedFile.then(() => {
+                        });
+                        const fileKey = pushedFile.key;
+                        pushedFile.then(() => {
 
 
-                push(refDB(db, 'items/'), {
-                    name: nameItem,
-                    sku: sku,
-                    description: description,
-                    idUnit: idUnit.id,
-                    idImage: fileKey,
-                    idCategory: idCategoriesArr,
-                    price: price
+                            push(refDB(db, 'items/'), {
+                                name: nameItem,
+                                sku: sku,
+                                description: description,
+                                idUnit: idUnit.id,
+                                idImage: fileKey,
+                                idCategory: idCategoriesArr,
+                                price: price
+                            });
+
+                        });
+
+                    })
+                        .catch((error) => {
+                            // Handle any errors
+                            console.log(error);
+                        });
+
+                    // Create a reference to the file to delete
+                    const deleteRef = ref(dbStorage, `/temp/${user.uid}`);
+                    deleteObject(deleteRef);
                 });
+            }
 
-            });
 
-            console.log("pushed keyy: ", fileKey);
-            // setIsValidInput(true);
             setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true });
+            setAlertColor("success");
+            setVisible(true);
+            setMessage("Artículo agregado con éxito");
+            document.getElementById("fileInput").value = null;
+            setProcessing(false);
+            setNameItem("");
+            setSku("");
+            setDescription("");
+            setPrice(0);
+            optionsUnits();
+
+            // const img = document.getElementById('imageProductRetrieved');
+
+            // img.setAttribute('src', "https://i0.wp.com/zaveriamexico.com/wp-content/uploads/2022/02/04-scaled.jpg?fit=2560%2C1707&ssl=1");
+
+
         } else {
 
             const objMessages = {
@@ -244,12 +301,12 @@ const ArticuloNuevoFormComp = () => {
     }
     useEffect(() => {
         optionsCategories();
-    
-        optionsUnits();
-            console.log("arrU:", arrayUnits[0]);
-        
 
-    }, [processing]);
+        optionsUnits();
+        console.log("arrU:", arrayUnits[0]);
+
+
+    }, [processing, idImage, idImageTemp, picture]);
     return (
         <>
             <Row>
@@ -283,7 +340,9 @@ const ArticuloNuevoFormComp = () => {
                                     </FormGroup>
                                     <Form>
                                         <FormGroup>
-                                            <Input type="file" placeholder='selecciona archivo' onChange={(e) => { console.log("file selected: ", e.target.files[0]); addProductImage(e.target.files[0]); setProcessing(true) }} />
+                                            <Input id='fileInput' type="file" placeholder='selecciona archivo' onChange={(e) => {
+                                                console.log("file selected: ", e.target.files[0]); addProductImage(e.target.files[0]); setProcessing(true);
+                                            }} />
                                         </FormGroup>
                                     </Form>
                                 </Col>
@@ -311,6 +370,8 @@ const ArticuloNuevoFormComp = () => {
                                             isMulti
                                             options={arrayCategories}
                                             styles={colourStyles}
+                                            // value={{ value: idUnit.txt, label: idUnit.txt }}
+
                                             onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key) } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
 
                                         />
@@ -411,8 +472,8 @@ const ArticuloNuevoFormComp = () => {
                                                             style={{ width: 100 }}
                                                             id="selectUnidades"
                                                             value={{ value: idUnit.txt, label: idUnit.txt }}
-                                                           
-                                                            onChange={(e) => { console.log(e); setIdUnit({txt:e.label,id:e.key}); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
+
+                                                            onChange={(e) => { console.log(e); setIdUnit({ txt: e.label, id: e.key }); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
 
                                                         />
                                                     </div>
