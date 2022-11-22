@@ -27,7 +27,7 @@ const SidebarData = [
       },
     ]
   },
-  {
+ /* {
     title: 'Licencias Cliente',
     href: '/',
     icon: <Icon.Clipboard />,
@@ -51,7 +51,7 @@ const SidebarData = [
         icon: <Icon.Disc />,
       },
     ]
-  },
+  },*/
   {
     title: 'Artículos',
     href: '/Articulos',
