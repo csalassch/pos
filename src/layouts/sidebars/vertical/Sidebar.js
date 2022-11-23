@@ -1,14 +1,15 @@
-import React  , { useEffect, useState}from 'react';
+import React, { useEffect, useState } from 'react';
 import { Nav } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {ref,onValue} from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 import SimpleBar from 'simplebar-react';
 import SidebarData from '../sidebardata/SidebarData';
+import SidebarDataClient from '../sidebardata/SidebarDataClient';
 import NavItemContainer from './NavItemContainer';
 import NavSubMenu from './NavSubMenu';
 import user1 from '../../../assets/images/users/user4.jpg';
-import { db } from '../../../FirebaseConfig/firebase'; 
+import { db } from '../../../FirebaseConfig/firebase';
 import { useAuth } from '../../../Context/authContext';
 
 const Sidebar = () => {
@@ -23,21 +24,22 @@ const Sidebar = () => {
   const activeBg = useSelector((state) => state.customizer.sidebarBg);
   const isFixed = useSelector((state) => state.customizer.isSidebarFixed);
   // const dispatch = useDispatch();
-  const {user } = useAuth();
-  const [userData, setUserData]=useState("");
-  function getDatoUnico()
-    { 
-        onValue(ref(db, `usuarios/${user.uid}`),(snapshot=> {
-            const username=(snapshot.val() && snapshot.val().userName) || "Anonymous";
-            console.log("ID USUARIO: ",username)
-            setUserData(username);
-            
-        }))
-    }
-    
+  const { user, dataUser } = useAuth();
+  const [userData, setUserData] = useState("");
+  function getDatoUnico() {
+    onValue(ref(db, `usuarios/${user.uid}`), (snapshot => {
+      const username = (snapshot.val() && snapshot.val().userName) || "Anonymous";
+      console.log("ID USUARIO: ", username)
+      setUserData(username);
+
+    }))
+  }
+
   useEffect(() => {
     getDatoUnico()
-}, [])
+    console.log("holi datauser: ",dataUser);
+    console.log("holi userDATa: ",userData);
+  }, [])
   return (
     <div className={`sidebarBox shadow bg-${activeBg} ${isFixed ? 'fixedSidebar' : ''}`}>
       <SimpleBar style={{ height: '100%' }}>
@@ -47,44 +49,85 @@ const Sidebar = () => {
         </div>
         {/********Sidebar Content*******/}
         <div className="p-3">
-          <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
-            {SidebarData.map((navi) => {
-              if (navi.caption) {
+          {
+            (typeof dataUser!=='undefined')?
+              <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
+                {SidebarDataClient.map((navi) => {
+                  if (navi.caption) {
+                    return (
+                      <div className="navCaption text-uppercase mt-4" key={navi.caption} >
+                        {navi.caption}
+                      </div>
+                    );
+                  }
+                  if (navi.children) {
+                    return (
+                      <NavSubMenu
+                        key={navi.id}
+                        icon={navi.icon}
+                        title={navi.title}
+                        items={navi.children}
+                        suffix={navi.suffix}
+                        suffixColor={navi.suffixColor}
+                        // toggle={() => toggle(navi.id)}
+                        // collapsed={collapsed === navi.id}
+                        isUrl={currentURL === navi.href}
+                      />
+                    );
+                  }
+                  return (
+                    <NavItemContainer
+                      key={navi.id}
+                      //toggle={() => toggle(navi.id)}
+                      className={location.pathname === navi.href ? 'activeLink' : ''}
+                      to={navi.href}
+                      title={navi.title}
+                      suffix={navi.suffix}
+                      suffixColor={navi.suffixColor}
+                      icon={navi.icon}
+                    />
+                  );
+                })}
+              </Nav>:
+              <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
+              {SidebarData.map((navi) => {
+                if (navi.caption) {
+                  return (
+                    <div className="navCaption text-uppercase mt-4" key={navi.caption}>
+                      {navi.caption}
+                    </div>
+                  );
+                }
+                if (navi.children) {
+                  return (
+                    <NavSubMenu
+                      key={navi.id}
+                      icon={navi.icon}
+                      title={navi.title}
+                      items={navi.children}
+                      suffix={navi.suffix}
+                      suffixColor={navi.suffixColor}
+                      // toggle={() => toggle(navi.id)}
+                      // collapsed={collapsed === navi.id}
+                      isUrl={currentURL === navi.href}
+                    />
+                  );
+                }
                 return (
-                  <div className="navCaption text-uppercase mt-4" key={navi.caption}>
-                    {navi.caption}
-                  </div>
-                );
-              }
-              if (navi.children) {
-                return (
-                  <NavSubMenu
+                  <NavItemContainer
                     key={navi.id}
-                    icon={navi.icon}
+                    //toggle={() => toggle(navi.id)}
+                    className={location.pathname === navi.href ? 'activeLink' : ''}
+                    to={navi.href}
                     title={navi.title}
-                    items={navi.children}
                     suffix={navi.suffix}
                     suffixColor={navi.suffixColor}
-                    // toggle={() => toggle(navi.id)}
-                    // collapsed={collapsed === navi.id}
-                    isUrl={currentURL === navi.href}
+                    icon={navi.icon}
                   />
                 );
-              }
-              return (
-                <NavItemContainer
-                  key={navi.id}
-                  //toggle={() => toggle(navi.id)}
-                  className={location.pathname === navi.href ? 'activeLink' : ''}
-                  to={navi.href}
-                  title={navi.title}
-                  suffix={navi.suffix}
-                  suffixColor={navi.suffixColor}
-                  icon={navi.icon}
-                />
-              );
-            })}
-          </Nav>
+              })}
+            </Nav>
+            }
         </div>
       </SimpleBar>
     </div>

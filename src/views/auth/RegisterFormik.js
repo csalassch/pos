@@ -30,7 +30,7 @@ const RegisterFormik = () => {
   const handleSubmit = async (UserName, email, password) => {
     try {
       console.log(UserName)
-      await signup(email, password,UserName)
+      await signup(email, password,UserName,"client")
       navigate('/');
 
     } catch (error) {
