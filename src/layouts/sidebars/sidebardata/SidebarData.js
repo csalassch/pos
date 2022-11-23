@@ -3,25 +3,25 @@ import * as Icon from 'react-feather';
 const SidebarData = [
   { caption: 'Servicios' },
   {
-    title: 'Panel Licencias',
+    title: 'Licencias',
     href: '/servicios/PanelLicencias',
     icon: <Icon.Clipboard />,
     id: 10.1,
     collapisble: true,
     children: [
       {
-        title: 'Gestion de licencias',
+        title: 'Versiones',
         href: '/servicios/PanelLicenciasAdmin',
         icon: <Icon.Disc />,
       },
       
       {
-        title: 'Gestion de productos',
+        title: 'Productos',
         href: '/servicios/PanelProductosAdmin',
         icon: <Icon.Disc />,
       },
       {
-        title: 'Consulta usuarios',
+        title: 'Usuarios',
         href: '/servicios/PanelLicencias/ConsultaUsuario',
         icon: <Icon.Disc />,
       },
@@ -62,7 +62,7 @@ const SidebarData = [
     collapisble: true,
     children: [
       {
-        title: 'Colección de artículos',
+        title: 'Artículos',
         href: '/servicios/ColeccionArticulos',
         icon: <Icon.Disc />,
       },
