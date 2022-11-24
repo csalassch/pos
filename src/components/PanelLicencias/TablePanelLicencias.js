@@ -52,7 +52,7 @@ const TablePanelLicencias = () => {
     <div>
       <br />
       <div className='w-full d-flex justify-content-start m-6'>
-        <div className="d-flex justify-content-center" onClick={getDatosLicencia}>
+        <div className="d-flex justify-content-center" onClick={getDatosLicencia} style={{cursor:"pointer"}}>
           <Icon.RefreshCw />
           <p>Recargar</p>
         </div>

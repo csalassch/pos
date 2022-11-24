@@ -11,17 +11,18 @@ const PanelLicenciasAdmin = () => {
             <BreadCrumbs />
             <Card>
                 <CardBody>
-                    <div className='w-full d-flex justify-content-end'>
-                        <div>
-                    <CardTitle tag="h5">Lista de licencias </CardTitle>
+                    <div className='w-full d-flex justify-content-between '>
+                        <div className=''>
+                            <CardTitle tag="h5">Lista de licencias </CardTitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">
                                 Aqui se visualizaran todas las licencias
                             </CardSubtitle>
                         </div>
-                        <div className=' '>
-                            <Link to={`/servicios/PanelLicenciasAdmin/${"AL"}`}>
-                                <Button className="btn" color="primary" size="lg" block><Icon.Plus /></Button>
-                            </Link>
+                        <div className=''>
+                                Agregar licencia
+                                <Link to={`/servicios/PanelLicenciasAdmin/${"AL"}`}>
+                                    <Button className="btn" size="lg" block><Icon.Plus /></Button>
+                                </Link>
                         </div>
                     </div>
                     <TablePanelLicencias />

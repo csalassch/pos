@@ -5,6 +5,8 @@ import Alta from "../../../components/PanelLicencias/Admin/Licencias/Alta";
 import Editar from "../../../components/PanelLicencias/Admin/Licencias/Editar";
 import AltaP from "../../../components/PanelLicencias/Admin/Productos/AltaP";
 import EditarP from "../../../components/PanelLicencias/Admin/Productos/EditarP";
+import AltaM from "../../../components/PanelLicencias/Admin/Modulos/AltaM";
+import EditarM from "../../../components/PanelLicencias/Admin/Modulos/EditarM";
 
 
 const AccionLicencia = () => {
@@ -18,6 +20,8 @@ const AccionLicencia = () => {
             {action ==="EL" ?<Editar id={id}/>:<div></div>}
             {action ==="AP" ? <AltaP />:<div></div>}
             {action ==="EP" ?<EditarP id={id}/>:<div></div>}
+            {action ==="AM" ? <AltaM />:<div></div>}
+            {action ==="EM" ?<EditarM id={id}/>:<div></div>}
         </>
     );
 };

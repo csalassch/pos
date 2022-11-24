@@ -48,12 +48,12 @@ export function AuthProvider({ children }) {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setloading(false);
-            if(user && dataUser){
+            if(user){
                 getDataUser();
             }
         });
         return () => unSubscribe();
-    }, [user,dataUser])
+    }, [user])
     return (
         //Proporcionamos los datos necesarios para nuestro componente hijo
         <authContext.Provider value={{ signup, login, user, logout, loading, dataUser }}>

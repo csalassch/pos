@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../../../../FirebaseConfig/firebase';
 import ComponentCard from '../../../ComponentCard';
 
-const EditarP = ({ id }) => {
+const EditarM = ({ id }) => {
     const navigate = useNavigate()
     const { handleSubmit } = useForm();
     const [action, setAction] = useState("");
@@ -25,7 +25,7 @@ const EditarP = ({ id }) => {
         console.log(Formvalue)
     }
     function getDatosProducto() {
-        onValue(ref(db, `products/${id}`), snapshot => {
+        onValue(ref(db, `modules/${id}`), snapshot => {
             const productos = {
                 id: snapshot.key,
                 nombre: snapshot.val().name,
@@ -58,27 +58,29 @@ const EditarP = ({ id }) => {
     }, [])
     return (
         <>
-            <ComponentCard title={`Edite los datos del producto ${FormvalueRef.nombre}`}>
+            <ComponentCard title="Edite los datos del módulo">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col'>
-                                <FormGroup>
-                                    <InputGroup>
-                                        <InputGroupText>Nombre </InputGroupText>
-                                        <Input onChange={handleChange} value={Formvalue.nombre} type="text" name="nombre" className="form-control" />
-                                    </InputGroup>
-                                </FormGroup>
-                                <FormGroup>
-                                    <InputGroup>
-                                        <InputGroupText>Descripcion </InputGroupText>
-                                        <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" row="5" name="descripcion" className="form-control" />
-                                    </InputGroup>
-                                </FormGroup>
-                                
+                    <div className='container-fluid'>
+
+                    <div className='row row-md-row-cols-1'>
+                        <div className='col'>
+                            <FormGroup>
+                                <InputGroup>
+                                    <InputGroupText>Nombre </InputGroupText>
+                                    <Input onChange={handleChange} value={Formvalue.nombre} type="text" name="nombre" className="form-control" />
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                                <InputGroup>
+                                    <InputGroupText>Descripcion </InputGroupText>
+                                    <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" row="10" name="descripcion" className="form-control" />
+                                </InputGroup>
+                            </FormGroup>
+                            <div className='w-full d-flex justify-content-center'>
+                                <Button className="button btn-info w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar </Button>
                             </div>
-                            <div className='col'>
-                            </div>
+                        </div>
+                        <div className='col'>
                         </div>
 
                         {action === "del" ?
@@ -132,11 +134,11 @@ const EditarP = ({ id }) => {
                                     </Button>
                                 </ModalFooter>
                             </Modal> : <Modal></Modal>}
-
-                        </div>
+                    </div>
+                    </div>
                 </Form>
             </ComponentCard>
         </>
     );
 };
-export default EditarP;
+export default EditarM;
