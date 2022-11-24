@@ -1,0 +1,26 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap'); */
+.btn:hover {
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+}
+
+
+.btn-success {
+    text-transform: uppercase;
+    border: none;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 400;
+    border-radius: 0.3rem;
+    letter-spacing: 2.7px;
+    color: #EEF0F2;
+    background-color: #02c39a;
+    /* border-radius: 45px; */
+    /* box-shadow: 0px 5px 8px rgba(0,0,0,0.2); */
+    transition: all 0.3s ease 0s;
+    border-width: 1.5px;
+    /* border-radius: 15px; */
+
+    outline: none;
+}

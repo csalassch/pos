@@ -4,6 +4,7 @@ import * as Icon from 'react-feather';
 import { Link } from 'react-router-dom';
 import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
 import TablePanelLicencias from '../../../components/PanelLicencias/TablePanelLicencias';
+import '../../../assets/css/styles.css';
 
 const PanelLicenciasAdmin = () => {
     return (

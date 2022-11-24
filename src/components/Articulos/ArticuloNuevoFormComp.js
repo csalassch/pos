@@ -8,7 +8,7 @@ import {
 
 } from 'reactstrap';
 import Select from 'react-select';
-
+import * as Icon from 'react-feather';
 import { push, onValue, ref as refDB } from 'firebase/database';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
@@ -178,24 +178,24 @@ const ArticuloNuevoFormComp = () => {
     const newArticuloBtn = () => {
         if (nameItem && sku && description && price && idUnit.id && idCategoriesArr.length > 0) {
             console.log(picture);
-            if (picture.length===0) {
-                
+            if (picture.length === 0) {
 
-                    push(refDB(db, 'items/'), {
-                        name: nameItem,
-                        sku: sku,
-                        description: description,
-                        idUnit: idUnit.id,
-                        idImage: "0",
-                        idCategory: idCategoriesArr,
-                        price: price,
-                        active:true
-                    });
 
-                
+                push(refDB(db, 'items/'), {
+                    name: nameItem,
+                    sku: sku,
+                    description: description,
+                    idUnit: idUnit.id,
+                    idImage: "0",
+                    idCategory: idCategoriesArr,
+                    price: price,
+                    active: true
+                });
+
+
             } else {
                 const storageRef = ref(dbStorage, `/ItemImages/${user.uid}/${picture.name}`);
-                
+
                 uploadBytes(storageRef, picture).then(() => {
                     setProcessing(false);
                     getDownloadURL(storageRef).then((url) => {
@@ -221,7 +221,7 @@ const ArticuloNuevoFormComp = () => {
                                 idImage: fileKey,
                                 idCategory: idCategoriesArr,
                                 price: price,
-                                active:true
+                                active: true
                             });
 
                         });
@@ -374,7 +374,7 @@ const ArticuloNuevoFormComp = () => {
                                             styles={colourStyles}
                                             // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
 
-                                            onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux);setIdCategoriesArr(arrCatAux); }}
+                                            onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
 
                                         />
                                     </FormGroup>
@@ -460,34 +460,44 @@ const ArticuloNuevoFormComp = () => {
                                                 </InputGroup>
                                             </FormGroup>
                                         </Col>
-                                        <Col md="6">
-                                            <FormGroup>
-                                                <InputGroup >
-                                                    <InputGroupText>Aplicar por</InputGroupText>
-                                                    <div style={{ minWidth: "200px" }}>
+                                        <Col >
+                                            <div className='d-flex justify-content-end'>
 
-                                                        <Select
-                                                            // defaultValue={()=>{const obj={};optionsUnits();obj.label=arrayUnits[0].label; obj.value=arrayUnits[0].value; console.log(obj); return obj;}}
-                                                            // defaultValue={{ label: arrayUnits[0].label, value: arrayUnits[0].value }}
-                                                            label="Single select"
-                                                            options={arrayUnits}
-                                                            style={{ width: 100 }}
-                                                            id="selectUnidades"
-                                                            value={{ value: idUnit.txt, label: idUnit.txt }}
+                                                <FormGroup>
+                                                    <InputGroup >
+                                                        <InputGroupText>Aplicar por</InputGroupText>
+                                                        <div style={{ minWidth: "200px" }}>
 
-                                                            onChange={(e) => { console.log(e); setIdUnit({ txt: e.label, id: e.key }); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
+                                                            <Select
+                                                                // defaultValue={()=>{const obj={};optionsUnits();obj.label=arrayUnits[0].label; obj.value=arrayUnits[0].value; console.log(obj); return obj;}}
+                                                                // defaultValue={{ label: arrayUnits[0].label, value: arrayUnits[0].value }}
+                                                                label="Single select"
+                                                                options={arrayUnits}
+                                                                style={{ width: 100 }}
+                                                                id="selectUnidades"
+                                                                value={{ value: idUnit.txt, label: idUnit.txt }}
 
-                                                        />
-                                                    </div>
+                                                                onChange={(e) => { console.log(e); setIdUnit({ txt: e.label, id: e.key }); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
+
+                                                            />
+                                                        </div>
 
 
 
-                                                </InputGroup>
-                                            </FormGroup>
+                                                    </InputGroup>
+                                                </FormGroup>
+                                            </div>
                                         </Col>
                                     </Row>
+                                    <Row>
+                                        <div className='d-flex justify-content-center'>
+                                            <Col md="6">
+                                                <Button onClick={newArticuloBtn} type="submit" className="btn btn-success" style={{ width: "100%", fontSize: "1.2rem" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative", paddingBottom: "5px" }} />Añadir</Button>
+                                            </Col>
+                                        </div>
+                                    </Row>
 
-                                    <Button onClick={newArticuloBtn} type="submit" className="btn btn-success">Añadir Artículo</Button>
+
 
                                 </Col>
 
