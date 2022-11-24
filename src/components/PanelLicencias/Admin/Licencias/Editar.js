@@ -202,9 +202,6 @@ const Editar = ({ id }) => {
                                     <Input onChange={handleChange} value={Formvalue.monto} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
                                 </InputGroup>
                             </FormGroup>
-                            <div className='w-full d-flex justify-content-center'>
-                                <Button className="button btn-info w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
-                            </div>
                         </Col>
                         <Col>
                             <Row>
@@ -326,8 +323,10 @@ const Editar = ({ id }) => {
                                     </Button>
                                 </ModalFooter>
                             </Modal> : <Modal></Modal>}
-
                     </Row>
+                    <div className='w-full d-flex justify-content-center'>
+                        <Button className="button btn-success w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
+                    </div>
                 </Form>
             </ComponentCard>
         </>

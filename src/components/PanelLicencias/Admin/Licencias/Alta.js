@@ -127,7 +127,6 @@ const Alta = () => {
                                     <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripción" />
                                 </InputGroup>
                             </FormGroup>
-
                             <FormGroup>
                                 <InputGroup >
                                     <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
@@ -153,9 +152,7 @@ const Alta = () => {
                                     <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
                                 </InputGroup>
                             </FormGroup>
-                            <div className='w-full d-flex justify-content-center'>
-                                <Button className="button btn-info" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
-                            </div>
+
                         </Col>
                         <Col>
                             <Row>
@@ -249,6 +246,9 @@ const Alta = () => {
                             }
                         </Col>
                     </Row>
+                    <div className='w-full d-flex justify-content-center'>
+                        <Button className="button btn-success" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
+                    </div>
                 </Form>
             </ComponentCard>
         </>

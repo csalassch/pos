@@ -75,7 +75,7 @@ const EditarP = ({ id }) => {
                                     </InputGroup>
                                 </FormGroup>
                                 <div className='w-full d-flex justify-content-center'>
-                                    <Button className="button btn-info" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
+                                    <Button className="button btn-success" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
                                 </div>
                             </Col>
                             <Col>

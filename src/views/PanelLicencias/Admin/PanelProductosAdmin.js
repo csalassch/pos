@@ -16,13 +16,13 @@ const PanelProductosAdmin = () => {
                         <div className=''>
                             <CardTitle tag="h5">Lista de productos </CardTitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">
-                                Aqui se visualizaran todas los productos disponibles
+                                Aqui se visualizaran todos los productos disponibles
                             </CardSubtitle>
                         </div>
                         <div className=''>
                             Agregar producto
                             <Link to={`/servicios/PanelProductosAdmin/${"AP"}`}>
-                                <Button className="btn" size="lg" block><Icon.Plus /></Button>
+                                <Button className="btn btn-success" size="lg" block > <Icon.Plus /></Button>
                             </Link>
                         </div>
                     </div>
@@ -35,13 +35,13 @@ const PanelProductosAdmin = () => {
                         <div className=''>
                             <CardTitle tag="h5">Lista de Módulos</CardTitle>
                             <CardSubtitle className="mb-2 text-muted" tag="h6">
-                                Aqui se visualizaran todas los módulos
+                                Aqui se visualizaran todos los módulos
                             </CardSubtitle>
                         </div>
                         <div className=''>
                             Agregar módulo
                             <Link to={`/servicios/PanelProductosAdmin/${"AM"}`}>
-                                <Button className="btn" size="lg" block><Icon.Plus /></Button>
+                                <Button className="btn btn-success" size="lg" block><Icon.Plus /></Button>
                             </Link>
                         </div>
                     </div>

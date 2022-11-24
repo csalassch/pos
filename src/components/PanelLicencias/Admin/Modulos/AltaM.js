@@ -57,7 +57,7 @@ const AltaM = () => {
                                 </InputGroup>
                             </FormGroup>
                             <div className='w-full d-flex justify-content-center'>
-                                <Button className="button btn-info" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
+                                <Button className="button btn-success" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
                             </div>
                         </Col>
                         <Col>
