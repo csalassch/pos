@@ -22,7 +22,7 @@ const PanelLicenciasAdmin = () => {
                         <div className=''>
                                 Agregar licencia
                                 <Link to={`/servicios/PanelLicenciasAdmin/${"AL"}`}>
-                                    <Button className="btn" size="lg" block><Icon.Plus /></Button>
+                                    <Button className="btn btn-success" size="lg" block><Icon.Plus /></Button>
                                 </Link>
                         </div>
                     </div>

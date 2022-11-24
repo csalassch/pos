@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row} from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -19,11 +19,11 @@ const AltaP = () => {
         setModal(!modal);
     };
     const onSubmit = () => {
-        if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' ) {
+        if (Formvalue.nombre !== '' && Formvalue.descripcion !== '') {
             push(ref(db, 'products/'), {
                 name: Formvalue.nombre,
                 description: Formvalue.descripcion,
-                active:"true"
+                active: "true"
             });
             setAction("envio");
             navigate("/servicios/PanelProductosAdmin");
@@ -35,7 +35,7 @@ const AltaP = () => {
     const handleChange = ({ target: { name, value } }) => {
         setFormvalue({ ...Formvalue, [name]: value });
     };
-    
+
     useEffect(() => {
     }, [Formvalue])
     return (
@@ -46,16 +46,19 @@ const AltaP = () => {
                         <Col>
                             <FormGroup>
                                 <InputGroup>
-                                    <InputGroupText style={{width:"100px"}}>Nombre </InputGroupText>
+                                    <InputGroupText style={{ width: "100px" }}>Nombre </InputGroupText>
                                     <Input onChange={handleChange} type="text" name="nombre" className="form-control" />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                            <InputGroup>
-                                    <InputGroupText style={{width:"100px"}}>Descripcion </InputGroupText>
+                                <InputGroup>
+                                    <InputGroupText style={{ width: "100px" }}>Descripcion </InputGroupText>
                                     <Input onChange={handleChange} type="textarea" row="5" name="descripcion" className="form-control" />
                                 </InputGroup>
-                                </FormGroup>
+                            </FormGroup>
+                            <div className='w-full d-flex justify-content-center'>
+                                <Button className="button btn-success w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Realizar registro</Button>
+                            </div>
                         </Col>
                         <Col>
                             {action === "del" ?
@@ -93,7 +96,6 @@ const AltaP = () => {
                                 </Modal>
                             }
                         </Col>
-                        <Button className="button btn-info w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Realizar registro</Button>
                     </Row>
                 </Form>
             </ComponentCard>
