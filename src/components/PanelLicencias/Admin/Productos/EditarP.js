@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -58,11 +58,10 @@ const EditarP = ({ id }) => {
     }, [])
     return (
         <>
-            <ComponentCard title={`Edite los datos del producto ${FormvalueRef.nombre}`}>
+            <ComponentCard title="Edite los datos del producto">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='container'>
-                        <div className='row'>
-                            <div className='col'>
+                        <Row>
+                            <Col>
                                 <FormGroup>
                                     <InputGroup>
                                         <InputGroupText>Nombre </InputGroupText>
@@ -75,11 +74,13 @@ const EditarP = ({ id }) => {
                                         <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" row="5" name="descripcion" className="form-control" />
                                     </InputGroup>
                                 </FormGroup>
-                                
-                            </div>
-                            <div className='col'>
-                            </div>
-                        </div>
+                                <div className='w-full d-flex justify-content-center'>
+                                    <Button className="button btn-info" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
+                                </div>
+                            </Col>
+                            <Col>
+                            </Col>
+                        </Row>
 
                         {action === "del" ?
                             <Modal isOpen={modal} toggle={toggle.bind(null)}>
@@ -133,7 +134,6 @@ const EditarP = ({ id }) => {
                                 </ModalFooter>
                             </Modal> : <Modal></Modal>}
 
-                        </div>
                 </Form>
             </ComponentCard>
         </>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -60,10 +60,8 @@ const EditarM = ({ id }) => {
         <>
             <ComponentCard title="Edite los datos del módulo">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='container-fluid'>
-
-                    <div className='row row-md-row-cols-1'>
-                        <div className='col'>
+                    <Row>
+                        <Col>
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText>Nombre </InputGroupText>
@@ -79,9 +77,9 @@ const EditarM = ({ id }) => {
                             <div className='w-full d-flex justify-content-center'>
                                 <Button className="button btn-info w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar </Button>
                             </div>
-                        </div>
-                        <div className='col'>
-                        </div>
+                        </Col>
+                        <Col>
+                        </Col>
 
                         {action === "del" ?
                             <Modal isOpen={modal} toggle={toggle.bind(null)}>
@@ -134,8 +132,7 @@ const EditarM = ({ id }) => {
                                     </Button>
                                 </ModalFooter>
                             </Modal> : <Modal></Modal>}
-                    </div>
-                    </div>
+                    </Row>
                 </Form>
             </ComponentCard>
         </>

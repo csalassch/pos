@@ -18,7 +18,7 @@ const Alta = () => {
     const [action, setAction] = useState("");
     const [arrayProducts, setArrayProducts] = useState([]);
     const [arrayCharacteristics, setArrayCharacteristics] = useState([]);
-    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '', caracteristica:'' });
+    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '', caracteristica: '' });
     const [modal, setModal] = useState(false);
     const toggle = () => {
         setModal(!modal);
@@ -54,16 +54,16 @@ const Alta = () => {
         }
         setLista(listaAux)
     }
-    function existCharacteristic(parametro){
+    function existCharacteristic(parametro) {
         for (let i = 0; i < lista.length; i++) {
-            if(lista[i].caracteristica === parametro){
+            if (lista[i].caracteristica === parametro) {
                 return false;
-            }            
+            }
         }
         return true;
     }
     function addLicense(caract) {
-        if(existCharacteristic(caract)){
+        if (existCharacteristic(caract)) {
             if (caract !== '') {
                 const listAux = lista;
                 listAux.push({ id: (lista.length + 1), caracteristica: caract });
@@ -113,8 +113,8 @@ const Alta = () => {
         <>
             <ComponentCard title="Introduzca los datos de licencia">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='row'>
-                        <div className='col'>
+                    <Row>
+                        <Col>
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Nombre *</InputGroupText>
@@ -130,15 +130,21 @@ const Alta = () => {
 
                             <FormGroup>
                                 <InputGroup >
-                                    <InputGroupText style={{ width: "102px" }}>Producto</InputGroupText>
-                                    <div style={{ width: "230px" }}>
-                                        <Select
-                                            options={arrayProducts}
-                                            style={{ width: 100 }}
-                                            name="producto"
-                                            onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue) }}
-                                        />
-                                    </div>
+                                    <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                        <Col md="3" className='p-0'>
+                                            <InputGroupText style={{ width: "100%", height: "100%" }}>Producto</InputGroupText>
+                                        </Col>
+                                        <Col className='p-0'>
+                                            <div style={{ width: "100%" }}>
+                                                <Select
+                                                    options={arrayProducts}
+                                                    style={{ width: 100 }}
+                                                    name="producto"
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue) }}
+                                                />
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
@@ -147,30 +153,39 @@ const Alta = () => {
                                     <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
                                 </InputGroup>
                             </FormGroup>
-                        </div>
-                        <div className='col'>
-                            <div className='row'>
-                                <div className="col mb-2">
+                            <div className='w-full d-flex justify-content-center'>
+                                <Button className="button btn-info" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
+                            </div>
+                        </Col>
+                        <Col>
+                            <Row>
+                                <Col>
                                     {/* <InputGroup>
                                         <InputGroupText style={{ width: "160px" }}>Nueva Caracteristica</InputGroupText>
                                         <Input onChange={handleChangeList} type="text" name="caracteristica" value={caracteristica} className="form-control" placeholder="Caracteristica" />
                                     </InputGroup> */}
-                                        <InputGroup >
-                                            <InputGroupText style={{ width: "102px" }}>Caraterística</InputGroupText>
-                                            <div style={{ width: "230px" }}>
-                                                <Select
-                                                    options={arrayCharacteristics}
-                                                    style={{ width: 100 }}
-                                                    name="caracteristica"
-                                                    onChange={(e) => { setFormvalue({ ...Formvalue, caracteristica: e.id });addLicense(e.value);setFormvalue({ ...Formvalue, caracteristica: '' });}}
-                                                />
-                                            </div>
-                                        </InputGroup>
-                                </div>
+                                    <InputGroup >
+                                        <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                            <Col md="3" className='p-0'>
+                                                <InputGroupText style={{ width: "100%", height: "100%" }}>Caracteristica</InputGroupText>
+                                            </Col>
+                                            <Col className='p-0'>
+                                                <div style={{ width: "100%" }}>
+                                                    <Select
+                                                        options={arrayCharacteristics}
+                                                        style={{ width: 100 }}
+                                                        name="caracteristica"
+                                                        onChange={(e) => { setFormvalue({ ...Formvalue, caracteristica: e.id }); addLicense(e.value); setFormvalue({ ...Formvalue, caracteristica: '' }); }}
+                                                    />
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                    </InputGroup>
+                                </Col>
                                 {/* <div className='col-2' type="submit" onClick={addLicense}>
                                     <Icon.PlusCircle style={{ color: "blue" }} />
                                 </div> */}
-                            </div>
+                            </Row>
                             <Table className="no-wrap mt-3 align-middle" responsive borderless>
                                 <thead>
                                     <tr>
@@ -232,9 +247,8 @@ const Alta = () => {
                                     </ModalFooter>
                                 </Modal>
                             }
-                        </div>
-                        <Button className="button btn-info w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Realizar registro</Button>
-                    </div>
+                        </Col>
+                    </Row>
                 </Form>
             </ComponentCard>
         </>
