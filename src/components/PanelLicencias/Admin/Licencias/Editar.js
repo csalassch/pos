@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import Select from 'react-select';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -14,23 +15,20 @@ const Editar = ({ id }) => {
     const { handleSubmit } = useForm();
     const [lista, setLista] = useState([]);
     const [listaAuxComp, setListaAuxComp] = useState([]);
-    const [caracteristica, setCaracteristica] = useState('');
     const [idEliminar, setIdEliminar] = useState(0);
     const [action, setAction] = useState("");
+    const [arrayCharacteristics, setArrayCharacteristics] = useState([]);
     const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
     const [FormvalueRef, setFormvalueRef] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
     const [modal, setModal] = useState(false);
     const toggle = () => {
         setModal(!modal);
     };
-
     const handleChange = ({ target: { name, value } }) => {
         setFormvalue({ ...Formvalue, [name]: value });
         console.log(Formvalue)
     };
-    const handleChangeList = ({ target: { value } }) => {
-        setCaracteristica(value)
-    };
+    
     function deleteCharacteristic() {
         const listaF = lista;
         const listaAux = []
@@ -42,14 +40,21 @@ const Editar = ({ id }) => {
         setLista(listaAux)
         console.log(lista);
     }
-    function addLicense() {
-        if (caracteristica !== '') {
-            console.log(caracteristica)
-            const listAux = lista;
-            listAux.push({ caracteristica: caracteristica, id: (lista.length + 1) });
-            console.log(listAux)
-            setLista(listAux);
-            setCaracteristica('');
+    function existCharacteristic(parametro){
+        for (let i = 0; i < lista.length; i++) {
+            if(lista[i].caracteristica === parametro){
+                return false;
+            }            
+        }
+        return true;
+    }
+    function addLicense(caract) {
+        if(existCharacteristic(caract)){
+            if (caract !== '') {
+                const listAux = lista;
+                listAux.push({ id: (lista.length + 1), caracteristica: caract });
+                setLista(listAux);
+            }
         }
     }
     function getCaracteristicasLicencia() {
@@ -76,6 +81,23 @@ const Editar = ({ id }) => {
         });
         getCaracteristicasLicencia();
     }
+    const getCharacteristics = () => {
+        const arr = [];
+        onValue(ref(db, "modules/"), snapshot => {
+            snapshot.forEach(snap => {
+                if (snap.val().active === "true") {
+                    const obj = {
+                        id: snap.key,
+                        value: snap.val().name,
+                        label: snap.val().name,
+                        module: snap.val().name
+                    }
+                    arr.push(obj);
+                }
+            })
+            setArrayCharacteristics(arr);
+        });
+    }
     function isEquals(a, b) {
         console.log(a.join() === b.join())
         return a.join() === b.join();
@@ -83,7 +105,6 @@ const Editar = ({ id }) => {
     const onSubmit = () => {
         const A = listaAuxComp;
         const B = lista;
-
         if (lista.length !== 0) {
             if (Formvalue !== FormvalueRef) {
                 if (!isEquals(A, B)) {
@@ -115,11 +136,12 @@ const Editar = ({ id }) => {
     useEffect(() => {
         if (lista.length === 0) {
             getDatosLicencia()
+            getCharacteristics()
         }
-    }, [caracteristica])
+    }, [])
     return (
         <>
-            <ComponentCard title="EDITE LOS DATOS LICENCIA">
+            <ComponentCard title="Edite los datos de la licencia">
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <div className='row'>
                         <div className='col'>
@@ -151,13 +173,21 @@ const Editar = ({ id }) => {
                         <div className='col'>
                             <div className='row'>
                                 <div className="col mb-2">
-                                    <InputGroup>
+                                    {/* <InputGroup>
                                         <InputGroupText>Nueva Caracteristica *</InputGroupText>
                                         <Input onChange={handleChangeList} type="text" name="caracteristica" value={caracteristica} className="form-control" placeholder="Caracteristica" />
-                                    </InputGroup>
-                                </div>
-                                <div className='col-2' type="submit" onClick={addLicense}>
-                                    <Icon.PlusCircle style={{ color: "blue" }} />
+                                    </InputGroup> */}
+                                    <InputGroup >
+                                            <InputGroupText style={{ width: "102px" }}>Caraterística</InputGroupText>
+                                            <div style={{ width: "230px" }}>
+                                                <Select
+                                                    options={arrayCharacteristics}
+                                                    style={{ width: 100 }}
+                                                    name="caracteristica"
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, caracteristica: e.id });addLicense(e.value);setFormvalue({ ...Formvalue, caracteristica: '' });}}
+                                                />
+                                            </div>
+                                        </InputGroup>
                                 </div>
                             </div>
 

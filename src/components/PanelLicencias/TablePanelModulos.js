@@ -6,14 +6,14 @@ import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'react
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
 
-const TablePanelProductos = () => {
+const TablePanelModulos = () => {
   const [modal, setModal] = useState(false);
   const [lista, setLista] = useState([{ id: 0, nombre: '', descripcion: '' }]);
   const toggle = () => {
     setModal(!modal);
   };
   function getDatosProductos() {
-    onValue(ref(db, "products/"), snapshot => {
+    onValue(ref(db, "modules/"), snapshot => {
       const listaProductos = [];
       snapshot.forEach(snap => {
         const Producto = {
@@ -66,7 +66,7 @@ const TablePanelProductos = () => {
               <td>
                 <div className='d-flex align-items-center p-2 ms-3'>
                   <div>
-                    <Link to={`/servicios/PanelLicenciasAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link>
+                    <Link to={`/servicios/PanelLicenciasAdmin/${"EM"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link>
                   </div>
 
                 </div>
@@ -93,4 +93,4 @@ const TablePanelProductos = () => {
   );
 };
 
-export default TablePanelProductos;
+export default TablePanelModulos;
