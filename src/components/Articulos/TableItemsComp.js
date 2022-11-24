@@ -79,8 +79,8 @@ const TableItemsComp = () => {
                                 {lista.map((tdata) => (
                                     <tr key={tdata.id} className="border-top">
                                         <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                                            {tdata.active ? <div><Icon.ToggleRight style={{ color: "#00b26f" }} /></div>
-                                                : <div><Icon.ToggleLeft /></div>}
+                                            {tdata.active ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                                                : <div><Icon.ToggleLeft style={{ color: "#67757C" }}/></div>}
                                         </div></td>
                                         <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
                                             alt="..."
@@ -94,7 +94,7 @@ const TableItemsComp = () => {
                                         <td>
                                             <div className='d-flex align-items-center p-2 ms-3'>
                                                 <div>
-                                                    <Icon.Edit style={{color: "#317cc1",cursor:"pointer"}} />
+                                                    <Icon.Edit style={{color: "#1186a2",cursor:"pointer"}} />
                                                     {/* <Link to={`/servicios/PanelLicenciasAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link> */}
                                                 </div>
 

@@ -175,11 +175,11 @@ const CategoriasComp = () => {
 
                                                         <td>{data.id}</td>
                                                         <td><div onClick={() => { modifiedActive(data) }}>
-                                                            {data.active === "true" ? <div><Icon.ToggleRight style={{ color: "#00b26f" }} /></div>
+                                                            {data.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                                                                 : <div><Icon.ToggleLeft /></div>}
                                                         </div></td>
                                                         <td>{data.name}</td>
-                                                        <td><div><Row><Col ><div style={{ cursor: "pointer", color: "#317cc1" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
+                                                        <td><div><Row><Col ><div style={{ cursor: "pointer", color: "#1186a2" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div></Col>
                                                         </Row></div></td>
 
                                                     </tr>

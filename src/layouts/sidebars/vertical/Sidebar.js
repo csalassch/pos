@@ -9,6 +9,8 @@ import NavItemContainer from './NavItemContainer';
 import NavSubMenu from './NavSubMenu';
 import user1 from '../../../assets/images/users/user4.jpg';
 import { useAuth } from '../../../Context/authContext';
+import '../../../assets/css/styles.css';
+
 
 const Sidebar = () => {
   const location = useLocation();
@@ -36,7 +38,7 @@ const Sidebar = () => {
     console.log(userData)
   }, [dataUser, userData])
   return (
-    <div className={`sidebarBox shadow bg-${activeBg} ${isFixed ? 'fixedSidebar' : ''}`}>
+    <div className={`sidebarBox shadow ${isFixed ? 'fixedSidebar' : ''}`}>
       <SimpleBar style={{ height: '100%' }}>
         <div className="py-3 px-4 d-flex align-items-center border-bottom-sidebar">
           <img src={user1} alt="user" width="30" className="rounded-circle" />

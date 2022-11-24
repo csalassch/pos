@@ -20,8 +20,8 @@ const Logo = () => {
         </>
       ) : ( */}
       <>
-        {!toggleMiniSidebar ? <LogoDarkText style={{ height: "50px", width: "auto" }} />
-          : <LogoWhiteIcon style={{ height: "auto", width: "45px" }} />}
+        {!toggleMiniSidebar ? <LogoDarkText fill='current' style={{ height: "50px", width: "auto" }} />
+          : <LogoWhiteIcon fill='current' style={{ height: "auto", width: "45px" }} />}
       </>
       {/* )} */}
     </Link>

@@ -451,7 +451,7 @@ const ArticuloNuevoFormComp = () => {
                                         </Collapse>
                                     </FormGroup>
                                     <Row>
-                                        <Col md="6">
+                                        <Col md="6" >
                                             <FormGroup>
                                                 <InputGroup>
                                                     <InputGroupText>$</InputGroupText>
@@ -460,41 +460,48 @@ const ArticuloNuevoFormComp = () => {
                                                 </InputGroup>
                                             </FormGroup>
                                         </Col>
-                                        <Col >
+                                        <Col style={{ width: "100%", paddingLeft: 0 }}  >
                                             <div className='d-flex justify-content-end'>
 
-                                                <FormGroup>
-                                                    <InputGroup >
-                                                        <InputGroupText>Aplicar por</InputGroupText>
-                                                        <div style={{ minWidth: "200px" }}>
+                                                <FormGroup style={{ width: "100%" }}>
 
-                                                            <Select
-                                                                // defaultValue={()=>{const obj={};optionsUnits();obj.label=arrayUnits[0].label; obj.value=arrayUnits[0].value; console.log(obj); return obj;}}
-                                                                // defaultValue={{ label: arrayUnits[0].label, value: arrayUnits[0].value }}
-                                                                label="Single select"
-                                                                options={arrayUnits}
-                                                                style={{ width: 100 }}
-                                                                id="selectUnidades"
-                                                                value={{ value: idUnit.txt, label: idUnit.txt }}
+                                                    <InputGroup style={{ width: "100%" }}>
+                                                        <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                                            <Col md="3" className='p-0'>
+                                                                <InputGroupText style={{ width: "100%", height: "100%" }}>Aplicar por</InputGroupText>
+                                                            </Col>
+                                                            <Col className='p-0'>
+                                                                <div style={{ width: "100%" }}>
 
-                                                                onChange={(e) => { console.log(e); setIdUnit({ txt: e.label, id: e.key }); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
+                                                                    <Select
+                                                                        // defaultValue={()=>{const obj={};optionsUnits();obj.label=arrayUnits[0].label; obj.value=arrayUnits[0].value; console.log(obj); return obj;}}
+                                                                        // defaultValue={{ label: arrayUnits[0].label, value: arrayUnits[0].value }}
+                                                                        label="Single select"
+                                                                        options={arrayUnits}
+                                                                        style={{ width: 100 }}
+                                                                        id="selectUnidades"
+                                                                        value={{ value: idUnit.txt, label: idUnit.txt }}
 
-                                                            />
-                                                        </div>
+                                                                        onChange={(e) => { console.log(e); setIdUnit({ txt: e.label, id: e.key }); setIsValidInput({ nombreItem: true, skuItem: true, descriptionItem: true, priceItem: true }); }}
+
+                                                                    />
 
 
 
+                                                                </div>
+                                                            </Col>
+                                                        </Row>
                                                     </InputGroup>
                                                 </FormGroup>
                                             </div>
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <div className='d-flex justify-content-center'>
-                                            <Col md="6">
-                                                <Button onClick={newArticuloBtn} type="submit" className="btn btn-success" style={{ width: "100%", fontSize: "1.2rem" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative", paddingBottom: "5px" }} />Añadir</Button>
-                                            </Col>
-                                        </div>
+                                        <Col>
+                                            <div className='d-flex justify-content-end'>
+                                                <Button onClick={newArticuloBtn} type="submit" className="btn btn-success" ><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative", paddingBottom: "5px" }} />Añadir</Button>
+                                            </div>
+                                        </Col>
                                     </Row>
 
 
