@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row} from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -40,10 +40,10 @@ const AltaP = () => {
     }, [Formvalue])
     return (
         <>
-            <ComponentCard title="INTRODUZCA LOS DATOS DEL PRODUCTO">
+            <ComponentCard title="Introduzca los datos del producto">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <div className='row'>
-                        <div className='col'>
+                    <Row>
+                        <Col>
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{width:"100px"}}>Nombre </InputGroupText>
@@ -56,8 +56,8 @@ const AltaP = () => {
                                     <Input onChange={handleChange} type="textarea" row="5" name="descripcion" className="form-control" />
                                 </InputGroup>
                                 </FormGroup>
-                        </div>
-                        <div className='col'>
+                        </Col>
+                        <Col>
                             {action === "del" ?
                                 <Modal isOpen={modal} toggle={toggle.bind(null)}>
                                     <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
@@ -92,9 +92,9 @@ const AltaP = () => {
                                     </ModalFooter>
                                 </Modal>
                             }
-                        </div>
+                        </Col>
                         <Button className="button btn-info w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Realizar registro</Button>
-                    </div>
+                    </Row>
                 </Form>
             </ComponentCard>
         </>

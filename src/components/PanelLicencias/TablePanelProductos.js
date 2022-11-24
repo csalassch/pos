@@ -58,7 +58,7 @@ const TablePanelProductos = () => {
           {lista.map((tdata) => (
             <tr key={tdata.id} className="border-top">
               <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }} >
-                {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#00b26f" }} /></div>
+                {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                   : <div><Icon.ToggleLeft /></div>}
               </div></td>
               <td>{tdata.nombre}</td>
@@ -66,7 +66,7 @@ const TablePanelProductos = () => {
               <td>
                 <div className='d-flex align-items-center p-2 ms-3'>
                   <div>
-                    <Link to={`/servicios/PanelLicenciasAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link>
+                    <Link to={`/servicios/PanelLicenciasAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit style={{color:"#1186A2"}} /></Link>
                   </div>
 
                 </div>
