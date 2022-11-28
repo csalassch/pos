@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
 import { Link } from 'react-router-dom';
-import {  Table, Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, CardSubtitle, CardTitle } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
 
@@ -11,7 +11,7 @@ const TablePanelLicencias = () => {
   const toggle = () => {
     setModal(!modal);
   };
-  
+
   function getDatosLicencia() {
     onValue(ref(db, "licenses/"), snapshot => {
       const listaLicencias = [];
@@ -51,10 +51,21 @@ const TablePanelLicencias = () => {
   return (
     <div>
       <br />
-      <div className='w-full d-flex justify-content-start m-6'>
-        <div className="d-flex justify-content-center" onClick={getDatosLicencia} style={{cursor:"pointer"}}>
-          <Icon.RefreshCw />
-          <p>Recargar</p>
+      <div className='w-full d-flex justify-content-between '>
+        <div className=''>
+          <CardTitle tag="h5">Lista de licencias </CardTitle>
+          <CardSubtitle className="mb-2 text-muted" tag="h6">
+            Aqui se visualizaran todas las licencias
+          </CardSubtitle>
+        </div>
+        <div className=''>
+          <Link to={`/servicios/PanelLicenciasAdmin/${"AL"}`}>
+            <Button className="btn btn-success" size="lg" block><Icon.Plus /></Button>
+          </Link>
+          <div className="d-flex justify-content-center mt-2" onClick={getDatosLicencia} style={{ cursor: "pointer" }}>
+            <Icon.RefreshCw />
+            <p>Recargar</p>
+          </div>
         </div>
       </div>
       <Table className="no-wrap mt-3 align-middle" responsive borderless>
@@ -91,7 +102,7 @@ const TablePanelLicencias = () => {
               <td>
                 <div className='d-flex align-items-center p-2 ms-3'>
                   <div>
-                    <Link to={`/servicios/PanelLicenciasAdmin/${"EL"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit style={{color:"#1186A2"}}/></Link>
+                    <Link to={`/servicios/PanelLicenciasAdmin/${"EL"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit style={{ color: "#1186A2" }} /></Link>
                   </div>
                 </div>
               </td>
