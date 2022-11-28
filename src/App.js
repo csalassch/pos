@@ -156,10 +156,10 @@ const App = () => {
               <Route path='/servicios/PanelProductosAdmin/:action/:id' name='Editar' element={<AccionLicencia />} />
               <Route path='/servicios/PanelLicencias/ConsultaUsuario' name='ConsultaUsuario' element={<ConsultaUsuario />} />
               <Route path='/Soporte' name='Soporte' element={<Soporte />} />
-              <Route path='/servicios/Inventarios' name='Inventarios' element={<Inventarios />} />
-              <Route path='/servicios/Categorias' name='Categorias' element={<Categorias />} />
-              <Route path='/servicios/Unidades' name='Unidades' element={<Unidades />} />
-              <Route path='/servicios/ColeccionArticulos' name='ColeccionArticulos' element={<ColeccionArticulos />} />
+              <Route path='/Articulos/Inventarios' name='Inventarios' element={<Inventarios />} />
+              <Route path='/Articulos/Categorias' name='Categorias' element={<Categorias />} />
+              <Route path='/Articulos/Unidades' name='Unidades' element={<Unidades />} />
+              <Route path='/Articulos/ColeccionArticulos' name='ColeccionArticulos' element={<ColeccionArticulos />} />
               <Route path='/dashboards/demographical' name='Demographical' element={<Demographical />} />,
               <Route path='/dashboards/modern' name='Modern' element={<Modern />} />,
               <Route path='/about' name='about' element={<About />} />,

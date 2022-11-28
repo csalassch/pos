@@ -11,7 +11,7 @@ const BreadCrumbs = () => {
     <>
       <h4 className="text-capitalize">{secondUrl ? `${secondUrl}` : `${firstUrl}`}</h4>
       <Breadcrumb>
-        <BreadcrumbItem to="/" tag={Link} className="text-decoration-none link-info fw-normal">
+        <BreadcrumbItem to="/" tag={Link} className="text-decoration-none fw-normal" style={{color:"#1186a2"}}>
           Home
         </BreadcrumbItem>
         {firstUrl ? <BreadcrumbItem active>{firstUrl}</BreadcrumbItem> : ''}
