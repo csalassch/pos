@@ -6,7 +6,7 @@ import {
     ModalBody,
     ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader
 } from 'reactstrap';
-import { push, ref, onValue, update, remove } from 'firebase/database';
+import { push, ref, onValue, update } from 'firebase/database';
 import * as Icon from 'react-feather';
 import { db } from '../../FirebaseConfig/firebase';
 // import ComponentCard from '../ComponentCard';
@@ -50,12 +50,12 @@ const CategoriasComp = () => {
     const toggle = () => {
         setModal(!modal);
     };
-    const deleteToggleConfirmation = () => {
-        console.log("Deleted selected: ", keyAux);
-        remove(ref(db, `categories/${keyAux}`));
-        setModal(false);
-        fetchDataCategories();
-    }
+    // const deleteToggleConfirmation = () => {
+    //     console.log("Deleted selected: ", keyAux);
+    //     remove(ref(db, `categories/${keyAux}`));
+    //     setModal(false);
+    //     fetchDataCategories();
+    // }
 
     const newUnit = () => {
         if (nameUnit) {
@@ -118,7 +118,7 @@ const CategoriasComp = () => {
                             <Row>
                                 <Col>
                                     {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-                                    <Button onClick={newUnit} type="submit" style={{cursor: "pointer", color: "#1186a2", borderColor: "#eef0f2", backgroundColor: "#eef0f2", padding: "1.5px", fontSize: "11px", borderWidth: "2.5px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                    <Button onClick={()=>{setModal(true)}} type="submit" style={{cursor: "pointer", color: "#1186a2", borderColor: "#eef0f2", backgroundColor: "#eef0f2", padding: "1.5px", fontSize: "11px", borderWidth: "2.5px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                     <Button onClick={newUnit} type="submit" style={{cursor: "pointer", color: "#1186a2", borderColor: "#eef0f2", backgroundColor: "#eef0f2", padding: "1.5px", fontSize: "11px", borderWidth: "2.5px",marginLeft:"7px" }}><Icon.FilePlus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                 </Col>
                                 <Col>
@@ -178,7 +178,7 @@ const CategoriasComp = () => {
                                             </tbody>
                                         </Table>
                                         <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                            <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Categoría</ModalHeader>
+                                            <ModalHeader toggle={toggle.bind(null)} style={{color:"#1186a2"}}><Icon.PlusCircle /> Agregar Categoría</ModalHeader>
                                             <ModalBody>
                                                 <FormGroup>
                                                     <InputGroup>
@@ -189,11 +189,11 @@ const CategoriasComp = () => {
                                                 </FormGroup>
                                             </ModalBody>
                                             <ModalFooter>
-                                                <Button color="primary" onClick={() => { deleteToggleConfirmation() }}>
-                                                    Confirmar
+                                                <Button color="success" onClick={newUnit}>
+                                                    Agregar
                                                 </Button>
                                                 <Button color="secondary" onClick={toggle.bind(null)}>
-                                                    Cancelar
+                                                    CANCELAR
                                                 </Button>
                                             </ModalFooter>
                                         </Modal>

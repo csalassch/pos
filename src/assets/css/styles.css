@@ -5,9 +5,19 @@
     color: #eef0f2;
 }
 
-.sidebarBox{
+.sidebarBox {
     background-color: #1f4f67;
 }
+
+.btn-secondary {
+    color: #fc7174;
+    border-color: #fc7174;
+    background-color: transparent;
+    /* padding: 1.5px; */
+    letter-spacing: 1.5px;
+    border-width: 1.5px
+}
+
 .btn-success {
     text-transform: uppercase;
     border: none;
@@ -21,7 +31,7 @@
     /* border-radius: 45px; */
     /* box-shadow: 0px 5px 8px rgba(0,0,0,0.2); */
 
-    
+
     transition: all 0.3s ease 0s;
     border-width: 1.5px;
     /* border-radius: 15px; */
