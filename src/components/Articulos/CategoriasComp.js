@@ -34,7 +34,7 @@ const CategoriasComp = () => {
     }
 
 
-    const [btnMessage, setBtnMessage] = useState("Agregar");
+    const [btnMessage, setBtnMessage] = useState("");
     const [messageFeedback, setMessageFeedback] = useState("");
     const [isValidInput, setIsValidInput] = useState(true);
     const [keyAux, setKeyAux] = useState("");
@@ -64,7 +64,7 @@ const CategoriasComp = () => {
                 update(ref(db, `categories/${keyAux}`), {
                     name: nameUnit
                 });
-                setBtnMessage("Agregar");
+                setBtnMessage("");
                 setKeyAux("");
                 setVisible(true);
                 setAlertColor("info");
@@ -114,14 +114,16 @@ const CategoriasComp = () => {
             <Row>
                 <Col md="12">
                     <Card>
-                        <CardHeader>
+                        <CardHeader style={{backgroundColor:"#eef0f2"}}>
                             <Row>
                                 <Col>
-                                    <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative", paddingBottom: "5px" }} />{btnMessage}</Button>
+                                    {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
+                                    <Button onClick={newUnit} type="submit" style={{cursor: "pointer", color: "#1186a2", borderColor: "#eef0f2", backgroundColor: "#eef0f2", padding: "1.5px", fontSize: "11px", borderWidth: "2.5px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                    <Button onClick={newUnit} type="submit" style={{cursor: "pointer", color: "#1186a2", borderColor: "#eef0f2", backgroundColor: "#eef0f2", padding: "1.5px", fontSize: "11px", borderWidth: "2.5px",marginLeft:"7px" }}><Icon.FilePlus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
-                                        <h4>Registro Categorías</h4>
+                                        <h4 style={{color:"#1186a2"}}>Registro Categorías</h4>
                                     </div >
                                 </Col>
                             </Row>
@@ -135,9 +137,9 @@ const CategoriasComp = () => {
                                     </Alert>
                                     <Col>
                                         <Table responsive style={{ overflow: 'hidden' }}>
-                                            <thead className='text-center'>
+                                            <thead className='text-center' style={{color:"#1f4f67"}}>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th>ID</th>
                                                     <th>Activo</th>
                                                     <th>Nombre Categoría</th>
                                                     <th>Detalles</th>
@@ -159,7 +161,7 @@ const CategoriasComp = () => {
                                                                 <div className='d-flex justify-content-center'>
                                                                     {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}
 
-                                                                    <Button type="submit" style={{ cursor: "pointer", color: "#fc7174", borderColor: "#fc7174", backgroundColor: "transparent", padding: "1.5px", fontSize: "11px", borderWidth: "1.5px" }}>Ver Detalle</Button>
+                                                                    <Button type="submit" style={{ cursor: "pointer", color: "#fc7174", borderColor: "#fc7174", backgroundColor: "transparent", padding: "1.5px", fontSize: "11px", borderWidth: "1.5px" }}><Icon.Info style={{maxWidth:"18px",marginRight:"5px"}}/>Ver Detalle</Button>
                                                                 </div>
                                                             
                                                         </td>

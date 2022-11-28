@@ -2,7 +2,7 @@
 .btn:hover {
     background-color: #1186a2;
     box-shadow: 0px 10px 15px rgba(17, 134, 162, 0.4);
-    color: #fff;
+    color: #eef0f2;
 }
 
 .sidebarBox{
@@ -20,6 +20,8 @@
     background-color: #fca311;
     /* border-radius: 45px; */
     /* box-shadow: 0px 5px 8px rgba(0,0,0,0.2); */
+
+    
     transition: all 0.3s ease 0s;
     border-width: 1.5px;
     /* border-radius: 15px; */
