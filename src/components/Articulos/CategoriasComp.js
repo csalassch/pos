@@ -146,12 +146,12 @@ const CategoriasComp = () => {
                             <Row>
                                 <Col>
                                     {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-                                    <Button className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{marginRight:"7px"}}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
-                                    <Button className='btn btn-icon' onClick={()=>{setModalCsv(true)}} type="button"><Icon.FilePlus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                        <h4 style={{ color: "#1186a2" }}>Registro Categorías</h4>
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
-                                        <h4 style={{ color: "#1186a2" }}>Registro Categorías</h4>
+                                    <Button className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{marginRight:"7px"}}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                    <Button className='btn btn-icon' onClick={()=>{setModalCsv(true)}} type="button"><Icon.FilePlus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                     </div >
                                 </Col>
                             </Row>
@@ -189,7 +189,7 @@ const CategoriasComp = () => {
                                                             <div className='d-flex justify-content-center'>
                                                                 {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}
 
-                                                                <Button color='secondary' type="submit" style={{ padding: "1.5px", fontSize: "11px", borderWidth: "1.5px" }}><Icon.Info style={{ maxWidth: "18px", marginRight: "5px" }} />Ver Detalle</Button>
+                                                                <Button color='secondary' type="submit" style={{ fontSize: "11px", border:"none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                                                             </div>
 
                                                         </td>

@@ -1,7 +1,7 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap'); */
 .btn-success:hover {
     background-color: #1186a2;
-    box-shadow: 0px 10px 10px rgba(17, 134, 162, 0.4);
+    box-shadow: 0px 10px 10px rgba(17, 134, 162, 0.2);
     color: #eef0f2;
 }
 
@@ -10,10 +10,10 @@
 }
 
 .btn-secondary {
-    color: #fc7174;
-    border-color: #fc7174;
+    color: #1186a2;
+    border-color: #1186a2;
     background-color: transparent;
-    font-weight: 600;
+        font-weight: 600;
 
     /* padding: 1.5px; */
     border-radius: 0.3rem;
@@ -24,10 +24,10 @@
 }
 
 .btn-secondary:hover {
-    background-color: #fc7174;
-    border-color: #fc7174;
-    box-shadow: 0px 10px 10px rgba(252, 113, 116, 0.4);
-    color: #eef0f2;
+    background-color: #fff;
+    border-color: #fff;
+    box-shadow: 0px 10px 10px rgba(17,134,162, 0.2);
+    color: #1186a2;
 }
 
 .btn-success:focus {
@@ -37,13 +37,13 @@
 .btn-icon:focus {
     background-color: #eef0f2;
     border-color: #eef0f2;
-    box-shadow: 0px 10px 10px rgba(17,134,162, 0.4);
+    box-shadow: 0px 10px 10px rgba(17,134,162, 0.2);
     color: #1186a2;
 }
 .btn-icon:hover{
     background-color: #eef0f2;
     border-color: #eef0f2;
-    box-shadow: 0px 10px 10px rgba(17,134,162, 0.4);
+    box-shadow: 0px 10px 10px rgba(17,134,162, 0.2);
     color: #1186a2;
 }
 .btn-icon {
