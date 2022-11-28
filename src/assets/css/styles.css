@@ -14,8 +14,11 @@
     border-color: #fc7174;
     background-color: transparent;
     /* padding: 1.5px; */
+    border-radius: 0.3rem;
     letter-spacing: 1.5px;
-    border-width: 1.5px
+    border-width: 1.5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .btn-secondary:hover {
     background-color: #fc7174;
