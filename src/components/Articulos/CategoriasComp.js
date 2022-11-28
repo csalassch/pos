@@ -193,7 +193,7 @@ const CategoriasComp = () => {
                                                     Agregar
                                                 </Button>
                                                 <Button color="secondary" onClick={toggle.bind(null)}>
-                                                    CANCELAR
+                                                    Cancelar
                                                 </Button>
                                             </ModalFooter>
                                         </Modal>

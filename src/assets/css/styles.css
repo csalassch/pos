@@ -28,7 +28,7 @@
 }
 
 .btn-success {
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     border: none;
     padding-left: 10px;
     padding-right: 10px;
