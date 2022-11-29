@@ -32,7 +32,7 @@ const TablePanelModulos = () => {
     });
   }
   function modifiedActive(data) {
-    update(ref(db, `products/${data.id}`), {
+    update(ref(db, `modules/${data.id}`), {
       active: data.active === "true" ? "false" : "true"
     });
     getDatosModulos();
