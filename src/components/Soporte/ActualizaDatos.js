@@ -39,7 +39,7 @@ const ActualizaDatos = ({ datos }) => {
     };
 
     useEffect(() => {
-        if(Formvalue.name === "" && datos){
+        if(Formvalue.name === '' && datos){
             setFormvalue({ 
                 name: datos.name,
                 tipo: "Fisica", 
@@ -52,6 +52,7 @@ const ActualizaDatos = ({ datos }) => {
                 cfdiUssage: datos.cfdiUssage, 
                 entityType: datos.entityType });
         }
+        console.log(Formvalue)
     }, [Formvalue, stamp])
     return (
         <>
