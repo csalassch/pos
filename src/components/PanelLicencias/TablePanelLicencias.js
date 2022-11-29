@@ -102,7 +102,7 @@ const TablePanelLicencias = () => {
                 </td>
                 <td>
                   <div className='d-flex align-items-center p-2 ms-3 '>
-                    <div onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
+                    <div className="btn-icon" onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
                       <Icon.AlertCircle />
                     </div>
                   </div>
