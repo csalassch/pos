@@ -32,6 +32,7 @@ const Alta = () => {
                 caracteristicas: lista,
                 active: "true"
             });
+            setLista([])
             setFormvalue({ nombre: '', descripcion: '', producto: '', monto: '', caracteristica: '' });
             setAction("envio");
         }
@@ -120,7 +121,7 @@ const Alta = () => {
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Descripción *</InputGroupText>
-                                <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripción" />
+                                <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripción" value={action === "envio" ? "" : Formvalue.descripcion}/>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -135,7 +136,9 @@ const Alta = () => {
                                                 options={arrayProducts}
                                                 style={{ width: 100 }}
                                                 name="producto"
-                                                onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue) }}
+                                                onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue)}}
+                                                // value={action === "envio" ? "" : Formvalue.descripcion}
+                                            
                                             />
                                         </div>
                                     </Col>
@@ -145,7 +148,7 @@ const Alta = () => {
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Monto $ *</InputGroupText>
-                                <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
+                                <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" value={action === "envio" ? "" : Formvalue.monto}/>
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -166,6 +169,7 @@ const Alta = () => {
                                                             style={{ width: 100 }}
                                                             name="caracteristica"
                                                             onChange={(e) => { setFormvalue({ ...Formvalue, caracteristica: e.id }); addLicense(e.value); setFormvalue({ ...Formvalue, caracteristica: '' }); }}
+                                                            // value={action === "envio" ? "" : Formvalue.caracteristica}
                                                         />
                                                     </div>
                                                 </Col>

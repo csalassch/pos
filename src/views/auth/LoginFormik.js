@@ -26,7 +26,7 @@ const LoginFormik = () => {
       navigate('/');
     } catch (err) {
       // eslint-disable-next-line
-      alert(err.code)
+      //alert(err.code)
     }
   }
   const initialValues = {
@@ -52,8 +52,6 @@ const LoginFormik = () => {
                   ¿No tienes cuenta aun? <Link to="/auth/registerformik">Registrarme</Link>
                 </small>
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(fields) => {
-                  // eslint-disable-next-line no-alert   
-                  // alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`); 
                   handleSubmit(fields.email, fields.password)
                 }}
                   render={({ errors, touched }) => (

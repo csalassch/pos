@@ -6,7 +6,6 @@ import { onValue, ref } from 'firebase/database';
 import { db } from '../../../../FirebaseConfig/firebase';
 
 const DetallesLicencia = ({ id }) => {
-    // const navigate = useNavigate()
     const [lista, setLista] = useState([]);
     const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
 
@@ -43,7 +42,7 @@ const DetallesLicencia = ({ id }) => {
     return (
         <>
             <CardBody className="p-2">
-                <div className="text-center mt-2">
+                <div className="text-center mt-2 ">
                     {/* <img src={img1} className="rounded-circle" width="100" alt="" /> */}
                     <Icon.Folder style={{ scale: "2" }} className="mb-3" />
                     <CardTitle tag="h4" className="mt-2 mb-0">
@@ -57,28 +56,21 @@ const DetallesLicencia = ({ id }) => {
                     <Col xs="4">
                         <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">Estado</CardSubtitle>
                         <CardTitle tag="h5">
-                            {Formvalue.active === "true" ?
-                                <div>
-                                    <Row>
-                                        <Col>
-                                            <Icon.ToggleRight style={{ color: "#fca311" }} />
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            Activo
-                                        </Col>
-                                    </Row>
-                                </div> :
-                                <div>
-                                    <Row><Col>
-                                        <Icon.ToggleLeft />
-                                    </Col></Row>
-                                    <Row><Col>
-                                        Inactivo
-                                    </Col></Row>
-                                </div>
-                            }
+                            {Formvalue.active === "true" ? <div>
+                                <Row><Col>
+                                    <Icon.ToggleRight style={{ color: "#fca311" }} />
+                                </Col></Row>
+                                <Row><Col>
+                                    Activo
+                                </Col></Row>
+                            </div> : <div>
+                                <Row><Col>
+                                    <Icon.ToggleLeft />
+                                </Col></Row>
+                                <Row><Col>
+                                    Inactivo
+                                </Col></Row>
+                            </div>}
                         </CardTitle>
                     </Col>
                     <Col xs="4">

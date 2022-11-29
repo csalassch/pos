@@ -35,7 +35,7 @@ const RegisterFormik = () => {
 
     } catch (error) {
       // eslint-disable-next-line
-      alert(error.code)
+      // alert(error.code)
     }
   }
   return (
@@ -56,8 +56,8 @@ const RegisterFormik = () => {
                   initialValues={initialValues}
                   validationSchema={validationSchema}
                   onSubmit={(fields) => {
-                    // eslint-disable-next-line no-alert
-                    alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`);
+                    // // eslint-disable-next-line no-alert
+                    // alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`);
                     handleSubmit(fields.UserName, fields.email, fields.password, fields.isCompany);
                   }}
                   render={({ errors, touched }) => (

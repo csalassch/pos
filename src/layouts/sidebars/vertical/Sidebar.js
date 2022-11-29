@@ -25,11 +25,10 @@ const Sidebar = () => {
   const isFixed = useSelector((state) => state.customizer.isSidebarFixed);
   // const dispatch = useDispatch();
   const { dataUser } = useAuth();
-  const [userData, setUserData] = useState({user:'', role:''});
+  const [userData, setUserData] = useState({name:'', role:''});
   function getDatoUnico() {
     if (dataUser) {
       setUserData(dataUser);
-      console.log(dataUser)
     }
   }
 
@@ -42,7 +41,7 @@ const Sidebar = () => {
       <SimpleBar style={{ height: '100%' }}>
         <div className="py-3 px-4 d-flex align-items-center border-bottom-sidebar">
           <img src={user1} alt="user" width="30" className="rounded-circle" />
-          <div className="ms-3 opacity-75 text-truncate user-name">{userData.userName}</div>
+          <div className="ms-3 opacity-75 text-truncate user-name">{userData.name}</div>
         </div>
         {/********Sidebar Content*******/}
         <div className="p-3">

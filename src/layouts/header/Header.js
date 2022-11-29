@@ -30,11 +30,10 @@ const Header = () => {
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const dispatch = useDispatch();
 
-  const { logout,user } = useAuth();
+  const { logout } = useAuth();
   const handleLogout = async () => {
     await logout();
   }
-  console.log(user);
   return (
     <>
       <Navbar
@@ -155,7 +154,7 @@ const Header = () => {
               <ProfileDD />
               <div className="p-2 px-3">
                 <Button color="danger" size="sm" onClick={handleLogout}>
-                  Logout
+                  Cerrar sesión
                 </Button>
               </div>
             </DropdownMenu>

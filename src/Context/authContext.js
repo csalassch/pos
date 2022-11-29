@@ -22,8 +22,8 @@ export function AuthProvider({ children }) {
             const user1 = userCredential.user;
             console.log(`ahh:${user1.uid}`);
             set(ref(db, `usuarios/${user1.uid}`), {
-                user: email,
-                userName: UserName,
+                mail: email,
+                name: UserName,
                 password: password,
                 dateCreated: (new Date()).toUTCString(),
                 role: role
@@ -36,8 +36,8 @@ export function AuthProvider({ children }) {
     function getDataUser() {
         onValue(ref(db, `usuarios/${user.uid}`), (snapshot => {
             const datosUsuario = {
-                userName: snapshot.val().userName,
-                user: snapshot.val().user,
+                mail: snapshot.val().email,
+                name: snapshot.val().name,
                 role: (snapshot.val().role ? snapshot.val().role: "No tiene asignado"),
                 }
                 setDataUser(datosUsuario)

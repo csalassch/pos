@@ -1,12 +1,16 @@
 
 import { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
-import { Link } from 'react-router-dom';
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, CardSubtitle, CardTitle } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Card, CardHeader, Row, Col } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
+import AltaP from './Admin/Productos/AltaP';
+import DetallesProducto from './Admin/Productos/DetallesProducto';
+import EditarP from './Admin/Productos/EditarP';
 
 const TablePanelProductos = () => {
+  const [action, setAction] = useState('');
+  const [uidProducto, setUidProducto] = useState('');
   const [modal, setModal] = useState(false);
   const [lista, setLista] = useState([{ id: 0, nombre: '', descripcion: '' }]);
   const toggle = () => {
@@ -39,65 +43,63 @@ const TablePanelProductos = () => {
   return (
     <div>
       <br />
-      <div className='w-full d-flex justify-content-between '>
-        <div className=''>
-          <CardTitle tag="h5">Lista de productos </CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            Aqui se visualizaran todos los productos disponibles
-          </CardSubtitle>
-        </div>
-        <div className=''>
-          <Link to={`/servicios/PanelProductosAdmin/${"AP"}`}>
-            <Button className="btn btn-success" size="lg" block > <Icon.Plus /></Button>
-          </Link>
-          <div className="d-flex justify-content-center mt-2" onClick={getDatosProductos} style={{ cursor: "pointer" }}>
-            <Icon.RefreshCw />
-            <p>Recargar</p>
-          </div>
-        </div>
-      </div>
-      <Table className="no-wrap mt-3 align-middle" responsive borderless>
-        <thead>
-          <tr>
-            <th className='text-center'>Activo</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lista.map((tdata) => (
-            <tr key={tdata.id} className="border-top">
-              <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }} >
-                {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                  : <div><Icon.ToggleLeft /></div>}
-              </div></td>
-              <td>{tdata.nombre}</td>
-              <td>{tdata.descripcion}</td>
-              <td>
-                <div className='d-flex align-items-center p-2 ms-3'>
-                  <div>
-                    <Link to={`/servicios/PanelLicenciasAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit style={{ color: "#1186A2" }} /></Link>
-                  </div>
-
-                </div>
-              </td>
+      <Card>
+        <CardHeader style={{ backgroundColor: "#eef0f2" }}>
+          <Row>
+            <Col>
+              <h4 style={{ color: "#1186a2" }}>Registro producto</h4>
+            </Col>
+            <Col>
+              <div className='d-flex justify-content-end'>
+                <Button title='Agregar producto' onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-icon" ><Icon.Plus /></Button>
+                <Button title='Recargar tabla' onClick={() => { getDatosProductos() }} className="btn btn-icon" ><Icon.RefreshCw /></Button>
+              </div >
+            </Col>
+          </Row>
+        </CardHeader>
+        <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <thead>
+            <tr>
+              <th className='text-center'>Activo</th>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Detalles</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {lista.map((tdata) => (
+              <tr key={tdata.id} className="border-top">
+                <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }} >
+                  {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                    : <div><Icon.ToggleLeft /></div>}
+                </div></td>
+                <td>{tdata.nombre}</td>
+                <td>{tdata.descripcion}</td>
+                <td>
+                  <div className='d-flex align-items-center p-2 ms-3 '>
+                    <div onClick={() => { setUidProducto(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
+                      <Icon.AlertCircle />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Card>
       <Modal isOpen={modal} toggle={toggle.bind(null)}>
-        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
+        <ModalHeader toggle={toggle.bind(null)} >
+          {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar producto</div> : <div></div>}
+          {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles producto</div> : <div></div>}
+          {action === "Editar" ? <div><Icon.Edit /> Editar producto</div> : <div></div>}
+        </ModalHeader>
         <ModalBody>
-          ¿Seguro que quieres eliminar el producto ?
+          {action === "Agregar" ? <AltaP /> : ""}
+          {action === "Detalles" ? <DetallesProducto id={uidProducto} /> : ""}
+          {action === "Editar" ? <EditarP id={uidProducto} /> : ""}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => { setModal(false); }}>
-            Confirmar
-          </Button>
-          <Button color="secondary" onClick={toggle.bind(null)}>
-            Cancelar
-          </Button>
+          {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
         </ModalFooter>
       </Modal>
     </div >
