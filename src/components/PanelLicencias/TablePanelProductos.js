@@ -62,7 +62,7 @@ const TablePanelProductos = () => {
             <tr>
               <th className='text-center'>Activo</th>
               <th>Nombre</th>
-              <th>Descripcion</th>
+              <th>Descripción</th>
               <th>Detalles</th>
             </tr>
           </thead>
