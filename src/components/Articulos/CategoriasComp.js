@@ -75,7 +75,7 @@ const CategoriasComp = () => {
             } else {
                 push(ref(db, 'categories/'), {
                     name: nameUnit,
-                    active: "true"
+                    active: true
                 });
                 // setVisible(true);
                 // setAlertColor("success");
@@ -108,7 +108,7 @@ const CategoriasComp = () => {
     // const [checkIcono, setCheckIcono] = useState(0);
     function modifiedActive(dataPib) {
         update(ref(db, `categories/${dataPib.key}`), {
-            active: dataPib.active === "true" ? "false" : "true"
+            active: !dataPib.active 
         });
         fetchDataCategories();
     }
@@ -199,8 +199,9 @@ const CategoriasComp = () => {
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
-                                        <Button className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "7px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
-                                        <Button className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.FilePlus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                        <Button title='Agregar Categoría' className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "7px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                        <Button title='Cargar .CSV' className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.Upload style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                        <Button title='Descargar Plantilla' className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                     </div >
                                 </Col>
                             </Row>
@@ -229,7 +230,7 @@ const CategoriasComp = () => {
                                                     <tr key={data.id}>
                                                         <td>{data.id}</td>
                                                         <td><div onClick={() => { modifiedActive(data) }}>
-                                                            {data.active === "true" || data.active ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                                                            {data.active === "true" || data.active===true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                                                                 : <div><Icon.ToggleLeft /></div>}
                                                         </div></td>
                                                         <td>{data.name}</td>
