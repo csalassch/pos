@@ -15,6 +15,31 @@ ol.progtrckr li {
 
 ol.progtrckr li span {
   padding: 0 1.5rem;
+  color:#1186a2;
+}
+#next-button {
+  color:#fca311;
+  background-color:transparent;
+  border-color: #fca311;
+  border-width: 1.7px;
+}
+#next-button:hover {
+  background-color: #eef0f2;
+  border-color: #eef0f2;
+  box-shadow: 0px 10px 10px rgba(252,163,17, 0.2);
+  color: #fca311;
+}
+#prev-button:hover {
+  background-color: #eef0f2;
+  border-color: #eef0f2;
+  box-shadow: 0px 10px 10px rgba(252,163,17, 0.2);
+  color: #fca311;
+}
+#prev-button {
+  color:#fca311;
+  background-color:transparent;
+  border-color: #fca311;
+  border-width: 1.7px;
 }
 
 @media (max-width: 650px) {

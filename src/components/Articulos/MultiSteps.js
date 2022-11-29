@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import StepZilla from 'react-stepzilla';
 import './steps.scss';
+
 // import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
 //  import ComponentCard from '../ComponentCard';
@@ -89,8 +90,8 @@ class MultiSteps extends Component {
             
             
               <div className="example">
-                <div className="step-progress">
-                  <StepZilla steps={steps} nextTextOnFinalActionStep="Save" />
+                <div className="step-progress" >
+                  <StepZilla  steps={steps} nextTextOnFinalActionStep="Guardar" />
                 </div>
               </div>
           </>
