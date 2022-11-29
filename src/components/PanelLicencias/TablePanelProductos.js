@@ -88,10 +88,20 @@ const TablePanelProductos = () => {
         </Table>
       </Card>
       <Modal isOpen={modal} toggle={toggle.bind(null)}>
-        <ModalHeader toggle={toggle.bind(null)} >
-          {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar producto</div> : <div></div>}
-          {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles producto</div> : <div></div>}
-          {action === "Editar" ? <div><Icon.Edit /> Editar producto</div> : <div></div>}
+        <ModalHeader toggle={toggle.bind(null)} style={{ color: "#1186a2", width: "100%" }}>
+          <Row>
+            <Col>
+              {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar producto</div> : <div></div>}
+              {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles producto</div> : <div></div>}
+              {action === "Editar" ? <div><Icon.Edit /> Editar producto</div> : <div></div>}
+            </Col>
+            <Col>
+              <div className='d-flex justify-content-end'>
+                {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
+              </div>
+            </Col>
+          </Row>
+
         </ModalHeader>
         <ModalBody>
           {action === "Agregar" ? <AltaP /> : ""}
@@ -99,7 +109,7 @@ const TablePanelProductos = () => {
           {action === "Editar" ? <EditarP id={uidProducto} /> : ""}
         </ModalBody>
         <ModalFooter>
-          {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
+
         </ModalFooter>
       </Modal>
     </div >

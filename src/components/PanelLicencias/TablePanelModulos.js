@@ -51,47 +51,57 @@ const TablePanelModulos = () => {
             </Col>
             <Col>
               <div className='d-flex justify-content-end'>
-                <Button title='Agregar Módulo'onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-icon" ><Icon.Plus /></Button>
+                <Button title='Agregar Módulo' onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-icon" ><Icon.Plus /></Button>
                 <Button title='Recargar tabla' onClick={() => { getDatosModulos() }} className="btn btn-icon" ><Icon.RefreshCw /></Button>
               </div >
             </Col>
           </Row>
         </CardHeader>
-      <Table className="no-wrap mt-3 align-middle" responsive borderless>
-        <thead>
-          <tr>
-            <th className='text-center'>Activo</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Detalles</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lista.map((tdata) => (
-            <tr key={tdata.id} className="border-top">
-              <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }} >
-                {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                  : <div><Icon.ToggleLeft /></div>}
-              </div></td>
-              <td>{tdata.nombre}</td>
-              <td>{tdata.descripcion}</td>
-              <td>
-                <div className='d-flex align-items-center p-2 ms-3 '>
-                  <div onClick={() => { setUidModulo(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
-                    <Icon.AlertCircle />
-                  </div>
-                </div>
-              </td>
+        <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <thead>
+            <tr>
+              <th className='text-center'>Activo</th>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Detalles</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {lista.map((tdata) => (
+              <tr key={tdata.id} className="border-top">
+                <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }} >
+                  {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                    : <div><Icon.ToggleLeft /></div>}
+                </div></td>
+                <td>{tdata.nombre}</td>
+                <td>{tdata.descripcion}</td>
+                <td>
+                  <div className='d-flex align-items-center p-2 ms-3 '>
+                    <div onClick={() => { setUidModulo(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
+                      <Icon.AlertCircle />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </Card>
       <Modal isOpen={modal} toggle={toggle.bind(null)}>
-        <ModalHeader toggle={toggle.bind(null)} >
-          {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar módulo</div> : <div></div>}
-          {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles módulo</div> : <div></div>}
-          {action === "Editar" ? <div><Icon.Edit /> Editar módulo</div> : <div></div>}
+        <ModalHeader toggle={toggle.bind(null)} style={{ color: "#1186a2", width: "100%" }}>
+          <Row>
+            <Col>
+              {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar módulo</div> : <div></div>}
+              {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles módulo</div> : <div></div>}
+              {action === "Editar" ? <div><Icon.Edit /> Editar módulo</div> : <div></div>}
+            </Col>
+            <Col>
+              <div className='d-flex justify-content-end'>
+                {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
+              </div>
+            </Col>
+          </Row>
+
         </ModalHeader>
         <ModalBody>
           {action === "Agregar" ? <AltaM /> : ""}
@@ -99,7 +109,6 @@ const TablePanelModulos = () => {
           {action === "Editar" ? <EditarM id={uidModulo} /> : ""}
         </ModalBody>
         <ModalFooter>
-          {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
         </ModalFooter>
       </Modal>
     </div >
