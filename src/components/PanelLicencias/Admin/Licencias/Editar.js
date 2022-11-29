@@ -6,11 +6,9 @@ import Form from 'react-validation/build/form';
 
 import { onValue, ref, update } from 'firebase/database';
 import * as Icon from 'react-feather';
-import { useNavigate } from 'react-router-dom';
 import { db } from '../../../../FirebaseConfig/firebase';
 
 const Editar = ({ id }) => {
-    const navigate = useNavigate()
     const { handleSubmit } = useForm();
     const [lista, setLista] = useState([]);
     const [listaAuxComp, setListaAuxComp] = useState([]);
@@ -250,7 +248,6 @@ const Editar = ({ id }) => {
                                                     </td>
                                                 </tr>
                                             ))}
-
                                         </tbody>
                                     </Table>
                                 </div>
@@ -279,7 +276,7 @@ const Editar = ({ id }) => {
                                 Modificacion Exitosa
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="primary" onClick={() => { setModal(false); navigate("/servicios/PanelLicenciasAdmin") }}>
+                                <Button color="primary" onClick={() => { setModal(false); }}>
                                     Confirmar
                                 </Button>
                             </ModalFooter>

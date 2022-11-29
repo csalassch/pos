@@ -113,7 +113,6 @@ const RecoverPassword = Loadable(lazy(() => import('./views/auth/RecoverPassword
 const PanelLicencias = Loadable(lazy(() => import('./views/PanelLicencias/PanelLicencias')));
 const PanelLicenciasAdmin = Loadable(lazy(() => import('./views/PanelLicencias/Admin/PanelLicenciasAdmin')));
 const PanelProductosAdmin = Loadable(lazy(() => import('./views/PanelLicencias/Admin/PanelProductosAdmin')));
-const AccionLicencia = Loadable(lazy(() => import('./views/PanelLicencias/Admin/AccionLicencia')));
 //const InfoLicencia = Loadable(lazy(() => import('./views/PanelLicencias/InfoLicencia')));
 const ConsultaUsuario = Loadable(lazy(() => import('./views/PanelLicencias/Admin/ConsultaUsuario')));
 const Inventarios = Loadable(lazy(() => import('./views/Articulos/Inventarios')));
@@ -150,10 +149,6 @@ const App = () => {
               <Route path='/servicios/PanelLicencias' name='PanelLicencias' element={<PanelLicencias />} />
               <Route path='/servicios/PanelLicenciasAdmin' name='PanelLicenciasAdmin' element={<PanelLicenciasAdmin />} />
               <Route path='/servicios/PanelProductosAdmin' name='PanelProductosAdmin' element={<PanelProductosAdmin />} />
-              <Route path='/servicios/PanelLicenciasAdmin/:action' name='Alta' element={<AccionLicencia />} />
-              <Route path='/servicios/PanelProductosAdmin/:action' name='Alta' element={<AccionLicencia />} />
-              <Route path='/servicios/PanelLicenciasAdmin/:action/:id' name='Editar' element={<AccionLicencia />} />
-              <Route path='/servicios/PanelProductosAdmin/:action/:id' name='Editar' element={<AccionLicencia />} />
               <Route path='/servicios/PanelLicencias/ConsultaUsuario' name='ConsultaUsuario' element={<ConsultaUsuario />} />
               <Route path='/Soporte' name='Soporte' element={<Soporte />} />
               <Route path='/Articulos/Inventarios' name='Inventarios' element={<Inventarios />} />

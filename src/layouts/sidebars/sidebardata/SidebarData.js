@@ -78,28 +78,7 @@ const SidebarData = [
       }
       
     ],
-  },
-  { caption: 'Bugcarios' },
-  {
-    title: 'Soporte',
-    href: '/tekiio/freebug/bugcarios',
-    icon: <Icon.Tool />,
-    id: 20.1,
-    collapisble: true,
-    children: [
-      {
-        title: 'Gestion personal',
-        href: '/Soporte',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Gestion Empresa',
-        href: '/servicios/PanelLicenciasAdmin',
-        icon: <Icon.Disc />,
-      }
-    ]
-  }
-  
+  }  
 ];
 
 export default SidebarData;

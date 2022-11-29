@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Col, Row } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
@@ -7,7 +7,6 @@ import { onValue, ref, update } from 'firebase/database';
 import * as Icon from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../../FirebaseConfig/firebase';
-import ComponentCard from '../../../ComponentCard';
 
 const EditarM = ({ id }) => {
     const navigate = useNavigate()
@@ -58,83 +57,75 @@ const EditarM = ({ id }) => {
     }, [])
     return (
         <>
-            <ComponentCard title="Edite los datos del módulo">
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Row>
-                        <Col>
-                            <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText>Nombre </InputGroupText>
-                                    <Input onChange={handleChange} value={Formvalue.nombre} type="text" name="nombre" className="form-control" />
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText>Descripcion </InputGroupText>
-                                    <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" row="10" name="descripcion" className="form-control" />
-                                </InputGroup>
-                            </FormGroup>
-                            <div className='w-full d-flex justify-content-center'>
-                                <Button className="button btn-success w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
-                            </div>
-                        </Col>
-                        <Col>
-                        </Col>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <FormGroup>
+                    <InputGroup>
+                        <InputGroupText style={{ width: "100px" }}>Nombre </InputGroupText>
+                        <Input onChange={handleChange} value={Formvalue.nombre} type="text" name="nombre" className="form-control" />
+                    </InputGroup>
+                </FormGroup>
+                <FormGroup>
+                    <InputGroup>
+                        <InputGroupText style={{ width: "100px" }}>Descripción </InputGroupText>
+                        <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" row="10" name="descripcion" className="form-control" />
+                    </InputGroup>
+                </FormGroup>
+                <div className='w-full d-flex justify-content-center'>
+                    <Button className="button btn-success w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
+                </div>
 
-                        {action === "del" ?
-                            <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
-                                <ModalBody>
-                                    ¿Seguro que quieres eliminar la caracteristica?
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onClick={() => { setModal(false) }}>
-                                        Confirmar
-                                    </Button>
-                                    <Button color="secondary" onClick={toggle.bind(null)}>
-                                        Cancelar
-                                    </Button>
-                                </ModalFooter>
-                            </Modal> : <Modal></Modal>}
-                        {action === "envio" ?
-                            <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                <ModalHeader toggle={toggle.bind(null)} ><Icon.Check /> Exito</ModalHeader>
-                                <ModalBody>
-                                    Carga Exitosa
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onClick={() => { setModal(false); navigate("/servicios/PanelProductosAdmin") }}>
-                                        Confirmar
-                                    </Button>
-                                </ModalFooter>
-                            </Modal> : <Modal></Modal>}
-                        {action === "ESC" ?
-                            <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
-                                <ModalBody>
-                                    Tiene que realizar cambios
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onClick={() => { setModal(false); }}>
-                                        Confirmar
-                                    </Button>
-                                </ModalFooter>
-                            </Modal> : <Modal></Modal>}
-                        {action === "vacio" ?
-                            <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
-                                <ModalBody>
-                                    Tiene que realizar cambios
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onClick={() => { setModal(false); }}>
-                                        Confirmar
-                                    </Button>
-                                </ModalFooter>
-                            </Modal> : <Modal></Modal>}
-                    </Row>
-                </Form>
-            </ComponentCard>
+                {action === "del" ?
+                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
+                        <ModalBody>
+                            ¿Seguro que quieres eliminar la caracteristica?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => { setModal(false) }}>
+                                Confirmar
+                            </Button>
+                            <Button color="secondary" onClick={toggle.bind(null)}>
+                                Cancelar
+                            </Button>
+                        </ModalFooter>
+                    </Modal> : <Modal></Modal>}
+                {action === "envio" ?
+                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                        <ModalHeader toggle={toggle.bind(null)} ><Icon.Check /> Exito</ModalHeader>
+                        <ModalBody>
+                            Carga Exitosa
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => { setModal(false); navigate("/servicios/PanelProductosAdmin") }}>
+                                Confirmar
+                            </Button>
+                        </ModalFooter>
+                    </Modal> : <Modal></Modal>}
+                {action === "ESC" ?
+                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
+                        <ModalBody>
+                            Tiene que realizar cambios
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => { setModal(false); }}>
+                                Confirmar
+                            </Button>
+                        </ModalFooter>
+                    </Modal> : <Modal></Modal>}
+                {action === "vacio" ?
+                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
+                        <ModalBody>
+                            Tiene que realizar cambios
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="primary" onClick={() => { setModal(false); }}>
+                                Confirmar
+                            </Button>
+                        </ModalFooter>
+                    </Modal> : <Modal></Modal>}
+            </Form>
         </>
     );
 };

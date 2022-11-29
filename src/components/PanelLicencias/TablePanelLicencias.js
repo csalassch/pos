@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, CardSubtitle, CardTitle } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Card, Col, Row, CardHeader } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
 import Alta from './Admin/Licencias/Alta';
@@ -54,69 +54,69 @@ const TablePanelLicencias = () => {
   }, [uidLicencia])
   return (
     <div>
-      <br />
-      <div className='w-full d-flex justify-content-between '>
-        <div className=''>
-          <CardTitle tag="h5">Lista de licencias </CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            Aqui se visualizaran todas las licencias
-          </CardSubtitle>
-        </div>
-        <div className=''>
-            <Button onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-success" size="lg" block><Icon.Plus /></Button>
-          <div className="d-flex justify-content-center mt-2" onClick={getDatosLicencia} style={{ cursor: "pointer" }}>
-            <Icon.RefreshCw />
-            <p>Recargar</p>
-          </div>
-        </div>
-      </div>
-      <Table className="no-wrap mt-3 align-middle" responsive borderless>
-        <thead>
-          <tr>
-            <th className='text-center'>Activo</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Monto</th>
-            <th>Caracteristicas</th>
-            <th>Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lista.map((tdata) => (
-            <tr key={tdata.id} className="border-top">
-              <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                {tdata.active === "true" ?
-                  <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                  : <div><Icon.ToggleLeft /></div>}
-              </div></td>
-              <td>{tdata.nombre}</td>
-              <td>{tdata.descripcion}</td>
-              <td>{tdata.monto}</td>
-              <td>
-                <ul>
-                  {tdata.caracteristicas.map((carac) =>
-                    <li key={carac.id}>
-                      {carac.caracteristica}
-                    </li>
-                  )}
-                </ul>
-              </td>
-              <td>
-                <div className='d-flex align-items-center p-2 ms-3'>
-                  <div onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
-                    <Icon.Edit style={{ color: "#1186A2" }} />
-                  </div>
-                </div>
-              </td>
+      <Card>
+        <CardHeader style={{ backgroundColor: "#eef0f2" }}>
+          <Row>
+            <Col>
+              {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
+              <h4 style={{ color: "#1186a2" }}>Registro licencia</h4>
+            </Col>
+            <Col>
+              <div className='d-flex justify-content-end'>
+                <Button title='Agregar Licencia' onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-icon" ><Icon.Plus /></Button>
+                <Button title='Recargar tabla' onClick={() => { getDatosLicencia() }} className="btn btn-icon" ><Icon.RefreshCw /></Button>
+              </div >
+            </Col>
+          </Row>
+        </CardHeader>
+        <Table className="no-wrap mt-3 align-middle" responsive borderless>
+          <thead>
+            <tr>
+              <th className='text-center'>Activo</th>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Monto</th>
+              <th>Caracteristicas</th>
+              <th>Detalles</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {lista.map((tdata) => (
+              <tr key={tdata.id} className="border-top">
+                <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
+                  {tdata.active === "true" ?
+                    <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                    : <div><Icon.ToggleLeft /></div>}
+                </div></td>
+                <td>{tdata.nombre}</td>
+                <td>{tdata.descripcion}</td>
+                <td>{tdata.monto}</td>
+                <td>
+                  <ul>
+                    {tdata.caracteristicas.map((carac) =>
+                      <li key={carac.id}>
+                        {carac.caracteristica}
+                      </li>
+                    )}
+                  </ul>
+                </td>
+                <td>
+                  <div className='d-flex align-items-center p-2 ms-3 '>
+                    <div onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
+                      <Icon.AlertCircle />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Card>
       <Modal className='modal-lg' isOpen={modal} toggle={toggle.bind(null)}>
-        <ModalHeader toggle={toggle.bind(null)}>
-        {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar licencia</div>:<div></div>}
-        {action === "Detalles" ? <div><Icon.PlusCircle /> Detalles licencia</div>:<div></div>}
-        {action === "Editar" ? <div><Icon.Edit /> Editar licencia</div>:<div></div>}
+        <ModalHeader toggle={toggle.bind(null)} >
+          {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar licencia</div> : <div></div>}
+          {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles licencia</div> : <div></div>}
+          {action === "Editar" ? <div><Icon.Edit /> Editar licencia</div> : <div></div>}
         </ModalHeader>
         <ModalBody>
           {action === "Agregar" ? <Alta /> : ""}
@@ -124,7 +124,7 @@ const TablePanelLicencias = () => {
           {action === "Editar" ? <Editar id={uidLicencia} /> : ""}
         </ModalBody>
         <ModalFooter>
-        {action === "Detalles" ? <div className='btn-icon' onClick={()=>{ setAction("Editar")}}><Icon.Edit/> </div>:<div></div>}
+          {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
         </ModalFooter>
       </Modal>
 

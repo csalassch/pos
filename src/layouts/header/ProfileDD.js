@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { DropdownItem } from 'reactstrap';
 import { User, FileText, Star, Settings, Droplet } from 'react-feather';
-import { ref, onValue } from 'firebase/database';
 
+import { useNavigate } from 'react-router-dom';
 import user1 from '../../assets/images/users/user4.jpg';
 import { useAuth } from '../../Context/authContext';
 
-import { db } from '../../FirebaseConfig/firebase';
 
 const ProfileDD = () => {
 
-  const { user } = useAuth();
-  const [userData, setUserData] = useState("");
-  function getDatoUnico() {
-    onValue(ref(db, `usuarios/${user.uid}`), (snapshot => {
-      const username = (snapshot.val() && snapshot.val().userName) || "Anonymous";
-      console.log("ID USUARIO: ", username)
-      setUserData(username);
-
-    }))
-  }
+  const { user, dataUser } = useAuth();
+  const [userData, setUserData] = useState({ name: "" });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getDatoUnico()
+    if (dataUser) {
+      setUserData(dataUser);
+    }
   }, [])
 
   return (
@@ -30,17 +24,17 @@ const ProfileDD = () => {
       <div className="d-flex gap-3 p-3 text-white rounded-top bg-info pt-2 align-items-center">
         <img src={user1} alt="user" className="mt-2 rounded-circle" width="60" />
         <span>
-          <h5 className="mb-0">{userData}</h5>
+          <h5 className="mb-0">{userData.name}</h5>
           <small className="fs-6 opacity-50">{user.email}</small>
         </span>
       </div>
       <DropdownItem className="px-4 py-3">
         <User size={20} />
-        &nbsp; My Profile
+        &nbsp; Mi perfil
       </DropdownItem>
-      <DropdownItem className="px-4 py-3">
+      <DropdownItem className="px-4 py-3" onClick={() => { navigate("/soporte") }}>
         <FileText size={20} />
-        &nbsp; Edit Profile
+        &nbsp; Editar perfil
       </DropdownItem>
       <DropdownItem className="px-4 py-3">
         <Star size={20} />
