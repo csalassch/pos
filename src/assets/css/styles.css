@@ -8,7 +8,9 @@
 .sidebarBox {
     background-color: #1f4f67;
 }
-
+.modal-title {
+    width: 100%;
+}
 .btn-secondary {
     color: #1186a2;
     border-color: #1186a2;
@@ -30,6 +32,12 @@
     color: #1186a2;
 }
 
+.btn-secondary:focus {
+    background-color: #fff;
+    border-color: #fff;
+    box-shadow: 0px 10px 10px rgba(17,134,162, 0.2);
+    color: #1186a2;
+}
 .btn-success:focus {
     color: #1f4f67;
     background-color: #fca311;
