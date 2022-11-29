@@ -8,6 +8,8 @@ import {
 } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 import Papa from "papaparse";
+// import { usePapaParse } from 'react-papaparse';
+
 
 import { push, ref, onValue, update } from 'firebase/database';
 import * as Icon from 'react-feather';
@@ -49,6 +51,7 @@ const CategoriasComp = () => {
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState("");
     const [hiddenSuccess, sethiddenSuccess] = useState(false);
+    const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
     const onDismiss = () => {
         setVisible(false);
     };
@@ -108,7 +111,7 @@ const CategoriasComp = () => {
     // const [checkIcono, setCheckIcono] = useState(0);
     function modifiedActive(dataPib) {
         update(ref(db, `categories/${dataPib.key}`), {
-            active: !dataPib.active 
+            active: !dataPib.active
         });
         fetchDataCategories();
     }
@@ -116,39 +119,46 @@ const CategoriasComp = () => {
     const [file, setFile] = useState('');
     const [data2, setData2] = useState([]);
     // const [file, setFile] = useState("");
-    async function readCsv(){
+    async function readCsv() {
         const reader = new FileReader();
         reader.onload = async ({ target }) => {
-            const csv = Papa.parse(target.result, { header: true,encoding: "ISO-8859-1"});
+            const csv = Papa.parse(target.result, { header: true, encoding: "ISO-8859-1" });
             const parsedData = csv?.data;
-            console.log("dataaaa subida: ",parsedData);
-            const objDataCsv=[];
-            for(let i=0;i<parsedData.length;i++){
+            console.log("dataaaa subida: ", parsedData);
+            const objDataCsv = [];
+            for (let i = 0; i < parsedData.length; i++) {
 
                 objDataCsv.push(parsedData[i].Nombre);
             }
             // const columns = Object.keys(parsedData[0]);
             setData2(objDataCsv);
         }
-        reader.readAsText(file,'ISO-8859-1');
+        reader.readAsText(file, 'ISO-8859-1');
 
     }
     const insertCsvCategories = () => {
-        if(data2.length>0){
-            console.log("aqui mero: ",data2.length)
-            data2.forEach((element)=>{
-                console.log("element: ",element);
-                if(element!==''){
+        if (data2.length > 0) {
+            console.log("aqui mero: ", data2.length)
+            data2.forEach((element) => {
+                console.log("element: ", element);
+                if (element !== '') {
                     push(ref(db, 'categories/'), {
-                            name: element,
-                            active: true
-                        });
-    
+                        name: element,
+                        active: true
+                    });
+
                 }
             });
+            sethiddenSuccessUpload(true);
+            setMessage("¡Registrado con éxito!");
+            document.getElementById("fileInput").value = null;
+
+            setTimeout(() => {
+                sethiddenSuccessUpload(false);
+            }, 3000);
             setData2([]);
         }
-        
+
         // push(ref(db, 'categories/'), {
         //     name: nameUnit,
         //     active: "true"
@@ -167,21 +177,69 @@ const CategoriasComp = () => {
         } else {
             const storageRef = refStorage(dbStorage, `/Categorias/${file.name}`);
             uploadBytesResumable(storageRef, file);
-            setAlertColor("success");
-            setVisible(true);
-            setMessage("Archivo subido con éxito");
-            readCsv().then(()=>{
+
+            readCsv().then(() => {
 
                 insertCsvCategories();
             });
         }
     }
-    
+    // const { readString } = usePapaParse();
+    // const { jsonToCSV } = usePapaParse();
+
+
+    const downloadTemplate = () => {
+        // const dataCsv = [{}];
+        // const fieldsTemplate = ['Nombre','Ah'];
+        // const csv = Papa.unparse([
+        //     {
+        //         "Column 1": "foo",
+        //         "Column 2": "bar"
+        //     },
+        //     {
+        //         "Column 1": "abc",
+        //         "Column 2": "def"
+        //     }
+        // ]);
+        // const blob = new Blob([csv]);
+        // const a = document.createElement('a');
+        // a.href = URL.createObjectURL(blob, { type: 'text/plain' });
+        // a.download = 'CSV Export File';
+        // document.body.appendChild(a);
+        // a.click();
+        // document.body.removeChild(a);
+        const strEsp="[Escribe a partir de aquí]";
+        const encoded=new TextEncoder('utf-8',{ NONSTANDARD_allowLegacyEncoding: true });
+        const decoded=(new TextDecoder('utf-8').decode(encoded.encode(strEsp)));
+        console.log(decoded);
+        const CSV = [
+            '"Nombre"',
+            decoded
+        ].join('\n');
+
+        window.URL = window.webkitURL || window.URL;
+
+        const contentType = 'text/csv';
+
+        const csvFile = new Blob([CSV], { type: contentType });
+
+        const a = document.createElement('a');
+        a.download = 'Plantilla_Categorias_FreePOS.csv';
+        a.href = window.URL.createObjectURL(csvFile);
+        a.textContent = 'Download CSV';
+
+        a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
+
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
     useEffect(() => {
         fetchDataCategories();
 
         console.log(arr);
-        if(data2.length>0){
+        if (data2.length > 0) {
 
             insertCsvCategories();
         }
@@ -201,7 +259,7 @@ const CategoriasComp = () => {
                                     <div className='d-flex justify-content-end'>
                                         <Button title='Agregar Categoría' className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "7px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                         <Button title='Cargar .CSV' className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.Upload style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
-                                        <Button title='Descargar Plantilla' className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                        <Button title='Descargar Plantilla' className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                     </div >
                                 </Col>
                             </Row>
@@ -230,7 +288,7 @@ const CategoriasComp = () => {
                                                     <tr key={data.id}>
                                                         <td>{data.id}</td>
                                                         <td><div onClick={() => { modifiedActive(data) }}>
-                                                            {data.active === "true" || data.active===true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                                                            {data.active === "true" || data.active === true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                                                                 : <div><Icon.ToggleLeft /></div>}
                                                         </div></td>
                                                         <td>{data.name}</td>
@@ -283,17 +341,15 @@ const CategoriasComp = () => {
                                         <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
                                             <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> Cargar Categorías por .CSV</ModalHeader>
                                             <ModalBody>
-                                                {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
+                                                {hiddenSuccessUpload && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
 
                                                 <Form>
                                                     <FormGroup>
                                                         {/* <Label htmlFor="exampleFile">Carga Masiva por .CSV</Label> */}
-                                                        <Input type="file" placeholder='selecciona archivo' onChange={(e) => { setFile(e.target.files[0]); }} />
+                                                        <Input id='fileInput' type="file" placeholder='selecciona archivo' onChange={(e) => { setFile(e.target.files[0]); }} />
                                                     </FormGroup>
                                                 </Form>
-                                                <div style={{ marginTop: "3rem" }}>
-                                                    { data2}
-                                                </div>
+
                                             </ModalBody>
                                             <ModalFooter>
 
