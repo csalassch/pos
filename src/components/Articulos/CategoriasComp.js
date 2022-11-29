@@ -4,13 +4,14 @@ import {
     InputGroupText, Table,
     Modal, ModalHeader,
     ModalBody,
-    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader,Form
+    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form
 } from 'reactstrap';
-import { ref as refStorage, uploadBytesResumable} from 'firebase/storage';
+import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
+import Papa from "papaparse";
 
 import { push, ref, onValue, update } from 'firebase/database';
 import * as Icon from 'react-feather';
-import { db,dbStorage } from '../../FirebaseConfig/firebase';
+import { db, dbStorage } from '../../FirebaseConfig/firebase';
 // import ComponentCard from '../ComponentCard';
 
 
@@ -51,7 +52,7 @@ const CategoriasComp = () => {
     const onDismiss = () => {
         setVisible(false);
     };
-    
+
     // const deleteToggleConfirmation = () => {
     //     console.log("Deleted selected: ", keyAux);
     //     remove(ref(db, `categories/${keyAux}`));
@@ -113,7 +114,47 @@ const CategoriasComp = () => {
     }
     //For uploading categories csv
     const [file, setFile] = useState('');
+    const [data2, setData2] = useState([]);
+    // const [file, setFile] = useState("");
+    async function readCsv(){
+        const reader = new FileReader();
+        reader.onload = async ({ target }) => {
+            const csv = Papa.parse(target.result, { header: true,encoding: "ISO-8859-1"});
+            const parsedData = csv?.data;
+            console.log("dataaaa subida: ",parsedData);
+            const objDataCsv=[];
+            for(let i=0;i<parsedData.length;i++){
 
+                objDataCsv.push(parsedData[i].Nombre);
+            }
+            // const columns = Object.keys(parsedData[0]);
+            setData2(objDataCsv);
+        }
+        reader.readAsText(file,'ISO-8859-1');
+
+    }
+    const insertCsvCategories = () => {
+        if(data2.length>0){
+            console.log("aqui mero: ",data2.length)
+            data2.forEach((element)=>{
+                console.log("element: ",element);
+                if(element!==''){
+                    push(ref(db, 'categories/'), {
+                            name: element,
+                            active: true
+                        });
+    
+                }
+            });
+            setData2([]);
+        }
+        
+        // push(ref(db, 'categories/'), {
+        //     name: nameUnit,
+        //     active: "true"
+        // });
+
+    }
     const upload = () => {
         if (file == null)
             return;
@@ -129,14 +170,22 @@ const CategoriasComp = () => {
             setAlertColor("success");
             setVisible(true);
             setMessage("Archivo subido con éxito");
+            readCsv().then(()=>{
+
+                insertCsvCategories();
+            });
         }
     }
+    
     useEffect(() => {
         fetchDataCategories();
 
         console.log(arr);
+        if(data2.length>0){
 
-    }, []);
+            insertCsvCategories();
+        }
+    }, [data2]);
     return (
         <>
             <Row>
@@ -146,12 +195,12 @@ const CategoriasComp = () => {
                             <Row>
                                 <Col>
                                     {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-                                        <h4 style={{ color: "#1186a2" }}>Registro Categorías</h4>
+                                    <h4 style={{ color: "#1186a2" }}>Registro Categorías</h4>
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
-                                    <Button className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{marginRight:"7px"}}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
-                                    <Button className='btn btn-icon' onClick={()=>{setModalCsv(true)}} type="button"><Icon.FilePlus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                        <Button className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "7px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
+                                        <Button className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.FilePlus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button>
                                     </div >
                                 </Col>
                             </Row>
@@ -180,7 +229,7 @@ const CategoriasComp = () => {
                                                     <tr key={data.id}>
                                                         <td>{data.id}</td>
                                                         <td><div onClick={() => { modifiedActive(data) }}>
-                                                            {data.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                                                            {data.active === "true" || data.active ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                                                                 : <div><Icon.ToggleLeft /></div>}
                                                         </div></td>
                                                         <td>{data.name}</td>
@@ -189,7 +238,7 @@ const CategoriasComp = () => {
                                                             <div className='d-flex justify-content-center'>
                                                                 {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}
 
-                                                                <Button color='secondary' type="submit" style={{ fontSize: "11px", border:"none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                                                                <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                                                             </div>
 
                                                         </td>
@@ -205,8 +254,8 @@ const CategoriasComp = () => {
 
                                             </tbody>
                                         </Table>
-                                        <Modal isOpen={modal} toggle={()=>setModal(false)}>
-                                            <ModalHeader toggle={()=>setModal(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> Agregar Categoría</ModalHeader>
+                                        <Modal isOpen={modal} toggle={() => setModal(false)}>
+                                            <ModalHeader toggle={() => setModal(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> Agregar Categoría</ModalHeader>
                                             <ModalBody>
                                                 {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
 
@@ -230,8 +279,8 @@ const CategoriasComp = () => {
                                                 </Button>
                                             </ModalFooter>
                                         </Modal>
-                                        <Modal isOpen={modalCsv} toggle={()=>setModalCsv(false)}>
-                                            <ModalHeader toggle={()=>setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> Cargar Categorías por .CSV</ModalHeader>
+                                        <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
+                                            <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> Cargar Categorías por .CSV</ModalHeader>
                                             <ModalBody>
                                                 {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
 
@@ -241,13 +290,16 @@ const CategoriasComp = () => {
                                                         <Input type="file" placeholder='selecciona archivo' onChange={(e) => { setFile(e.target.files[0]); }} />
                                                     </FormGroup>
                                                 </Form>
+                                                <div style={{ marginTop: "3rem" }}>
+                                                    { data2}
+                                                </div>
                                             </ModalBody>
                                             <ModalFooter>
 
                                                 <Button color="success" onClick={upload}>
                                                     Agregar
                                                 </Button>
-                                                <Button color="secondary" onClick={() => { setModalCsv(false);}}>
+                                                <Button color="secondary" onClick={() => { setModalCsv(false); }}>
                                                     Cancelar
                                                 </Button>
                                             </ModalFooter>
