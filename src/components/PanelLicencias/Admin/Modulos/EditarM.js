@@ -5,11 +5,9 @@ import Form from 'react-validation/build/form';
 
 import { onValue, ref, update } from 'firebase/database';
 import * as Icon from 'react-feather';
-import { useNavigate } from 'react-router-dom';
 import { db } from '../../../../FirebaseConfig/firebase';
 
 const EditarM = ({ id }) => {
-    const navigate = useNavigate()
     const { handleSubmit } = useForm();
     const [action, setAction] = useState("");
     const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '' });
@@ -38,7 +36,7 @@ const EditarM = ({ id }) => {
         if (Formvalue !== FormvalueRef) {
             console.log(Formvalue, " ", FormvalueRef)
             if (Formvalue.nombre !== '' && Formvalue.descripcion !== '') {
-                update(ref(db, `products/${id}`), {
+                update(ref(db, `modules/${id}`), {
                     name: Formvalue.nombre,
                     description: Formvalue.descripcion
                 });
@@ -96,7 +94,7 @@ const EditarM = ({ id }) => {
                             Carga Exitosa
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="primary" onClick={() => { setModal(false); navigate("/servicios/PanelProductosAdmin") }}>
+                            <Button color="primary" onClick={() => { setModal(false); }}>
                                 Confirmar
                             </Button>
                         </ModalFooter>
