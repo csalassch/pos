@@ -4,7 +4,7 @@ import SimpleBar from 'simplebar-react';
 import PropTypes from 'prop-types';
 import {
   ChangeTopbarColor,
-  ToggleCustomizer,
+  
   ChangeDirection,
   ChangeDarkMode,
   ChangeSidebarColor,
@@ -18,7 +18,7 @@ const Customizer = ({ className }) => {
   const dispatch = useDispatch();
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const direction = useSelector((state) => state.customizer.isRTL);
-  const customtoggle = useSelector((state) => state.customizer.customizerSidebar);
+  // const customtoggle = useSelector((state) => state.customizer.customizerSidebar);
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const activeSidebarBg = useSelector((state) => state.customizer.sidebarBg);
   const topbarFixed = useSelector((state) => state.customizer.isTopbarFixed);
@@ -36,13 +36,13 @@ const Customizer = ({ className }) => {
           <SimpleBar style={{ height: 'calc(100vh - 85px)' }}>
             <div className="p-3">
               <br />
-              <Button
+              {/* <Button
                 color="danger"
                 className="custombtn"
                 onClick={() => dispatch(ToggleCustomizer())}
               >
                 {customtoggle ? <i className="bi bi-x" /> : <i className="bi bi-gear" />}
-              </Button>
+              </Button> */}
               <h6>Topbar Color</h6>
               <div className="button-group">
                 {ColorsBg.map((colorbg) => (
