@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
-import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Card, Col, Row, CardHeader } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, Button, Card, Col, Row, CardHeader } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
 import Alta from './Admin/Licencias/Alta';
@@ -113,19 +113,28 @@ const TablePanelLicencias = () => {
         </Table>
       </Card>
       <Modal className='modal-lg' isOpen={modal} toggle={toggle.bind(null)}>
-        <ModalHeader toggle={toggle.bind(null)} >
-          {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar licencia</div> : <div></div>}
-          {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles licencia</div> : <div></div>}
-          {action === "Editar" ? <div><Icon.Edit /> Editar licencia</div> : <div></div>}
+        <ModalHeader toggle={toggle.bind(null)} style={{ color: "#1186a2", width: "100%" }} >
+          <Row>
+            <Col>
+              {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar licencia</div> : <div></div>}
+              {action === "Detalles" ? <div><Icon.AlertCircle /> Detalles licencia</div> : <div></div>}
+              {action === "Editar" ? <div><Icon.Edit /> Editar licencia</div> : <div></div>}
+            </Col>
+            <Col>
+            <div className='d-flex justify-content-end'>
+
+              {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
+            </div>
+            </Col>
+          </Row>
         </ModalHeader>
         <ModalBody>
           {action === "Agregar" ? <Alta /> : ""}
           {action === "Detalles" ? <DetallesLicencia id={uidLicencia} /> : ""}
           {action === "Editar" ? <Editar id={uidLicencia} /> : ""}
         </ModalBody>
-        <ModalFooter>
-          {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
-        </ModalFooter>
+        {/* <ModalFooter>
+        </ModalFooter> */}
       </Modal>
 
     </div>
