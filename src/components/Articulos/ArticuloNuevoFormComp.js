@@ -14,7 +14,7 @@ import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage
 
 import { dbStorage, db } from '../../FirebaseConfig/firebase';
 import { useAuth } from '../../Context/authContext';
-import ComponentCard from '../ComponentCard';
+// import ComponentCard from '../ComponentCard';
 
 
 
@@ -314,7 +314,7 @@ const ArticuloNuevoFormComp = () => {
             <Row>
 
                 <Col md="12">
-                    <ComponentCard title="Nuevo Artículo">
+                    {/* <ComponentCard title="Nuevo Artículo"> */}
 
                         <FormGroup>
                             <Row>
@@ -510,7 +510,7 @@ const ArticuloNuevoFormComp = () => {
 
                             </Row>
                         </FormGroup>
-                    </ComponentCard>
+                    {/* </ComponentCard> */}
                 </Col>
             </Row>
         </>
