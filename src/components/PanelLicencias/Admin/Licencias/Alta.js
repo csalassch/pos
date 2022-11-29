@@ -6,12 +6,9 @@ import Form from 'react-validation/build/form';
 
 import { ref, push, onValue } from 'firebase/database';
 import * as Icon from 'react-feather';
-import { useNavigate } from 'react-router-dom';
 import { db } from '../../../../FirebaseConfig/firebase';
-import ComponentCard from '../../../ComponentCard';
 
 const Alta = () => {
-    const navigate = useNavigate();
     const { handleSubmit } = useForm();
     const [lista, setLista] = useState([]);
     const [idEliminar, setIdEliminar] = useState(0);
@@ -35,8 +32,8 @@ const Alta = () => {
                 caracteristicas: lista,
                 active: "true"
             });
+            setFormvalue({ nombre: '', descripcion: '', producto: '', monto: '', caracteristica: '' });
             setAction("envio");
-            navigate("/servicios/PanelLicenciasAdmin")
         }
         else {
             setAction("vacio");
@@ -111,146 +108,140 @@ const Alta = () => {
     }, [Formvalue, lista])
     return (
         <>
-            <ComponentCard title="Introduzca los datos de licencia">
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Row>
-                        <Col>
-                            <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{ width: "100px" }}>Nombre *</InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="nombre" className="form-control" placeholder="Nombre" />
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{ width: "101px" }}>Descripción *</InputGroupText>
-                                    <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripción" />
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <InputGroup >
-                                    <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
-                                        <Col md="3" className='p-0'>
-                                            <InputGroupText style={{ width: "100%", height: "100%" }}>Producto</InputGroupText>
-                                        </Col>
-                                        <Col className='p-0'>
-                                            <div style={{ width: "100%" }}>
-                                                <Select
-                                                    options={arrayProducts}
-                                                    style={{ width: 100 }}
-                                                    name="producto"
-                                                    onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue) }}
-                                                />
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{ width: "103px" }}>Monto $ *</InputGroupText>
-                                    <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
-                                </InputGroup>
-                            </FormGroup>
-
-                        </Col>
-                        <Col>
-                            <Row>
-                                <Col>
-                                    {/* <InputGroup>
-                                        <InputGroupText style={{ width: "160px" }}>Nueva Caracteristica</InputGroupText>
-                                        <Input onChange={handleChangeList} type="text" name="caracteristica" value={caracteristica} className="form-control" placeholder="Caracteristica" />
-                                    </InputGroup> */}
-                                    <InputGroup >
-                                        <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
-                                            <Col md="3" className='p-0'>
-                                                <InputGroupText style={{ width: "100%", height: "100%" }}>Caracteristica</InputGroupText>
-                                            </Col>
-                                            <Col className='p-0'>
-                                                <div style={{ width: "100%" }}>
-                                                    <Select
-                                                        options={arrayCharacteristics}
-                                                        style={{ width: 100 }}
-                                                        name="caracteristica"
-                                                        onChange={(e) => { setFormvalue({ ...Formvalue, caracteristica: e.id }); addLicense(e.value); setFormvalue({ ...Formvalue, caracteristica: '' }); }}
-                                                    />
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </InputGroup>
-                                </Col>
-                                {/* <div className='col-2' type="submit" onClick={addLicense}>
-                                    <Icon.PlusCircle style={{ color: "blue" }} />
-                                </div> */}
-                            </Row>
-                            <Table className="no-wrap mt-3 align-middle" responsive borderless>
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Caracteristica</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {lista.map((tdata) => (
-                                        <tr key={tdata.id} className="border-top">
-                                            <td>{tdata.id}</td>
-                                            <td>{tdata.caracteristica}</td>
-                                            <td>
-                                                <div>
-                                                    <Row>
-                                                        <Col md="2">
-                                                            <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); setModal(true); }}><Icon.Trash2 /></div>
-                                                        </Col>
-                                                    </Row>
-                                                </div>
-                                            </td>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <Row>
+                    <Col>
+                        <FormGroup>
+                            <InputGroup>
+                                <InputGroupText style={{ width: "100px" }}>Nombre *</InputGroupText>
+                                <Input onChange={handleChange} type="text" name="nombre" className="form-control" placeholder="Nombre" value={action === "envio" ? "" : Formvalue.nombre} />
+                            </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                            <InputGroup>
+                                <InputGroupText style={{ width: "100px" }}>Descripción *</InputGroupText>
+                                <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripción" />
+                            </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                            <InputGroup >
+                                <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                    <Col md="3" className='p-0'>
+                                        <InputGroupText style={{ width: "100px", height: "100%" }}>Producto</InputGroupText>
+                                    </Col>
+                                    <Col className='p-0'>
+                                        <div style={{ width: "100%" }}>
+                                            <Select
+                                                options={arrayProducts}
+                                                style={{ width: 100 }}
+                                                name="producto"
+                                                onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue) }}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </InputGroup>
+                        </FormGroup>
+                        <FormGroup>
+                            <InputGroup>
+                                <InputGroupText style={{ width: "100px" }}>Monto $ *</InputGroupText>
+                                <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
+                            </InputGroup>
+                        </FormGroup>
+                    </Col>
+                    <Col>
+                        <div className='h-full'>
+                            <div style={{ "min-height": "300px" }} >
+                                <Row>
+                                    <Col>
+                                        <InputGroup >
+                                            <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                                <Col md="4" className='p-0'>
+                                                    <InputGroupText style={{ width: "125px", height: "100%" }}>Caracteristica</InputGroupText>
+                                                </Col>
+                                                <Col className='p-0'>
+                                                    <div style={{ width: "100%" }}>
+                                                        <Select
+                                                            options={arrayCharacteristics}
+                                                            style={{ width: 100 }}
+                                                            name="caracteristica"
+                                                            onChange={(e) => { setFormvalue({ ...Formvalue, caracteristica: e.id }); addLicense(e.value); setFormvalue({ ...Formvalue, caracteristica: '' }); }}
+                                                        />
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </InputGroup>
+                                    </Col>
+                                </Row>
+                                <Table className="no-wrap mt-3 align-middle" responsive borderless style={{ "max-height": "300px" }}>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Caracteristica</th>
+                                            <th>Delete</th>
                                         </tr>
-                                    ))}
+                                    </thead>
+                                    <tbody>
+                                        {lista.map((tdata) => (
+                                            <tr key={tdata.id} className="border-top">
+                                                <td>{tdata.id}</td>
+                                                <td>{tdata.caracteristica}</td>
+                                                <td>
+                                                    <div>
+                                                        <Row>
+                                                            <Col md="2">
+                                                                <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); setModal(true); }}><Icon.Trash2 /></div>
+                                                            </Col>
+                                                        </Row>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
 
-                                </tbody>
-                            </Table>
-                            {action === "del" ?
-                                <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                    <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
-                                    <ModalBody>
-                                        ¿Seguro que quieres eliminar la caracteristica?
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <Button color="primary" onClick={() => { deleteCharacteristic(); setModal(false) }}>
-                                            Confirmar
-                                        </Button>
-                                        <Button color="secondary" onClick={toggle.bind(null)}>
-                                            Cancelar
-                                        </Button>
-                                    </ModalFooter>
-                                </Modal> :
-                                <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                    {action === "vacio" ?
-                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader> :
-                                        <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
-                                    {action === "vacio" ?
+                                    </tbody>
+                                </Table>
+                                {action === "del" ?
+                                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
                                         <ModalBody>
-                                            Debe llenar todos los campos
-                                        </ModalBody> :
-                                        <ModalBody>
-                                            Se ha realizado correctamente el registro
+                                            ¿Seguro que quieres eliminar la caracteristica?
                                         </ModalBody>
-                                    }
-                                    <ModalFooter>
-                                        <Button color="primary" onClick={() => { setModal(false); setFormvalue({}); }}>
-                                            Confirmar
-                                        </Button>
-                                    </ModalFooter>
-                                </Modal>
-                            }
-                        </Col>
-                    </Row>
-                    <div className='w-full d-flex justify-content-center'>
-                        <Button className="button btn-success" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
-                    </div>
-                </Form>
-            </ComponentCard>
+                                        <ModalFooter>
+                                            <Button color="primary" onClick={() => { deleteCharacteristic(); setModal(false) }}>
+                                                Confirmar
+                                            </Button>
+                                            <Button color="secondary" onClick={toggle.bind(null)}>
+                                                Cancelar
+                                            </Button>
+                                        </ModalFooter>
+                                    </Modal> :
+                                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
+                                        {action === "vacio" ?
+                                            <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader> :
+                                            <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
+                                        {action === "vacio" ?
+                                            <ModalBody>
+                                                Debe llenar todos los campos
+                                            </ModalBody> :
+                                            <ModalBody>
+                                                Se ha realizado correctamente el registro
+                                            </ModalBody>
+                                        }
+                                        <ModalFooter>
+                                            <Button color="primary" onClick={() => { setModal(false); setFormvalue({}); setAction(""); }}>
+                                                Confirmar
+                                            </Button>
+                                        </ModalFooter>
+                                    </Modal>
+                                }
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+                <div className='w-full d-flex justify-content-center'>
+                    <Button className="button btn-success" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
+                </div>
+            </Form>
         </>
     );
 };

@@ -27,10 +27,10 @@ const RegisterFormik = () => {
     confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
     acceptTerms: Yup.bool().oneOf([true], 'Accept Terms & Conditions is required'),
   });
-  const handleSubmit = async (UserName, email, password) => {
+  const handleSubmit = async (UserName, email, password, isCompany) => {
     try {
       console.log(UserName)
-      await signup(email, password,UserName,"client")
+      await signup(email, password, UserName, (isCompany === true ? "company" : "client"));
       navigate('/');
 
     } catch (error) {
@@ -48,9 +48,9 @@ const RegisterFormik = () => {
             <AuthLogo />
             <Card>
               <CardBody className="p-4 m-1">
-                <h4 className="mb-0 fw-bold">Register</h4>
+                <h4 className="mb-0 fw-bold">Registrar</h4>
                 <small className="pb-4 d-block">
-                  Already have an account? <Link className='link-info fw-normal' to="/auth/loginformik">Login</Link>
+                  ¿Ya tienes cuenta? <Link className='link-info fw-normal' to="/auth/loginformik">Inicio de sesión</Link>
                 </small>
                 <Formik
                   initialValues={initialValues}
@@ -58,12 +58,12 @@ const RegisterFormik = () => {
                   onSubmit={(fields) => {
                     // eslint-disable-next-line no-alert
                     alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`);
-                    handleSubmit(fields.UserName, fields.email, fields.password)
+                    handleSubmit(fields.UserName, fields.email, fields.password, fields.isCompany);
                   }}
                   render={({ errors, touched }) => (
                     <Form>
                       <FormGroup>
-                        <Label htmlFor="firstName">User Name</Label>
+                        <Label htmlFor="firstName">Nombre del usuario</Label>
                         <Field
                           name="UserName"
                           type="text"
@@ -78,7 +78,7 @@ const RegisterFormik = () => {
                       </FormGroup>
 
                       <FormGroup>
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">Correo</Label>
                         <Field
                           name="email"
                           type="text"
@@ -88,7 +88,7 @@ const RegisterFormik = () => {
                         <ErrorMessage name="email" component="div" className="invalid-feedback" />
                       </FormGroup>
                       <FormGroup>
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">Contraseña</Label>
                         <Field
                           name="password"
                           type="password"
@@ -102,7 +102,7 @@ const RegisterFormik = () => {
                         />
                       </FormGroup>
                       <FormGroup>
-                        <Label htmlFor="confirmPassword">Confirm Password</Label>
+                        <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
                         <Field
                           name="confirmPassword"
                           type="password"
@@ -124,7 +124,7 @@ const RegisterFormik = () => {
                             }`}
                         />
                         <Label htmlFor="acceptTerms" className="form-check-label">
-                          Accept Terms & Conditions
+                          Acepto los terminos y condiciones
                         </Label>
                         <ErrorMessage
                           name="acceptTerms"
@@ -132,12 +132,29 @@ const RegisterFormik = () => {
                           className="invalid-feedback"
                         />
                       </FormGroup>
+                      <FormGroup inline className="form-check">
+                        <Field
+                          type="checkbox"
+                          name="isCompany"
+                          id="isCompany"
+                          className={`form-check-input ${errors.acceptTerms && touched.acceptTerms ? ' is-invalid' : ''
+                            }`}
+                        />
+                        <Label htmlFor="isCompany" className="form-check-label">
+                          ¿Es una empresa?
+                        </Label>
+                        <ErrorMessage
+                          name="isCompany"
+                          component="div"
+                          className="invalid-feedback"
+                        />
+                      </FormGroup>
                       <FormGroup>
                         <Button type="submit" color="info" className="me-2">
-                          Register
+                          Registrar
                         </Button>
                         <Button type="reset" color="secondary">
-                          Reset
+                          Reiniciar
                         </Button>
                       </FormGroup>
                     </Form>
