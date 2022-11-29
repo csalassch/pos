@@ -47,9 +47,9 @@ const LoginFormik = () => {
             <AuthLogo />
             <Card>
               <CardBody className="p-4 m-1">
-                <h4 className="mb-0 fw-bold">Login</h4>
+                <h4 className="mb-0 fw-bold">Inicio de sesión</h4>
                 <small className="pb-4 d-block">
-                  Do not have an account? <Link to="/auth/registerformik">Sign Up</Link>
+                  ¿No tienes cuenta aun? <Link to="/auth/registerformik">Registrarme</Link>
                 </small>
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(fields) => {
                   // eslint-disable-next-line no-alert   
@@ -59,25 +59,25 @@ const LoginFormik = () => {
                   render={({ errors, touched }) => (
                     <Form>
                       <FormGroup>
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">Correo</Label>
                         <Field name="email" type="text" className={`form-control${errors.email && touched.email ? ' is-invalid' : ''}`} />
                         <ErrorMessage name="email" component="div" className="invalid-feedback" />
                       </FormGroup>
                       <FormGroup>
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">Contraseña</Label>
                         <Field name="password" type="password" className={`form-control${errors.password && touched.password ? ' is-invalid' : ''}`} />
                         <ErrorMessage name="password" component="div" className="invalid-feedback" />
                       </FormGroup>
                       <FormGroup className="form-check d-flex" inline>
                         <Label check>
                           <Input type="checkbox" />
-                          Remember me
+                          Recuerdame
                         </Label>
                         <Link
                           className="ms-auto text-decoration-none link-info fw-normal"
                           to="/auth/forgotPwd"
                         >
-                          <small>Forgot Pwd?</small>
+                          <small>¿Olvidaste tu contraseña?</small>
                         </Link>
                       </FormGroup>
                       <FormGroup>

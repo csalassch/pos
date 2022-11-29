@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
-import { Link } from 'react-router-dom';
 import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, CardSubtitle, CardTitle } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
+import Alta from './Admin/Licencias/Alta';
+import DetallesLicencia from './Admin/Licencias/DetallesLicencia';
+import Editar from './Admin/Licencias/Editar';
 
 const TablePanelLicencias = () => {
   const [lista, setLista] = useState([{ id: 0, nombre: '', descripcion: '', monto: 0, caracteristicas: [''] }]);
   const [modal, setModal] = useState(false);
+  const [action, setAction] = useState('');
+  const [uidLicencia, setUidLicencia] = useState('');
   const toggle = () => {
     setModal(!modal);
   };
@@ -47,7 +51,7 @@ const TablePanelLicencias = () => {
   }
   useEffect(() => {
     getDatosLicencia();
-  }, [])
+  }, [uidLicencia])
   return (
     <div>
       <br />
@@ -59,9 +63,7 @@ const TablePanelLicencias = () => {
           </CardSubtitle>
         </div>
         <div className=''>
-          <Link to={`/servicios/PanelLicenciasAdmin/${"AL"}`}>
-            <Button className="btn btn-success" size="lg" block><Icon.Plus /></Button>
-          </Link>
+            <Button onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-success" size="lg" block><Icon.Plus /></Button>
           <div className="d-flex justify-content-center mt-2" onClick={getDatosLicencia} style={{ cursor: "pointer" }}>
             <Icon.RefreshCw />
             <p>Recargar</p>
@@ -101,8 +103,8 @@ const TablePanelLicencias = () => {
               </td>
               <td>
                 <div className='d-flex align-items-center p-2 ms-3'>
-                  <div>
-                    <Link to={`/servicios/PanelLicenciasAdmin/${"EL"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit style={{ color: "#1186A2" }} /></Link>
+                  <div onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
+                    <Icon.Edit style={{ color: "#1186A2" }} />
                   </div>
                 </div>
               </td>
@@ -110,20 +112,22 @@ const TablePanelLicencias = () => {
           ))}
         </tbody>
       </Table>
-      <Modal isOpen={modal} toggle={toggle.bind(null)}>
-        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
+      <Modal className='modal-lg' isOpen={modal} toggle={toggle.bind(null)}>
+        <ModalHeader toggle={toggle.bind(null)}>
+        {action === "Agregar" ? <div><Icon.PlusCircle /> Agregar licencia</div>:<div></div>}
+        {action === "Detalles" ? <div><Icon.PlusCircle /> Detalles licencia</div>:<div></div>}
+        {action === "Editar" ? <div><Icon.Edit /> Editar licencia</div>:<div></div>}
+        </ModalHeader>
         <ModalBody>
-          ¿Seguro que quieres eliminar la licencia?
+          {action === "Agregar" ? <Alta /> : ""}
+          {action === "Detalles" ? <DetallesLicencia id={uidLicencia} /> : ""}
+          {action === "Editar" ? <Editar id={uidLicencia} /> : ""}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={() => { setModal(false); }}>
-            Confirmar
-          </Button>
-          <Button color="secondary" onClick={toggle.bind(null)}>
-            Cancelar
-          </Button>
+        {action === "Detalles" ? <div className='btn-icon' onClick={()=>{ setAction("Editar")}}><Icon.Edit/> </div>:<div></div>}
         </ModalFooter>
       </Modal>
+
     </div>
   );
 };
