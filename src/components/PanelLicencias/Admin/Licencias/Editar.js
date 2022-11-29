@@ -168,7 +168,7 @@ const Editar = ({ id }) => {
                         </FormGroup>
                         <FormGroup>
                             <InputGroup>
-                                <InputGroupText style={{ width: "100px" }}>Descripcion *</InputGroupText>
+                                <InputGroupText style={{ width: "100px" }}>Descripción *</InputGroupText>
                                 <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripcion" />
                             </InputGroup>
                         </FormGroup>
@@ -207,7 +207,7 @@ const Editar = ({ id }) => {
                                         <InputGroup >
                                             <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
                                                 <Col md="4" className='p-0'>
-                                                    <InputGroupText style={{ width: "125px", height: "100%" }}>Caracteristica</InputGroupText>
+                                                    <InputGroupText style={{ width: "125px", height: "100%" }}>Característica</InputGroupText>
                                                 </Col>
                                                 <Col className='p-0'>
                                                     <div style={{ width: "100%" }}>
@@ -228,7 +228,7 @@ const Editar = ({ id }) => {
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Caracteristica</th>
+                                                <th>Característica</th>
                                                 <th>Delete</th>
                                             </tr>
                                         </thead>

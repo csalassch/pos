@@ -74,9 +74,9 @@ const TablePanelLicencias = () => {
             <tr>
               <th className='text-center'>Activo</th>
               <th>Nombre</th>
-              <th>Descripcion</th>
+              <th>Descripción</th>
               <th>Monto</th>
-              <th>Caracteristicas</th>
+              <th>Características</th>
               <th>Detalles</th>
             </tr>
           </thead>
@@ -90,7 +90,7 @@ const TablePanelLicencias = () => {
                 </div></td>
                 <td>{tdata.nombre}</td>
                 <td>{tdata.descripcion}</td>
-                <td>{tdata.monto}</td>
+                <td>${tdata.monto}.00</td>
                 <td>
                   <ul>
                     {tdata.caracteristicas.map((carac) =>
