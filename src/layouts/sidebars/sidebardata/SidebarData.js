@@ -52,33 +52,6 @@ const SidebarData = [
       },
     ]
   },*/
-  {
-    title: 'Artículos',
-    href: '/Articulos',
-    icon: <Icon.Package />,
-    suffix: '4',
-    suffixColor: 'bg-success text-dark-white',
-    id: 10.3,
-    collapisble: true,
-    children: [
-      {
-        title: 'Artículos',
-        href: '/servicios/ColeccionArticulos',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Categorías',
-        href: '/servicios/Categorias',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Unidades',
-        href: '/servicios/Unidades',
-        icon: <Icon.Disc />,
-      }
-      
-    ],
-  }  
 ];
 
 export default SidebarData;
