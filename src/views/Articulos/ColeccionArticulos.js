@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import {
-    Row, Col, FormGroup, Label, Form, Input, Button, Alert, InputGroup,
-    InputGroupText
+// import { useState } from 'react';
+// import {
+//     Row, Col, FormGroup, Label, Form, Input, Button, Alert, InputGroup,
+//     InputGroupText
 
-} from 'reactstrap';
-import { ref, uploadBytesResumable} from 'firebase/storage';
+// } from 'reactstrap';
+// import { ref, uploadBytesResumable} from 'firebase/storage';
 
 import '../tables/ReactBootstrapTable.scss';
 
@@ -12,9 +12,9 @@ import '../tables/ReactBootstrapTable.scss';
 
 import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 
-import { dbStorage} from '../../FirebaseConfig/firebase';
-import ComponentCard from '../../components/ComponentCard';
-import ArticuloNuevoFormComp from '../../components/Articulos/ArticuloNuevoFormComp';
+// import { dbStorage} from '../../FirebaseConfig/firebase';
+// import ComponentCard from '../../components/ComponentCard';
+// import ArticuloNuevoFormComp from '../../components/Articulos/ArticuloNuevoFormComp';
 import TableItemsComp from '../../components/Articulos/TableItemsComp';
 // import { colourOptions } from '../form-pickers/Data';
 
@@ -30,7 +30,7 @@ const ColeccionArticulos = () => {
     
 
     //const [checkBoxVariante, setcheckBoxVariante] = useState(false);
-    const [visible, setVisible] = useState(false);
+    /*const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState("");
     const [colorAlert, setAlertColor] = useState("success");
     const onDismiss = () => {
@@ -54,13 +54,13 @@ const ColeccionArticulos = () => {
             setVisible(true);
             setMessage("Archivo subido con éxito");
         }
-    }
+    }*/
 
     return (
         <div>
             <BreadCrumbs />
-            <Row>
-                <Col md="12">
+            {/* <Row> */}
+                {/* <Col md="12">
                     <ComponentCard title="Cargar Inventario">
                         <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
                             {message}
@@ -73,11 +73,11 @@ const ColeccionArticulos = () => {
                         </Form>
                         <Button onClick={upload} type="submit" className="btn btn-success">Subir</Button>
                     </ComponentCard>
-                </Col>
+                </Col> */}
                 {/*--------------------------------------------------------------------------------*/}
                 {/* Input Groups                                                                   */}
                 {/*--------------------------------------------------------------------------------*/}
-                <Col md="12">
+                {/* <Col md="12">
                     <ComponentCard title="Añadir Variantes Artículo">
                         <FormGroup>
                             <InputGroup>
@@ -104,10 +104,10 @@ const ColeccionArticulos = () => {
                             </Row>
                         </FormGroup>
                     </ComponentCard>
-                </Col>
+                </Col> */}
                 
-            </Row>
-            <ArticuloNuevoFormComp></ArticuloNuevoFormComp>
+            {/* </Row> */}
+            {/* <ArticuloNuevoFormComp></ArticuloNuevoFormComp> */}
             <TableItemsComp></TableItemsComp>
         </div>
     );

@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-
+import Select from 'react-select';
 import { Label, Col, Row, FormGroup, Form, Input, InputGroup, InputGroupText, FormFeedback } from 'reactstrap';
 // import { push, onValue, ref as refDB } from 'firebase/database';
 // import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
@@ -170,13 +170,31 @@ export default class Step1 extends Component {
     //     console.log("file uploaded:", imageTemp);
     // }
 
+    const colourStyles = {
+      option: (provided) => ({
+        ...provided,
+        // borderBottom: '0.7px dotted gray',
+        color: "black",
+        padding: 20,
+      }), multiValue: (styles) => {
 
+        return {
+          ...styles,
+          backgroundColor: "#d2cef9",
+        };
+      },
+      multiValueLabel: (styles) => ({
+        ...styles,
+        color: "#212121",
+
+      }),
+    };
     return (
       <div className="step step1 mt-5 ">
         <div className="row justify-content-md-center">
           <div className="col col-lg">
             <div className="">
-              <h4>Bienvenido, favor de ingresar todos los campos</h4>
+              {/* <h4>Bienvenido, favor de ingresar todos los campos</h4> */}
               <form id="Form" className="form-horizontal mt-2">
                 <Row>
                   {/* <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
@@ -258,6 +276,29 @@ export default class Step1 extends Component {
                         <Input placeholder="UGG-876-789-02" type='text' />
                         <FormFeedback>error</FormFeedback>
                       </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <Label htmlFor="exampleFile">Categorías</Label>
+
+                      <Select
+                        closeMenuOnSelect={false}
+                        // defaultValue={[arrayCategories[1]]}
+                        isMulti
+                        options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
+                        styles={colourStyles}
+                      // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
+
+                      // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
+
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup>
+                        <InputGroupText style={{ width: "135px" }} className="text-center">Descripción</InputGroupText>
+                        <Input type="textarea" rows="5" />
+                        <FormFeedback>Error</FormFeedback>
+                      </InputGroup>
+
                     </FormGroup>
                   </Col>
                 </Row>

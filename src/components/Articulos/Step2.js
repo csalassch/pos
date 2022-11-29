@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Label } from 'reactstrap';
+// import { Label } from 'reactstrap';
+import { Label, Col, Row, FormGroup, Input, InputGroup, InputGroupText, Collapse, Button, Table,FormFeedback } from 'reactstrap';
 
 export default class Step2 extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Step2 extends Component {
       <div className="step step2 mt-5">
         <div className="row justify-content-md-center">
           <div className="col-lg-8">
-            <form>
+            {/* <form>
               <div className="mb-3 row">
                 <Label htmlFor="staticEmail" className="col-sm-2 col-form-label">
                   Date of Birth
@@ -100,7 +101,77 @@ export default class Step2 extends Component {
                   <input type="text" className="form-control" placeholder="Other Number" />
                 </div>
               </div>
-            </form>
+            </form> */}
+            <FormGroup>
+              <FormGroup check>
+                <Input type="checkbox" id="checkVariantes" />
+                <Label check>Tiene Variantes</Label>
+              </FormGroup>
+
+              <Collapse >
+                <Row>
+                  <Col md="3">
+                    <InputGroup>
+                      <InputGroupText>Nombre</InputGroupText>
+                      <Input placeholder="Nombre" />
+                    </InputGroup>
+                  </Col>
+                  <Col md="4">
+                    <InputGroup>
+                      <InputGroupText>SKU</InputGroupText>
+                      <Input placeholder="UGG-BB-PUR-06" />
+                    </InputGroup>
+                  </Col>
+                  <Col md="3">
+                    <InputGroup>
+                      <InputGroupText>$</InputGroupText>
+                      <Input type='number' step='any' placeholder="Precio" />
+                    </InputGroup>
+                  </Col>
+                  <Col>
+                    <Button type="submit" className="btn btn-info">Añadir</Button>
+
+                  </Col>
+                </Row>
+                <Table responsive>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">1</th>
+                      <td>Mark</td>
+                      <td>Otto</td>
+                      <td>@mdo</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">2</th>
+                      <td>Jacob</td>
+                      <td>Thornton</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">3</th>
+                      <td>Larry</td>
+                      <td>the Bird</td>
+                      <td>@twitter</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Collapse>
+            </FormGroup>
+            <FormGroup>
+              <InputGroup>
+                <InputGroupText>$</InputGroupText>
+                <Input type='number' step='any' min={0.1} placeholder="Precio"/>
+                <FormFeedback>Error</FormFeedback>
+              </InputGroup>
+            </FormGroup>
           </div>
         </div>
       </div>

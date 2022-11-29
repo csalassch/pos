@@ -178,13 +178,13 @@ const TableItemsComp = () => {
                     <CardBody>
                         <div>
 
-                            <br />
-                            <div className='w-full d-flex justify-content-start m-6'>
+                            {/* <br /> */}
+                            {/* <div className='w-full d-flex justify-content-start m-6'>
                                 <div style={{ cursor: "pointer" }} className="d-flex justify-content-center" onClick={getDatosProductos}>
                                     <Icon.RefreshCw style={{ marginRight: "5px" }} />
                                     <p> Recargar</p>
                                 </div>
-                            </div>
+                            </div> */}
                             <Table className="no-wrap mt-3 align-middle" responsive borderless >
                                 <thead>
                                     <tr>
@@ -193,7 +193,7 @@ const TableItemsComp = () => {
                                         <th>Nombre</th>
                                         <th>SKU</th>
                                         <th>Precio</th>
-                                        <th>Opciones</th>
+                                        <th className='text-center'>Detalles</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -213,11 +213,9 @@ const TableItemsComp = () => {
                                             <td>{tdata.sku}</td>
                                             <td>$ {tdata.precio}</td>
                                             <td>
-                                                <div className='d-flex align-items-center p-2 ms-3'>
-                                                    <div>
-                                                        <Icon.Edit style={{ color: "#1186a2", cursor: "pointer" }} />
-                                                        {/* <Link to={`/servicios/PanelLicenciasAdmin/${"EP"}/${tdata.id}`} className="border border-0 bg-transparent"><Icon.Edit /></Link> */}
-                                                    </div>
+                                                <div className='d-flex justify-content-center'>
+                                                <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+
 
                                                 </div>
                                             </td>
@@ -226,7 +224,7 @@ const TableItemsComp = () => {
                                 </tbody>
                             </Table>
                             <Modal className='modal-lg' isOpen={modal} toggle={() => { setModal(false) }}>
-                                <ModalHeader toggle={() => { setModal(false) }}><Icon.Plus style={{marginRight:"7px"}} /> Agregar Artículo</ModalHeader>
+                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{marginRight:"7px"}} /> Agregar Artículo</ModalHeader>
                                 <ModalBody>
                                     <div className="stepsWrapper">
                                         <MultiSteps />
