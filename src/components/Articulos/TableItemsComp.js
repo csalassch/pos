@@ -190,12 +190,12 @@ const TableItemsComp = () => {
                             <Table className="no-wrap mt-3 align-middle" responsive borderless >
                                 <thead>
                                     <tr>
-                                        <th className='text-center'>Activo</th>
-                                        <th className='text-center'>Imagen</th>
-                                        <th>Nombre</th>
+                                        <th className='text-center'>{t('active_headings')}</th>
+                                        <th className='text-center'>{t('imagen_headings')}</th>
+                                        <th>{t('name_headings')}</th>
                                         <th>SKU</th>
-                                        <th>Precio</th>
-                                        <th className='text-center'>Detalles</th>
+                                        <th>{t('price_headings')}</th>
+                                        <th className='text-center'>{t('details_headings')}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -226,7 +226,7 @@ const TableItemsComp = () => {
                                 </tbody>
                             </Table>
                             <Modal className='modal-lg' isOpen={modal} toggle={() => { setModal(false) }}>
-                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{marginRight:"7px"}} /> Agregar Artículo</ModalHeader>
+                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{marginRight:"7px"}} /> {t('addItem_modal')}</ModalHeader>
                                 <ModalBody>
                                     <div className="stepsWrapper">
                                         <MultiSteps />
@@ -240,7 +240,7 @@ const TableItemsComp = () => {
                                 </ModalFooter>
                             </Modal>
                             <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
-                                <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> Cargar Artículos por .CSV</ModalHeader>
+                                <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle />{t('uploadItems_headings')}</ModalHeader>
                                 <ModalBody>
                                     {hiddenSuccessUpload && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
                                     <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
@@ -255,10 +255,10 @@ const TableItemsComp = () => {
                                 </ModalBody>
                                 <ModalFooter>
                                     <Button color="success" onClick={upload}>
-                                        Agregar
+                                        {t('add_btn')}
                                     </Button>
                                     <Button color="secondary" onClick={() => { setModalCsv(false); }}>
-                                        Cancelar
+                                        {t('cancel_btn')}
                                     </Button>
                                 </ModalFooter>
                             </Modal>

@@ -31,6 +31,38 @@ const BreadCrumbs = () => {
 
     secondUrl = "Colección Artículos"
   }
+  if (firstUrl === "PanelLicenciasAdmin") {
+    firstUrl = "Versiones";
+
+  }
+  if (secondUrl === "PanelLicenciasAdmin") {
+
+    secondUrl = "Versiones"
+  }
+  if (firstUrl === "servicios") {
+    firstUrl = "Servicios";
+
+  }
+  if (secondUrl === "servicios") {
+
+    secondUrl = "Servicios"
+  }
+  if (firstUrl === "PanelProductosAdmin") {
+    firstUrl = "Productos";
+
+  }
+  if (secondUrl === "PanelProductosAdmin") {
+
+    secondUrl = "Productos"
+  }
+  if (firstUrl === "PanelLicencias") {
+    firstUrl = "Usuarios";
+
+  }
+  if (secondUrl === "PanelLicencias") {
+
+    secondUrl = "Usuarios"
+  }
 
   return (
     <>
