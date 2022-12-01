@@ -8,6 +8,7 @@ import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 
 import { onValue, ref, update, push } from 'firebase/database';
 import Papa from "papaparse";
+import { useTranslation } from 'react-i18next';
 import { db, dbStorage } from '../../FirebaseConfig/firebase';
 import MultiSteps from './MultiSteps';
 
@@ -15,6 +16,8 @@ import MultiSteps from './MultiSteps';
 
 
 const TableItemsComp = () => {
+    const {t}=useTranslation();
+
     const [modal, setModal] = useState(false);
     const [lista, setLista] = useState([{ id: '', nombre: '', urlImage: '', sku: '', precio: 0, active: false }]);
     const [modalCsv, setModalCsv] = useState(false);
@@ -33,7 +36,6 @@ const TableItemsComp = () => {
         reader.onload = async ({ target }) => {
             const csv = Papa.parse(target.result, { header: true, encoding: "ISO-8859-1" });
             const parsedData = csv?.data;
-            console.log("dataaaa subida: ", parsedData);
             const objDataCsv = [];
             for (let i = 0; i < parsedData.length; i++) {
                 objDataCsv.push(parsedData[i].Nombre);
@@ -164,7 +166,7 @@ const TableItemsComp = () => {
                         <Row>
                             <Col>
                                 {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-                                <h4 style={{ color: "#1186a2" }}>Artículos</h4>
+                                <h4 style={{ color: "#1186a2" }}>{t('items_headings')}</h4>
                             </Col>
                             <Col>
                                 <div className='d-flex justify-content-end'>

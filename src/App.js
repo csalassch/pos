@@ -145,7 +145,7 @@ const App = () => {
             <Route path='/' element={<ProtectedRoute><FullLayout /></ProtectedRoute>}>
               <Route path='/' name='Home' element={<Navigate to="/home" />} />,
               <Route path='/home' name='HomeMenu' element={<Home />} />
-              <Route path='/dashboards/analytical' name='Analytical' element={<Analytical />} />
+              <Route path='/dashboards/analytical' name='Analytical' element={<Analytical/>} />
               <Route path='/servicios/PanelLicencias' name='PanelLicencias' element={<PanelLicencias />} />
               <Route path='/servicios/PanelLicenciasAdmin' name='PanelLicenciasAdmin' element={<PanelLicenciasAdmin />} />
               <Route path='/servicios/PanelProductosAdmin' name='PanelProductosAdmin' element={<PanelProductosAdmin />} />

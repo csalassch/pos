@@ -4,14 +4,39 @@ import { useLocation, Link } from 'react-router-dom';
 
 const BreadCrumbs = () => {
   const location = useLocation();
-  const firstUrl = location.pathname.split('/')[1];
-  const secondUrl = location.pathname.split('/')[2];
+  let firstUrl = location.pathname.split('/')[1];
+  let secondUrl = location.pathname.split('/')[2];
   console.log(firstUrl, secondUrl);
+  if (firstUrl === "Articulos") {
+    firstUrl = "Artículos";
+
+  }
+  if (secondUrl === "Articulos") {
+
+    secondUrl = "Artículos"
+  }
+  if (firstUrl === "Categorias") {
+    firstUrl = "Categorías";
+
+  }
+  if (secondUrl === "Categorias") {
+
+    secondUrl = "Categorías"
+  }
+  if (firstUrl === "ColeccionArticulos") {
+    firstUrl = "Colección Artículos";
+
+  }
+  if (secondUrl === "ColeccionArticulos") {
+
+    secondUrl = "Colección Artículos"
+  }
+
   return (
     <>
       <h4 className="text-capitalize">{secondUrl ? `${secondUrl}` : `${firstUrl}`}</h4>
       <Breadcrumb>
-        <BreadcrumbItem to="/" tag={Link} className="text-decoration-none fw-normal" style={{color:"#1186a2"}}>
+        <BreadcrumbItem to="/" tag={Link} className="text-decoration-none fw-normal" style={{ color: "#1186a2" }}>
           Home
         </BreadcrumbItem>
         {firstUrl ? <BreadcrumbItem active>{firstUrl}</BreadcrumbItem> : ''}
