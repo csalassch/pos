@@ -4,7 +4,7 @@ import {
     InputGroupText, Table,
     Modal, ModalHeader,
     ModalBody,
-    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form
+    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle,CardSubtitle
 } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 import Papa from "papaparse";
@@ -47,6 +47,7 @@ const CategoriasComp = () => {
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState("");
     const [txtDetail, setTxtDetail] = useState("");
+    const [statusDetail, setStatusDeatil] = useState(false);
     const [hiddenSuccess, sethiddenSuccess] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
     const onDismiss = () => {
@@ -62,7 +63,7 @@ const CategoriasComp = () => {
                 setBtnMessage("Agregar");
                 setKeyAux("");
                 sethiddenSuccess(true);
-                setMessage("¡Registrado actualizado con éxito!");
+                setMessage("¡Registro actualizado con éxito!");
                 setTimeout(() => {
                     sethiddenSuccess(false);
                 }, 3000);
@@ -104,7 +105,8 @@ const CategoriasComp = () => {
         setModalDetail(true);
         onValue(ref(db, `categories/${dataPib.key}`), snapshot => {
             setTxtDetail(snapshot.val().name);
-                });
+            setStatusDeatil(snapshot.val().active);
+        });
     }
     //For uploading categories csv
     const [file, setFile] = useState('');
@@ -239,16 +241,16 @@ const CategoriasComp = () => {
                                                         <td>
                                                             <div className='d-flex justify-content-center'>
                                                                 {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}
-                                                                <Button onClick={() => {viewDetails(data);setKeyAux(data.key) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                                                                <Button onClick={() => { viewDetails(data); setKeyAux(data.key) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                                                             </div>
                                                         </td>
-                                                        
+
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </Table>
-                                        <Modal isOpen={modal} toggle={() => {setModal(false);setBtnMessage("Agregar")}}>
-                                            <ModalHeader toggle={() => {setModal(false);setBtnMessage("Agregar")}} style={{ color: "#1186a2" }}>{btnMessage==="Agregar"?<Icon.PlusCircle style={{marginRight:"7px"}}/>:(<Icon.Edit2 style={{marginRight:"7px"}}/>)}{btnMessage==="Agregar"?"Agregar Categoría":("Editar Categoría")}</ModalHeader>
+                                        <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage("Agregar") }}>
+                                            <ModalHeader toggle={() => { setModal(false); setBtnMessage("Agregar") }} style={{ color: "#1186a2" }}>{btnMessage === "Agregar" ? <Icon.PlusCircle style={{ marginRight: "7px" }} /> : (<Icon.Edit2 style={{ marginRight: "7px" }} />)}{btnMessage === "Agregar" ? "Agregar Categoría" : ("Editar Categoría")}</ModalHeader>
                                             <ModalBody>
                                                 {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
                                                 <FormGroup>
@@ -263,7 +265,7 @@ const CategoriasComp = () => {
                                                 <Button color="success" onClick={newUnit}>
                                                     {btnMessage}
                                                 </Button>
-                                                <Button color="secondary" onClick={() => { setModal(false); setNameUnit("");setBtnMessage("Agregar") }}>
+                                                <Button color="secondary" onClick={() => { setModal(false); setNameUnit(""); setBtnMessage("Agregar") }}>
                                                     Cancelar
                                                 </Button>
                                             </ModalFooter>
@@ -299,18 +301,61 @@ const CategoriasComp = () => {
                                                     </Col>
                                                     <Col>
                                                         <div className='d-flex justify-content-end'>
-                                                            <Button onClick={()=>{setModalDetail(false);setModal(true);setBtnMessage("Guardar Cambios");editUnit(keyAux)}} title='Editar Categoría' className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Edit3 style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                                                            <Button onClick={() => { setModalDetail(false); setModal(true); setBtnMessage("Guardar Cambios"); editUnit(keyAux) }} title='Editar Categoría' className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Edit3 style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                                         </div>
                                                     </Col>
                                                 </Row>
 
                                             </ModalHeader>
                                             <ModalBody>
+                                                <CardBody className="p-2">
+                                                    <div className="text-center mt-2 ">
+                                                        {/* <img src={img1} className="rounded-circle" width="100" alt="" /> */}
+                                                        <Icon.Award style={{ scale: "2" }} className="mb-3" />
+                                                        <CardTitle tag="h4" className="mt-2 mb-0">
+                                                            {txtDetail}
+                                                        </CardTitle>
+                                                    </div>
+                                                </CardBody>
                                                 <Row>
-                                                    <Col md="2">
-                                                        <h5>Nombre: </h5>
+                                                    <Col>
+                                                        <CardBody className="border-top pt-4">
+                                                            <CardSubtitle className="text-muted d-flex justify-content-center">Información sobre la categoría</CardSubtitle>
+                                                            <Row className="text-center justify-content-md-center mt-3">
+                                                                <Col xs="4">
+                                                                    <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">Estado</CardSubtitle>
+                                                                    <CardTitle tag="h5">
+                                                                        {statusDetail ? <div>
+                                                                            <Row><Col>
+                                                                                <Icon.ToggleRight style={{ color: "#fca311" }} />
+                                                                            </Col></Row>
+                                                                            <Row><Col>
+                                                                                Activo
+                                                                            </Col></Row>
+                                                                        </div> : <div>
+                                                                            <Row><Col>
+                                                                                <Icon.ToggleLeft />
+                                                                            </Col></Row>
+                                                                            <Row><Col>
+                                                                                Inactivo
+                                                                            </Col></Row>
+                                                                        </div> }
+                                                                        {/* <div>
+                                                                            <Row><Col>
+                                                                                <Icon.ToggleRight style={{ color: "#fca311" }} />
+                                                                            </Col></Row>
+                                                                            <Row><Col>
+                                                                                Activo
+                                                                            </Col></Row>
+                                                                        </div> */}
+                                                                    </CardTitle>
+                                                                </Col>
+                                                                
+                                                            </Row>
+                                                            
+                                                        </CardBody>
                                                     </Col>
-                                                    <Col><h5>{txtDetail}</h5></Col>
+                                                    {/* <Col><h5>{txtDetail}</h5></Col> */}
                                                 </Row>
                                             </ModalBody>
                                             <ModalFooter>

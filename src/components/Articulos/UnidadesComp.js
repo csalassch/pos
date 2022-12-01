@@ -4,7 +4,8 @@ import {
     InputGroupText, Table,
     Modal, ModalHeader,
     ModalBody,
-    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form
+    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form,
+    CardTitle,CardSubtitle
 } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 import Papa from "papaparse";
@@ -47,6 +48,7 @@ const UnidadesComp = () => {
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState("");
     const [txtDetail, setTxtDetail] = useState("");
+    const [statusDetail, setStatusDetail] = useState(false);
     const [hiddenSuccess, sethiddenSuccess] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
     const onDismiss = () => {
@@ -62,7 +64,7 @@ const UnidadesComp = () => {
                 setBtnMessage("Agregar");
                 setKeyAux("");
                 sethiddenSuccess(true);
-                setMessage("¡Registrado actualizado con éxito!");
+                setMessage("¡Registro actualizado con éxito!");
                 setTimeout(() => {
                     sethiddenSuccess(false);
                 }, 3000);
@@ -104,6 +106,7 @@ const UnidadesComp = () => {
         setModalDetail(true);
         onValue(ref(db, `units/${dataPib.key}`), snapshot => {
             setTxtDetail(snapshot.val().name);
+            setStatusDetail(snapshot.val().active);
                 });
     }
     //For uploading units csv
@@ -306,11 +309,54 @@ const UnidadesComp = () => {
 
                                             </ModalHeader>
                                             <ModalBody>
+                                            <CardBody className="p-2">
+                                                    <div className="text-center mt-2 ">
+                                                        {/* <img src={img1} className="rounded-circle" width="100" alt="" /> */}
+                                                        <Icon.Package style={{ scale: "2" }} className="mb-3" />
+                                                        <CardTitle tag="h4" className="mt-2 mb-0">
+                                                            {txtDetail}
+                                                        </CardTitle>
+                                                    </div>
+                                                </CardBody>
                                                 <Row>
-                                                    <Col md="2">
-                                                        <h5>Nombre: </h5>
+                                                    <Col>
+                                                        <CardBody className="border-top pt-4">
+                                                            <CardSubtitle className="text-muted d-flex justify-content-center">Información sobre la unidad</CardSubtitle>
+                                                            <Row className="text-center justify-content-md-center mt-3">
+                                                                <Col xs="4">
+                                                                    <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">Estado</CardSubtitle>
+                                                                    <CardTitle tag="h5">
+                                                                        {statusDetail ? <div>
+                                                                            <Row><Col>
+                                                                                <Icon.ToggleRight style={{ color: "#fca311" }} />
+                                                                            </Col></Row>
+                                                                            <Row><Col>
+                                                                                Activo
+                                                                            </Col></Row>
+                                                                        </div> : <div>
+                                                                            <Row><Col>
+                                                                                <Icon.ToggleLeft />
+                                                                            </Col></Row>
+                                                                            <Row><Col>
+                                                                                Inactivo
+                                                                            </Col></Row>
+                                                                        </div> }
+                                                                        {/* <div>
+                                                                            <Row><Col>
+                                                                                <Icon.ToggleRight style={{ color: "#fca311" }} />
+                                                                            </Col></Row>
+                                                                            <Row><Col>
+                                                                                Activo
+                                                                            </Col></Row>
+                                                                        </div> */}
+                                                                    </CardTitle>
+                                                                </Col>
+                                                                
+                                                            </Row>
+                                                            
+                                                        </CardBody>
                                                     </Col>
-                                                    <Col><h5>{txtDetail}</h5></Col>
+                                                    {/* <Col><h5>{txtDetail}</h5></Col> */}
                                                 </Row>
                                             </ModalBody>
                                             <ModalFooter>

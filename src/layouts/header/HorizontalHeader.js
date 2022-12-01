@@ -15,6 +15,7 @@ import * as Icon from 'react-feather';
 import { Bell, MessageSquare } from 'react-feather';
 import { useSelector, useDispatch } from 'react-redux';
 import SimpleBar from 'simplebar-react';
+import Select from 'react-select';
 import MessageDD from './MessageDD';
 import NotificationDD from './NotificationDD';
 import MegaDD from './MegaDD';
@@ -70,6 +71,12 @@ const HorizontalHeader = () => {
           </NavItem>
         </Nav>
         <div className="d-flex align-items-center">
+        <Select
+              defaultValue={[{value:'México',label:'México'}]}
+              label="Single select"
+              options={[{value:'México',label:'México'},{value:'English',label:'English'}]}
+              
+            />
           {/******************************/}
           {/**********Mega DD**********/}
           {/******************************/}

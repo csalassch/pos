@@ -1,6 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{ useState,useEffect } from 'react';
+import { Link,useNavigate,useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Select from 'react-select';
+
 import SimpleBar from 'simplebar-react';
 import {
   Navbar,
@@ -34,6 +36,38 @@ const Header = () => {
   const handleLogout = async () => {
     await logout();
   }
+  const options = [
+    { value: 'es-MX', label: <div><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" style={{marginRight:"7px"}}/>Español</div> },
+    { value: 'en', label: <div><img alt='USA Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>English</div> },
+    { value: 'fr', label: <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/800px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>Français</div> },
+    { value: 'pt', label: <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>Português</div> },
+    { value: 'he', label: <div><img alt='Israel Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>עִברִית</div> },
+    
+  ];
+  const {url}=useParams();
+  const [query,setQuery]=useState("");
+  const history=useNavigate();
+  async function languageChange(e){
+    setQuery(e.value);
+  }
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (query) {
+      params.append("lng", query)
+    } else {
+      params.delete("lng")
+    }
+    console.log(url);
+    // console.log(window.location.href);
+    history({search: `?${params.toString()}`});
+    
+    // window.history.replaceState({}, document.title, `?${params.toString()}`);
+    // history({search: params.toString()},{replace:true});
+    console.log(window.location.href);
+    // window.location=(window.location.href);
+  }, [query, history])
+
+
   return (
     <>
       <Navbar
@@ -92,6 +126,20 @@ const Header = () => {
         </Nav>
 
         <div className="d-flex align-items-center">
+          <div style={{minWidth:"150px"}}>
+
+        <Select
+              id="languageSelected"
+              defaultValue={[{value:'es-MX',label: <div><img alt='Mexico Flag' style={{marginRight:"7px"}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px"/>Español</div>}]}
+              label="Selecciona Idioma"
+              options={options}
+              onChange={(e)=>{languageChange(e).then(()=>{console.log(e);const a = document.createElement('a');
+              a.href = window.location.href;
+              document.body.appendChild(a);
+              a.click();
+  console.log(a.href)});}}
+            />
+          </div>
           {/******************************/}
           {/**********Mega DD**********/}
           {/******************************/}

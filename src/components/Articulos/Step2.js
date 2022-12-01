@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 // import { Label } from 'reactstrap';
-import { Label, Col, Row, FormGroup, Input, InputGroup, InputGroupText, Collapse, Button, Table,FormFeedback } from 'reactstrap';
+import { Label, Col, Row, FormGroup, Input, InputGroup, InputGroupText,Button, Collapse, Table, FormFeedback } from 'reactstrap';
 
 export default class Step2 extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      checked: false
+    };
   }
 
   render() {
     return (
       <div className="step step2 mt-5">
         <div className="row justify-content-md-center">
-          <div className="col-lg-8">
+          <div className="col-lg">
             {/* <form>
               <div className="mb-3 row">
                 <Label htmlFor="staticEmail" className="col-sm-2 col-form-label">
@@ -104,62 +106,71 @@ export default class Step2 extends Component {
             </form> */}
             <FormGroup>
               <FormGroup check>
-                <Input type="checkbox" id="checkVariantes" />
+                <Input type="checkbox" id="checkVariantes" onChange={(e) => { this.setState({ checked: e.target.checked }); console.log(this.state.checked, " checked") }} />
                 <Label check>Tiene Variantes</Label>
               </FormGroup>
 
-              <Collapse >
-                <Row>
-                  <Col md="3">
+              <Collapse isOpen={this.state.checked}>
+                <Row style={{ marginBottom: "10px" }}>
+                  <Col md="6">
                     <InputGroup>
-                      <InputGroupText>Nombre</InputGroupText>
+                      <InputGroupText style={{ minWidth: "80px" }}>Nombre</InputGroupText>
                       <Input placeholder="Nombre" />
                     </InputGroup>
                   </Col>
-                  <Col md="4">
+                  <Col md="6">
                     <InputGroup>
-                      <InputGroupText>SKU</InputGroupText>
+                      <InputGroupText style={{ minWidth: "80px",display:"flex",justifyContent:"center" }}>SKU</InputGroupText>
                       <Input placeholder="UGG-BB-PUR-06" />
                     </InputGroup>
                   </Col>
-                  <Col md="3">
+
+                </Row>
+                <Row>
+
+                  <Col md="6">
                     <InputGroup>
-                      <InputGroupText>$</InputGroupText>
+
+                      <InputGroupText className='text-center' style={{ minWidth: "83px", textAlign: "center", margin: "auto", display:"flex", justifyContent:"center" }}>$</InputGroupText>
                       <Input type='number' step='any' placeholder="Precio" />
                     </InputGroup>
                   </Col>
                   <Col>
-                    <Button type="submit" className="btn btn-info">Añadir</Button>
+                    <div className='d-flex justify-content-end'>
+
+                    <Button type="submit" className="btn btn-success">Añadir</Button>
+                    </div>
+                    {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
 
                   </Col>
                 </Row>
                 <Table responsive>
-                  <thead>
+                  <thead style={{textAlign:"center"}}>
                     <tr>
-                      <th>#</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Username</th>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>SKU</th>
+                      <th>Precio</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody style={{textAlign:"center"}}>
                     <tr>
                       <th scope="row">1</th>
-                      <td>Mark</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
+                      <td>Rojo</td>
+                      <td>ZAP-ROUGE-0987-98</td>
+                      <td>$ 235.00</td>
                     </tr>
                     <tr>
                       <th scope="row">2</th>
-                      <td>Jacob</td>
-                      <td>Thornton</td>
-                      <td>@fat</td>
+                      <td>Azul Celeste</td>
+                      <td>ZAP-BLUE-0234-877</td>
+                      <td>$ 225.50</td>
                     </tr>
                     <tr>
                       <th scope="row">3</th>
-                      <td>Larry</td>
-                      <td>the Bird</td>
-                      <td>@twitter</td>
+                      <td>Azul Marino</td>
+                      <td>ZAP-DBLUE-896-009</td>
+                      <td>$ 195.50</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -168,7 +179,7 @@ export default class Step2 extends Component {
             <FormGroup>
               <InputGroup>
                 <InputGroupText>$</InputGroupText>
-                <Input type='number' step='any' min={0.1} placeholder="Precio"/>
+                <Input type='number' step='any' min={0.1} placeholder="Precio" disabled={this.state.checked}/>
                 <FormFeedback>Error</FormFeedback>
               </InputGroup>
             </FormGroup>
