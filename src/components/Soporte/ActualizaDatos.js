@@ -4,7 +4,7 @@ import Select from 'react-select';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
-import { ref, push, } from 'firebase/database';
+import { ref, update } from 'firebase/database';
 import * as Icon from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../FirebaseConfig/firebase';
@@ -15,15 +15,17 @@ const ActualizaDatos = ({ datos }) => {
     const { handleSubmit } = useForm();
     const [action, setAction] = useState("");
     const [stamp, setStamp] = useState(false);
-    const [Formvalue, setFormvalue] = useState({ name: '',tipo: "Fisica", companyName: '', rfc: '', mail: '', mainPhone: '', paymentForm: '', paymentMethod: '', cfdiUssage: '', entityType: '' });
+    const [Formvalue, setFormvalue] = useState({ name: '',isCompany: "Fisica", companyName: '', rfc: '', mail: '', mainPhone: '', paymentForm: '', paymentMethod: '', cfdiUssage: '', entityType: '' });
     const [modal, setModal] = useState(false);
     const fisicaMoral = [{ id: "Fisica", value: "Fisica", label: "Fisica" }, { id: "Moral", value: "Moral", label: "Moral" }]
+    const formaPago = [{ id: "Efectivo", value: "Efectivo", label: "Cuerpomatico" }, { id: "Tarjeta bancaria", value: "Tarjeta bancaria", label: "Tarjeta bancaria" }, { id: "Medias", value: "Vales", label: "Vales" }]
+    const metodoPago = [{ id: "Una sola exhibición mami", value: "Una sola exhibición mami", label: "Una sola exhibición mami" }, { id: "Parcialidades", value: "Parcialidades", label: "Parcialidades" }]
     const toggle = () => {
         setModal(!modal);
     };
     const onSubmit = () => {
         if (Formvalue.nombre !== '') {
-            push(ref(db, 'entity/'), {
+            update(ref(db, 'usuarios/'), {
                 name: Formvalue.nombre,
                 description: Formvalue.descripcion
             });
@@ -42,16 +44,18 @@ const ActualizaDatos = ({ datos }) => {
         if(Formvalue.name === '' && datos){
             setFormvalue({ 
                 name: datos.name,
-                tipo: "Fisica", 
-                companyName: datos.companyName, 
-                rfc: datos.rfc, 
+                password: datos.password,
+                isCompany: datos.isCompany || "Fisica", 
+                companyName: datos.companyName,
+                rfc: datos.rfc || "XAXX010101000", 
                 mail: datos.mail, 
-                mainPhone: datos.mainPhone, 
+                mainPhone: datos.mainPhone || "(00)000-000-0000", 
                 paymentForm: datos.paymentForm, 
                 paymentMethod: datos.paymentMethod, 
-                cfdiUssage: datos.cfdiUssage, 
+                cfdiUssage: datos.cfdiUssage || "No ha subido archivo", 
                 entityType: datos.entityType });
         }
+        console.log(datos)
         console.log(Formvalue)
     }, [Formvalue, stamp])
     return (
@@ -78,15 +82,15 @@ const ActualizaDatos = ({ datos }) => {
                                                     options={fisicaMoral}
                                                     style={{ width: 100 }}
                                                     name="tipo"
-                                                    onChange={(e) => { setFormvalue({ ...Formvalue, tipo: e.value }); }}
-                                                    value={{label:Formvalue.tipo, value:Formvalue.tipo}}
+                                                    value={{value:Formvalue.isCompany, label:Formvalue.isCompany}}
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, isCompany: e.value }); }}
                                                 />
                                             </div>
                                         </Col>
                                     </Row>
                                 </InputGroup>
                             </FormGroup>
-                            {Formvalue.tipo === "Moral" ?
+                            {Formvalue.isCompany === "Moral" ?
                                 <div>
                                     <FormGroup>
                                         <InputGroup>
@@ -146,9 +150,43 @@ const ActualizaDatos = ({ datos }) => {
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{ width: "150px" }}>Metodo de pago </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="paymentMethod" className="form-control" value={Formvalue.paymentMethod}/>
+                                <InputGroup >
+                                    <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                        <Col md="2" className='p-0'>
+                                            <InputGroupText style={{ width: "125px", height: "100%" }}>Forma de pago</InputGroupText>
+                                        </Col>
+                                        <Col className='p-0'>
+                                            <div style={{ width: "100%" }}>
+                                                <Select
+                                                    options={formaPago}
+                                                    style={{ width: 100 }}
+                                                    name="tipo"
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, tipo: e.value }); }}
+                                                    value={{label:Formvalue.paymentForm, value:Formvalue.paymentForm}}
+                                                />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                                <InputGroup >
+                                    <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                        <Col md="2" className='p-0'>
+                                            <InputGroupText style={{ width: "125px", height: "100%" }}>Forma de pago</InputGroupText>
+                                        </Col>
+                                        <Col className='p-0'>
+                                            <div style={{ width: "100%" }}>
+                                                <Select
+                                                    options={metodoPago}
+                                                    style={{ width: 100 }}
+                                                    name="tipo"
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, tipo: e.value }); }}
+                                                    value={{label:Formvalue.paymentMethod, value:Formvalue.paymentMethod}}
+                                                />
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </InputGroup>
                             </FormGroup>
                         </Col>

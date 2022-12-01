@@ -45,10 +45,11 @@ const TablePanelLicencias = () => {
 
   function modifiedActive(data) {
     update(ref(db, `licenses/${data.id}`), {
-      active: data.active === "true" ? "false" : "true"
+      active: !data.active
     });
     getDatosLicencia();
   }
+  
   useEffect(() => {
     getDatosLicencia();
   }, [uidLicencia])
@@ -84,13 +85,13 @@ const TablePanelLicencias = () => {
             {lista.map((tdata) => (
               <tr key={tdata.id} className="border-top">
                 <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                  {tdata.active === "true" ?
+                  {tdata.active === true ?
                     <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                     : <div><Icon.ToggleLeft /></div>}
                 </div></td>
                 <td>{tdata.nombre}</td>
                 <td>{tdata.descripcion}</td>
-                <td>${tdata.monto}.00</td>
+                <td>${(tdata.monto % 1 === 0 ? `${tdata.monto}.00` : (tdata.monto).toFixed(2))} MXN</td>
                 <td>
                   <ul>
                     {tdata.caracteristicas.map((carac) =>
@@ -101,10 +102,8 @@ const TablePanelLicencias = () => {
                   </ul>
                 </td>
                 <td>
-                  <div className='d-flex align-items-center p-2 ms-3 '>
-                    <div className="btn-icon" onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
-                      <Icon.AlertCircle />
-                    </div>
+                  <div className='d-flex justify-content-center'>
+                    <Button onClick={() => {setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                   </div>
                 </td>
               </tr>
@@ -121,10 +120,10 @@ const TablePanelLicencias = () => {
               {action === "Editar" ? <div><Icon.Edit /> Editar licencia</div> : <div></div>}
             </Col>
             <Col>
-            <div className='d-flex justify-content-end'>
+              <div className='d-flex justify-content-end'>
 
-              {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
-            </div>
+                {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
+              </div>
             </Col>
           </Row>
         </ModalHeader>
@@ -133,8 +132,6 @@ const TablePanelLicencias = () => {
           {action === "Detalles" ? <DetallesLicencia id={uidLicencia} /> : ""}
           {action === "Editar" ? <Editar id={uidLicencia} /> : ""}
         </ModalBody>
-        {/* <ModalFooter>
-        </ModalFooter> */}
       </Modal>
 
     </div>

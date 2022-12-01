@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Row, Col, FormFeedback, Alert } from 'reactstrap';
 import Select from 'react-select';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
@@ -16,13 +16,24 @@ const Editar = ({ id }) => {
     const [action, setAction] = useState("");
     const [arrayCharacteristics, setArrayCharacteristics] = useState([]);
     const [arrayProducts, setArrayProducts] = useState([]);
-    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
-    const [FormvalueRef, setFormvalueRef] = useState({ nombre: '', descripcion: '', producto: '', monto: '' });
-    const [modal, setModal] = useState(false);
-    const toggle = () => {
-        setModal(!modal);
+    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: 0 });
+    const [FormvalueRef, setFormvalueRef] = useState({ nombre: '', descripcion: '', producto: '', monto: 0 });
+
+    //Para el control de alertas o mensajes de errores
+    const [message, setMessage] = useState("");
+    const [visible, setVisible] = useState(false);
+    const onDismiss = () => {
+        setVisible(false);
     };
+    const [colorAlert, setAlertColor] = useState("success");
+    const [hiddenSuccess, sethiddenSuccess] = useState(false);
+    const [isValidInput, setIsValidInput] = useState({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+    const [messageFeedback, setMessageFeedback] = useState({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+
     const handleChange = ({ target: { name, value } }) => {
+        setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+        setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+        setVisible(false);
         setFormvalue({ ...Formvalue, [name]: value });
         console.log(Formvalue)
     };
@@ -47,6 +58,9 @@ const Editar = ({ id }) => {
         return true;
     }
     function addLicense(caract) {
+        setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+        setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+        setVisible(false);
         if (existCharacteristic(caract)) {
             if (caract !== '') {
                 const listAux = lista;
@@ -59,7 +73,7 @@ const Editar = ({ id }) => {
         const arr = [];
         onValue(ref(db, "products/"), snapshot => {
             snapshot.forEach(snap => {
-                if (snap.val().active === "true") {
+                if (snap.val().active === true) {
                     const obj = {
                         id: snap.key,
                         value: snap.val().name,
@@ -100,7 +114,7 @@ const Editar = ({ id }) => {
         const arr = [];
         onValue(ref(db, "modules/"), snapshot => {
             snapshot.forEach(snap => {
-                if (snap.val().active === "true") {
+                if (snap.val().active === true) {
                     const obj = {
                         id: snap.key,
                         value: snap.val().name,
@@ -113,39 +127,65 @@ const Editar = ({ id }) => {
             setArrayCharacteristics(arr);
         });
     }
-    function isEquals(a, b) {
-        console.log(a.join() === b.join())
-        return a.join() === b.join();
-    }
     const onSubmit = () => {
-        const A = listaAuxComp;
-        const B = lista;
-        if (lista.length !== 0) {
-            if (Formvalue !== FormvalueRef) {
-                if (!isEquals(A, B)) {
-                    console.log(Formvalue, " ", FormvalueRef)
-                    if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== '') {
-                        update(ref(db, `licenses/${id}`), {
-                            name: Formvalue.nombre,
-                            description: Formvalue.descripcion,
-                            product: Formvalue.producto,
-                            amount: Formvalue.monto,
-                            caracteristicas: lista
-                        });
-                        setAction("envio");
-                    }
-                    else {
-                        setAction("vacio");
-                    }
+        let cont = 0;
+        if (lista.length === listaAuxComp.length) {
+            for (let i = 0; i < lista.length; i++) {
+                if (lista[i].caracteristica === listaAuxComp[i].caracteristica) {
+                    cont++;
                 }
-                else {
-                    setAction("ESC")
-                }
-            } else {
-                setAction("SC")
             }
-        } else {
-            setAction("SC")
+        }
+        if (Formvalue.nombre !== FormvalueRef.nombre || Formvalue.descripcion !== FormvalueRef.descripcion || Formvalue.producto !== FormvalueRef.producto || Formvalue.monto !== FormvalueRef.monto || cont !== lista.length) {
+            if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== 0) {
+                update(ref(db, `licenses/${id}`), {
+                    name: Formvalue.nombre,
+                    description: Formvalue.descripcion,
+                    product: Formvalue.producto,
+                    amount: parseFloat(Formvalue.monto),
+                    caracteristicas: lista
+                });
+                setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+                setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+                sethiddenSuccess(true);
+                setMessage("Se ha modificado con exito");
+                setTimeout(() => {
+                    sethiddenSuccess(false);
+                }, 3000);
+            }
+            else {
+                const objMessages = { nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" };
+                const objValidInput = { nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true };
+                if (Formvalue.nombre === "") {
+                    objMessages.nombre = "Favor de llenar el campo";
+                    objValidInput.nombre = false;
+                }
+                if (Formvalue.descripcion === "") {
+                    objMessages.descripcion = "Favor de llenar el campo";
+                    objValidInput.descripcion = false;
+                }
+                if (Formvalue.producto === "") {
+                    setVisible(true);
+                    setAlertColor("danger");
+                    objMessages.producto = "Favor de seleccionar un producto";
+                }
+                if (Formvalue.monto === 0 || Formvalue.monto <= 0) {
+                    objMessages.monto = "Coloque un monto correcta";
+                    objValidInput.monto = false;
+                }
+                if (lista.length === 0) {
+                    setVisible(true);
+                    setAlertColor("danger");
+                    objMessages.caracteristicas = "Seleccione al menos una caracteristica";
+                }
+                setIsValidInput(objValidInput);
+                setMessageFeedback(objMessages);
+            }
+        }
+        else {
+            setVisible(true);
+            setAlertColor("danger");
+            setMessage("No se han realizado cambios");
         }
     }
     useEffect(() => {
@@ -157,19 +197,29 @@ const Editar = ({ id }) => {
     }, [])
     return (
         <>
+            {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}>
+                <Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
+            <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
+                {messageFeedback.producto && messageFeedback.caracteristicas ? <div>{messageFeedback.producto} y {messageFeedback.caracteristicas}</div> : <div></div>}
+                {messageFeedback.producto && !messageFeedback.caracteristicas ? <div>{messageFeedback.producto} </div> : <div></div>}
+                {!messageFeedback.producto && messageFeedback.caracteristicas ? <div>{messageFeedback.caracteristicas}</div> : <div></div>}
+                {message !== "" ? message : ""}
+            </Alert>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row>
                     <Col>
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Nombre *</InputGroupText>
-                                <Input onChange={handleChange} value={Formvalue.nombre} type="text" name="nombre" className="form-control" placeholder="Nombre" />
+                                <Input onChange={handleChange} invalid={!isValidInput.nombre} value={Formvalue.nombre} type="text" name="nombre" className="form-control" placeholder="Nombre" />
+                                <FormFeedback>{messageFeedback.nombre}</FormFeedback>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Descripción *</InputGroupText>
-                                <Input onChange={handleChange} value={Formvalue.descripcion} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripcion" />
+                                <Input onChange={handleChange} invalid={!isValidInput.descripcion} value={Formvalue.descripcion} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripcion" />
+                                <FormFeedback>{messageFeedback.descripcion}</FormFeedback>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -185,7 +235,12 @@ const Editar = ({ id }) => {
                                                 style={{ width: 100 }}
                                                 name="producto"
                                                 value={{ value: Formvalue.producto, label: Formvalue.producto }}
-                                                onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue) }}
+                                                onChange={(e) => {
+                                                    setFormvalue({ ...Formvalue, producto: e.value });
+                                                    setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+                                                    setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+                                                    setVisible(false);
+                                                }}
                                             />
                                         </div>
                                     </Col>
@@ -195,7 +250,8 @@ const Editar = ({ id }) => {
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Monto $ *</InputGroupText>
-                                <Input onChange={handleChange} value={Formvalue.monto} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
+                                <Input onChange={handleChange} invalid={!isValidInput.monto} value={Formvalue.monto} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
+                                <FormFeedback>{messageFeedback.monto}</FormFeedback>
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -241,7 +297,7 @@ const Editar = ({ id }) => {
                                                         <div>
                                                             <Row>
                                                                 <Col md="2">
-                                                                    <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); setModal(true); }}><Icon.Trash2 /></div>
+                                                                    <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); deleteCharacteristic(); console.log(action) }}><Icon.Trash2 /></div>
                                                                 </Col>
                                                             </Row>
                                                         </div>
@@ -254,72 +310,9 @@ const Editar = ({ id }) => {
                             </div>
                         </div>
                     </Col>
-                    {action === "del" ?
-                        <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                            <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
-                            <ModalBody>
-                                ¿Seguro que quieres eliminar la caracteristica?
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={() => { deleteCharacteristic(); setModal(false) }}>
-                                    Confirmar
-                                </Button>
-                                <Button color="secondary" onClick={toggle.bind(null)}>
-                                    Cancelar
-                                </Button>
-                            </ModalFooter>
-                        </Modal> : <Modal></Modal>}
-                    {action === "envio" ?
-                        <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                            <ModalHeader toggle={toggle.bind(null)} ><Icon.Check /> Exito</ModalHeader>
-                            <ModalBody>
-                                Modificacion Exitosa
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={() => { setModal(false); }}>
-                                    Confirmar
-                                </Button>
-                            </ModalFooter>
-                        </Modal> : <Modal></Modal>}
-                    {action === "ESC" ?
-                        <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                            <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
-                            <ModalBody>
-                                Tiene que realizar cambios
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={() => { setModal(false); }}>
-                                    Confirmar
-                                </Button>
-                            </ModalFooter>
-                        </Modal> : <Modal></Modal>}
-                    {action === "vacio" ?
-                        <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                            <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
-                            <ModalBody>
-                                Tiene que realizar cambios
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={() => { setModal(false); }}>
-                                    Confirmar
-                                </Button>
-                            </ModalFooter>
-                        </Modal> : <Modal></Modal>}
-                    {action === "SC" ?
-                        <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                            <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Advertencia</ModalHeader>
-                            <ModalBody>
-                                Tiene que tener al menos una caracteristica
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" onClick={() => { setModal(false); }}>
-                                    Confirmar
-                                </Button>
-                            </ModalFooter>
-                        </Modal> : <Modal></Modal>}
                 </Row>
                 <div className='w-full d-flex justify-content-center'>
-                    <Button className="button btn-success w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar cambios</Button>
+                    <Button className="button btn-success w-full" type="submit" onClick={() => { handleSubmit(onSubmit); }}>Guardar cambios</Button>
                 </div>
             </Form>
         </>

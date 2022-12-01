@@ -148,7 +148,8 @@ const App = () => {
               <Route path='/dashboards/analytical' name='Analytical' element={<Analytical />} />
               <Route path='/servicios/PanelLicencias' name='PanelLicencias' element={<PanelLicencias />} />
               <Route path='/servicios/PanelLicenciasAdmin' name='PanelLicenciasAdmin' element={<PanelLicenciasAdmin />} />
-              <Route path='/servicios/PanelProductosAdmin' name='PanelProductosAdmin' element={<PanelProductosAdmin />} />
+              <Route path='/servicios/PanelProductosAdmin' name='PanelProductosAdmin' element={<PanelProductosAdmin muestra="prod"/>} />
+              <Route path='/servicios/PanelModulosAdmin' name='PanelModulosAdmin' element={<PanelProductosAdmin muestra="mod"/>} />
               <Route path='/servicios/PanelLicencias/ConsultaUsuario' name='ConsultaUsuario' element={<ConsultaUsuario />} />
               <Route path='/Soporte' name='Soporte' element={<Soporte />} />
               <Route path='/Articulos/Inventarios' name='Inventarios' element={<Inventarios />} />

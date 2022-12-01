@@ -11,7 +11,7 @@ const TableUsuariosLicencias = () => {
         id: i,
         cliente: `Cliente ${i+1}`,
         licencia: `Licencia ${i+1}`,
-        vigencia:(new Date().toString()),
+        vigencia:(new Date().toUTCString()),
         activo: 'false'
       }
       arr.push(obj);

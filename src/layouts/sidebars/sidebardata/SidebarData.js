@@ -21,6 +21,11 @@ const SidebarData = [
         icon: <Icon.Disc />,
       },
       {
+        title: 'Módulos',
+        href: '/servicios/PanelModulosAdmin',
+        icon: <Icon.Disc />,
+      },
+      {
         title: 'Usuarios',
         href: '/servicios/PanelLicencias/ConsultaUsuario',
         icon: <Icon.Disc />,

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import { set, ref, onValue} from 'firebase/database';
+import { set, ref, onValue } from 'firebase/database';
 import { auth, db } from '../FirebaseConfig/firebase';
 
 //Exportamos el contexto, es decir, informacion del usuario que haya iniciado sesion
@@ -33,14 +33,9 @@ export function AuthProvider({ children }) {
     const login = (email, password) => signInWithEmailAndPassword(auth, email, password);
     //Constante para cierre de sesion
     const logout = () => signOut(auth);
-    function getDataUser() {
-        onValue(ref(db, `usuarios/${user.uid}`), (snapshot => {
-            const datosUsuario = {
-                mail: snapshot.val().email,
-                name: snapshot.val().name,
-                role: (snapshot.val().role ? snapshot.val().role: "No tiene asignado"),
-                }
-                setDataUser(datosUsuario)
+    function getDataUser(data) {
+        onValue(ref(db, `usuarios/${data.uid}`), (snapshot => {
+            setDataUser(snapshot.val())
         }));
     }
     useEffect(() => {
@@ -48,9 +43,7 @@ export function AuthProvider({ children }) {
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setloading(false);
-            if(user){
-                getDataUser();
-            }
+            getDataUser(currentUser);
         });
         return () => unSubscribe();
     }, [user])

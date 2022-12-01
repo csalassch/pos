@@ -27,10 +27,10 @@ const RegisterFormik = () => {
     confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
     acceptTerms: Yup.bool().oneOf([true], 'Accept Terms & Conditions is required'),
   });
-  const handleSubmit = async (UserName, email, password, isCompany) => {
+  const handleSubmit = async (UserName, email, password) => {
     try {
       console.log(UserName)
-      await signup(email, password, UserName, (isCompany === true ? "company" : "client"));
+      await signup(email, password, UserName, "client");
       navigate('/');
 
     } catch (error) {
@@ -58,7 +58,7 @@ const RegisterFormik = () => {
                   onSubmit={(fields) => {
                     // // eslint-disable-next-line no-alert
                     // alert(`SUCCESS!! :-)\n\n${JSON.stringify(fields, null, 4)}`);
-                    handleSubmit(fields.UserName, fields.email, fields.password, fields.isCompany);
+                    handleSubmit(fields.UserName, fields.email, fields.password);
                   }}
                   render={({ errors, touched }) => (
                     <Form>
@@ -132,23 +132,7 @@ const RegisterFormik = () => {
                           className="invalid-feedback"
                         />
                       </FormGroup>
-                      <FormGroup inline className="form-check">
-                        <Field
-                          type="checkbox"
-                          name="isCompany"
-                          id="isCompany"
-                          className={`form-check-input ${errors.acceptTerms && touched.acceptTerms ? ' is-invalid' : ''
-                            }`}
-                        />
-                        <Label htmlFor="isCompany" className="form-check-label">
-                          ¿Es una empresa?
-                        </Label>
-                        <ErrorMessage
-                          name="isCompany"
-                          component="div"
-                          className="invalid-feedback"
-                        />
-                      </FormGroup>
+                      
                       <FormGroup>
                         <Button type="submit" color="info" className="me-2">
                           Registrar
