@@ -77,7 +77,7 @@ const TablePanelModulos = () => {
                 <td>{tdata.descripcion}</td>
                 <td>
                   <div className='d-flex align-items-center p-2 ms-3 '>
-                    <div onClick={() => { setUidModulo(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
+                    <div className="btn-icon" onClick={() => { setUidModulo(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
                       <Icon.AlertCircle />
                     </div>
                   </div>
