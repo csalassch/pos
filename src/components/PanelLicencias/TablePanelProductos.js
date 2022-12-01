@@ -33,7 +33,7 @@ const TablePanelProductos = () => {
   }
   function modifiedActive(data) {
     update(ref(db, `products/${data.id}`), {
-      active: data.active === "true" ? "false" : "true"
+      active: !data.active
     });
     getDatosProductos();
   }
@@ -70,16 +70,14 @@ const TablePanelProductos = () => {
             {lista.map((tdata) => (
               <tr key={tdata.id} className="border-top">
                 <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }} >
-                  {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                  {tdata.active === true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                     : <div><Icon.ToggleLeft /></div>}
                 </div></td>
                 <td>{tdata.nombre}</td>
                 <td>{tdata.descripcion}</td>
                 <td>
-                  <div className='d-flex align-items-center p-2 ms-3 '>
-                    <div className="btn-icon" onClick={() => { setUidProducto(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
-                      <Icon.AlertCircle />
-                    </div>
+                  <div className='w-full d-flex justify-content-center'>
+                    <Button onClick={() => { setUidProducto(tdata.id); setAction("Detalles"); setModal(true) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                   </div>
                 </td>
               </tr>
@@ -104,9 +102,9 @@ const TablePanelProductos = () => {
 
         </ModalHeader>
         <ModalBody>
-          {action === "Agregar" ? <AltaP /> : ""}
-          {action === "Detalles" ? <DetallesProducto id={uidProducto} /> : ""}
-          {action === "Editar" ? <EditarP id={uidProducto} /> : ""}
+          {action === "Agregar" ? <AltaP muestra="prod" /> : ""}
+          {action === "Detalles" ? <DetallesProducto muestra="prod" id={uidProducto} /> : ""}
+          {action === "Editar" ? <EditarP muestra="prod" id={uidProducto} /> : ""}
         </ModalBody>
         <ModalFooter>
 

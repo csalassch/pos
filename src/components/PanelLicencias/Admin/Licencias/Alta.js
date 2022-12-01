@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Modal, ModalHeader, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Row, Col, FormFeedback, Alert } from 'reactstrap';
 import Select from 'react-select';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
@@ -15,32 +15,75 @@ const Alta = () => {
     const [action, setAction] = useState("");
     const [arrayProducts, setArrayProducts] = useState([]);
     const [arrayCharacteristics, setArrayCharacteristics] = useState([]);
-    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: '', caracteristica: '' });
-    const [modal, setModal] = useState(false);
-    const toggle = () => {
-        setModal(!modal);
+    const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '', producto: '', monto: 0, caracteristica: '' });
+    //Para el control de alertas o mensajes de errores
+    const [message, setMessage] = useState("");
+    const [visible, setVisible] = useState(false);
+    const onDismiss = () => {
+        setVisible(false);
     };
+    const [colorAlert, setAlertColor] = useState("success");
+    const [hiddenSuccess, sethiddenSuccess] = useState(false);
+    const [isValidInput, setIsValidInput] = useState({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+    const [messageFeedback, setMessageFeedback] = useState({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+
     const onSubmit = () => {
         console.log(Formvalue)
         console.log(lista)
-        if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== '' && lista.length !== 0) {
+        if (Formvalue.nombre !== '' && Formvalue.descripcion !== '' && Formvalue.producto !== '' && Formvalue.monto !== 0 && lista.length !== 0) {
             push(ref(db, 'licenses/'), {
                 name: Formvalue.nombre,
                 description: Formvalue.descripcion,
                 product: Formvalue.producto,
                 amount: Formvalue.monto,
                 caracteristicas: lista,
-                active: "true"
+                active: true
             });
+            setAction("envio")
             setLista([])
-            setFormvalue({ nombre: '', descripcion: '', producto: '', monto: '', caracteristica: '' });
-            setAction("envio");
+            setFormvalue({ nombre: '', descripcion: '', producto: '', monto: 0, caracteristica: '' });
+            setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+            setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+            sethiddenSuccess(true);
+            setMessage("Se ha cargado con exito");
+            setTimeout(() => {
+                sethiddenSuccess(false);
+            }, 3000);
+            setAction("")
         }
         else {
-            setAction("vacio");
+            const objMessages = { nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" };
+            const objValidInput = { nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true };
+            if (Formvalue.nombre === "") {
+                objMessages.nombre = "Favor de llenar el campo";
+                objValidInput.nombre = false;
+            }
+            if (Formvalue.descripcion === "") {
+                objMessages.descripcion = "Favor de llenar el campo";
+                objValidInput.descripcion = false;
+            }
+            if (Formvalue.producto === "") {
+                setVisible(true);
+                setAlertColor("danger");
+                objMessages.producto = "Favor de seleccionar un producto";
+            }
+            if (Formvalue.monto === 0 || Formvalue.monto <= 0) {
+                objMessages.monto = "Coloque un monto correcta";
+                objValidInput.monto = false;
+            }
+            if (lista.length === 0) {
+                setVisible(true);
+                setAlertColor("danger");
+                objMessages.caracteristicas = "Seleccione al menos una caracteristica";
+            }
+            setIsValidInput(objValidInput);
+            setMessageFeedback(objMessages);
         }
     }
     const handleChange = ({ target: { name, value } }) => {
+        setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+        setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+        setVisible(false);
         setFormvalue({ ...Formvalue, [name]: value });
     };
     function deleteCharacteristic() {
@@ -61,6 +104,9 @@ const Alta = () => {
         return true;
     }
     function addLicense(caract) {
+        setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+        setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+        setVisible(false);
         if (existCharacteristic(caract)) {
             if (caract !== '') {
                 const listAux = lista;
@@ -73,7 +119,7 @@ const Alta = () => {
         const arr = [];
         onValue(ref(db, "products/"), snapshot => {
             snapshot.forEach(snap => {
-                if (snap.val().active === "true") {
+                if (snap.val().active === true) {
                     const obj = {
                         id: snap.key,
                         value: snap.val().name,
@@ -90,7 +136,7 @@ const Alta = () => {
         const arr = [];
         onValue(ref(db, "modules/"), snapshot => {
             snapshot.forEach(snap => {
-                if (snap.val().active === "true") {
+                if (snap.val().active === true) {
                     const obj = {
                         id: snap.key,
                         value: snap.val().name,
@@ -106,22 +152,31 @@ const Alta = () => {
     useEffect(() => {
         getProductos();
         getCharacteristics();
-    }, [Formvalue, lista])
+    }, [ lista])
     return (
         <>
+            {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}>
+                <Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
+            <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
+                {messageFeedback.producto && messageFeedback.caracteristicas ? <div>{messageFeedback.producto} y {messageFeedback.caracteristicas}</div> : <div></div>}
+                {messageFeedback.producto && !messageFeedback.caracteristicas ? <div>{messageFeedback.producto} </div> : <div></div>}
+                {!messageFeedback.producto && messageFeedback.caracteristicas ? <div>{messageFeedback.caracteristicas}</div> : <div></div>}
+            </Alert>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row>
                     <Col>
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Nombre *</InputGroupText>
-                                <Input onChange={handleChange} type="text" name="nombre" className="form-control" placeholder="Nombre" value={action === "envio" ? "" : Formvalue.nombre} />
+                                <Input onChange={handleChange} invalid={!isValidInput.nombre} type="text" name="nombre" className="form-control" placeholder="Nombre" value={action === "envio" ? "" : Formvalue.nombre} />
+                                <FormFeedback>{messageFeedback.nombre}</FormFeedback>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Descripción *</InputGroupText>
-                                <Input onChange={handleChange} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripción" value={action === "envio" ? "" : Formvalue.descripcion}/>
+                                <Input onChange={handleChange} invalid={!isValidInput.descripcion} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripción" value={action === "envio" ? "" : Formvalue.descripcion} />
+                                <FormFeedback>{messageFeedback.descripcion}</FormFeedback>
                             </InputGroup>
                         </FormGroup>
                         <FormGroup>
@@ -136,9 +191,13 @@ const Alta = () => {
                                                 options={arrayProducts}
                                                 style={{ width: 100 }}
                                                 name="producto"
-                                                onChange={(e) => { setFormvalue({ ...Formvalue, producto: e.value }); console.log(Formvalue)}}
-                                                // value={action === "envio" ? "" : Formvalue.descripcion}
-                                            
+                                                onChange={(e) => {
+                                                    setFormvalue({ ...Formvalue, producto: e.value });
+                                                    setMessageFeedback({ nombre: "", descripcion: "", producto: "", monto: "", caracteristicas: "" });
+                                                    setIsValidInput({ nombre: true, descripcion: true, producto: true, monto: true, caracteristicas: true });
+                                                    setVisible(false);; console.log(Formvalue)
+                                                }}
+                                                value={action === "envio" ? "" : {label:Formvalue.producto, value:Formvalue.producto}}
                                             />
                                         </div>
                                     </Col>
@@ -148,7 +207,8 @@ const Alta = () => {
                         <FormGroup>
                             <InputGroup>
                                 <InputGroupText style={{ width: "100px" }}>Monto $ *</InputGroupText>
-                                <Input onChange={handleChange} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" value={action === "envio" ? "" : Formvalue.monto}/>
+                                <Input onChange={handleChange} invalid={!isValidInput.monto} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" value={action === "envio" ? "" : Formvalue.monto} />
+                                <FormFeedback>{messageFeedback.monto}</FormFeedback>
                             </InputGroup>
                         </FormGroup>
                     </Col>
@@ -169,7 +229,7 @@ const Alta = () => {
                                                             style={{ width: 100 }}
                                                             name="caracteristica"
                                                             onChange={(e) => { setFormvalue({ ...Formvalue, caracteristica: e.id }); addLicense(e.value); setFormvalue({ ...Formvalue, caracteristica: '' }); }}
-                                                            // value={action === "envio" ? "" : Formvalue.caracteristica}
+                                                            value={action === "envio" ? "" : {label:Formvalue.caracteristica, value:Formvalue.caracteristica}}
                                                         />
                                                     </div>
                                                 </Col>
@@ -194,56 +254,21 @@ const Alta = () => {
                                                     <div>
                                                         <Row>
                                                             <Col md="2">
-                                                                <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setAction("del"); setIdEliminar(tdata.id); setModal(true); }}><Icon.Trash2 /></div>
+                                                                <div style={{ color: "	#d54747", cursor: "pointer" }} onClick={() => { setIdEliminar(tdata.id); deleteCharacteristic() }}><Icon.Trash2 /></div>
                                                             </Col>
                                                         </Row>
                                                     </div>
                                                 </td>
                                             </tr>
                                         ))}
-
                                     </tbody>
                                 </Table>
-                                {action === "del" ?
-                                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                        <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
-                                        <ModalBody>
-                                            ¿Seguro que quieres eliminar la caracteristica?
-                                        </ModalBody>
-                                        <ModalFooter>
-                                            <Button color="primary" onClick={() => { deleteCharacteristic(); setModal(false) }}>
-                                                Confirmar
-                                            </Button>
-                                            <Button color="secondary" onClick={toggle.bind(null)}>
-                                                Cancelar
-                                            </Button>
-                                        </ModalFooter>
-                                    </Modal> :
-                                    <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                        {action === "vacio" ?
-                                            <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader> :
-                                            <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
-                                        {action === "vacio" ?
-                                            <ModalBody>
-                                                Debe llenar todos los campos
-                                            </ModalBody> :
-                                            <ModalBody>
-                                                Se ha realizado correctamente el registro
-                                            </ModalBody>
-                                        }
-                                        <ModalFooter>
-                                            <Button color="primary" onClick={() => { setModal(false); setFormvalue({}); setAction(""); }}>
-                                                Confirmar
-                                            </Button>
-                                        </ModalFooter>
-                                    </Modal>
-                                }
                             </div>
                         </div>
                     </Col>
                 </Row>
                 <div className='w-full d-flex justify-content-center'>
-                    <Button className="button btn-success" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Guardar registro</Button>
+                    <Button className="button btn-success" type="submit" onClick={() => { handleSubmit(onSubmit); }}>Guardar registro</Button>
                 </div>
             </Form>
         </>

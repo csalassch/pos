@@ -5,19 +5,31 @@ import * as Icon from "react-feather";
 import { onValue, ref } from 'firebase/database';
 import { db } from '../../../../FirebaseConfig/firebase';
 
-const DetallesProducto = ({ id }) => {
+const DetallesProducto = ({ id, muestra }) => {
     const [Formvalue, setFormvalue] = useState({ nombre: '', descripcion: '' });
 
 
     function getDatosProducto() {
-        onValue(ref(db, `products/${id}`), snapshot => {
-            const productos = {
-                id: snapshot.key,
-                nombre: snapshot.val().name,
-                descripcion: snapshot.val().description
-            }
-            setFormvalue({ nombre: productos.nombre, descripcion: productos.descripcion })
-        });
+        if (muestra === "prod") {
+            onValue(ref(db, `products/${id}`), snapshot => {
+                const productos = {
+                    id: snapshot.key,
+                    nombre: snapshot.val().name,
+                    descripcion: snapshot.val().description
+                }
+                setFormvalue({ nombre: productos.nombre, descripcion: productos.descripcion })
+            });
+        }
+        if (muestra === "mod") {
+            onValue(ref(db, `modules/${id}`), snapshot => {
+                const productos = {
+                    id: snapshot.key,
+                    nombre: snapshot.val().name,
+                    descripcion: snapshot.val().description
+                }
+                setFormvalue({ nombre: productos.nombre, descripcion: productos.descripcion })
+            });
+        }
     }
 
     useEffect(() => {

@@ -4,9 +4,9 @@ import * as Icon from 'react-feather';
 import { Table, Modal, ModalHeader, ModalBody, ModalFooter, Button, Card, CardHeader, Row, Col } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../FirebaseConfig/firebase';
-import AltaM from './Admin/Modulos/AltaM';
-import DetallesModulo from './Admin/Modulos/DetallesModulo';
-import EditarM from './Admin/Modulos/EditarM';
+import AltaP from './Admin/Productos/AltaP';
+import DetallesProducto from './Admin/Productos/DetallesProducto';
+import EditarP from './Admin/Productos/EditarP';
 
 const TablePanelModulos = () => {
   const [modal, setModal] = useState(false);
@@ -33,7 +33,7 @@ const TablePanelModulos = () => {
   }
   function modifiedActive(data) {
     update(ref(db, `modules/${data.id}`), {
-      active: data.active === "true" ? "false" : "true"
+      active: !data.active
     });
     getDatosModulos();
   }
@@ -47,7 +47,7 @@ const TablePanelModulos = () => {
           <Row>
             <Col>
               {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-              <h4 style={{ color: "#1186a2" }}>Registro Módulo</h4>
+              <h4 style={{ color: "#1186a2" }}>Registro módulo</h4>
             </Col>
             <Col>
               <div className='d-flex justify-content-end'>
@@ -70,16 +70,14 @@ const TablePanelModulos = () => {
             {lista.map((tdata) => (
               <tr key={tdata.id} className="border-top">
                 <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }} >
-                  {tdata.active === "true" ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                  {tdata.active === true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                     : <div><Icon.ToggleLeft /></div>}
                 </div></td>
                 <td>{tdata.nombre}</td>
                 <td>{tdata.descripcion}</td>
                 <td>
-                  <div className='d-flex align-items-center p-2 ms-3 '>
-                    <div className="btn-icon" onClick={() => { setUidModulo(tdata.id); setAction("Detalles"); setModal(true) }} style={{ cursor: "pointer" }}>
-                      <Icon.AlertCircle />
-                    </div>
+                  <div className=' d-flex justify-content-center'>
+                    <Button onClick={() => { setUidModulo(tdata.id); setAction("Detalles"); setModal(true) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                   </div>
                 </td>
               </tr>
@@ -104,9 +102,9 @@ const TablePanelModulos = () => {
 
         </ModalHeader>
         <ModalBody>
-          {action === "Agregar" ? <AltaM /> : ""}
-          {action === "Detalles" ? <DetallesModulo id={uidModulo} /> : ""}
-          {action === "Editar" ? <EditarM id={uidModulo} /> : ""}
+          {action === "Agregar" ? <AltaP muestra="mod" /> : ""}
+          {action === "Detalles" ? <DetallesProducto muestra="mod" id={uidModulo} /> : ""}
+          {action === "Editar" ? <EditarP muestra="mod" id={uidModulo} /> : ""}
         </ModalBody>
         <ModalFooter>
         </ModalFooter>

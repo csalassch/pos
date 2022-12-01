@@ -56,7 +56,7 @@ const DetallesLicencia = ({ id }) => {
                     <Col xs="4">
                         <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">Estado</CardSubtitle>
                         <CardTitle tag="h5">
-                            {Formvalue.active === "true" ? <div>
+                            {Formvalue.active === true ? <div>
                                 <Row><Col>
                                     <Icon.ToggleRight style={{ color: "#fca311" }} />
                                 </Col></Row>
@@ -79,7 +79,7 @@ const DetallesLicencia = ({ id }) => {
                     </Col>
                     <Col xs="4">
                         <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">Monto</CardSubtitle>
-                        <CardTitle tag="h5">${Formvalue.monto}</CardTitle>
+                        <CardTitle tag="h5">${(Formvalue.monto % 1 === 0 ? `${Formvalue.monto}.00` : (Formvalue.monto).toFixed(2))}</CardTitle>
                     </Col>
                 </Row>
                 <div className="d-flex w-full justify-content-center" >

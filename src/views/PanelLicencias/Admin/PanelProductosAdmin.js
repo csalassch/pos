@@ -3,12 +3,12 @@ import BreadCrumbs from '../../../layouts/breadcrumbs/BreadCrumbs';
 import TablePanelProductos from '../../../components/PanelLicencias/TablePanelProductos';
 import TablePanelModulos from '../../../components/PanelLicencias/TablePanelModulos';
 
-const PanelProductosAdmin = () => {
+const PanelProductosAdmin = ({ muestra }) => {
     return (
         <div>
             <BreadCrumbs />
-            <TablePanelProductos />
-            <TablePanelModulos />
+            {muestra === "prod" ? <TablePanelProductos /> : ""}
+            {muestra === "mod" ? <TablePanelModulos /> : ""}
         </div>
     );
 };
