@@ -215,6 +215,7 @@ const UbicacionesComp = () => {
                                     </div >
                                 </Col>
                             </Row>
+                            
                         </CardHeader>
                         <CardBody>
                             <FormGroup>
@@ -224,9 +225,12 @@ const UbicacionesComp = () => {
                                             <thead className='text-center' style={{ color: "#1f4f67" }}>
                                                 <tr>
                                                     <th>ID</th>
-                                                    <th>{t('active_headings')}</th>
-                                                    <th>{t('name_headings')}</th>
-                                                    <th>{t('details_headings')}</th>
+                                                    <th>Activo</th>
+                                                    <th>Logo</th>
+                                                    <th>Nombre</th>
+                                                    <th>Dirección</th>
+                                                    <th>Mapa</th>
+                                                    <th>Detalles</th>
                                                 </tr>
                                             </thead>
                                             <tbody className='text-center'>
@@ -237,7 +241,10 @@ const UbicacionesComp = () => {
                                                             {data.active === "true" || data.active === true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
                                                                 : <div><Icon.ToggleLeft /></div>}
                                                         </div></td>
+                                                        <td>Img Logo</td>
                                                         <td>{data.name}</td>
+                                                        <td>Dirección 1</td>
+                                                        <td>Link Mapa</td>
                                                         <td>
                                                             <div className='d-flex justify-content-center'>
                                                                 {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}

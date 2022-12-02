@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import * as Icon from 'react-feather';
 // import { Link } from 'react-router-dom';
-import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup } from 'reactstrap';
+import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup,Collapse,InputGroup,InputGroupText } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 
 import { onValue, ref, update, push } from 'firebase/database';
@@ -16,9 +16,10 @@ import MultiSteps from './MultiSteps';
 
 
 const TableItemsComp = () => {
-    const {t}=useTranslation();
+    const { t } = useTranslation();
 
     const [modal, setModal] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
     const [lista, setLista] = useState([{ id: '', nombre: '', urlImage: '', sku: '', precio: 0, active: false }]);
     const [modalCsv, setModalCsv] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
@@ -179,6 +180,48 @@ const TableItemsComp = () => {
                     </CardHeader>
                     <CardBody>
                         <div>
+                            <Row>
+                                <Col>
+                                    <Button title="Filtros" onClick={()=>{setShowFilters(!showFilters)}}  className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> Filtros</Button>
+
+                                </Col>
+                                <Collapse isOpen={showFilters} style={{marginTop:"10px"}}>
+                                    <Row style={{ marginBottom: "10px" }}>
+                                        <Col md="6">
+                                            <InputGroup>
+                                                <InputGroupText style={{ minWidth: "80px" }}>Nombre</InputGroupText>
+                                                <Input placeholder="Nombre" />
+                                            </InputGroup>
+                                        </Col>
+                                        <Col md="6">
+                                            <InputGroup>
+                                                <InputGroupText style={{ minWidth: "80px", display: "flex", justifyContent: "center" }}>SKU</InputGroupText>
+                                                <Input placeholder="UGG-BB-PUR-06" />
+                                            </InputGroup>
+                                        </Col>
+
+                                    </Row>
+                                    <Row>
+
+                                        <Col md="6">
+                                            <InputGroup>
+
+                                                <InputGroupText className='text-center' style={{ minWidth: "83px", textAlign: "center", margin: "auto", display: "flex", justifyContent: "center" }}>$</InputGroupText>
+                                                <Input type='number' step='any' placeholder="Precio" />
+                                            </InputGroup>
+                                        </Col>
+                                        <Col>
+                                            <div className='d-flex justify-content-end'>
+
+                                                <Button type="submit" className="btn btn-success">Añadir</Button>
+                                            </div>
+                                            {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
+
+                                        </Col>
+                                    </Row>
+                                    
+                                </Collapse>
+                            </Row>
 
                             {/* <br /> */}
                             {/* <div className='w-full d-flex justify-content-start m-6'>
@@ -216,7 +259,7 @@ const TableItemsComp = () => {
                                             <td>$ {tdata.precio}</td>
                                             <td>
                                                 <div className='d-flex justify-content-center'>
-                                                <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                                                    <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
 
 
                                                 </div>
@@ -226,14 +269,14 @@ const TableItemsComp = () => {
                                 </tbody>
                             </Table>
                             <Modal className='modal-lg' isOpen={modal} toggle={() => { setModal(false) }}>
-                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{marginRight:"7px"}} /> {t('addItem_modal')}</ModalHeader>
+                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{ marginRight: "7px" }} /> {t('addItem_modal')}</ModalHeader>
                                 <ModalBody>
                                     <div className="stepsWrapper">
                                         <MultiSteps />
                                     </div>
                                 </ModalBody>
                                 <ModalFooter>
-                                    
+
                                     <Button color="secondary" onClick={() => { setModal(false) }}>
                                         Cancelar
                                     </Button>

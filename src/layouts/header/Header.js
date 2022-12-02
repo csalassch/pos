@@ -1,6 +1,7 @@
-import React,{ useState,useEffect } from 'react';
-import { Link,useNavigate,useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+
 import Select from 'react-select';
 
 import SimpleBar from 'simplebar-react';
@@ -16,6 +17,7 @@ import {
   Button,
 } from 'reactstrap';
 import * as Icon from 'react-feather';
+import { update, ref, onValue } from 'firebase/database';
 import { ReactComponent as LogoWhite } from '../../assets/images/logos/white-logo-icon.svg';
 import MessageDD from './MessageDD';
 import NotificationDD from './NotificationDD';
@@ -24,7 +26,10 @@ import user1 from '../../assets/images/users/user4.jpg';
 import Logo from '../logo/Logo';
 import { ToggleMiniSidebar, ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
+import { db } from '../../FirebaseConfig/firebase';
+
 import { useAuth } from '../../Context/authContext';
+
 
 
 const Header = () => {
@@ -36,36 +41,81 @@ const Header = () => {
   const handleLogout = async () => {
     await logout();
   }
+  const mexico = <div><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Español</div>;
+  const usa = <div><img alt='USA Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />English</div>;
+  const france = <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/800px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Français</div>;
+  const brazil = <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Português</div>;
+  const israel = <div><img alt='Israel Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />עִברִית</div>;
   const options = [
-    { value: 'es-MX', label: <div><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" style={{marginRight:"7px"}}/>Español</div> },
-    { value: 'en', label: <div><img alt='USA Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>English</div> },
-    { value: 'fr', label: <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/800px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>Français</div> },
-    { value: 'pt', label: <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>Português</div> },
-    { value: 'he', label: <div><img alt='Israel Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png" height="20px" width="30px" style={{marginRight:"7px"}}/>עִברִית</div> },
-    
+    { value: 'es-MX', label: mexico },
+    { value: 'en', label: usa },
+    { value: 'fr', label: france },
+    { value: 'pt', label: brazil },
+    { value: 'he', label: israel },
+
   ];
-  const {url}=useParams();
-  const [query,setQuery]=useState("");
-  const history=useNavigate();
-  async function languageChange(e){
+  const { url } = useParams();
+  const [query, setQuery] = useState("");
+  const [savedLangLabel, setSavedLangLabel] = useState("");
+  const [savedLangVal, setSavedLangVal] = useState("");
+  const { user } = useAuth();
+  const history = useNavigate();
+  async function languageChange(e) {
+    update(ref(db, `usuarios/${user.uid}`), {
+      language: e.value
+    });
+
     setQuery(e.value);
   }
+  async function loadSavedLanguage() {
+    onValue(ref(db, `usuarios/${user.uid}`), snapshot => {
+
+      setSavedLangVal(snapshot.val().language);
+      if(snapshot.val().language==="es-MX"){
+        setSavedLangLabel(mexico);
+      }else if(snapshot.val().language==="en"){
+        setSavedLangLabel(usa);
+      
+      }else if(snapshot.val().language==="fr"){
+        setSavedLangLabel(france);
+      
+      }else if(snapshot.val().language==="pt"){
+        setSavedLangLabel(brazil);
+      
+      }else if(snapshot.val().language==="he"){
+        setSavedLangLabel(israel);
+      }
+      // setSavedLangVal(snapshot.val().language);
+    });
+  }
   useEffect(() => {
-    const params = new URLSearchParams()
-    if (query) {
-      params.append("lng", query)
-    } else {
-      params.delete("lng")
+    console.log("loaded flag: ", savedLangLabel);
+    if (savedLangLabel === "" || savedLangVal==="") {
+      loadSavedLanguage().then(() => {
+        const params = new URLSearchParams()
+        if (query) {
+          params.append("lng", query)
+        } else {
+          params.delete("lng")
+        }
+        console.log(url);
+        history({ search: `?${params.toString()}` });
+        console.log(window.location.href);
+      });
+    }else{
+      const params = new URLSearchParams()
+        if (query) {
+          params.append("lng", query)
+        } else {
+          params.delete("lng")
+        }
+        console.log(url);
+        history({ search: `?${params.toString()}` });
+        console.log(window.location.href);
     }
-    console.log(url);
-    // console.log(window.location.href);
-    history({search: `?${params.toString()}`});
-    
-    // window.history.replaceState({}, document.title, `?${params.toString()}`);
-    // history({search: params.toString()},{replace:true});
-    console.log(window.location.href);
-    // window.location=(window.location.href);
-  }, [query, history])
+
+
+  }, [query, history, savedLangLabel, savedLangVal])
 
 
   return (
@@ -126,18 +176,22 @@ const Header = () => {
         </Nav>
 
         <div className="d-flex align-items-center">
-          <div style={{minWidth:"150px"}}>
+          <div style={{ minWidth: "165px" }}>
 
-        <Select
+            <Select
               id="languageSelected"
-              defaultValue={[{value:'es-MX',label: <div><img alt='Mexico Flag' style={{marginRight:"7px"}} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px"/>Español</div>}]}
+              value={[{ value: savedLangVal, label: savedLangLabel }]}
               label="Selecciona Idioma"
               options={options}
-              onChange={(e)=>{languageChange(e).then(()=>{console.log(e);const a = document.createElement('a');
-              a.href = window.location.href;
-              document.body.appendChild(a);
-              a.click();
-  console.log(a.href)});}}
+              onChange={(e) => {
+                languageChange(e).then(() => {
+                  console.log(e); const a = document.createElement('a');
+                  a.href = window.location.href;
+                  document.body.appendChild(a);
+                  a.click();
+                  console.log(a.href)
+                });
+              }}
             />
           </div>
           {/******************************/}
