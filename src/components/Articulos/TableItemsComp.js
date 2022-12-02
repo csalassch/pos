@@ -2,8 +2,10 @@
 import { useEffect, useState } from 'react';
 
 import * as Icon from 'react-feather';
+import Select from 'react-select';
+
 // import { Link } from 'react-router-dom';
-import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup,Collapse,InputGroup,InputGroupText } from 'reactstrap';
+import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Label, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup, Collapse } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 
 import { onValue, ref, update, push } from 'firebase/database';
@@ -32,6 +34,24 @@ const TableItemsComp = () => {
     //For uploading categories csv
     const [file, setFile] = useState('');
     const [data2, setData2] = useState([]);
+    const colourStyles = {
+        option: (provided) => ({
+            ...provided,
+            color: "black",
+            padding: 20,
+        }), multiValue: (styles) => {
+
+            return {
+                ...styles,
+                backgroundColor: "#d2cef9",
+            };
+        },
+        multiValueLabel: (styles) => ({
+            ...styles,
+            color: "#212121",
+
+        }),
+    };
     async function readCsv() {
         const reader = new FileReader();
         reader.onload = async ({ target }) => {
@@ -129,9 +149,6 @@ const TableItemsComp = () => {
                     setLista(listaProductos);
                     console.log("List Prod: ", lista);
                 });
-
-                // console.log("List Prod: ",listaProductos);
-                // setLista(listaProductos);
             })
         });
     }
@@ -142,12 +159,8 @@ const TableItemsComp = () => {
         getDatosProductos();
     }
     useEffect(() => {
-
-
         if (lista.length <= 1) {
-
             getDatosProductos().then(() => {
-
                 console.log("Listaa tuned: ", lista);
             });
         }
@@ -182,34 +195,47 @@ const TableItemsComp = () => {
                         <div>
                             <Row>
                                 <Col>
-                                    <Button title="Filtros" onClick={()=>{setShowFilters(!showFilters)}}  className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> {t('filters_btn')}</Button>
+                                    <Button title="Filtros" onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> {t('filters_btn')}</Button>
 
                                 </Col>
-                                <Collapse isOpen={showFilters} style={{marginTop:"10px"}}>
+                                <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
                                     <Row style={{ marginBottom: "10px" }}>
-                                        <Col md="6">
-                                            <InputGroup>
-                                                <InputGroupText style={{ minWidth: "80px" }}>Nombre</InputGroupText>
-                                                <Input placeholder="Nombre" />
-                                            </InputGroup>
+                                        <Col>
+                                            <FormGroup>
+                                                <Label htmlFor="exampleFile">Categorías</Label>
+
+                                                <Select
+                                                    closeMenuOnSelect={false}
+                                                    // defaultValue={[arrayCategories[1]]}
+                                                    isMulti
+                                                    options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
+                                                    styles={colourStyles}
+                                                // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
+
+                                                // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
+
+                                                />
+                                            </FormGroup>
                                         </Col>
-                                        <Col md="6">
-                                            <InputGroup>
-                                                <InputGroupText style={{ minWidth: "80px", display: "flex", justifyContent: "center" }}>SKU</InputGroupText>
-                                                <Input placeholder="UGG-BB-PUR-06" />
-                                            </InputGroup>
+                                        <Col >
+                                        <Label htmlFor="exampleFile">Nombre</Label>
+                                            <Select
+                                                label="Single select"
+                                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                                styles={colourStyles}
+                                            />
+                                        </Col>
+                                        <Col >
+                                        <Label htmlFor="exampleFile">SKU</Label>
+                                            <Select
+                                                label="Single select"
+                                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                                styles={colourStyles}
+                                            />
                                         </Col>
 
                                     </Row>
                                     <Row>
-
-                                        <Col md="6">
-                                            <InputGroup>
-
-                                                <InputGroupText className='text-center' style={{ minWidth: "83px", textAlign: "center", margin: "auto", display: "flex", justifyContent: "center" }}>$</InputGroupText>
-                                                <Input type='number' step='any' placeholder="Precio" />
-                                            </InputGroup>
-                                        </Col>
                                         <Col>
                                             <div className='d-flex justify-content-end'>
 
@@ -219,7 +245,7 @@ const TableItemsComp = () => {
 
                                         </Col>
                                     </Row>
-                                    
+
                                 </Collapse>
                             </Row>
 

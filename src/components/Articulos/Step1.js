@@ -173,7 +173,6 @@ export default class Step1 extends Component {
     const colourStyles = {
       option: (provided) => ({
         ...provided,
-        // borderBottom: '0.7px dotted gray',
         color: "black",
         padding: 20,
       }), multiValue: (styles) => {
