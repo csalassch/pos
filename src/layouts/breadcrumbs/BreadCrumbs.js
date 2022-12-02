@@ -63,6 +63,14 @@ const BreadCrumbs = () => {
 
     secondUrl = "Usuarios"
   }
+  if (firstUrl === "PanelModulosAdmin") {
+    firstUrl = "Módulos";
+
+  }
+  if (secondUrl === "PanelModulosAdmin") {
+
+    secondUrl = "Módulos"
+  }
 
   return (
     <>

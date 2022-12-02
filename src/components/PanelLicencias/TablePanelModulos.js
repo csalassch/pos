@@ -63,7 +63,11 @@ const TablePanelModulos = () => {
               <th className='text-center'>Activo</th>
               <th>Nombre</th>
               <th>Descripción</th>
-              <th>Detalles</th>
+              <th>
+                <div className=' d-flex justify-content-center'>
+                  Detalles
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
