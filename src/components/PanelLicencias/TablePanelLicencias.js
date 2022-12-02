@@ -15,7 +15,27 @@ const TablePanelLicencias = () => {
   const toggle = () => {
     setModal(!modal);
   };
-
+  const downloadTemplate = () => {
+    const strEsp = "[Escribe a partir de aquí]";
+    const encoded = new TextEncoder('utf-8', { NONSTANDARD_allowLegacyEncoding: true });
+    const decoded = (new TextDecoder('utf-8').decode(encoded.encode(strEsp)));
+    console.log(decoded);
+    const CSV = [
+      '"Nombre"',
+      decoded
+    ].join('\n');
+    window.URL = window.webkitURL || window.URL;
+    const contentType = 'text/csv';
+    const csvFile = new Blob([CSV], { type: contentType });
+    const a = document.createElement('a');
+    a.download = 'Plantilla_Categorias_FreePOS.csv';
+    a.href = window.URL.createObjectURL(csvFile);
+    a.textContent = 'Download CSV';
+    a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   function getDatosLicencia() {
     onValue(ref(db, "licenses/"), snapshot => {
       const listaLicencias = [];
@@ -49,7 +69,7 @@ const TablePanelLicencias = () => {
     });
     getDatosLicencia();
   }
-  
+
   useEffect(() => {
     getDatosLicencia();
   }, [uidLicencia])
@@ -66,6 +86,7 @@ const TablePanelLicencias = () => {
               <div className='d-flex justify-content-end'>
                 <Button title='Agregar Licencia' onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-icon" ><Icon.Plus /></Button>
                 <Button title='Recargar tabla' onClick={() => { getDatosLicencia() }} className="btn btn-icon" ><Icon.RefreshCw /></Button>
+                <Button title='Descargar Plantilla' className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
               </div >
             </Col>
           </Row>
@@ -103,7 +124,7 @@ const TablePanelLicencias = () => {
                 </td>
                 <td>
                   <div className='d-flex justify-content-center'>
-                    <Button onClick={() => {setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                    <Button onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                   </div>
                 </td>
               </tr>

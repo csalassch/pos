@@ -9,22 +9,24 @@ import * as Icon from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../FirebaseConfig/firebase';
 import ComponentCard from '../ComponentCard';
+import { metodoPago, formaPago, usoCFDI, optionsLada } from "./DataActualiza";
 
 const ActualizaDatos = ({ datos }) => {
     const navigate = useNavigate();
     const { handleSubmit } = useForm();
     const [action, setAction] = useState("");
     const [stamp, setStamp] = useState(false);
-    const [Formvalue, setFormvalue] = useState({ name: '',isCompany: "Fisica", companyName: '', rfc: '', mail: '', mainPhone: '', paymentForm: '', paymentMethod: '', cfdiUssage: '', entityType: '' });
+    const [Formvalue, setFormvalue] = useState({ name: '', isCompany: "Fisica", companyName: '', rfc: '', mail: '', mainPhone: '', mainPhoneLada: '', paymentForm: '', paymentMethod: '', cfdiUssage: '', entityType: '' });
     const [modal, setModal] = useState(false);
     const fisicaMoral = [{ id: "Fisica", value: "Fisica", label: "Fisica" }, { id: "Moral", value: "Moral", label: "Moral" }]
-    const formaPago = [{ id: "Efectivo", value: "Efectivo", label: "Cuerpomatico" }, { id: "Tarjeta bancaria", value: "Tarjeta bancaria", label: "Tarjeta bancaria" }, { id: "Medias", value: "Vales", label: "Vales" }]
-    const metodoPago = [{ id: "Una sola exhibición mami", value: "Una sola exhibición mami", label: "Una sola exhibición mami" }, { id: "Parcialidades", value: "Parcialidades", label: "Parcialidades" }]
+
     const toggle = () => {
         setModal(!modal);
     };
+    // const [file, setFile] = useState('');
+    // const [visible, setVisible] = useState(false);
     const onSubmit = () => {
-        if (Formvalue.nombre !== '') {
+        if (false) {
             update(ref(db, 'usuarios/'), {
                 name: Formvalue.nombre,
                 description: Formvalue.descripcion
@@ -39,24 +41,27 @@ const ActualizaDatos = ({ datos }) => {
     const handleChange = ({ target: { name, value } }) => {
         setFormvalue({ ...Formvalue, [name]: value });
     };
+    function getDataUser() {
 
-    useEffect(() => {
-        if(Formvalue.name === '' && datos){
-            setFormvalue({ 
+        if (Formvalue.name === '' && datos) {
+            setFormvalue({
                 name: datos.name,
                 password: datos.password,
-                isCompany: datos.isCompany || "Fisica", 
+                isCompany: datos.isCompany || "Fisica",
                 companyName: datos.companyName,
-                rfc: datos.rfc || "XAXX010101000", 
-                mail: datos.mail, 
-                mainPhone: datos.mainPhone || "(00)000-000-0000", 
-                paymentForm: datos.paymentForm, 
-                paymentMethod: datos.paymentMethod, 
-                cfdiUssage: datos.cfdiUssage || "No ha subido archivo", 
-                entityType: datos.entityType });
+                rfc: datos.rfc || "XAXX010101000",
+                mail: datos.mail,
+                mainPhone: datos.mainPhone || "0123456789",
+                mainPhoneLada: datos.mainPhoneLada || "00",
+                paymentForm: datos.paymentForm,
+                paymentMethod: datos.paymentMethod,
+                cfdiUssage: datos.cfdiUssage,
+                entityType: datos.entityType
+            });
         }
-        console.log(datos)
-        console.log(Formvalue)
+    }
+    useEffect(() => {
+        getDataUser();
     }, [Formvalue, stamp])
     return (
         <>
@@ -67,7 +72,7 @@ const ActualizaDatos = ({ datos }) => {
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Nombre</InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="name" className="form-control" value={Formvalue.name}/>
+                                    <Input onChange={handleChange} type="text" name="name" className="form-control" value={Formvalue.name} />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
@@ -82,7 +87,7 @@ const ActualizaDatos = ({ datos }) => {
                                                     options={fisicaMoral}
                                                     style={{ width: 100 }}
                                                     name="tipo"
-                                                    value={{value:Formvalue.isCompany, label:Formvalue.isCompany}}
+                                                    value={{ value: Formvalue.isCompany, label: Formvalue.isCompany }}
                                                     onChange={(e) => { setFormvalue({ ...Formvalue, isCompany: e.value }); }}
                                                 />
                                             </div>
@@ -116,19 +121,25 @@ const ActualizaDatos = ({ datos }) => {
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Correo </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="email" className="form-control" value={Formvalue.mail}/>
+                                    <Input onChange={handleChange} type="text" name="email" className="form-control" value={Formvalue.mail} />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Contraseña </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="password" className="form-control" value={Formvalue.password}/>
+                                    <Input onChange={handleChange} type="text" name="password" className="form-control" value={Formvalue.password} />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "120px" }}>No. Telefonico </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="mainPhone" className="form-control" value={Formvalue.mainPhone} />
+                                    <div className='d-flex align-items-center'>
+                                        <Select style={{ width: "15%" }} id="languageSelected" label="Selecciona lada" options={optionsLada} onChange={handleChange}
+                                            // defaultValue={[{ value: 'es-MX', label: <div><img alt='Mexico Flag' style={{ marginRight: "7px" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" />Español</div> }]}
+                                        />
+                                        <Input style={{ width: "10%" }} maxLength={2} onChange={handleChange} type="text" name="mainPhoneLada" className="form-control" value={Formvalue.mainPhoneLada} />
+                                        <Input style={{ width: "50%" }} maxLength={10} onChange={handleChange} type="text" name="mainPhone" className="form-control" value={Formvalue.mainPhone} />
+                                    </div>
                                 </InputGroup>
                             </FormGroup>
                             <div className='d-flex align-items-center p-2'>
@@ -138,31 +149,19 @@ const ActualizaDatos = ({ datos }) => {
                                 </FormGroup>
                             </div>
                             <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{ width: "100px" }}>CFDI </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="cfdiUssage" className="form-control" value={Formvalue.cfdiUssage}/>
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
-                                <InputGroup>
-                                    <InputGroupText style={{ width: "150px" }}>Forma de pago </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="paymentForm" className="form-control" value={Formvalue.paymentForm} />
-                                </InputGroup>
-                            </FormGroup>
-                            <FormGroup>
                                 <InputGroup >
                                     <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
-                                        <Col md="2" className='p-0'>
-                                            <InputGroupText style={{ width: "125px", height: "100%" }}>Forma de pago</InputGroupText>
+                                        <Col md="3" className='p-0'>
+                                            <InputGroupText style={{ height: "100%" }}>CFDI</InputGroupText>
                                         </Col>
                                         <Col className='p-0'>
                                             <div style={{ width: "100%" }}>
                                                 <Select
-                                                    options={formaPago}
-                                                    style={{ width: 100 }}
+                                                    options={usoCFDI}
+                                                    style={{ width: "100px" }}
                                                     name="tipo"
-                                                    onChange={(e) => { setFormvalue({ ...Formvalue, tipo: e.value }); }}
-                                                    value={{label:Formvalue.paymentForm, value:Formvalue.paymentForm}}
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, cfdiUssage: e.value }); }}
+                                                    value={{ label: Formvalue.cfdiUssage, value: Formvalue.cfdiUssage }}
                                                 />
                                             </div>
                                         </Col>
@@ -172,17 +171,37 @@ const ActualizaDatos = ({ datos }) => {
                             <FormGroup>
                                 <InputGroup >
                                     <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
-                                        <Col md="2" className='p-0'>
-                                            <InputGroupText style={{ width: "125px", height: "100%" }}>Forma de pago</InputGroupText>
+                                        <Col md="3" className='p-0'>
+                                            <InputGroupText style={{ height: "100%" }}>Forma de pago</InputGroupText>
+                                        </Col>
+                                        <Col className='p-0'>
+                                            <div style={{ width: "100%" }}>
+                                                <Select
+                                                    options={formaPago}
+                                                    style={{ width: "100px" }}
+                                                    name="tipo"
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, paymentForm: e.value }); }}
+                                                    value={{ label: Formvalue.paymentForm, value: Formvalue.paymentForm }}
+                                                />
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                </InputGroup>
+                            </FormGroup>
+                            <FormGroup>
+                                <InputGroup >
+                                    <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
+                                        <Col md="3" className='p-0'>
+                                            <InputGroupText style={{ height: "100%" }}>Método de pago</InputGroupText>
                                         </Col>
                                         <Col className='p-0'>
                                             <div style={{ width: "100%" }}>
                                                 <Select
                                                     options={metodoPago}
-                                                    style={{ width: 100 }}
+                                                    style={{ width: "100px" }}
                                                     name="tipo"
-                                                    onChange={(e) => { setFormvalue({ ...Formvalue, tipo: e.value }); }}
-                                                    value={{label:Formvalue.paymentMethod, value:Formvalue.paymentMethod}}
+                                                    onChange={(e) => { setFormvalue({ ...Formvalue, paymentMethod: e.value }); }}
+                                                    value={{ label: Formvalue.paymentMethod, value: Formvalue.paymentMethod }}
                                                 />
                                             </div>
                                         </Col>
