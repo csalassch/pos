@@ -15,7 +15,7 @@ import { push, ref, onValue, update } from 'firebase/database';
 import * as Icon from 'react-feather';
 import { db, dbStorage } from '../../FirebaseConfig/firebase';
 
-const CategoriasComp = () => {
+const UbicacionesComp = () => {
     const {t}=useTranslation();
     const [arr, setArr] = useState([{ id: 0, name: '', key: "", active: "" }]);
     const fetchDataCategories = () => {
@@ -205,7 +205,7 @@ const CategoriasComp = () => {
                             <Row>
                                 <Col>
                                     {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-                                    <h4 style={{ color: "#1186a2" }}>{t('registerCategories_headings')}</h4>
+                                    <h4 style={{ color: "#1186a2" }}>Ubicaciones</h4>
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
@@ -374,4 +374,4 @@ const CategoriasComp = () => {
         </>
     );
 };
-export default CategoriasComp;
+export default UbicacionesComp;
