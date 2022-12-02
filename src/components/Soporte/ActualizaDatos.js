@@ -133,12 +133,14 @@ const ActualizaDatos = ({ datos }) => {
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "120px" }}>No. Telefonico </InputGroupText>
-                                    <div className='d-flex align-items-center'>
-                                        <Select style={{ width: "15%" }} id="languageSelected" label="Selecciona lada" options={optionsLada} onChange={handleChange}
-                                            // defaultValue={[{ value: 'es-MX', label: <div><img alt='Mexico Flag' style={{ marginRight: "7px" }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" />Español</div> }]}
+                                    <div style={{ width: "20%" }}>
+                                        <Select id="languageSelected" label="Selecciona lada" options={optionsLada}
+                                            onChange={(e) => { setFormvalue({ ...Formvalue, lada: e.value }); }}
+                                            value={{value: Formvalue.lada, label: optionsLada[0].label }}
                                         />
-                                        <Input style={{ width: "10%" }} maxLength={2} onChange={handleChange} type="text" name="mainPhoneLada" className="form-control" value={Formvalue.mainPhoneLada} />
-                                        <Input style={{ width: "50%" }} maxLength={10} onChange={handleChange} type="text" name="mainPhone" className="form-control" value={Formvalue.mainPhone} />
+                                    </div>
+                                    <div className='d-flex align-items-center w-full'>
+                                        <Input style={{ width: "50%", height: "100%" }} maxLength={10} onChange={handleChange} type="text" name="mainPhone" className="form-control" value={Formvalue.mainPhone} />
                                     </div>
                                 </InputGroup>
                             </FormGroup>
