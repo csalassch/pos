@@ -75,6 +75,12 @@ const SidebarDataClient = [
         href: '/Articulos/Unidades',
         icon: <Icon.Disc />,
       }
+      ,
+      // {
+      //   title: 'Ubicaciones',
+      //   href: '/Articulos/Ubicaciones',
+      //   icon: <Icon.Map />,
+      // }
       
     ],
   },
