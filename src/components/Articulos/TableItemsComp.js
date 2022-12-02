@@ -182,7 +182,7 @@ const TableItemsComp = () => {
                         <div>
                             <Row>
                                 <Col>
-                                    <Button title="Filtros" onClick={()=>{setShowFilters(!showFilters)}}  className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> Filtros</Button>
+                                    <Button title="Filtros" onClick={()=>{setShowFilters(!showFilters)}}  className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> {t('filters_btn')}</Button>
 
                                 </Col>
                                 <Collapse isOpen={showFilters} style={{marginTop:"10px"}}>
@@ -213,7 +213,7 @@ const TableItemsComp = () => {
                                         <Col>
                                             <div className='d-flex justify-content-end'>
 
-                                                <Button type="submit" className="btn btn-success">Añadir</Button>
+                                                <Button type="submit" className="btn btn-success">Aplicar</Button>
                                             </div>
                                             {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
 
@@ -237,7 +237,8 @@ const TableItemsComp = () => {
                                         <th className='text-center'>{t('imagen_headings')}</th>
                                         <th>{t('name_headings')}</th>
                                         <th>SKU</th>
-                                        <th>{t('price_headings')}</th>
+                                        <th>{t('salePrice_headings')}</th>
+                                        <th>{t('purchasePrice_headings')}</th>
                                         <th className='text-center'>{t('details_headings')}</th>
                                     </tr>
                                 </thead>
@@ -256,6 +257,7 @@ const TableItemsComp = () => {
                                             ></img></td>
                                             <td>{tdata.nombre}</td>
                                             <td>{tdata.sku}</td>
+                                            <td>$ {tdata.precio}</td>
                                             <td>$ {tdata.precio}</td>
                                             <td>
                                                 <div className='d-flex justify-content-center'>
