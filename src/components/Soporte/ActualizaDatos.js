@@ -42,7 +42,6 @@ const ActualizaDatos = ({ datos }) => {
         setFormvalue({ ...Formvalue, [name]: value });
     };
     function getDataUser() {
-
         if (Formvalue.name === '' && datos) {
             setFormvalue({
                 name: datos.name,
@@ -56,7 +55,8 @@ const ActualizaDatos = ({ datos }) => {
                 paymentForm: datos.paymentForm,
                 paymentMethod: datos.paymentMethod,
                 cfdiUssage: datos.cfdiUssage,
-                entityType: datos.entityType
+                entityType: datos.entityType,
+                lada: datos.lada || { id: optionsLada[0].value, label: optionsLada[0].label}
             });
         }
     }
@@ -135,8 +135,8 @@ const ActualizaDatos = ({ datos }) => {
                                     <InputGroupText style={{ width: "120px" }}>No. Telefonico </InputGroupText>
                                     <div style={{ width: "20%" }}>
                                         <Select id="languageSelected" label="Selecciona lada" options={optionsLada}
-                                            onChange={(e) => { setFormvalue({ ...Formvalue, lada: e.value }); }}
-                                            value={{value: Formvalue.lada, label: optionsLada[0].label }}
+                                            onChange={(e) => { setFormvalue({ ...Formvalue, lada: { id:e.value, label: e.label} }); }}
+                                            value={Formvalue.lada ?{value: Formvalue.lada.id, label: Formvalue.lada.label } :  { id: optionsLada[0].value, label: optionsLada[0].label}}
                                         />
                                     </div>
                                     <div className='d-flex align-items-center w-full'>
