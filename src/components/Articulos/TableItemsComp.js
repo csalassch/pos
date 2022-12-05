@@ -2,8 +2,10 @@
 import { useEffect, useState } from 'react';
 
 import * as Icon from 'react-feather';
+import Select from 'react-select';
+
 // import { Link } from 'react-router-dom';
-import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup } from 'reactstrap';
+import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Label, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup, Collapse } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 
 import { onValue, ref, update, push } from 'firebase/database';
@@ -16,9 +18,10 @@ import MultiSteps from './MultiSteps';
 
 
 const TableItemsComp = () => {
-    const {t}=useTranslation();
+    const { t } = useTranslation();
 
     const [modal, setModal] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
     const [lista, setLista] = useState([{ id: '', nombre: '', urlImage: '', sku: '', precio: 0, active: false }]);
     const [modalCsv, setModalCsv] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
@@ -31,6 +34,24 @@ const TableItemsComp = () => {
     //For uploading categories csv
     const [file, setFile] = useState('');
     const [data2, setData2] = useState([]);
+    const colourStyles = {
+        option: (provided) => ({
+            ...provided,
+            color: "black",
+            padding: 20,
+        }), multiValue: (styles) => {
+
+            return {
+                ...styles,
+                backgroundColor: "#d2cef9",
+            };
+        },
+        multiValueLabel: (styles) => ({
+            ...styles,
+            color: "#212121",
+
+        }),
+    };
     async function readCsv() {
         const reader = new FileReader();
         reader.onload = async ({ target }) => {
@@ -128,9 +149,6 @@ const TableItemsComp = () => {
                     setLista(listaProductos);
                     console.log("List Prod: ", lista);
                 });
-
-                // console.log("List Prod: ",listaProductos);
-                // setLista(listaProductos);
             })
         });
     }
@@ -141,12 +159,8 @@ const TableItemsComp = () => {
         getDatosProductos();
     }
     useEffect(() => {
-
-
         if (lista.length <= 1) {
-
             getDatosProductos().then(() => {
-
                 console.log("Listaa tuned: ", lista);
             });
         }
@@ -179,6 +193,61 @@ const TableItemsComp = () => {
                     </CardHeader>
                     <CardBody>
                         <div>
+                            <Row>
+                                <Col>
+                                    <Button title="Filtros" onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> {t('filters_btn')}</Button>
+
+                                </Col>
+                                <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
+                                    <Row style={{ marginBottom: "10px" }}>
+                                        <Col>
+                                            <FormGroup>
+                                                <Label htmlFor="exampleFile">Categorías</Label>
+
+                                                <Select
+                                                    closeMenuOnSelect={false}
+                                                    // defaultValue={[arrayCategories[1]]}
+                                                    isMulti
+                                                    options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
+                                                    styles={colourStyles}
+                                                // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
+
+                                                // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
+
+                                                />
+                                            </FormGroup>
+                                        </Col>
+                                        <Col >
+                                        <Label htmlFor="exampleFile">Nombre</Label>
+                                            <Select
+                                                label="Single select"
+                                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                                styles={colourStyles}
+                                            />
+                                        </Col>
+                                        <Col >
+                                        <Label htmlFor="exampleFile">SKU</Label>
+                                            <Select
+                                                label="Single select"
+                                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                                styles={colourStyles}
+                                            />
+                                        </Col>
+
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <div className='d-flex justify-content-end'>
+
+                                                <Button type="submit" className="btn btn-success">Aplicar</Button>
+                                            </div>
+                                            {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
+
+                                        </Col>
+                                    </Row>
+
+                                </Collapse>
+                            </Row>
 
                             {/* <br /> */}
                             {/* <div className='w-full d-flex justify-content-start m-6'>
@@ -194,7 +263,8 @@ const TableItemsComp = () => {
                                         <th className='text-center'>{t('imagen_headings')}</th>
                                         <th>{t('name_headings')}</th>
                                         <th>SKU</th>
-                                        <th>{t('price_headings')}</th>
+                                        <th>{t('salePrice_headings')}</th>
+                                        <th>{t('purchasePrice_headings')}</th>
                                         <th className='text-center'>{t('details_headings')}</th>
                                     </tr>
                                 </thead>
@@ -214,9 +284,10 @@ const TableItemsComp = () => {
                                             <td>{tdata.nombre}</td>
                                             <td>{tdata.sku}</td>
                                             <td>$ {tdata.precio}</td>
+                                            <td>$ {tdata.precio}</td>
                                             <td>
                                                 <div className='d-flex justify-content-center'>
-                                                <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                                                    <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
 
 
                                                 </div>
@@ -226,14 +297,14 @@ const TableItemsComp = () => {
                                 </tbody>
                             </Table>
                             <Modal className='modal-lg' isOpen={modal} toggle={() => { setModal(false) }}>
-                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{marginRight:"7px"}} /> {t('addItem_modal')}</ModalHeader>
+                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{ marginRight: "7px" }} /> {t('addItem_modal')}</ModalHeader>
                                 <ModalBody>
                                     <div className="stepsWrapper">
                                         <MultiSteps />
                                     </div>
                                 </ModalBody>
                                 <ModalFooter>
-                                    
+
                                     <Button color="secondary" onClick={() => { setModal(false) }}>
                                         Cancelar
                                     </Button>

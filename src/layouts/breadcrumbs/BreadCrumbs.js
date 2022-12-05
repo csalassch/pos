@@ -1,35 +1,39 @@
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { useLocation, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 //import SidebarData from '../sidebars/sidebardata/SidebarData';
 
 const BreadCrumbs = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   let firstUrl = location.pathname.split('/')[1];
   let secondUrl = location.pathname.split('/')[2];
   console.log(firstUrl, secondUrl);
   if (firstUrl === "Articulos") {
-    firstUrl = "Artículos";
-
+    if(t('items_headings')==="Elementos"){
+      firstUrl="Artículos"
+    }else{
+      firstUrl = t('items_headings');
+    }
   }
   if (secondUrl === "Articulos") {
 
     secondUrl = "Artículos"
   }
-  if (firstUrl === "Categorias") {
-    firstUrl = "Categorías";
+  if (secondUrl === "Unidades") {
 
+    secondUrl = t('units_headings');
   }
+ 
   if (secondUrl === "Categorias") {
 
-    secondUrl = "Categorías"
+    secondUrl = t('categories_modal')
   }
-  if (firstUrl === "ColeccionArticulos") {
-    firstUrl = "Colección Artículos";
-
-  }
+  
   if (secondUrl === "ColeccionArticulos") {
 
-    secondUrl = "Colección Artículos"
+    secondUrl = t('itemCollection_navbar');
   }
   if (firstUrl === "PanelLicenciasAdmin") {
     firstUrl = "Versiones";
