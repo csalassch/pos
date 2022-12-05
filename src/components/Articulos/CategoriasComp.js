@@ -67,7 +67,7 @@ const CategoriasComp = () => {
                 setisEdited(false);
                 setKeyAux("");
                 sethiddenSuccess(true);
-                setMessage("¡Registro actualizado con éxito!");
+                setMessage(t('updatedSuccessfully'));
                 setTimeout(() => {
                     sethiddenSuccess(false);
                 }, 3000);
@@ -77,7 +77,7 @@ const CategoriasComp = () => {
                     active: true
                 });
                 sethiddenSuccess(true);
-                setMessage("¡Registrado con éxito!");
+                setMessage(t('registeredSuccessfully'));
                 setTimeout(() => {
                     sethiddenSuccess(false);
                 }, 3000);
@@ -87,7 +87,7 @@ const CategoriasComp = () => {
             setIsValidInput(true);
         } else {
             setIsValidInput(false);
-            setMessageFeedback("Favor de llenar el campo");
+            setMessageFeedback(t('fillField_Validation'));
             setVisible(false);
         }
     }
@@ -141,7 +141,7 @@ const CategoriasComp = () => {
                 }
             });
             sethiddenSuccessUpload(true);
-            setMessage("¡Registrado con éxito!");
+            setMessage(t('registeredSuccessfully'));
             document.getElementById("fileInput").value = null;
             setTimeout(() => {
                 sethiddenSuccessUpload(false);
@@ -153,7 +153,7 @@ const CategoriasComp = () => {
         if (file == null) {
             setVisible(true);
             setAlertColor("danger");
-            setMessage("Error! favor de seleccionar archivos .CSV");
+            setMessage(t('selectCSVFiles_error'));
             return;
         }
         console.log(file.name);
@@ -161,7 +161,7 @@ const CategoriasComp = () => {
         if (!allowedExtensions.exec(file.name)) {
             setVisible(true);
             setAlertColor("danger");
-            setMessage("Error! favor de seleccionar archivos .CSV");
+            setMessage(t('selectCSVFiles_error'));
         } else {
             const storageRef = refStorage(dbStorage, `/Categorias/${file.name}`);
             uploadBytesResumable(storageRef, file);
@@ -184,7 +184,7 @@ const CategoriasComp = () => {
         const contentType = 'text/csv';
         const csvFile = new Blob([CSV], { type: contentType });
         const a = document.createElement('a');
-        a.download = 'Plantilla_Categorias_FreePOS.csv';
+        a.download = t('templateDownloadFileName');
         a.href = window.URL.createObjectURL(csvFile);
         a.textContent = 'Download CSV';
         a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
@@ -274,7 +274,7 @@ const CategoriasComp = () => {
                                             </ModalFooter>
                                         </Modal>
                                         <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
-                                            <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> Cargar Categorías por .CSV</ModalHeader>
+                                            <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> {t('loadCategories_heading')}</ModalHeader>
                                             <ModalBody>
                                                 {hiddenSuccessUpload && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
                                                 <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
@@ -361,11 +361,7 @@ const CategoriasComp = () => {
                                                     {/* <Col><h5>{txtDetail}</h5></Col> */}
                                                 </Row>
                                             </ModalBody>
-                                            <ModalFooter>
-                                                <Button color="secondary" onClick={() => { setModalDetail(false); }}>
-                                                    Cerrar
-                                                </Button>
-                                            </ModalFooter>
+                                            
                                         </Modal>
                                     </Col>
                                 </Row>
