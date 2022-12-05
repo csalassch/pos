@@ -14,7 +14,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button, Col, Row, Modal, ModalBody, ModalFooter, ModalHeader
+  Button,
 } from 'reactstrap';
 import * as Icon from 'react-feather';
 import { update, ref, onValue } from 'firebase/database';
@@ -29,7 +29,6 @@ import ProfileDD from './ProfileDD';
 import { db } from '../../FirebaseConfig/firebase';
 
 import { useAuth } from '../../Context/authContext';
-import ActualizaDatos from '../../components/Soporte/ActualizaDatos';
 
 
 
@@ -37,11 +36,8 @@ const Header = () => {
   const isDarkMode = useSelector((state) => state.customizer.isDark);
   const topbarColor = useSelector((state) => state.customizer.topbarBg);
   const dispatch = useDispatch();
-  const [modal, setModal] = useState(false);
-  const toggle = () => {
-    setModal(!modal);
-  };
-  const { logout, dataUser, user } = useAuth();
+
+  const { logout } = useAuth();
   const handleLogout = async () => {
     await logout();
   }
@@ -51,21 +47,18 @@ const Header = () => {
   const brazil = <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Português</div>;
   const israel = <div><img alt='Israel Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />עִברִית</div>;
   const options = [
-    { value: 'es-MX', label: <div><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Español</div> },
-    { value: 'en', label: <div><img alt='USA Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />English</div> },
-    { value: 'fr', label: <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/800px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Français</div> },
-    { value: 'pt', label: <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Português</div> },
-    { value: 'he', label: <div><img alt='Israel Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />עִברִית</div> },
     { value: 'es-MX', label: mexico },
     { value: 'en', label: usa },
     { value: 'fr', label: france },
     { value: 'pt', label: brazil },
     { value: 'he', label: israel },
+
   ];
   const { url } = useParams();
   const [query, setQuery] = useState("");
   const [savedLangLabel, setSavedLangLabel] = useState("");
   const [savedLangVal, setSavedLangVal] = useState("");
+  const { user } = useAuth();
   const history = useNavigate();
   async function languageChange(e) {
     update(ref(db, `usuarios/${user.uid}`), {
@@ -99,7 +92,7 @@ const Header = () => {
     console.log("loaded flag: ", savedLangLabel);
     if (savedLangLabel === "" || savedLangVal==="") {
       loadSavedLanguage().then(() => {
-        const params = new URLSearchParams()
+        const params = new URLSearchParams();
         if (query) {
           params.append("lng", query)
         } else {
@@ -120,16 +113,11 @@ const Header = () => {
         history({ search: `?${params.toString()}` });
         console.log(window.location.href);
     }
-    console.log(url);
-    // console.log(window.location.href);
-    history({ search: `?${params.toString()}` });
 
-    // window.history.replaceState({}, document.title, `?${params.toString()}`);
-    // history({search: params.toString()},{replace:true});
-    console.log(window.location.href);
-    // window.location=(window.location.href);
 
-  }, [query, history, dataUser, savedLangLabel, savedLangVal]);
+  }, [query, history, savedLangLabel, savedLangVal])
+
+
   return (
     <>
       <Navbar
@@ -186,8 +174,10 @@ const Header = () => {
             </Link>
           </NavItem>
         </Nav>
+
         <div className="d-flex align-items-center">
           <div style={{ minWidth: "165px" }}>
+
             <Select
               id="languageSelected"
               value={[{ value: savedLangVal, label: savedLangLabel }]}
@@ -273,27 +263,6 @@ const Header = () => {
           </UncontrolledDropdown>
         </div>
       </Navbar>
-      <Modal isOpen={modal} toggle={toggle.bind(null)}>
-        <ModalHeader toggle={toggle.bind(null)} style={{ color: "#1186a2", width: "100%" }}>
-          <Row>
-            <Col>
-              <div><Icon.Edit /> Agregar producto</div>
-            </Col>
-            <Col>
-              <div className='d-flex justify-content-end'>
-                <Icon.Edit />
-              </div>
-            </Col>
-          </Row>
-
-        </ModalHeader>
-        <ModalBody>
-          <ActualizaDatos datos={dataUser} />
-        </ModalBody>
-        <ModalFooter>
-
-        </ModalFooter>
-      </Modal>
     </>
   );
 };
