@@ -4,7 +4,7 @@ import {
     InputGroupText, Table,
     Modal, ModalHeader,
     ModalBody,
-    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle,CardSubtitle
+    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle, CardSubtitle
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
@@ -16,7 +16,7 @@ import * as Icon from 'react-feather';
 import { db, dbStorage } from '../../FirebaseConfig/firebase';
 
 const CategoriasComp = () => {
-    const {t}=useTranslation();
+    const { t } = useTranslation();
     const [arr, setArr] = useState([{ id: 0, name: '', key: "", active: "" }]);
     const fetchDataCategories = () => {
         const arrAux = [];
@@ -37,7 +37,8 @@ const CategoriasComp = () => {
         });
     }
 
-    const [btnMessage, setBtnMessage] = useState("Agregar");
+    const [btnMessage, setBtnMessage] = useState(t('add_btn'));
+    const [isEdited, setisEdited] = useState(false);
     const [messageFeedback, setMessageFeedback] = useState("");
     const [isValidInput, setIsValidInput] = useState(true);
     const [keyAux, setKeyAux] = useState("");
@@ -57,12 +58,13 @@ const CategoriasComp = () => {
     };
     const newUnit = () => {
         if (nameUnit) {
-            if (btnMessage === "Guardar Cambios") {
+            if (isEdited) {
                 console.log("btnCllicked for update: ", keyAux);
                 update(ref(db, `categories/${keyAux}`), {
                     name: nameUnit
                 });
-                setBtnMessage("Agregar");
+                setBtnMessage(t('add_btn'));
+                setisEdited(false);
                 setKeyAux("");
                 sethiddenSuccess(true);
                 setMessage("¡Registro actualizado con éxito!");
@@ -95,7 +97,8 @@ const CategoriasComp = () => {
         onValue(ref(db, `categories/${keyDB}`), snapshot => {
             setNameUnit(snapshot.val().name);
         });
-        setBtnMessage("Guardar Cambios");
+        setBtnMessage(t('saveChanges_btn'));
+        setisEdited(true);
     }
     function modifiedActive(dataPib) {
         update(ref(db, `categories/${dataPib.key}`), {
@@ -249,8 +252,8 @@ const CategoriasComp = () => {
                                                 ))}
                                             </tbody>
                                         </Table>
-                                        <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage("Agregar") }}>
-                                            <ModalHeader toggle={() => { setModal(false); setBtnMessage("Agregar") }} style={{ color: "#1186a2" }}>{btnMessage === "Agregar" ? <Icon.PlusCircle style={{ marginRight: "7px" }} /> : (<Icon.Edit2 style={{ marginRight: "7px" }} />)}{btnMessage === "Agregar" ? "Agregar Categoría" : ("Editar Categoría")}</ModalHeader>
+                                        <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false); }}>
+                                            <ModalHeader toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false) }} style={{ color: "#1186a2" }}>{isEdited === false ? <Icon.PlusCircle style={{ marginRight: "7px" }} /> : (<Icon.Edit2 style={{ marginRight: "7px" }} />)}{isEdited === false ? t('addCategory_hover') : t('editCategories_headings')}</ModalHeader>
                                             <ModalBody>
                                                 {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
                                                 <FormGroup>
@@ -265,8 +268,8 @@ const CategoriasComp = () => {
                                                 <Button color="success" onClick={newUnit}>
                                                     {btnMessage}
                                                 </Button>
-                                                <Button color="secondary" onClick={() => { setModal(false); setNameUnit(""); setBtnMessage("Agregar") }}>
-                                                    Cancelar
+                                                <Button color="secondary" onClick={() => { setModal(false); setNameUnit(""); setBtnMessage(t('add_btn')); setisEdited(false); }}>
+                                                    {t('cancel_btn')}
                                                 </Button>
                                             </ModalFooter>
                                         </Modal>
@@ -286,10 +289,10 @@ const CategoriasComp = () => {
                                             </ModalBody>
                                             <ModalFooter>
                                                 <Button color="success" onClick={upload}>
-                                                    Agregar
+                                                    {t('add_btn')}
                                                 </Button>
                                                 <Button color="secondary" onClick={() => { setModalCsv(false); }}>
-                                                    Cancelar
+                                                    {t('cancel_btn')}
                                                 </Button>
                                             </ModalFooter>
                                         </Modal>
@@ -301,7 +304,7 @@ const CategoriasComp = () => {
                                                     </Col>
                                                     <Col>
                                                         <div className='d-flex justify-content-end'>
-                                                            <Button onClick={() => { setModalDetail(false); setModal(true); setBtnMessage("Guardar Cambios"); editUnit(keyAux) }} title='Editar Categoría' className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Edit3 style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                                                            <Button onClick={() => { setModalDetail(false); setModal(true); setBtnMessage(t('saveChanges_btn')); editUnit(keyAux); setisEdited(true); }} title='Editar Categoría' className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Edit3 style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                                         </div>
                                                     </Col>
                                                 </Row>
@@ -339,7 +342,7 @@ const CategoriasComp = () => {
                                                                             <Row><Col>
                                                                                 Inactivo
                                                                             </Col></Row>
-                                                                        </div> }
+                                                                        </div>}
                                                                         {/* <div>
                                                                             <Row><Col>
                                                                                 <Icon.ToggleRight style={{ color: "#fca311" }} />
@@ -350,9 +353,9 @@ const CategoriasComp = () => {
                                                                         </div> */}
                                                                     </CardTitle>
                                                                 </Col>
-                                                                
+
                                                             </Row>
-                                                            
+
                                                         </CardBody>
                                                     </Col>
                                                     {/* <Col><h5>{txtDetail}</h5></Col> */}
