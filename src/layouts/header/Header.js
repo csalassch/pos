@@ -92,7 +92,7 @@ const Header = () => {
     console.log("loaded flag: ", savedLangLabel);
     if (savedLangLabel === "" || savedLangVal==="") {
       loadSavedLanguage().then(() => {
-        const params = new URLSearchParams()
+        const params = new URLSearchParams();
         if (query) {
           params.append("lng", query)
         } else {
