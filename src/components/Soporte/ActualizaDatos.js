@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Label, Row, Col } from 'reactstrap';
+import { Input, InputGroup, InputGroupText, Button, FormGroup, Label, Row, Col } from 'reactstrap';
 import Select from 'react-select';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 
 import { ref, update } from 'firebase/database';
-import * as Icon from 'react-feather';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../FirebaseConfig/firebase';
 import ComponentCard from '../ComponentCard';
@@ -17,16 +16,14 @@ const ActualizaDatos = ({ datos }) => {
     const [action, setAction] = useState("");
     const [stamp, setStamp] = useState(false);
     const [Formvalue, setFormvalue] = useState({ name: '', isCompany: "Fisica", companyName: '', rfc: '', mail: '', mainPhone: '', mainPhoneLada: '', paymentForm: '', paymentMethod: '', cfdiUssage: '', entityType: '' });
-    const [modal, setModal] = useState(false);
     const fisicaMoral = [{ id: "Fisica", value: "Fisica", label: "Fisica" }, { id: "Moral", value: "Moral", label: "Moral" }]
 
-    const toggle = () => {
-        setModal(!modal);
-    };
     // const [file, setFile] = useState('');
     // const [visible, setVisible] = useState(false);
     const onSubmit = () => {
-        if (false) {
+        if (Formvalue.name !== "" && Formvalue.password !== "" && Formvalue.companyName !== "" && Formvalue.rfc !== "" && 
+        Formvalue.mainPhone !== "" && Formvalue.mainPhoneLada !== "" && Formvalue.paymentMethod !== "" && Formvalue.paymentForm !== "" &&
+        Formvalue.cfdiUssage !== "" && Formvalue.entityType !== "" && Formvalue.lada !=="" ) {
             update(ref(db, 'usuarios/'), {
                 name: Formvalue.nombre,
                 description: Formvalue.descripcion
@@ -56,12 +53,13 @@ const ActualizaDatos = ({ datos }) => {
                 paymentMethod: datos.paymentMethod,
                 cfdiUssage: datos.cfdiUssage,
                 entityType: datos.entityType,
-                lada: datos.lada || { id: optionsLada[0].value, label: optionsLada[0].label}
+                lada: datos.lada || { id: optionsLada[0].value, label: optionsLada[0].label }
             });
         }
     }
     useEffect(() => {
         getDataUser();
+        console.log(action);
     }, [Formvalue, stamp])
     return (
         <>
@@ -121,7 +119,7 @@ const ActualizaDatos = ({ datos }) => {
                             <FormGroup>
                                 <InputGroup>
                                     <InputGroupText style={{ width: "100px" }}>Correo </InputGroupText>
-                                    <Input onChange={handleChange} type="text" name="email" className="form-control" value={Formvalue.mail} />
+                                    <Input onChange={handleChange} in type="text" name="email" className="form-control" value={Formvalue.mail} />
                                 </InputGroup>
                             </FormGroup>
                             <FormGroup>
@@ -135,8 +133,8 @@ const ActualizaDatos = ({ datos }) => {
                                     <InputGroupText style={{ width: "120px" }}>No. Telefonico </InputGroupText>
                                     <div style={{ width: "20%" }}>
                                         <Select id="languageSelected" label="Selecciona lada" options={optionsLada}
-                                            onChange={(e) => { setFormvalue({ ...Formvalue, lada: { id:e.value, label: e.label} }); }}
-                                            value={Formvalue.lada ?{value: Formvalue.lada.id, label: Formvalue.lada.label } :  { id: optionsLada[0].value, label: optionsLada[0].label}}
+                                            onChange={(e) => { setFormvalue({ ...Formvalue, lada: { id: e.value, label: e.label } }); }}
+                                            value={Formvalue.lada ? { value: Formvalue.lada.id, label: Formvalue.lada.label } : { id: optionsLada[0].value, label: optionsLada[0].label }}
                                         />
                                     </div>
                                     <div className='d-flex align-items-center w-full'>
@@ -173,7 +171,7 @@ const ActualizaDatos = ({ datos }) => {
                             <FormGroup>
                                 <InputGroup >
                                     <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
-                                        <Col md="3" className='p-0'>
+                                        <Col md="4" className='p-0'>
                                             <InputGroupText style={{ height: "100%" }}>Forma de pago</InputGroupText>
                                         </Col>
                                         <Col className='p-0'>
@@ -193,7 +191,7 @@ const ActualizaDatos = ({ datos }) => {
                             <FormGroup>
                                 <InputGroup >
                                     <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
-                                        <Col md="3" className='p-0'>
+                                        <Col md="4" className='p-0'>
                                             <InputGroupText style={{ height: "100%" }}>Método de pago</InputGroupText>
                                         </Col>
                                         <Col className='p-0'>
@@ -210,44 +208,13 @@ const ActualizaDatos = ({ datos }) => {
                                     </Row>
                                 </InputGroup>
                             </FormGroup>
+                            <div className='d-flex justify-content-center'>
+                                    <Button className="button btn-info" type="submit" onClick={() => { handleSubmit(onSubmit); }}>Realizar registro</Button>
+                            </div>
                         </Col>
                         <Col>
                         </Col>
-                        {action === "del" ?
-                            <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Borrar Unidad</ModalHeader>
-                                <ModalBody>
-                                    ¿Seguro que quieres eliminar la caracteristica?
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="primary" onClick={() => { setModal(false) }}>
-                                        Confirmar
-                                    </Button>
-                                    <Button color="secondary" onClick={toggle.bind(null)}>
-                                        Cancelar
-                                    </Button>
-                                </ModalFooter>
-                            </Modal> :
-                            <Modal isOpen={modal} toggle={toggle.bind(null)}>
-                                {action === "vacio" ?
-                                    <ModalHeader toggle={toggle.bind(null)}><Icon.AlertCircle /> Accion necesaria</ModalHeader> :
-                                    <ModalHeader toggle={toggle.bind(null)}><Icon.Check /> Exito</ModalHeader>}
-                                {action === "vacio" ?
-                                    <ModalBody>
-                                        Debe llenar todos los campos
-                                    </ModalBody> :
-                                    <ModalBody>
-                                        Se ha realizado correctamente el registro
-                                    </ModalBody>
-                                }
-                                <ModalFooter>
-                                    <Button color="primary" onClick={() => { setModal(false); setFormvalue({}); }}>
-                                        Confirmar
-                                    </Button>
-                                </ModalFooter>
-                            </Modal>
-                        }
-                        <Button className="button btn-info w-full" type="submit" onClick={() => { setModal(true); handleSubmit(onSubmit); }}>Realizar registro</Button>
+                        
                     </Row>
                 </Form>
             </ComponentCard>
