@@ -10,10 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 import Papa from "papaparse";
 // import { usePapaParse } from 'react-papaparse';
-
 import { push, ref, onValue, update } from 'firebase/database';
 import * as Icon from 'react-feather';
-import { db, dbStorage } from '../../FirebaseConfig/firebase';
+import { db, dbStorage} from '../../FirebaseConfig/firebase';
 
 const CategoriasComp = () => {
     const { t } = useTranslation();
@@ -36,7 +35,6 @@ const CategoriasComp = () => {
             setArr(arrAux);
         });
     }
-
     const [btnMessage, setBtnMessage] = useState(t('add_btn'));
     const [isEdited, setisEdited] = useState(false);
     const [messageFeedback, setMessageFeedback] = useState("");
@@ -52,13 +50,29 @@ const CategoriasComp = () => {
     const [txtDetail, setTxtDetail] = useState("");
     const [statusDetail, setStatusDeatil] = useState(false);
     const [hiddenSuccess, sethiddenSuccess] = useState(false);
+    const [colorMsg, setColorMsg] = useState({color:"#1186a2",textShadow:"0px 5px 5px rgba(17, 134, 162, 0.3)"});
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
     const onDismiss = () => {
         setVisible(false);
     };
-    const newUnit = () => {
+    async function checkRepeatedValues(nameValue) {
+        let resRepeated=false;
+        if (nameValue !== "") {
+            console.log("NameValue Check", nameValue);
+            onValue(ref(db, `categories/`), snapshot => {
+                snapshot.forEach(snap => {
+                    console.log("ForEach check", snap.val().name === nameValue, " - ", snap.val().name, " -- ", nameValue);
+                    if (snap.val().name === nameValue) {
+                        resRepeated=true;                        
+                    }
+                });
+            });
+        }
+        return resRepeated;
+    }
+    const newUnit = (isValid) => {
         if (nameUnit) {
-            if (isEdited) {
+            if (isEdited && isValid===false) {
                 console.log("btnCllicked for update: ", keyAux);
                 update(ref(db, `categories/${keyAux}`), {
                     name: nameUnit
@@ -67,17 +81,26 @@ const CategoriasComp = () => {
                 setisEdited(false);
                 setKeyAux("");
                 sethiddenSuccess(true);
+                setColorMsg({color:"#1186a2",textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)"});
                 setMessage(t('updatedSuccessfully'));
                 setTimeout(() => {
                     sethiddenSuccess(false);
                 }, 3000);
-            } else {
-                push(ref(db, 'categories/'), {
-                    name: nameUnit,
-                    active: true
-                });
+            } else if(isValid===false && isEdited===false) {
+                    push(ref(db, 'categories/'), {
+                        name: nameUnit,
+                        active: true
+                    });
+                    sethiddenSuccess(true);
+                    setColorMsg({color:"#1186a2",textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)"});
+                    setMessage(t('registeredSuccessfully'));
+                    setTimeout(() => {
+                        sethiddenSuccess(false);
+                    }, 3000);
+            }else {
                 sethiddenSuccess(true);
-                setMessage(t('registeredSuccessfully'));
+                setColorMsg({color:"#fc7174",textShadow: "0px 5px 5px rgba(252,113,116, 0.3)"});
+                setMessage(t('nameTaken_error'));
                 setTimeout(() => {
                     sethiddenSuccess(false);
                 }, 3000);
@@ -122,8 +145,21 @@ const CategoriasComp = () => {
             const csv = Papa.parse(target.result, { header: true, encoding: "ISO-8859-1" });
             const parsedData = csv?.data;
             const objDataCsv = [];
-            for (let i = 0; i < parsedData.length; i++) {
-                objDataCsv.push(parsedData[i].Nombre);
+            for (let i = 0; i < parsedData.length-1; i++) {
+                console.log("PARSED DATA: ",parsedData[i]);
+                if (parsedData[i].Name) {
+                    checkRepeatedValues(parsedData[i].Name).then((e)=>{
+                        console.log("CHECK TO OBJ: ",e);
+                        if(e===false){
+                            objDataCsv.push(parsedData[i].Name);
+                        }
+                    });
+                } else {
+                    setVisible(true);
+                    setAlertColor("danger");
+                    setMessage(t('fileFormatCSV_error'));
+                    return;
+                }
             }
             setData2(objDataCsv);
         }
@@ -170,14 +206,13 @@ const CategoriasComp = () => {
             });
         }
     }
-
     const downloadTemplate = () => {
-        const strEsp = "[Escribe a partir de aquí]";
+        const strEsp = "[text]";
         const encoded = new TextEncoder('utf-8', { NONSTANDARD_allowLegacyEncoding: true });
         const decoded = (new TextDecoder('utf-8').decode(encoded.encode(strEsp)));
         console.log(decoded);
         const CSV = [
-            '"Nombre"',
+            '"Name"',
             decoded
         ].join('\n');
         window.URL = window.webkitURL || window.URL;
@@ -207,7 +242,6 @@ const CategoriasComp = () => {
                         <CardHeader style={{ backgroundColor: "#eef0f2" }}>
                             <Row>
                                 <Col>
-                                    {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
                                     <h4 style={{ color: "#1186a2" }}>{t('registerCategories_headings')}</h4>
                                 </Col>
                                 <Col>
@@ -247,7 +281,6 @@ const CategoriasComp = () => {
                                                                 <Button onClick={() => { viewDetails(data); setKeyAux(data.key) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
                                                             </div>
                                                         </td>
-
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -255,17 +288,17 @@ const CategoriasComp = () => {
                                         <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false); }}>
                                             <ModalHeader toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false) }} style={{ color: "#1186a2" }}>{isEdited === false ? <Icon.PlusCircle style={{ marginRight: "7px" }} /> : (<Icon.Edit2 style={{ marginRight: "7px" }} />)}{isEdited === false ? t('addCategory_hover') : t('editCategories_headings')}</ModalHeader>
                                             <ModalBody>
-                                                {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
+                                                {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: colorMsg.color,textShadow:colorMsg.textShadow, marginBottom: "7px" }}> {colorMsg.color==="#1186a2"?<Icon.Check style={{ color: colorMsg.color,marginRight:"7px" }} />:<Icon.AlertTriangle style={{ color: colorMsg.color,marginRight:"7px" }} />} {message}</div>}
                                                 <FormGroup>
                                                     <InputGroup>
                                                         <InputGroupText>{t('name_headings')}</InputGroupText>
-                                                        <Input placeholder={t('name_headings')} value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false) }} />
+                                                        <Input placeholder={t('name_headings')} value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false); }} />
                                                         <FormFeedback>{messageFeedback}</FormFeedback>
                                                     </InputGroup>
                                                 </FormGroup>
                                             </ModalBody>
                                             <ModalFooter>
-                                                <Button color="success" onClick={newUnit}>
+                                                <Button color="success" onClick={()=>{checkRepeatedValues(nameUnit).then((e)=>{console.log("Returned Val: ",e);newUnit(e)});}}>
                                                     {btnMessage}
                                                 </Button>
                                                 <Button color="secondary" onClick={() => { setModal(false); setNameUnit(""); setBtnMessage(t('add_btn')); setisEdited(false); }}>
@@ -300,7 +333,7 @@ const CategoriasComp = () => {
                                             <ModalHeader toggle={() => setModalDetail(false)} style={{ color: "#1186a2", width: "100%" }}>
                                                 <Row>
                                                     <Col>
-                                                        <Icon.Info /> Detalles
+                                                        <Icon.Info /> {t('details_headings')}
                                                     </Col>
                                                     <Col>
                                                         <div className='d-flex justify-content-end'>
@@ -308,7 +341,6 @@ const CategoriasComp = () => {
                                                         </div>
                                                     </Col>
                                                 </Row>
-
                                             </ModalHeader>
                                             <ModalBody>
                                                 <CardBody className="p-2">
@@ -323,24 +355,24 @@ const CategoriasComp = () => {
                                                 <Row>
                                                     <Col>
                                                         <CardBody className="border-top pt-4">
-                                                            <CardSubtitle className="text-muted d-flex justify-content-center">Información sobre la categoría</CardSubtitle>
+                                                            <CardSubtitle className="text-muted d-flex justify-content-center">{t('informationTextCategory')}</CardSubtitle>
                                                             <Row className="text-center justify-content-md-center mt-3">
                                                                 <Col xs="4">
-                                                                    <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">Estado</CardSubtitle>
+                                                                    <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">{t('status_txt')}</CardSubtitle>
                                                                     <CardTitle tag="h5">
                                                                         {statusDetail ? <div>
                                                                             <Row><Col>
                                                                                 <Icon.ToggleRight style={{ color: "#fca311" }} />
                                                                             </Col></Row>
                                                                             <Row><Col>
-                                                                                Activo
+                                                                                {t('activated_txt')}
                                                                             </Col></Row>
                                                                         </div> : <div>
                                                                             <Row><Col>
                                                                                 <Icon.ToggleLeft />
                                                                             </Col></Row>
                                                                             <Row><Col>
-                                                                                Inactivo
+                                                                                {t('deactivated_txt')}
                                                                             </Col></Row>
                                                                         </div>}
                                                                         {/* <div>
@@ -353,15 +385,12 @@ const CategoriasComp = () => {
                                                                         </div> */}
                                                                     </CardTitle>
                                                                 </Col>
-
                                                             </Row>
-
                                                         </CardBody>
                                                     </Col>
                                                     {/* <Col><h5>{txtDetail}</h5></Col> */}
                                                 </Row>
                                             </ModalBody>
-                                            
                                         </Modal>
                                     </Col>
                                 </Row>
