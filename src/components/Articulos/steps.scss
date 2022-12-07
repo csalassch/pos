@@ -17,12 +17,18 @@ ol.progtrckr li span {
   padding: 0 1.5rem;
   color:#1186a2;
 }
+
 #next-button {
   color:#fca311;
   background-color:transparent;
   border-color: #fca311;
   border-width: 1.7px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
+
 #next-button:hover {
   background-color: #eef0f2;
   border-color: #eef0f2;
@@ -40,6 +46,10 @@ ol.progtrckr li span {
   background-color:transparent;
   border-color: #fca311;
   border-width: 1.7px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 @media (max-width: 650px) {

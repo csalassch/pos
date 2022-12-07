@@ -17,10 +17,10 @@ import { db, dbStorage } from '../../FirebaseConfig/firebase';
 const UnidadesComp = () => {
     const { t } = useTranslation();
     const [arr, setArr] = useState([{ id: 0, name: '', key: "", active: "" }]);
-    const fetchDataCategories = () => {
+    const fetchDataUnits = () => {
         const arrAux = [];
         let i = 1;
-        onValue(ref(db, "categories/"), snapshot => {
+        onValue(ref(db, "units/"), snapshot => {
             snapshot.forEach(snap => {
                 const obj = {
                     id: i,
@@ -59,7 +59,7 @@ const UnidadesComp = () => {
         let resRepeated=false;
         if (nameValue !== "") {
             console.log("NameValue Check", nameValue);
-            onValue(ref(db, `categories/`), snapshot => {
+            onValue(ref(db, `units/`), snapshot => {
                 snapshot.forEach(snap => {
                     console.log("ForEach check", snap.val().name === nameValue, " - ", snap.val().name, " -- ", nameValue);
                     if (snap.val().name === nameValue) {
@@ -74,7 +74,7 @@ const UnidadesComp = () => {
         if (nameUnit) {
             if (isEdited && isValid===false) {
                 console.log("btnCllicked for update: ", keyAux);
-                update(ref(db, `categories/${keyAux}`), {
+                update(ref(db, `units/${keyAux}`), {
                     name: nameUnit
                 });
                 setBtnMessage(t('add_btn'));
@@ -87,7 +87,7 @@ const UnidadesComp = () => {
                     sethiddenSuccess(false);
                 }, 3000);
             } else if(isValid===false && isEdited===false) {
-                    push(ref(db, 'categories/'), {
+                    push(ref(db, 'units/'), {
                         name: nameUnit,
                         active: true
                     });
@@ -105,7 +105,7 @@ const UnidadesComp = () => {
                     sethiddenSuccess(false);
                 }, 3000);
             }
-            fetchDataCategories();
+            fetchDataUnits();
             setNameUnit("");
             setIsValidInput(true);
         } else {
@@ -117,26 +117,26 @@ const UnidadesComp = () => {
     const editUnit = (keyDB) => {
         console.log("Key of clicked: ", keyDB);
         setKeyAux(keyDB);
-        onValue(ref(db, `categories/${keyDB}`), snapshot => {
+        onValue(ref(db, `units/${keyDB}`), snapshot => {
             setNameUnit(snapshot.val().name);
         });
         setBtnMessage(t('saveChanges_btn'));
         setisEdited(true);
     }
     function modifiedActive(dataPib) {
-        update(ref(db, `categories/${dataPib.key}`), {
+        update(ref(db, `units/${dataPib.key}`), {
             active: !dataPib.active
         });
-        fetchDataCategories();
+        fetchDataUnits();
     }
     function viewDetails(dataPib) {
         setModalDetail(true);
-        onValue(ref(db, `categories/${dataPib.key}`), snapshot => {
+        onValue(ref(db, `units/${dataPib.key}`), snapshot => {
             setTxtDetail(snapshot.val().name);
             setStatusDeatil(snapshot.val().active);
         });
     }
-    //For uploading categories csv
+    //For uploading units csv
     const [file, setFile] = useState('');
     const [data2, setData2] = useState([]);
     async function readCsv() {
@@ -165,12 +165,12 @@ const UnidadesComp = () => {
         }
         reader.readAsText(file, 'ISO-8859-1');
     }
-    const insertCsvCategories = () => {
+    const insertCsvUnits = () => {
         if (data2.length > 0) {
             data2.forEach((element) => {
                 console.log("element: ", element);
                 if (element !== '') {
-                    push(ref(db, 'categories/'), {
+                    push(ref(db, 'units/'), {
                         name: element,
                         active: true
                     });
@@ -202,7 +202,7 @@ const UnidadesComp = () => {
             const storageRef = refStorage(dbStorage, `/Categorias/${file.name}`);
             uploadBytesResumable(storageRef, file);
             readCsv().then(() => {
-                insertCsvCategories();
+                insertCsvUnits();
             });
         }
     }
@@ -219,7 +219,7 @@ const UnidadesComp = () => {
         const contentType = 'text/csv';
         const csvFile = new Blob([CSV], { type: contentType });
         const a = document.createElement('a');
-        a.download = t('templateDownloadFileName');
+        a.download = t('templateDownloadFileNameUnits');
         a.href = window.URL.createObjectURL(csvFile);
         a.textContent = 'Download CSV';
         a.dataset.downloadurl = [contentType, a.download, a.href].join(':');
@@ -228,10 +228,10 @@ const UnidadesComp = () => {
         document.body.removeChild(a);
     }
     useEffect(() => {
-        fetchDataCategories();
+        fetchDataUnits();
         console.log(arr);
         if (data2.length > 0) {
-            insertCsvCategories();
+            insertCsvUnits();
         }
     }, [data2]);
     return (
@@ -242,11 +242,11 @@ const UnidadesComp = () => {
                         <CardHeader style={{ backgroundColor: "#eef0f2" }}>
                             <Row>
                                 <Col>
-                                    <h4 style={{ color: "#1186a2" }}>{t('registerCategories_headings')}</h4>
+                                    <h4 style={{ color: "#1186a2" }}>{t('unitsregistry_headings')}</h4>
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
-                                        <Button title={t('addCategory_hover')} className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "7px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                                        <Button title={t('addUnit_headings')} className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "7px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                         <Button title={t('upload_hover')} className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.Upload style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                         <Button title={t('downloadTemplate_hover')} className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                     </div >
@@ -286,7 +286,7 @@ const UnidadesComp = () => {
                                             </tbody>
                                         </Table>
                                         <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false); }}>
-                                            <ModalHeader toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false) }} style={{ color: "#1186a2" }}>{isEdited === false ? <Icon.PlusCircle style={{ marginRight: "7px" }} /> : (<Icon.Edit2 style={{ marginRight: "7px" }} />)}{isEdited === false ? t('addCategory_hover') : t('editCategories_headings')}</ModalHeader>
+                                            <ModalHeader toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false) }} style={{ color: "#1186a2" }}>{isEdited === false ? <Icon.PlusCircle style={{ marginRight: "7px" }} /> : (<Icon.Edit2 style={{ marginRight: "7px" }} />)}{isEdited === false ? t('addUnit_headings') : t('editUnits_headings')}</ModalHeader>
                                             <ModalBody>
                                                 {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: colorMsg.color,textShadow:colorMsg.textShadow, marginBottom: "7px" }}> {colorMsg.color==="#1186a2"?<Icon.Check style={{ color: colorMsg.color,marginRight:"7px" }} />:<Icon.AlertTriangle style={{ color: colorMsg.color,marginRight:"7px" }} />} {message}</div>}
                                                 <FormGroup>
@@ -307,7 +307,7 @@ const UnidadesComp = () => {
                                             </ModalFooter>
                                         </Modal>
                                         <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
-                                            <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> {t('loadCategories_heading')}</ModalHeader>
+                                            <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> {t('loadUnits_heading')}</ModalHeader>
                                             <ModalBody>
                                                 {hiddenSuccessUpload && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
                                                 <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>

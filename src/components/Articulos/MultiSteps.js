@@ -84,14 +84,15 @@ class MultiSteps extends Component {
             ),
           },
         ];
-    
+        // document.getElementById("next-button").value="Holi";
+
         return (
           <>
             
             
               <div className="example">
                 <div className="step-progress" >
-                  <StepZilla  steps={steps} nextTextOnFinalActionStep="Guardar" />
+                  <StepZilla  steps={steps} nextTextOnFinalActionStep="Guardar"  />
                 </div>
               </div>
           </>

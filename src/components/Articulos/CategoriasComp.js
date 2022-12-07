@@ -13,14 +13,17 @@ import Papa from "papaparse";
 import { push, ref, onValue, update } from 'firebase/database';
 import * as Icon from 'react-feather';
 import { db, dbStorage} from '../../FirebaseConfig/firebase';
+// import {useAuth} from '../../Context/authContext';
 
 const CategoriasComp = () => {
+    // const {user}=useAuth();
     const { t } = useTranslation();
     const [arr, setArr] = useState([{ id: 0, name: '', key: "", active: "" }]);
     const fetchDataCategories = () => {
         const arrAux = [];
         let i = 1;
-        onValue(ref(db, "categories/"), snapshot => {
+        //You left here fix it
+        onValue(ref(db, `categories/`), snapshot => {
             snapshot.forEach(snap => {
                 const obj = {
                     id: i,
