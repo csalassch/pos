@@ -4,7 +4,7 @@ import {
     InputGroupText, Table,
     Modal, ModalHeader,
     ModalBody,
-    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle,CardSubtitle
+    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle, CardSubtitle
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
@@ -16,7 +16,7 @@ import * as Icon from 'react-feather';
 import { db, dbStorage } from '../../FirebaseConfig/firebase';
 
 const UbicacionesComp = () => {
-    const {t}=useTranslation();
+    const { t } = useTranslation();
     const [arr, setArr] = useState([{ id: 0, name: '', key: "", active: "" }]);
     const fetchDataCategories = () => {
         const arrAux = [];
@@ -48,8 +48,8 @@ const UbicacionesComp = () => {
     const [colorAlert, setAlertColor] = useState("success");
     const [visible, setVisible] = useState(false);
     const [message, setMessage] = useState("");
-    const [txtDetail, setTxtDetail] = useState("");
-    const [statusDetail, setStatusDeatil] = useState(false);
+    // const [txtDetail, setTxtDetail] = useState("");
+    // const [statusDetail, setStatusDeatil] = useState(false);
     const [hiddenSuccess, sethiddenSuccess] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
     const onDismiss = () => {
@@ -97,19 +97,13 @@ const UbicacionesComp = () => {
         });
         setBtnMessage("Guardar Cambios");
     }
-    function modifiedActive(dataPib) {
-        update(ref(db, `categories/${dataPib.key}`), {
-            active: !dataPib.active
-        });
-        fetchDataCategories();
-    }
-    function viewDetails(dataPib) {
-        setModalDetail(true);
-        onValue(ref(db, `categories/${dataPib.key}`), snapshot => {
-            setTxtDetail(snapshot.val().name);
-            setStatusDeatil(snapshot.val().active);
-        });
-    }
+    // function modifiedActive(dataPib) {
+    //     update(ref(db, `categories/${dataPib.key}`), {
+    //         active: !dataPib.active
+    //     });
+    //     fetchDataCategories();
+    // }
+
     //For uploading categories csv
     const [file, setFile] = useState('');
     const [data2, setData2] = useState([]);
@@ -215,7 +209,7 @@ const UbicacionesComp = () => {
                                     </div >
                                 </Col>
                             </Row>
-                            
+
                         </CardHeader>
                         <CardBody>
                             <FormGroup>
@@ -234,26 +228,54 @@ const UbicacionesComp = () => {
                                                 </tr>
                                             </thead>
                                             <tbody className='text-center'>
-                                                {arr.map((data) => (
-                                                    <tr key={data.id}>
-                                                        <td>{data.id}</td>
-                                                        <td><div onClick={() => { modifiedActive(data) }}>
-                                                            {data.active === "true" || data.active === true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                                                                : <div><Icon.ToggleLeft /></div>}
-                                                        </div></td>
-                                                        <td>Img Logo</td>
-                                                        <td>{data.name}</td>
-                                                        <td>Dirección 1</td>
-                                                        <td>Link Mapa</td>
-                                                        <td>
-                                                            <div className='d-flex justify-content-center'>
-                                                                {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}
-                                                                <Button onClick={() => { viewDetails(data); setKeyAux(data.key) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
-                                                            </div>
-                                                        </td>
 
-                                                    </tr>
-                                                ))}
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td><div>
+                                                        <Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+
+                                                    </td>
+                                                    <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
+                                                        alt="..."
+                                                        className=" img-fluid rounded shadow-lg"
+                                                        src="https://www.freebug.mx/Logo-FreeBug-sello2.png"
+                                                        style={{ width: "40px" }}
+                                                    ></img></td>
+                                                    <td>Sucursal Querétaro Norte</td>
+                                                    <td>Ladera del Cubilete #211, col. La Ladera</td>
+                                                    <td><a href='https://www.google.com.mx/maps/place/Ladera+del+Cubilete+211,+San+Pedrito+Pe%C3%B1uelas+I,+76148+Santiago+de+Quer%C3%A9taro,+Qro./@20.6390917,-100.4010173,17z/data=!3m1!4b1!4m5!3m4!1s0x85d35a54498f483b:0x7b4c151d62609228!8m2!3d20.6390867!4d-100.3988286'><Icon.MapPin style={{ color: "#1186a2" }} /></a></td>
+                                                    <td>
+                                                        <div className='d-flex justify-content-center'>
+                                                            {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}
+                                                            <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td><div>
+                                                        <Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+
+                                                    </td>
+                                                    <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
+                                                        alt="..."
+                                                        className=" img-fluid rounded shadow-lg"
+                                                        src="https://www.freebug.mx/Logo-FreeBug-sello2.png"
+                                                        style={{ width: "40px" }}
+                                                    ></img></td>
+                                                    <td>Sucursal Querétaro Sur</td>
+                                                    <td>Torre II, Orvit Corporate Center, Av. Paseo Monte Miranda Ote. 17-Oficina 815, Monte Miranda, 76240 Santiago de Querétaro, Qro.</td>
+                                                    <td><a href='https://www.google.com.mx/maps/place/Ladera+del+Cubilete+211,+San+Pedrito+Pe%C3%B1uelas+I,+76148+Santiago+de+Quer%C3%A9taro,+Qro./@20.6390917,-100.4010173,17z/data=!3m1!4b1!4m5!3m4!1s0x85d35a54498f483b:0x7b4c151d62609228!8m2!3d20.6390867!4d-100.3988286'><Icon.MapPin style={{ color: "#1186a2" }} /></a></td>
+                                                    <td>
+                                                        <div className='d-flex justify-content-center'>
+                                                            {/* <div style={{ cursor: "pointer", color: "#1186a2",marginRight:"7px" }} onClick={() => { editUnit(data.key) }}><Icon.Edit /></div> */}
+                                                            <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+
                                             </tbody>
                                         </Table>
                                         <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage("Agregar") }}>
@@ -320,7 +342,7 @@ const UbicacionesComp = () => {
                                                         {/* <img src={img1} className="rounded-circle" width="100" alt="" /> */}
                                                         <Icon.Award style={{ scale: "2" }} className="mb-3" />
                                                         <CardTitle tag="h4" className="mt-2 mb-0">
-                                                            {txtDetail}
+
                                                         </CardTitle>
                                                     </div>
                                                 </CardBody>
@@ -332,7 +354,7 @@ const UbicacionesComp = () => {
                                                                 <Col xs="4">
                                                                     <CardSubtitle className="text-muted fs-5 d-flex justify-content-center">Estado</CardSubtitle>
                                                                     <CardTitle tag="h5">
-                                                                        {statusDetail ? <div>
+                                                                        {/* {statusDetail ? <div>
                                                                             <Row><Col>
                                                                                 <Icon.ToggleRight style={{ color: "#fca311" }} />
                                                                             </Col></Row>
@@ -346,20 +368,20 @@ const UbicacionesComp = () => {
                                                                             <Row><Col>
                                                                                 Inactivo
                                                                             </Col></Row>
-                                                                        </div> }
-                                                                        {/* <div>
+                                                                        </div> } */}
+                                                                        <div>
                                                                             <Row><Col>
                                                                                 <Icon.ToggleRight style={{ color: "#fca311" }} />
                                                                             </Col></Row>
                                                                             <Row><Col>
                                                                                 Activo
                                                                             </Col></Row>
-                                                                        </div> */}
+                                                                        </div>
                                                                     </CardTitle>
                                                                 </Col>
-                                                                
+
                                                             </Row>
-                                                            
+
                                                         </CardBody>
                                                     </Col>
                                                     {/* <Col><h5>{txtDetail}</h5></Col> */}
