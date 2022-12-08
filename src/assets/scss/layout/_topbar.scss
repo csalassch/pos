@@ -5,7 +5,11 @@
     width: 100%;
     top: 0;
     left: 0;
+    
     z-index: 5;
+    .container-fluid {
+      padding: 0;
+    }
   }
   .HorizontalTopbar {
     position: fixed;
@@ -36,6 +40,7 @@
     .topbar {
       width: 100%;
       left: 0;
+      padding: 0;
     }
   }
   // .isMiniSidebar .fixedTopbar .topbar {
@@ -43,11 +48,11 @@
   //   left: 0;
   // }
   .logo-space {
-    min-width: 245px;
+    min-width: 260px;
     padding-left: 10px;
   }
   .isMiniSidebar .logo-space {
-    min-width: 60px;
+    min-width: 80px;
   }
 }
 @include media-breakpoint-down(lg) {

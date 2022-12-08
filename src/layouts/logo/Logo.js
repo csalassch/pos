@@ -2,9 +2,9 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import React from 'react';
 // import { ReactComponent as LogoDarkIcon } from '../../assets/images/logos/Logo-FreeBug-web-2-500px.svg';
-// import { ReactComponent as LogoDarkText } from '../../assets/images/logos/dark-logo-text.svg';
 import { ReactComponent as LogoDarkText } from '../../assets/images/logos/Logo-FreeBug-web-2-500px.svg';
-import { ReactComponent as LogoWhiteIcon } from '../../assets/images/logos/Logo-FreeBug-sello2-_1_.svg';
+// import { ReactComponent as LogoDarkText } from '../../assets/images/logos/Logo-FreeBug-web-2-500px.svg';
+// import { ReactComponent as LogoWhiteIcon } from '../../assets/images/logos/Logo-FreeBug-sello2-_1_.svg';
 // import { ReactComponent as LogoWhiteText } from '../../assets/images/logos/Logo-FreeBug-web-2-500px.svg';
 
 const Logo = () => {
@@ -20,8 +20,9 @@ const Logo = () => {
         </>
       ) : ( */}
       <>
-        {!toggleMiniSidebar ? <LogoDarkText fill='current' style={{ height: "50px", width: "auto" }} />
-          : <LogoWhiteIcon fill='current' style={{ height: "auto", width: "45px" }} />}
+        {/* {!toggleMiniSidebar ? <img alt="freebug-logo" src='../../assets/images/logos/Logo-FreeBug-web-2-500px-Editado.png' style={{width:"auto",height:"50px"}}></img> */}
+        {!toggleMiniSidebar ? <LogoDarkText style={{width:"auto",height:"50px"}} />
+          : <img alt="freebug-logo" src='https://www.freebug.mx/Logo-FreeBug-sello2.png' style={{width:"auto",height:"50px"}}></img>        }
       </>
       {/* )} */}
     </Link>

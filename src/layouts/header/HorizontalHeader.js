@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import {
   Navbar,
   Nav,
-  NavItem,
+  // NavItem,
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -64,11 +64,11 @@ const HorizontalHeader = () => {
             <i className={`bi ${isMobileSidebar ? 'bi-x' : 'bi-list'}`} />
           </Button>
 
-          <NavItem className="d-none d-md-block">
+          {/* <NavItem className="d-none d-md-block">
             <Link to="/about" className={`nav-link ${topbarColor === 'white' ? 'text-dark' : ''}`}>
               About
             </Link>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <div className="d-flex align-items-center">
         <Select

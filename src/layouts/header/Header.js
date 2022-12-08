@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Select from 'react-select';
@@ -7,8 +7,8 @@ import Select from 'react-select';
 import SimpleBar from 'simplebar-react';
 import {
   Navbar,
-  Nav,
-  NavItem,
+  // Nav,
+  // NavItem,
   NavbarBrand,
   UncontrolledDropdown,
   DropdownToggle,
@@ -41,11 +41,11 @@ const Header = () => {
   const handleLogout = async () => {
     await logout();
   }
-  const mexico = <div><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Español</div>;
-  const usa = <div><img alt='USA Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />English</div>;
-  const france = <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/800px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Français</div>;
-  const brazil = <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />Português</div>;
-  const israel = <div><img alt='Israel Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} />עִברִית</div>;
+  const mexico = <div><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" style={{ marginRight: "7px" }} /></div>;
+  const usa = <div><img alt='USA Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/1200px-Flag_of_the_United_States.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} /></div>;
+  const france = <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg/800px-Flag_of_France_%281794%E2%80%931815%2C_1830%E2%80%931974%2C_2020%E2%80%93present%29.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} /></div>;
+  const brazil = <div><img alt='France Flag' src="https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1200px-Flag_of_Brazil.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} /></div>;
+  const israel = <div><img alt='Israel Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Flag_of_Israel.svg/640px-Flag_of_Israel.svg.png" height="20px" width="30px" style={{ marginRight: "7px" }} /></div>;
   const options = [
     { value: 'es-MX', label: mexico },
     { value: 'en', label: usa },
@@ -126,9 +126,10 @@ const Header = () => {
         light={isDarkMode}
         expand="lg"
         className="topbar"
+        style={{maxHeight:"50px"}}
       >
         {/********Logo*******/}
-        <div className="d-none d-lg-flex align-items-center logo-space">
+        <div className="d-none d-lg-flex align-items-center logo-space" style={{backgroundColor:"#1f4f67"}}>
           <Logo />
           <Button
             close
@@ -164,7 +165,7 @@ const Header = () => {
         {/**********Left Nav Bar**********/}
         {/******************************/}
 
-        <Nav className="me-auto d-flex flex-row align-items-center" navbar>
+        {/* <Nav className="me-auto d-flex flex-row align-items-center" navbar>
           <NavItem className="d-md-block d-none">
             <Link
               to="/about"
@@ -173,12 +174,13 @@ const Header = () => {
               About
             </Link>
           </NavItem>
-        </Nav>
+        </Nav> */}
 
         <div className="d-flex align-items-center">
-          <div style={{ minWidth: "165px" }}>
+          <div onClick={() => dispatch(ToggleMobileSidebar())}>
 
             <Select
+            
               id="languageSelected"
               value={[{ value: savedLangVal, label: savedLangLabel }]}
               label="Selecciona Idioma"

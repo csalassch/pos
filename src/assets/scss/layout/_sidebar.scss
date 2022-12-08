@@ -6,11 +6,13 @@
     height: 100%;
     width: $sidebarWidth;
     position: relative;
+    
     transition: 0.1s ease-in;
     z-index: 2;
   }
   .fixedSidebar {
     position: fixed;
+    top:50px;
   }
   .navCaption {
     font-size: 0.775rem;
