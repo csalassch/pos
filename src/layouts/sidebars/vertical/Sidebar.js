@@ -47,7 +47,9 @@ const Sidebar = () => {
         <div className="p-3">
           {
             (userData.role === 'client') ?
-              <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
+              // <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
+              // <Nav vertical className={activeBg === 'white' ? '' : 'white'}  style={{color:"white"}}>
+              <Nav vertical className={activeBg === 'white' ? '' : 'white'}  style={{color:"white"}}>
                 {SidebarDataClient.map((navi) => {
                   if (navi.caption) {
                     return (
@@ -68,6 +70,7 @@ const Sidebar = () => {
                         // toggle={() => toggle(navi.id)}
                         // collapsed={collapsed === navi.id}
                         isUrl={currentURL === navi.href}
+                        style={{color:"white"}}
                       />
                     );
                   }

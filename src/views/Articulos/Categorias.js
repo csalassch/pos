@@ -1,12 +1,12 @@
 import '../tables/ReactBootstrapTable.scss';
-import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
+// import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs';
 import CategoriasComp from '../../components/Articulos/CategoriasComp';
 
 const Categorias = () => {
     
     return (
         <div>
-            <BreadCrumbs />
+            {/* <BreadCrumbs /> */}
             <CategoriasComp/>
             {/*--------------------------------------------------------------------------------*/}
             {/* Start Inner Div*/}

@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import {
-    Row, Col, FormGroup, Input, Button, InputGroup,
-    InputGroupText, Table,
+    Row, Col, FormGroup, Input, Button, Table,
     Modal, ModalHeader,
     ModalBody,
-    ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle, CardSubtitle
+    FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle, CardSubtitle, Label
 } from 'reactstrap';
+import { CFormSwitch } from '@coreui/bootstrap-react';
 import { useTranslation } from 'react-i18next';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 import Papa from "papaparse";
 // import { usePapaParse } from 'react-papaparse';
 import { push, ref, onValue, update } from 'firebase/database';
 import * as Icon from 'react-feather';
-import { db, dbStorage} from '../../FirebaseConfig/firebase';
+// import BreadCrumbs from '../../layouts/breadcrumbs/BreadCrumbs'
+import { db, dbStorage } from '../../FirebaseConfig/firebase';
 // import {useAuth} from '../../Context/authContext';
 
 const CategoriasComp = () => {
@@ -53,20 +54,20 @@ const CategoriasComp = () => {
     const [txtDetail, setTxtDetail] = useState("");
     const [statusDetail, setStatusDeatil] = useState(false);
     const [hiddenSuccess, sethiddenSuccess] = useState(false);
-    const [colorMsg, setColorMsg] = useState({color:"#1186a2",textShadow:"0px 5px 5px rgba(17, 134, 162, 0.3)"});
+    const [colorMsg, setColorMsg] = useState({ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)" });
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
     const onDismiss = () => {
         setVisible(false);
     };
     async function checkRepeatedValues(nameValue) {
-        let resRepeated=false;
+        let resRepeated = false;
         if (nameValue !== "") {
             console.log("NameValue Check", nameValue);
             onValue(ref(db, `categories/`), snapshot => {
                 snapshot.forEach(snap => {
                     console.log("ForEach check", snap.val().name === nameValue, " - ", snap.val().name, " -- ", nameValue);
                     if (snap.val().name === nameValue) {
-                        resRepeated=true;                        
+                        resRepeated = true;
                     }
                 });
             });
@@ -75,7 +76,7 @@ const CategoriasComp = () => {
     }
     const newUnit = (isValid) => {
         if (nameUnit) {
-            if (isEdited && isValid===false) {
+            if (isEdited && isValid === false) {
                 console.log("btnCllicked for update: ", keyAux);
                 update(ref(db, `categories/${keyAux}`), {
                     name: nameUnit
@@ -84,25 +85,25 @@ const CategoriasComp = () => {
                 setisEdited(false);
                 setKeyAux("");
                 sethiddenSuccess(true);
-                setColorMsg({color:"#1186a2",textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)"});
+                setColorMsg({ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)" });
                 setMessage(t('updatedSuccessfully'));
                 setTimeout(() => {
                     sethiddenSuccess(false);
                 }, 3000);
-            } else if(isValid===false && isEdited===false) {
-                    push(ref(db, 'categories/'), {
-                        name: nameUnit,
-                        active: true
-                    });
-                    sethiddenSuccess(true);
-                    setColorMsg({color:"#1186a2",textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)"});
-                    setMessage(t('registeredSuccessfully'));
-                    setTimeout(() => {
-                        sethiddenSuccess(false);
-                    }, 3000);
-            }else {
+            } else if (isValid === false && isEdited === false) {
+                push(ref(db, 'categories/'), {
+                    name: nameUnit,
+                    active: true
+                });
                 sethiddenSuccess(true);
-                setColorMsg({color:"#fc7174",textShadow: "0px 5px 5px rgba(252,113,116, 0.3)"});
+                setColorMsg({ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)" });
+                setMessage(t('registeredSuccessfully'));
+                setTimeout(() => {
+                    sethiddenSuccess(false);
+                }, 3000);
+            } else {
+                sethiddenSuccess(true);
+                setColorMsg({ color: "#fc7174", textShadow: "0px 5px 5px rgba(252,113,116, 0.3)" });
                 setMessage(t('nameTaken_error'));
                 setTimeout(() => {
                     sethiddenSuccess(false);
@@ -148,12 +149,12 @@ const CategoriasComp = () => {
             const csv = Papa.parse(target.result, { header: true, encoding: "ISO-8859-1" });
             const parsedData = csv?.data;
             const objDataCsv = [];
-            for (let i = 0; i < parsedData.length-1; i++) {
-                console.log("PARSED DATA: ",parsedData[i]);
+            for (let i = 0; i < parsedData.length - 1; i++) {
+                console.log("PARSED DATA: ", parsedData[i]);
                 if (parsedData[i].Name) {
-                    checkRepeatedValues(parsedData[i].Name).then((e)=>{
-                        console.log("CHECK TO OBJ: ",e);
-                        if(e===false){
+                    checkRepeatedValues(parsedData[i].Name).then((e) => {
+                        console.log("CHECK TO OBJ: ", e);
+                        if (e === false) {
                             objDataCsv.push(parsedData[i].Name);
                         }
                     });
@@ -242,10 +243,13 @@ const CategoriasComp = () => {
             <Row>
                 <Col md="12">
                     <Card>
-                        <CardHeader style={{ backgroundColor: "#eef0f2" }}>
+                        <CardHeader style={{ backgroundColor: "#1186a2", color: "#eef0f2" }}>
                             <Row>
                                 <Col>
-                                    <h4 style={{ color: "#1186a2" }}>{t('registerCategories_headings')}</h4>
+                                    <div className='d-flex justify-content-start'>
+                                        <h4 style={{ color: "#eef0f2" }}>{t('registerCategories_headings')}</h4>
+
+                                    </div >
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
@@ -253,6 +257,7 @@ const CategoriasComp = () => {
                                         <Button title={t('upload_hover')} className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.Upload style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                         <Button title={t('downloadTemplate_hover')} className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                     </div >
+                                    {/* <BreadCrumbs /> */}
                                 </Col>
                             </Row>
                         </CardHeader>
@@ -261,7 +266,7 @@ const CategoriasComp = () => {
                                 <Row>
                                     <Col>
                                         <Table responsive style={{ overflow: 'hidden' }}>
-                                            <thead className='text-center' style={{ color: "#1f4f67" }}>
+                                            <thead className='text-center' style={{ color: "#1186a2" }}>
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>{t('active_headings')}</th>
@@ -273,10 +278,15 @@ const CategoriasComp = () => {
                                                 {arr.map((data) => (
                                                     <tr key={data.id}>
                                                         <td>{data.id}</td>
-                                                        <td><div onClick={() => { modifiedActive(data) }}>
-                                                            {data.active === "true" || data.active === true ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                                                                : <div><Icon.ToggleLeft /></div>}
-                                                        </div></td>
+                                                        <td>
+                                                            <div onClick={() => { modifiedActive(data) }}>
+                                                                {/* {data.active === "true" || data.active === true ? <div><Icon.ToggleRight style={{ color: "#1186a2"}} /></div> */}
+                                                                {/* {data.active === "true" || data.active === true ? <div className='custom-control custom-switch'><input type="checkbox" className='custom-control-input' id="customSwitches"/></div> */}
+                                                                {data.active === "true" || data.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" style={{ backgroundColor: "#1186a2" }} defaultChecked /></div>
+                                                                    : <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
+                                                                    </div>}
+                                                            </div>
+                                                        </td>
                                                         <td>{data.name}</td>
                                                         <td>
                                                             <div className='d-flex justify-content-center'>
@@ -289,25 +299,26 @@ const CategoriasComp = () => {
                                             </tbody>
                                         </Table>
                                         <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false); }}>
-                                            <ModalHeader toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false) }} style={{ color: "#1186a2" }}>{isEdited === false ? <Icon.PlusCircle style={{ marginRight: "7px" }} /> : (<Icon.Edit2 style={{ marginRight: "7px" }} />)}{isEdited === false ? t('addCategory_hover') : t('editCategories_headings')}</ModalHeader>
-                                            <ModalBody>
-                                                {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: colorMsg.color,textShadow:colorMsg.textShadow, marginBottom: "7px" }}> {colorMsg.color==="#1186a2"?<Icon.Check style={{ color: colorMsg.color,marginRight:"7px" }} />:<Icon.AlertTriangle style={{ color: colorMsg.color,marginRight:"7px" }} />} {message}</div>}
+                                            <ModalHeader style={{ color: "#eef0f2", backgroundColor: "#1f4f67 ", height: "35px", fontSize: "11px" }}>
+                                                {isEdited === false ? <Icon.PlusCircle style={{ marginRight: "5px" }} /> : (<Icon.Edit2 style={{ marginRight: "5px" }} />)}
+                                                {isEdited === false ? t('addCategory_hover') : t('editCategories_headings')}
+                                                test<Icon.X />
+                                            </ModalHeader>
+                                            <ModalBody style={{ backgroundColor: "#eef0f2" }}>
+                                                {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: colorMsg.color, textShadow: colorMsg.textShadow, marginBottom: "5px" }}> {colorMsg.color === "#1186a2" ? <Icon.Check style={{ color: colorMsg.color, marginRight: "5px" }} /> : <Icon.AlertTriangle style={{ color: colorMsg.color, marginRight: "5px" }} />} {message}</div>}
                                                 <FormGroup>
-                                                    <InputGroup>
-                                                        <InputGroupText>{t('name_headings')}</InputGroupText>
-                                                        <Input placeholder={t('name_headings')} value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false); }} />
-                                                        <FormFeedback>{messageFeedback}</FormFeedback>
-                                                    </InputGroup>
+                                                    {/* <InputGroup> */}
+                                                    <Label style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400", color: "black" }}>{t('name_headings')}</Label>
+                                                    <Input style={{ marginTop: "0px", borderRadius: "0px" }} value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false); }} />
+                                                    <FormFeedback>{messageFeedback}</FormFeedback>
+                                                    {/* </InputGroup> */}
                                                 </FormGroup>
+                                                <div className='d-flex justify-content-end'>
+                                                    <Button color="success" onClick={() => { checkRepeatedValues(nameUnit).then((e) => { console.log("Returned Val: ", e); newUnit(e) }); }}>
+                                                        {btnMessage}
+                                                    </Button>
+                                                </div>
                                             </ModalBody>
-                                            <ModalFooter>
-                                                <Button color="success" onClick={()=>{checkRepeatedValues(nameUnit).then((e)=>{console.log("Returned Val: ",e);newUnit(e)});}}>
-                                                    {btnMessage}
-                                                </Button>
-                                                <Button color="secondary" onClick={() => { setModal(false); setNameUnit(""); setBtnMessage(t('add_btn')); setisEdited(false); }}>
-                                                    {t('cancel_btn')}
-                                                </Button>
-                                            </ModalFooter>
                                         </Modal>
                                         <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
                                             <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> {t('loadCategories_heading')}</ModalHeader>
@@ -322,15 +333,11 @@ const CategoriasComp = () => {
                                                         <Input id='fileInput' type="file" placeholder='selecciona archivo' onChange={(e) => { setFile(e.target.files[0]); setVisible(false); }} />
                                                     </FormGroup>
                                                 </Form>
-                                            </ModalBody>
-                                            <ModalFooter>
+
                                                 <Button color="success" onClick={upload}>
                                                     {t('add_btn')}
                                                 </Button>
-                                                <Button color="secondary" onClick={() => { setModalCsv(false); }}>
-                                                    {t('cancel_btn')}
-                                                </Button>
-                                            </ModalFooter>
+                                            </ModalBody>
                                         </Modal>
                                         <Modal isOpen={modalDetail} toggle={() => setModalDetail(false)}>
                                             <ModalHeader toggle={() => setModalDetail(false)} style={{ color: "#1186a2", width: "100%" }}>
