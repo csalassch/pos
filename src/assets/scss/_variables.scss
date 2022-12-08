@@ -1,8 +1,18 @@
 /*******************/
 // Theme Fonts
 /********************/
-@import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700");
-$font-family-sans-serif: 'Montserrat', sans-serif;
+// @import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,600,700');
+// @import url('https://fonts.googleapis.com/css?family=Heebo:300,400,500,600,700');
+// @import url('https://fonts.googleapis.com/css?family=Nunito:300,400,500,600,700');
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+// @import url("https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700");
+// @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700");
+// $font-family-sans-serif: 'Montserrat', sans-serif;
+// $font-family-sans-serif: 'Inter', sans-serif;
+$font-family-sans-serif: 'Poppins', sans-serif;
+// $font-family-sans-serif: 'Nunito', sans-serif;
+// $font-family-sans-serif: 'Heebo', sans-serif;
+// $font-family-sans-serif: 'Rubik', sans-serif;
 /*******************/
 // Theme Colors
 /********************/
@@ -116,7 +126,7 @@ $btn-focus-box-shadow: 0;
 /*******************/
 // Theme sidebar width
 /********************/
-$sidebarWidth: 260px;
+$sidebarWidth: 240px;
 $sidebartext: $gray-900;
 $sidebartextlight: rgba(30, 42, 53, 0.5);
 $miniSidebarWidth: 80px;

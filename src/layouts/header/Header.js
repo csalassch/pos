@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {  useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Select from 'react-select';
@@ -71,18 +71,18 @@ const Header = () => {
     onValue(ref(db, `usuarios/${user.uid}`), snapshot => {
 
       setSavedLangVal(snapshot.val().language);
-      if(snapshot.val().language==="es-MX"){
+      if (snapshot.val().language === "es-MX") {
         setSavedLangLabel(mexico);
-      }else if(snapshot.val().language==="en"){
+      } else if (snapshot.val().language === "en") {
         setSavedLangLabel(usa);
-      
-      }else if(snapshot.val().language==="fr"){
+
+      } else if (snapshot.val().language === "fr") {
         setSavedLangLabel(france);
-      
-      }else if(snapshot.val().language==="pt"){
+
+      } else if (snapshot.val().language === "pt") {
         setSavedLangLabel(brazil);
-      
-      }else if(snapshot.val().language==="he"){
+
+      } else if (snapshot.val().language === "he") {
         setSavedLangLabel(israel);
       }
       // setSavedLangVal(snapshot.val().language);
@@ -90,7 +90,7 @@ const Header = () => {
   }
   useEffect(() => {
     console.log("loaded flag: ", savedLangLabel);
-    if (savedLangLabel === "" || savedLangVal==="") {
+    if (savedLangLabel === "" || savedLangVal === "") {
       loadSavedLanguage().then(() => {
         const params = new URLSearchParams();
         if (query) {
@@ -102,16 +102,16 @@ const Header = () => {
         history({ search: `?${params.toString()}` });
         console.log(window.location.href);
       });
-    }else{
+    } else {
       const params = new URLSearchParams()
-        if (query) {
-          params.append("lng", query)
-        } else {
-          params.delete("lng")
-        }
-        console.log(url);
-        history({ search: `?${params.toString()}` });
-        console.log(window.location.href);
+      if (query) {
+        params.append("lng", query)
+      } else {
+        params.delete("lng")
+      }
+      console.log(url);
+      history({ search: `?${params.toString()}` });
+      console.log(window.location.href);
     }
 
 
@@ -126,10 +126,10 @@ const Header = () => {
         light={isDarkMode}
         expand="lg"
         className="topbar"
-        style={{maxHeight:"50px"}}
+        style={{ maxHeight: "50px" }}
       >
         {/********Logo*******/}
-        <div className="d-none d-lg-flex align-items-center logo-space" style={{backgroundColor:"#1f4f67"}}>
+        <div className="d-none d-lg-flex align-items-center justify-content-center logo-space p-0" style={{ backgroundColor: "#1f4f67" }}>
           <Logo />
           <Button
             close
@@ -141,7 +141,7 @@ const Header = () => {
         {/******************************/}
         {/**********Toggle Buttons**********/}
         {/******************************/}
-        <div className="d-flex align-items-center">
+        <div className="me-auto d-flex align-items-center">
           <Button
             color={topbarColor}
             className="d-none d-lg-block mx-1 border-0 hov-dd"
@@ -159,28 +159,10 @@ const Header = () => {
           >
             <i className="bi bi-list" />
           </Button>
-        </div>
-
-        {/******************************/}
-        {/**********Left Nav Bar**********/}
-        {/******************************/}
-
-        {/* <Nav className="me-auto d-flex flex-row align-items-center" navbar>
-          <NavItem className="d-md-block d-none">
-            <Link
-              to="/about"
-              className={`nav-link hov-dd ${topbarColor === 'white' ? 'text-dark' : ''}`}
-            >
-              About
-            </Link>
-          </NavItem>
-        </Nav> */}
-
-        <div className="d-flex align-items-center">
-          <div onClick={() => dispatch(ToggleMobileSidebar())}>
+          <div style={{width:"85px"}} className='container-fluid'  onClick={() => dispatch(ToggleMobileSidebar())}>
 
             <Select
-            
+
               id="languageSelected"
               value={[{ value: savedLangVal, label: savedLangLabel }]}
               label="Selecciona Idioma"
@@ -207,6 +189,8 @@ const Header = () => {
               <MegaDD />
             </DropdownMenu>
           </UncontrolledDropdown>
+
+
           {/******************************/}
           {/**********Notification DD**********/}
           {/******************************/}
@@ -247,6 +231,25 @@ const Header = () => {
               </div>
             </DropdownMenu>
           </UncontrolledDropdown>
+        </div>
+
+        {/******************************/}
+        {/**********Left Nav Bar**********/}
+        {/******************************/}
+
+
+        {/* <Nav className="me-auto d-flex flex-row align-items-center" navbar>
+          <NavItem className="d-md-block d-none">
+            <Link
+              to="/about"
+              className={`nav-link hov-dd ${topbarColor === 'white' ? 'text-dark' : ''}`}
+            >
+              About
+            </Link>
+          </NavItem>
+        </Nav> */}
+
+        <div className="d-flex align-items-center">
           {/******************************/}
           {/**********Profile DD**********/}
           {/******************************/}

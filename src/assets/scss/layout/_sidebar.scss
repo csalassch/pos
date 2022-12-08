@@ -24,10 +24,11 @@
   }
   .nav-item.activeParent > .nav-link {
     opacity: 1;
+    color:#1186A2;
   }
   .nav-link {
     color: inherit;
-    opacity: 0.65;
+    opacity: 1;
     display: flex;
     padding: 12px 5px 12px 12px;
     align-items: center;
@@ -44,6 +45,7 @@
   }
   .activeLink .nav-link {
     opacity: 1;
+    color:#1186A2;
   }
   .subMenu {
     padding: 0;
@@ -71,10 +73,11 @@
 
   .nav-item {
     position: relative;
+    opacity: 1;
   }
   .nav-link {
     color: inherit;
-    opacity: 0.65;
+    opacity: 1;
     display: flex;
     padding: 15px 12px;
     transition: 0.1s ease-in;

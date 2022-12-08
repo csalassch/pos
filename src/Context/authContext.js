@@ -26,7 +26,8 @@ export function AuthProvider({ children }) {
                 name: UserName,
                 password: password,
                 dateCreated: (new Date()).toUTCString(),
-                role: role
+                role: role,
+                language:"es-MX"
             });
         });
     //Constante para el logueo

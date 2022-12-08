@@ -22,7 +22,7 @@ const Logo = () => {
       <>
         {/* {!toggleMiniSidebar ? <img alt="freebug-logo" src='../../assets/images/logos/Logo-FreeBug-web-2-500px-Editado.png' style={{width:"auto",height:"50px"}}></img> */}
         {!toggleMiniSidebar ? <LogoDarkText style={{width:"auto",height:"50px"}} />
-          : <img alt="freebug-logo" src='https://www.freebug.mx/Logo-FreeBug-sello2.png' style={{width:"auto",height:"50px"}}></img>        }
+          : <img alt="freebug-logo" src='https://www.freebug.mx/Logo-FreeBug-sello2.png' style={{width:"auto",height:"50px",paddingTop:"5px"}}></img>        }
       </>
       {/* )} */}
     </Link>
