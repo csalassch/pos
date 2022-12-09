@@ -11,9 +11,9 @@ const BreadCrumbs = () => {
   let secondUrl = location.pathname.split('/')[2];
   console.log(firstUrl, secondUrl);
   if (firstUrl === "Articulos") {
-    if(t('items_headings')==="Elementos"){
-      firstUrl="Artículos"
-    }else{
+    if (t('items_headings') === "Elementos") {
+      firstUrl = "Artículos"
+    } else {
       firstUrl = t('items_headings');
     }
   }
@@ -25,12 +25,12 @@ const BreadCrumbs = () => {
 
     secondUrl = t('units_headings');
   }
- 
+
   if (secondUrl === "Categorias") {
 
     secondUrl = t('categories_modal')
   }
-  
+
   if (secondUrl === "ColeccionArticulos") {
 
     secondUrl = t('itemCollection_navbar');
@@ -78,14 +78,28 @@ const BreadCrumbs = () => {
 
   return (
     <>
-      <h4 className="text-capitalize">{secondUrl ? `${secondUrl}` : `${firstUrl}`}</h4>
-      <Breadcrumb>
-        <BreadcrumbItem to="/" tag={Link} className="text-decoration-none fw-normal" style={{ color: "#1186a2" }}>
-          Home
-        </BreadcrumbItem>
-        {firstUrl ? <BreadcrumbItem active>{firstUrl}</BreadcrumbItem> : ''}
-        {secondUrl ? <BreadcrumbItem active>{secondUrl}</BreadcrumbItem> : ''}
-      </Breadcrumb>
+      <div className='d-flex'>
+       
+          <div className='me-auto p-2 bd-highlight'>
+            {/* <h4 className="text-capitalize">{secondUrl ? `${secondUrl}` : `${firstUrl}`}</h4> */}
+
+          </div>
+          <div >
+          <Breadcrumb>
+              <BreadcrumbItem to="/" tag={Link} className="text-decoration-none fw-normal" style={{ color: "#1186a2" }}>
+                Home
+              </BreadcrumbItem>
+              {firstUrl ? <BreadcrumbItem active>{firstUrl}</BreadcrumbItem> : ''}
+              {secondUrl ? <BreadcrumbItem active>{secondUrl}</BreadcrumbItem> : ''}
+            </Breadcrumb>
+          </div>
+          
+         
+            
+          
+        
+      </div>
+
     </>
   );
 };

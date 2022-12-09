@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Input, FormGroup, InputGroup, InputGroupText, FormFeedback } from 'reactstrap';
+import { Input, FormGroup, Label, FormFeedback } from 'reactstrap';
 
 export default class Step3 extends Component {
   constructor(props) {
@@ -15,52 +15,42 @@ export default class Step3 extends Component {
         <div className="row justify-content-md-center">
           <div className="col-lg-8">
             <FormGroup>
-              <InputGroup>
-                <InputGroupText style={{ width: "135px" }}>Calle</InputGroupText>
-                <Input placeholder="Nombre Calle" type='text' />
+                <Label style={{ width: "135px" }}>Calle</Label>
+                <Input type='text' />
                 <FormFeedback>error</FormFeedback>
-              </InputGroup>
 
 
             </FormGroup>
             <FormGroup>
 
-              <InputGroup>
-                <InputGroupText style={{ width: "135px" }}>Num. Exterior</InputGroupText>
-                <Input placeholder="#" type='text' />
+                <Label style={{ width: "135px" }}>Num. Exterior</Label>
+                <Input type='text' />
                 <FormFeedback>error</FormFeedback>
-              </InputGroup>
 
 
             </FormGroup>
             <FormGroup>
 
 
-              <InputGroup>
-                <InputGroupText style={{ width: "135px" }}>C.P</InputGroupText>
-                <Input placeholder="e.j. 76148" type='text' />
+                <Label style={{ width: "135px" }}>C.P</Label>
+                <Input type='text' />
                 <FormFeedback>error</FormFeedback>
-              </InputGroup>
 
             </FormGroup>
             <FormGroup>
 
 
-              <InputGroup>
-                <InputGroupText style={{ width: "135px" }}>Ciudad</InputGroupText>
-                <Input placeholder="Querétaro" type='text' />
+                <Label style={{ width: "135px" }}>Ciudad</Label>
+                <Input type='text' />
                 <FormFeedback>error</FormFeedback>
-              </InputGroup>
 
             </FormGroup>
             <FormGroup>
 
 
-              <InputGroup>
-                <InputGroupText style={{ width: "135px" }}>Estado</InputGroupText>
-                <Input placeholder="Querétaro" type='text' />
+                <Label style={{ width: "135px" }}>Estado</Label>
+                <Input type='text' />
                 <FormFeedback>error</FormFeedback>
-              </InputGroup>
 
             </FormGroup>
           </div>

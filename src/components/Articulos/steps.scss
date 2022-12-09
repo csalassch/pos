@@ -15,41 +15,69 @@ ol.progtrckr li {
 
 ol.progtrckr li span {
   padding: 0 1.5rem;
-  color:#1186a2;
+  color: #1186a2;
 }
 
 #next-button {
-  color:#fca311;
-  background-color:transparent;
-  border-color: #fca311;
-  border-width: 1.7px;
-  padding-right: 10px;
+  border: none;
   padding-left: 10px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding-right: 10px;
+  font-weight: 300;
+  border-radius: 0.1rem;
+  letter-spacing: 1.2px;
+  color: #eef0f2;
+  background-color: #1186a2;
+  transition: all 0.3s ease 0s;
+  border-width: 1.5px;
+  font-size: 13px;
+
+  outline: none;
+  // color:#fca311;
+  // background-color:transparent;
+  // border-color: #fca311;
+  // border-width: 1.7px;
+  // padding-right: 10px;
+  // padding-left: 10px;
+  // padding-top: 2px;
+  // padding-bottom: 2px;
 }
 
 #next-button:hover {
   background-color: #eef0f2;
   border-color: #eef0f2;
-  box-shadow: 0px 10px 10px rgba(252,163,17, 0.2);
+  box-shadow: 0px 10px 10px rgba(252, 163, 17, 0.2);
   color: #fca311;
 }
+
 #prev-button:hover {
   background-color: #eef0f2;
   border-color: #eef0f2;
-  box-shadow: 0px 10px 10px rgba(252,163,17, 0.2);
+  box-shadow: 0px 10px 10px rgba(252, 163, 17, 0.2);
   color: #fca311;
 }
+
 #prev-button {
-  color:#fca311;
-  background-color:transparent;
-  border-color: #fca311;
-  border-width: 1.7px;
-  padding-right: 10px;
+  border: none;
   padding-left: 10px;
-  padding-top: 2px;
-  padding-bottom: 2px;
+  padding-right: 10px;
+  font-weight: 300;
+  border-radius: 0.1rem;
+  letter-spacing: 1.2px;
+  color: #eef0f2;
+  background-color: #1186a2;
+  transition: all 0.3s ease 0s;
+  border-width: 1.5px;
+  font-size: 13px;
+
+  outline: none;
+  // color: #fca311;
+  // background-color: transparent;
+  // border-color: #fca311;
+  // border-width: 1.7px;
+  // padding-right: 10px;
+  // padding-left: 10px;
+  // padding-top: 2px;
+  // padding-bottom: 2px;
 }
 
 @media (max-width: 650px) {
@@ -57,6 +85,7 @@ ol.progtrckr li span {
     display: none;
   }
 }
+
 .progtrckr em {
   display: none;
   font-weight: 700;
@@ -98,26 +127,26 @@ ol.progtrckr li:before {
 ol.progtrckr li.progtrckr-todo:before {
   content: '\039F';
   color: silver;
-  background-color: white;
+  background-color: #eef0f2;
   width: 20px;
   line-height: 20px;
 }
 
 ol.progtrckr li.progtrckr-todo:hover:before {
-  color: #ff4500;
+  color: #1186a2;
 }
 
 ol.progtrckr li.progtrckr-doing:before {
   content: '\2022';
-  color: white;
-  background-color: #cccccc;
+  color: #eef0f2;
+  background-color: #1186a2;
   width: 20px;
   line-height: 20px;
   border-radius: 50px;
 }
 
 ol.progtrckr li.progtrckr-doing:hover:before {
-  color: #ff4500;
+  color: #1186a2;
 }
 
 ol.progtrckr li.progtrckr-done:before {
@@ -134,9 +163,9 @@ ol.progtrckr li.progtrckr-done:hover:before {
 }
 
 .footer-buttons {
-    text-align: right;
+  text-align: right;
 }
 
 .btn-next {
-    margin-right: 5px;
+  margin-right: 5px;
 }

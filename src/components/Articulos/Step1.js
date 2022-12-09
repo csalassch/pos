@@ -3,7 +3,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { Label, Col, Row, FormGroup, Form, Input, InputGroup, InputGroupText, FormFeedback } from 'reactstrap';
+import { Label, Col, Row, FormGroup, Form, Input, FormFeedback } from 'reactstrap';
 // import { push, onValue, ref as refDB } from 'firebase/database';
 // import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
@@ -263,18 +263,16 @@ export default class Step1 extends Component {
                       </div>
                     </div> */}
                     <FormGroup>
-                      <InputGroup>
-                        <InputGroupText style={{ width: "135px" }}>Nombre Artículo</InputGroupText>
+                      
+                        <Label style={{ width: "135px" }}>Nombre</Label>
                         <Input placeholder="Nombre" type='text' />
                         <FormFeedback>error</FormFeedback>
-                      </InputGroup>
+                      
                     </FormGroup>
                     <FormGroup>
-                      <InputGroup>
-                        <InputGroupText style={{ width: "135px" }}>SKU</InputGroupText>
+                        <Label style={{ width: "135px" }}>SKU</Label>
                         <Input placeholder="UGG-876-789-02" type='text' />
                         <FormFeedback>error</FormFeedback>
-                      </InputGroup>
                     </FormGroup>
                     <FormGroup>
                       <Label htmlFor="exampleFile">Categorías</Label>
@@ -292,11 +290,9 @@ export default class Step1 extends Component {
                       />
                     </FormGroup>
                     <FormGroup>
-                      <InputGroup>
-                        <InputGroupText style={{ width: "135px" }} className="text-center">Descripción</InputGroupText>
+                        <Label style={{ width: "135px" }}>Descripción</Label>
                         <Input type="textarea" rows="5" />
                         <FormFeedback>Error</FormFeedback>
-                      </InputGroup>
 
                     </FormGroup>
                   </Col>

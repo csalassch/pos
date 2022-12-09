@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import {
-    Row, Col, FormGroup, Input, Button, InputGroup,
-    InputGroupText, Table,
+    Row, Col, FormGroup, Input, Button,
+    Label, Table,
     Modal, ModalHeader,
     ModalBody,
     ModalFooter, FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle, CardSubtitle
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
+import { CFormSwitch } from '@coreui/bootstrap-react';
+
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 import Papa from "papaparse";
 // import { usePapaParse } from 'react-papaparse';
@@ -195,11 +197,11 @@ const UbicacionesComp = () => {
             <Row>
                 <Col md="12">
                     <Card>
-                        <CardHeader style={{ backgroundColor: "#eef0f2" }}>
+                        <CardHeader>
                             <Row>
                                 <Col>
                                     {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-                                    <h4 style={{ color: "#1186a2" }}>Ubicaciones</h4>
+                                    <h4 style={{ color: "#EEF0F2" }}>Ubicaciones</h4>
                                 </Col>
                                 <Col>
                                     <div className='d-flex justify-content-end'>
@@ -216,7 +218,7 @@ const UbicacionesComp = () => {
                                 <Row>
                                     <Col>
                                         <Table responsive style={{ overflow: 'hidden' }}>
-                                            <thead className='text-center' style={{ color: "#1f4f67" }}>
+                                            <thead className='text-center'>
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Activo</th>
@@ -231,15 +233,14 @@ const UbicacionesComp = () => {
 
                                                 <tr>
                                                     <td>1</td>
-                                                    <td><div>
-                                                        <Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-
+                                                    <td>
+                                                        <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
                                                     </td>
                                                     <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
                                                         alt="..."
-                                                        className=" img-fluid rounded shadow-lg"
+                                                        className=" img-fluid rounded shadow-sm"
                                                         src="https://www.freebug.mx/Logo-FreeBug-sello2.png"
-                                                        style={{ width: "40px" }}
+                                                        style={{ height: "55px", width: "auto", marginBottom: "3px" }}
                                                     ></img></td>
                                                     <td>Sucursal Querétaro Norte</td>
                                                     <td>Ladera del Cubilete #211, col. La Ladera</td>
@@ -254,15 +255,14 @@ const UbicacionesComp = () => {
                                                 </tr>
                                                 <tr>
                                                     <td>2</td>
-                                                    <td><div>
-                                                        <Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                                                    <td><div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
 
                                                     </td>
                                                     <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
                                                         alt="..."
-                                                        className=" img-fluid rounded shadow-lg"
+                                                        className=" img-fluid rounded shadow-sm"
                                                         src="https://www.freebug.mx/Logo-FreeBug-sello2.png"
-                                                        style={{ width: "40px" }}
+                                                        style={{ height: "55px" }}
                                                     ></img></td>
                                                     <td>Sucursal Querétaro Sur</td>
                                                     <td>Torre II, Orvit Corporate Center, Av. Paseo Monte Miranda Ote. 17-Oficina 815, Monte Miranda, 76240 Santiago de Querétaro, Qro.</td>
@@ -283,20 +283,21 @@ const UbicacionesComp = () => {
                                             <ModalBody>
                                                 {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
                                                 <FormGroup>
-                                                    <InputGroup>
-                                                        <InputGroupText>{t('name_headings')}</InputGroupText>
-                                                        <Input placeholder={t('name_headings')} value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false) }} />
-                                                        <FormFeedback>{messageFeedback}</FormFeedback>
-                                                    </InputGroup>
+                                                    <Label>{t('name_headings')}</Label>
+                                                    <Input placeholder={t('name_headings')} value={nameUnit} invalid={!isValidInput} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false) }} />
+                                                    <FormFeedback>{messageFeedback}</FormFeedback>
                                                 </FormGroup>
+                                                <div className='d-flex justify-content-end'>
+                                                    <Button color="success" onClick={newUnit}>
+                                                        {btnMessage}
+                                                    </Button>
+
+                                                </div>
                                             </ModalBody>
                                             <ModalFooter>
-                                                <Button color="success" onClick={newUnit}>
-                                                    {btnMessage}
-                                                </Button>
-                                                <Button color="secondary" onClick={() => { setModal(false); setNameUnit(""); setBtnMessage("Agregar") }}>
+                                                {/* <Button color="secondary" onClick={() => { setModal(false); setNameUnit(""); setBtnMessage("Agregar") }}>
                                                     Cancelar
-                                                </Button>
+                                                </Button> */}
                                             </ModalFooter>
                                         </Modal>
                                         <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
@@ -312,14 +313,17 @@ const UbicacionesComp = () => {
                                                         <Input id='fileInput' type="file" placeholder='selecciona archivo' onChange={(e) => { setFile(e.target.files[0]); setVisible(false); }} />
                                                     </FormGroup>
                                                 </Form>
+                                                <div className='d-flex justify-content-end'>
+                                                    <Button color="success" onClick={upload}>
+                                                        Agregar
+                                                    </Button>
+
+                                                </div>
                                             </ModalBody>
                                             <ModalFooter>
-                                                <Button color="success" onClick={upload}>
-                                                    Agregar
-                                                </Button>
-                                                <Button color="secondary" onClick={() => { setModalCsv(false); }}>
+                                                {/* <Button color="secondary" onClick={() => { setModalCsv(false); }}>
                                                     Cancelar
-                                                </Button>
+                                                </Button> */}
                                             </ModalFooter>
                                         </Modal>
                                         <Modal isOpen={modalDetail} toggle={() => setModalDetail(false)}>
@@ -388,9 +392,9 @@ const UbicacionesComp = () => {
                                                 </Row>
                                             </ModalBody>
                                             <ModalFooter>
-                                                <Button color="secondary" onClick={() => { setModalDetail(false); }}>
+                                                {/* <Button color="secondary" onClick={() => { setModalDetail(false); }}>
                                                     Cerrar
-                                                </Button>
+                                                </Button> */}
                                             </ModalFooter>
                                         </Modal>
                                     </Col>

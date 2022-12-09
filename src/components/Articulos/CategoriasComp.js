@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {
     Row, Col, FormGroup, Input, Button, Table,
     Modal, ModalHeader,
-    ModalBody,
+    ModalBody, ModalFooter,
     FormFeedback, Alert, Card, CardBody, CardHeader, Form, CardTitle, CardSubtitle, Label
 } from 'reactstrap';
 import { CFormSwitch } from '@coreui/bootstrap-react';
@@ -282,7 +282,7 @@ const CategoriasComp = () => {
                                                             <div onClick={() => { modifiedActive(data) }}>
                                                                 {/* {data.active === "true" || data.active === true ? <div><Icon.ToggleRight style={{ color: "#1186a2"}} /></div> */}
                                                                 {/* {data.active === "true" || data.active === true ? <div className='custom-control custom-switch'><input type="checkbox" className='custom-control-input' id="customSwitches"/></div> */}
-                                                                {data.active === "true" || data.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" style={{ backgroundColor: "#1186a2" }} defaultChecked /></div>
+                                                                {data.active === "true" || data.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
                                                                     : <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
                                                                     </div>}
                                                             </div>
@@ -299,10 +299,10 @@ const CategoriasComp = () => {
                                             </tbody>
                                         </Table>
                                         <Modal isOpen={modal} toggle={() => { setModal(false); setBtnMessage(t('add_btn')); setisEdited(false); }}>
-                                            <ModalHeader style={{ color: "#eef0f2", backgroundColor: "#1f4f67 ", height: "35px", fontSize: "11px" }}>
+                                            <ModalHeader toggle={() => { setModal(false); }} style={{ color: "#eef0f2", backgroundColor: "#1f4f67 ", height: "35px", fontSize: "11px" }}>
                                                 {isEdited === false ? <Icon.PlusCircle style={{ marginRight: "5px" }} /> : (<Icon.Edit2 style={{ marginRight: "5px" }} />)}
                                                 {isEdited === false ? t('addCategory_hover') : t('editCategories_headings')}
-                                                test<Icon.X />
+
                                             </ModalHeader>
                                             <ModalBody style={{ backgroundColor: "#eef0f2" }}>
                                                 {hiddenSuccess && <div className='d-flex justify-content-start' style={{ color: colorMsg.color, textShadow: colorMsg.textShadow, marginBottom: "5px" }}> {colorMsg.color === "#1186a2" ? <Icon.Check style={{ color: colorMsg.color, marginRight: "5px" }} /> : <Icon.AlertTriangle style={{ color: colorMsg.color, marginRight: "5px" }} />} {message}</div>}
@@ -319,6 +319,9 @@ const CategoriasComp = () => {
                                                     </Button>
                                                 </div>
                                             </ModalBody>
+                                            <ModalFooter style={{ backgroundColor: "#eef0f2", borderTop: "none" }}>
+
+                                            </ModalFooter>
                                         </Modal>
                                         <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
                                             <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle /> {t('loadCategories_heading')}</ModalHeader>
@@ -338,16 +341,18 @@ const CategoriasComp = () => {
                                                     {t('add_btn')}
                                                 </Button>
                                             </ModalBody>
+                                            <ModalFooter></ModalFooter>
                                         </Modal>
                                         <Modal isOpen={modalDetail} toggle={() => setModalDetail(false)}>
                                             <ModalHeader toggle={() => setModalDetail(false)} style={{ color: "#1186a2", width: "100%" }}>
                                                 <Row>
                                                     <Col>
-                                                        <Icon.Info /> {t('details_headings')}
+                                                        <Icon.Info />
+                                                        {t('details_headings')}
                                                     </Col>
                                                     <Col>
                                                         <div className='d-flex justify-content-end'>
-                                                            <Button onClick={() => { setModalDetail(false); setModal(true); setBtnMessage(t('saveChanges_btn')); editUnit(keyAux); setisEdited(true); }} title='Editar Categoría' className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Edit3 style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                                                            <Button onClick={() => { setModalDetail(false); setModal(true); setBtnMessage(t('saveChanges_btn')); editUnit(keyAux); setisEdited(true); }} title='Editar Categoría' className='btn btn-icon-Modal' type="button" style={{ marginRight: "7px" }}><Icon.Edit3 style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                                         </div>
                                                     </Col>
                                                 </Row>
@@ -372,14 +377,18 @@ const CategoriasComp = () => {
                                                                     <CardTitle tag="h5">
                                                                         {statusDetail ? <div>
                                                                             <Row><Col>
-                                                                                <Icon.ToggleRight style={{ color: "#fca311" }} />
+                                                                                <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
+
+                                                                                {/* <Icon.ToggleRight style={{ color: "#fca311" }} /> */}
                                                                             </Col></Row>
                                                                             <Row><Col>
                                                                                 {t('activated_txt')}
                                                                             </Col></Row>
                                                                         </div> : <div>
                                                                             <Row><Col>
-                                                                                <Icon.ToggleLeft />
+                                                                                <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked"/></div>
+
+                                                                                {/* <Icon.ToggleLeft /> */}
                                                                             </Col></Row>
                                                                             <Row><Col>
                                                                                 {t('deactivated_txt')}
@@ -401,6 +410,9 @@ const CategoriasComp = () => {
                                                     {/* <Col><h5>{txtDetail}</h5></Col> */}
                                                 </Row>
                                             </ModalBody>
+                                            <ModalFooter>
+
+                                            </ModalFooter>
                                         </Modal>
                                     </Col>
                                 </Row>

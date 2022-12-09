@@ -7,6 +7,7 @@ import Select from 'react-select';
 // import { Link } from 'react-router-dom';
 import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Label, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup, Collapse } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
+import { CFormSwitch } from '@coreui/bootstrap-react';
 
 import { onValue, ref, update, push } from 'firebase/database';
 import Papa from "papaparse";
@@ -176,17 +177,19 @@ const TableItemsComp = () => {
         <Row>
             <Col>
                 <Card>
-                    <CardHeader style={{ backgroundColor: "#eef0f2" }}>
+                    <CardHeader>
                         <Row>
                             <Col>
                                 {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-                                <h4 style={{ color: "#1186a2" }}>{t('items_headings')}</h4>
+                                <h4 style={{ color: "#EEF0F2" }}>{t('items_headings')}</h4>
                             </Col>
                             <Col>
                                 <div className='d-flex justify-content-end'>
-                                    <Button title={t('addItem_modal')} className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "7px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                                    <Button title={t('addItem_modal')} className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "5px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
                                     <Button title={t('upload_hover')} className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.Upload style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
-                                    <Button title={t('downloadTemplate_hover')} className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                                    <Button title={t('downloadTemplate_hover')} className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "5px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                                    <Button title={t('filters_btn')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon' type="button" style={{ marginLeft: "5px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> </Button>
+
                                 </div >
                             </Col>
                         </Row>
@@ -194,10 +197,7 @@ const TableItemsComp = () => {
                     <CardBody>
                         <div>
                             <Row>
-                                <Col>
-                                    <Button title="Filtros" onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon' type="button" style={{ marginRight: "7px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> {t('filters_btn')}</Button>
 
-                                </Col>
                                 <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
                                     <Row style={{ marginBottom: "10px" }}>
                                         <Col>
@@ -218,7 +218,7 @@ const TableItemsComp = () => {
                                             </FormGroup>
                                         </Col>
                                         <Col >
-                                        <Label htmlFor="exampleFile">Nombre</Label>
+                                            <Label htmlFor="exampleFile">Nombre</Label>
                                             <Select
                                                 label="Single select"
                                                 options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
@@ -226,7 +226,7 @@ const TableItemsComp = () => {
                                             />
                                         </Col>
                                         <Col >
-                                        <Label htmlFor="exampleFile">SKU</Label>
+                                            <Label htmlFor="exampleFile">SKU</Label>
                                             <Select
                                                 label="Single select"
                                                 options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
@@ -272,8 +272,11 @@ const TableItemsComp = () => {
                                     {lista.map((tdata) => (
                                         <tr key={tdata.id} className="border-top">
                                             <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                                                {tdata.active ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                                                    : <div><Icon.ToggleLeft style={{ color: "#67757C" }} /></div>}
+                                                {/* {tdata.active ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                                                    : <div><Icon.ToggleLeft style={{ color: "#67757C" }} /></div>} */}
+                                                {tdata.active === "true" || tdata.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
+                                                    : <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
+                                                    </div>}
                                             </div></td>
                                             <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
                                                 alt="..."
@@ -305,13 +308,13 @@ const TableItemsComp = () => {
                                 </ModalBody>
                                 <ModalFooter>
 
-                                    <Button color="secondary" onClick={() => { setModal(false) }}>
+                                    {/* <Button color="secondary" onClick={() => { setModal(false) }}>
                                         Cancelar
-                                    </Button>
+                                    </Button> */}
                                 </ModalFooter>
                             </Modal>
                             <Modal isOpen={modalCsv} toggle={() => setModalCsv(false)}>
-                                <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle />{t('uploadItems_headings')}</ModalHeader>
+                                <ModalHeader toggle={() => setModalCsv(false)} style={{ color: "#1186a2" }}><Icon.PlusCircle style={{ marginRight: "5px" }} />{t('uploadItems_headings')}</ModalHeader>
                                 <ModalBody>
                                     {hiddenSuccessUpload && <div className='d-flex justify-content-start' style={{ color: "#1186a2", textShadow: "0px 5px 5px rgba(17, 134, 162, 0.3)", marginBottom: "7px" }}><Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
                                     <Alert color={colorAlert} isOpen={visible} toggle={onDismiss.bind(null)}>
@@ -323,14 +326,18 @@ const TableItemsComp = () => {
                                             <Input id='fileInput' type="file" placeholder='selecciona archivo' onChange={(e) => { setFile(e.target.files[0]); setVisible(false); }} />
                                         </FormGroup>
                                     </Form>
+                                    <div className='d-flex justify-content-end'>
+                                        <Button color="success" onClick={upload}>
+                                            {t('add_btn')}
+                                        </Button>
+
+                                    </div>
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Button color="success" onClick={upload}>
-                                        {t('add_btn')}
-                                    </Button>
-                                    <Button color="secondary" onClick={() => { setModalCsv(false); }}>
+
+                                    {/* <Button color="secondary" onClick={() => { setModalCsv(false); }}>
                                         {t('cancel_btn')}
-                                    </Button>
+                                    </Button> */}
                                 </ModalFooter>
                             </Modal>
                         </div >

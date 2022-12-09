@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import { Label } from 'reactstrap';
-import { Label, Col, Row, FormGroup, Input, InputGroup, InputGroupText,Button, Collapse, Table, FormFeedback } from 'reactstrap';
+import { Label, Col, Row, FormGroup, Input, Button, Collapse, Table, FormFeedback } from 'reactstrap';
 
 export default class Step2 extends Component {
   constructor(props) {
@@ -113,39 +113,33 @@ export default class Step2 extends Component {
               <Collapse isOpen={this.state.checked}>
                 <Row style={{ marginBottom: "10px" }}>
                   <Col md="6">
-                    <InputGroup>
-                      <InputGroupText style={{ minWidth: "80px" }}>Nombre</InputGroupText>
-                      <Input placeholder="Nombre" />
-                    </InputGroup>
+                    <Label style={{ minWidth: "80px" }}>Nombre</Label>
+                    <Input />
                   </Col>
                   <Col md="6">
-                    <InputGroup>
-                      <InputGroupText style={{ minWidth: "80px",display:"flex",justifyContent:"center" }}>SKU</InputGroupText>
-                      <Input placeholder="UGG-BB-PUR-06" />
-                    </InputGroup>
+                    <Label>SKU</Label>
+                    <Input />
                   </Col>
 
                 </Row>
                 <Row>
 
                   <Col md="6">
-                    <InputGroup>
 
-                      <InputGroupText className='text-center' style={{ minWidth: "83px", textAlign: "center", margin: "auto", display:"flex", justifyContent:"center" }}>$</InputGroupText>
-                      <Input type='number' step='any' placeholder="Precio" />
-                    </InputGroup>
+                    <Label>Precio</Label>
+                    <Input type='text' />
                   </Col>
                   <Col>
                     <div className='d-flex justify-content-end'>
 
-                    <Button type="submit" className="btn btn-success">Añadir</Button>
+                      <Button type="submit" className="btn btn-success">Añadir</Button>
                     </div>
                     {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
 
                   </Col>
                 </Row>
                 <Table responsive>
-                  <thead style={{textAlign:"center"}}>
+                  <thead style={{ textAlign: "center" }}>
                     <tr>
                       <th>ID</th>
                       <th>Nombre</th>
@@ -153,7 +147,7 @@ export default class Step2 extends Component {
                       <th>Precio</th>
                     </tr>
                   </thead>
-                  <tbody style={{textAlign:"center"}}>
+                  <tbody style={{ textAlign: "center" }}>
                     <tr>
                       <th scope="row">1</th>
                       <td>Rojo</td>
@@ -176,13 +170,15 @@ export default class Step2 extends Component {
                 </Table>
               </Collapse>
             </FormGroup>
-            <FormGroup>
-              <InputGroup>
-                <InputGroupText>$</InputGroupText>
-                <Input type='number' step='any' min={0.1} placeholder="Precio" disabled={this.state.checked}/>
-                <FormFeedback>Error</FormFeedback>
-              </InputGroup>
-            </FormGroup>
+            <Row>
+              <Col md="6">
+                <FormGroup>
+                  <Label>Precio</Label>
+                  <Input type='text' disabled={this.state.checked} />
+                  <FormFeedback>Error</FormFeedback>
+                </FormGroup>
+              </Col>
+            </Row>
           </div>
         </div>
       </div>
