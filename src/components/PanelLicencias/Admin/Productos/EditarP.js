@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, FormFeedback, Alert } from 'reactstrap';
+import { Input, Label, Button, FormGroup, FormFeedback, Alert } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 import * as Icon from 'react-feather';
@@ -97,18 +97,14 @@ const EditarP = ({ id , muestra}) => {
             </Alert>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
-                    <InputGroup>
-                        <InputGroupText style={{ width: "100px" }}>Nombre </InputGroupText>
+                        <Label style={{ width: "100px" }}>Nombre </Label>
                         <Input onChange={handleChange} invalid={!isValidInput.nombre} value={Formvalue.nombre} type="text" name="nombre" className="form-control" />
                         <FormFeedback>{messageFeedback.nombre}</FormFeedback>
-                    </InputGroup>
                 </FormGroup>
                 <FormGroup>
-                    <InputGroup>
-                        <InputGroupText style={{ width: "100px" }}>Descripción </InputGroupText>
+                        <Label style={{ width: "100px" }}>Descripción </Label>
                         <Input onChange={handleChange} invalid={!isValidInput.descripcion} value={Formvalue.descripcion} type="textarea" row="10" name="descripcion" className="form-control" />
                         <FormFeedback>{messageFeedback.descripcion}</FormFeedback>
-                    </InputGroup>
                 </FormGroup>
                 <div className='w-full d-flex justify-content-center'>
                     <Button className="button btn-success w-full" type="submit" onClick={() => { handleSubmit(onSubmit); }}>Guardar cambios</Button>

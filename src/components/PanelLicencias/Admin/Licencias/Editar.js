@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, Table, Row, Col, FormFeedback, Alert } from 'reactstrap';
+import { Input, Label, Button, FormGroup, Table, Row, Col, FormFeedback, Alert } from 'reactstrap';
 import Select from 'react-select';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
@@ -209,24 +209,19 @@ const Editar = ({ id }) => {
                 <Row>
                     <Col>
                         <FormGroup>
-                            <InputGroup>
-                                <InputGroupText style={{ width: "100px" }}>Nombre *</InputGroupText>
+                                <Label style={{ width: "100px" }}>Nombre *</Label>
                                 <Input onChange={handleChange} invalid={!isValidInput.nombre} value={Formvalue.nombre} type="text" name="nombre" className="form-control" placeholder="Nombre" />
                                 <FormFeedback>{messageFeedback.nombre}</FormFeedback>
-                            </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                            <InputGroup>
-                                <InputGroupText style={{ width: "100px" }}>Descripción *</InputGroupText>
+                                <Label style={{ width: "100px" }}>Descripción *</Label>
                                 <Input onChange={handleChange} invalid={!isValidInput.descripcion} value={Formvalue.descripcion} type="textarea" rows="5" name="descripcion" className="form-control" placeholder="Descripcion" />
                                 <FormFeedback>{messageFeedback.descripcion}</FormFeedback>
-                            </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                            <InputGroup >
                                 <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
                                     <Col md="3" className='p-0'>
-                                        <InputGroupText style={{ width: "100px", height: "100%" }}>Producto</InputGroupText>
+                                        <Label style={{ width: "100px", height: "100%" }}>Producto</Label>
                                     </Col>
                                     <Col className='p-0'>
                                         <div style={{ width: "100%" }}>
@@ -245,14 +240,11 @@ const Editar = ({ id }) => {
                                         </div>
                                     </Col>
                                 </Row>
-                            </InputGroup>
                         </FormGroup>
                         <FormGroup>
-                            <InputGroup>
-                                <InputGroupText style={{ width: "100px" }}>Monto $ *</InputGroupText>
+                                <Label style={{ width: "100px" }}>Monto $ *</Label>
                                 <Input onChange={handleChange} invalid={!isValidInput.monto} value={Formvalue.monto} step='any' type="number" name="monto" className="form-control" placeholder="Nombre" />
                                 <FormFeedback>{messageFeedback.monto}</FormFeedback>
-                            </InputGroup>
                         </FormGroup>
                     </Col>
                     <Col>
@@ -260,10 +252,9 @@ const Editar = ({ id }) => {
                             <div style={{ "min-height": "300px" }} >
                                 <Row>
                                     <Col>
-                                        <InputGroup >
                                             <Row style={{ width: "100%", marginRight: 0, marginLeft: 0 }}>
                                                 <Col md="4" className='p-0'>
-                                                    <InputGroupText style={{ width: "125px", height: "100%" }}>Característica</InputGroupText>
+                                                    <Label style={{ width: "125px", height: "100%" }}>Característica</Label>
                                                 </Col>
                                                 <Col className='p-0'>
                                                     <div style={{ width: "100%" }}>
@@ -276,7 +267,6 @@ const Editar = ({ id }) => {
                                                     </div>
                                                 </Col>
                                             </Row>
-                                        </InputGroup>
                                     </Col>
                                 </Row>
                                 <div>

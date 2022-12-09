@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
-import { Table, Modal, ModalHeader, ModalBody, Button, Card, Col, Row, CardHeader } from 'reactstrap';
+import { Table, Modal, ModalHeader, ModalBody, Button, Card, Col, Row, CardHeader, ModalFooter, CardBody } from 'reactstrap';
 import { onValue, ref, update } from 'firebase/database';
+import { CFormSwitch } from '@coreui/bootstrap-react';
 import { db } from '../../FirebaseConfig/firebase';
 import Alta from './Admin/Licencias/Alta';
 import DetallesLicencia from './Admin/Licencias/DetallesLicencia';
+
 import Editar from './Admin/Licencias/Editar';
 
 const TablePanelLicencias = () => {
@@ -76,61 +78,71 @@ const TablePanelLicencias = () => {
   return (
     <div>
       <Card>
-        <CardHeader style={{ backgroundColor: "#eef0f2" }}>
+        <CardHeader >
           <Row>
             <Col>
               {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
-              <h4 style={{ color: "#1186a2" }}>Registro licencia</h4>
+              <h4 style={{ color: "#eef0f2" }}>Registro licencia</h4>
             </Col>
             <Col>
               <div className='d-flex justify-content-end'>
                 <Button title='Agregar Licencia' onClick={() => { setModal(true); setAction("Agregar") }} className="btn btn-icon" ><Icon.Plus /></Button>
-                <Button title='Recargar tabla' onClick={() => { getDatosLicencia() }} className="btn btn-icon" ><Icon.RefreshCw /></Button>
-                <Button title='Descargar Plantilla' className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "7px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
+                <Button title='Recargar tabla' onClick={() => { getDatosLicencia() }} className="btn btn-icon" style={{ marginLeft: "5px" }} ><Icon.RefreshCw /></Button>
+                <Button title='Descargar Plantilla' className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "5px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
               </div >
             </Col>
           </Row>
         </CardHeader>
-        <Table className="no-wrap mt-3 align-middle" responsive borderless>
-          <thead>
-            <tr>
-              <th className='text-center'>Activo</th>
-              <th>Nombre</th>
-              <th>Descripción</th>
-              <th>Monto</th>
-              <th>Características</th>
-              <th>Detalles</th>
-            </tr>
-          </thead>
-          <tbody>
-            {lista.map((tdata) => (
-              <tr key={tdata.id} className="border-top">
-                <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                  {tdata.active === true ?
-                    <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                    : <div><Icon.ToggleLeft /></div>}
-                </div></td>
-                <td>{tdata.nombre}</td>
-                <td>{tdata.descripcion}</td>
-                <td>${(tdata.monto % 1 === 0 ? `${tdata.monto}.00` : (tdata.monto).toFixed(2))} MXN</td>
-                <td>
-                  <ul>
-                    {tdata.caracteristicas.map((carac) =>
-                      <li key={carac.id}>
-                        {carac.caracteristica}
-                      </li>
-                    )}
-                  </ul>
-                </td>
-                <td>
-                  <div className='d-flex justify-content-center'>
-                    <Button onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <CardBody>
+          <Row>
+            <Col>
+              <Table className="no-wrap mt-3 align-middle" responsive borderless>
+                <thead>
+                  <tr>
+                    <th className='text-center'>Activo</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                    <th>Características</th>
+                    <th>Detalles</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {lista.map((tdata) => (
+                    <tr key={tdata.id} className="border-top">
+                      <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
+                        {tdata.active === true ?
+                          <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>                    // <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
+                          :
+                          <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" /></div>
+                          // <div><Icon.ToggleLeft /></div>
+                        }
+                      </div></td>
+                      <td>{tdata.nombre}</td>
+                      <td>{tdata.descripcion}</td>
+                      <td>${(tdata.monto % 1 === 0 ? `${tdata.monto}.00` : (tdata.monto).toFixed(2))} MXN</td>
+                      <td>
+                        <ul>
+                          {tdata.caracteristicas.map((carac) =>
+                            <li key={carac.id}>
+                              {carac.caracteristica}
+                            </li>
+                          )}
+                        </ul>
+                      </td>
+                      <td>
+                        <div className='d-flex justify-content-center'>
+                          <Button onClick={() => { setUidLicencia(tdata.id); setAction("Detalles"); setModal(true) }} color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+
+        </CardBody>
       </Card>
       <Modal className='modal-lg' isOpen={modal} toggle={toggle.bind(null)}>
         <ModalHeader toggle={toggle.bind(null)} style={{ color: "#1186a2", width: "100%" }} >
@@ -143,7 +155,7 @@ const TablePanelLicencias = () => {
             <Col>
               <div className='d-flex justify-content-end'>
 
-                {action === "Detalles" ? <div className='btn-icon' onClick={() => { setAction("Editar") }}><Icon.Edit /> </div> : <div></div>}
+                {action === "Detalles" ? <div className='btn-icon-Modal' onClick={() => { setAction("Editar") }}><Icon.Edit3 /> </div> : <div></div>}
               </div>
             </Col>
           </Row>
@@ -153,6 +165,7 @@ const TablePanelLicencias = () => {
           {action === "Detalles" ? <DetallesLicencia id={uidLicencia} /> : ""}
           {action === "Editar" ? <Editar id={uidLicencia} /> : ""}
         </ModalBody>
+        <ModalFooter></ModalFooter>
       </Modal>
 
     </div>

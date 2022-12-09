@@ -21,7 +21,7 @@ const ProfileDD = () => {
 
   return (
     <div>
-      <div className="d-flex gap-3 p-3 text-white rounded-top bg-info pt-2 align-items-center">
+      <div style={{backgroundColor:"#1F4F67"}} className="d-flex gap-3 p-3 text-white rounded-top pt-2 align-items-center">
         <img src={user1} alt="user" className="mt-2 rounded-circle" width="60" />
         <span>
           <h5 className="mb-0">{userData.name}</h5>

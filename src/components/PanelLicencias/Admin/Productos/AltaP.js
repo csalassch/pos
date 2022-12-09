@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InputGroup, InputGroupText, Button, FormGroup, FormFeedback } from 'reactstrap';
+import { Input, Label, Button, FormGroup, FormFeedback } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import Form from 'react-validation/build/form';
 import * as Icon from 'react-feather';
@@ -73,18 +73,14 @@ const AltaP = ({ muestra }) => {
                 <Icon.Check style={{ color: "#1186a2" }} /> {message}</div>}
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
-                    <InputGroup>
-                        <InputGroupText style={{ width: "100px" }}>Nombre </InputGroupText>
+                        <Label style={{ width: "100px" }}>Nombre </Label>
                         <Input onChange={handleChange} invalid={!isValidInput.nombre} type="text" name="nombre" className="form-control" value={action === "envio" ? "" : Formvalue.nombre} />
                         <FormFeedback>{messageFeedback.nombre}</FormFeedback>
-                    </InputGroup>
                 </FormGroup>
                 <FormGroup>
-                    <InputGroup>
-                        <InputGroupText style={{ width: "100px" }}>Descripción </InputGroupText>
+                        <Label style={{ width: "100px" }}>Descripción </Label>
                         <Input onChange={handleChange} invalid={!isValidInput.descripcion} type="textarea" row="5" name="descripcion" className="form-control" value={action === "envio" ? "" : Formvalue.descripcion} />
                         <FormFeedback>{messageFeedback.descripcion}</FormFeedback>
-                    </InputGroup>
                 </FormGroup>
                 <div className='w-full d-flex justify-content-center'>
                     <Button className="button btn-success" type="submit" onClick={() => { handleSubmit(onSubmit); }}>Guardar</Button>
