@@ -14,9 +14,13 @@ export default class Step2 extends Component {
 
     this.state = {
       checked: false,
+      
+      // variantName:'',
+      // variantSku:'',
+      // variantPrice:'',
       hasVariants: props.getStore().hasVariants,
       productPrice: props.getStore().productPrice,
-      variantDetails: props.getStore().variantDetails
+      // variantDetails: props.getStore().variantDetails
     };
 
     // eslint-disable-next-line no-underscore-dangle
@@ -102,6 +106,17 @@ export default class Step2 extends Component {
     };
   }
 
+  pushVariant(){
+    const objVariantInput={
+      name:document.getElementById('variantName').value,
+      sku:document.getElementById('variantSku').value,
+      price:document.getElementById('variantPrice').value
+    } 
+    // this.variantDetails.push(objVariantInput);
+    // this.state.variantDetails.push(objVariantInput);
+    console.log(objVariantInput);
+  }
+
   render() {
 
     const notValidClasses = {};
@@ -141,27 +156,29 @@ export default class Step2 extends Component {
                 <Row style={{ marginBottom: "10px" }}>
                   <Col md="6">
                     <Label style={{ minWidth: "80px" }}>Nombre</Label>
-                    <input placeholder="Ej. Cartera Roja" type='text'
-                    ref={(f)=>{
-                      console.log(f);
-                    }}
-                      onBlur={this.validationCheck}
+                    <input id='variantName' placeholder="Ej. Cartera Roja" type='text'
+                    // ref={(f)=>{
+                    //   this.state.variantName=f;
+                    // }}
+                    // onChange={this.validationCheck}
                       // onChange={(e) => {
                       //   console.log(e.target);
                       // }}
-                      defaultValue={this.state.variantDetails} autoComplete='off'
+                      // defaultValue={this.state.variantName} 
+                      autoComplete='off'
                       className={notValidClasses.variantDetailsCls} required />
                     <div className={notValidClasses.variantDetailsValGrpCls}>{this.state.variantDetailsValMsg}</div>
 
                   </Col>
                   <Col md="6">
                     <Label>SKU</Label>
-                    <input placeholder="UGH-76-THG" type='text'
-                      onBlur={this.validationCheck}
-                      onChange={(e) => {
-                        console.log("SKU CHNG: ", e);
-                      }}
-                      defaultValue={this.state.variantDetails} autoComplete='off'
+                    <input id='variantSku' placeholder="UGH-76-THG" type='text'
+                      //  ref={(f)=>{
+                      //   this.state.variantSku=f;
+                      // }}
+                      // onChange={this.validationCheck}
+                      // defaultValue={this.state.variantSku}
+                       autoComplete='off'
                       className={notValidClasses.variantDetailsCls} required />
                     <div className={notValidClasses.variantDetailsValGrpCls}>{this.state.variantDetailsValMsg}</div>
 
@@ -173,12 +190,13 @@ export default class Step2 extends Component {
                   <Col md="6">
 
                     <Label>Precio</Label>
-                    <input placeholder="UGH-76-THG" type='text'
-                      onBlur={this.validationCheck}
-                      onChange={(e) => {
-                        console.log("PRICE CHNG: ", e);
-                      }}
-                      defaultValue={this.state.variantDetails} autoComplete='off'
+                    <input id='variantPrice' placeholder="UGH-76-THG" type='text'
+                      // ref={(f)=>{
+                      //   this.state.variantPrice=f;
+                      // }}
+                      // onChange={this.validationCheck}
+                      // defaultValue={this.state.variantPrice} 
+                      autoComplete='off'
                       className={notValidClasses.variantDetailsCls} required />
                     <div className={notValidClasses.variantDetailsValGrpCls}>{this.state.variantDetailsValMsg}</div>
 
@@ -186,7 +204,7 @@ export default class Step2 extends Component {
                   <Col>
                     <div className='d-flex justify-content-end'>
 
-                      <Button type="submit" className="btn btn-success">Añadir</Button>
+                      <Button onClick={this.pushVariant} type="submit" className="btn btn-success">Añadir</Button>
                     </div>
                     {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
 
