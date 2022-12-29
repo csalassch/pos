@@ -3,10 +3,16 @@ import { Nav } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import SimpleBar from 'simplebar-react';
+
 import SidebarData from '../sidebardata/SidebarData';
 import SidebarDataClient from '../sidebardata/SidebarDataClient';
 import NavItemContainer from './NavItemContainer';
 import NavSubMenu from './NavSubMenu';
+import Logo from '../../logo/Logo';
+// import Logo from '../logo/Logo';
+
+// import { ToggleMiniSidebar} from '../../store/customizer/CustomizerSlice';
+
 // import user1 from '../../../assets/images/users/user4.jpg';
 import { useAuth } from '../../../Context/authContext';
 import '../../../assets/css/styles.css';
@@ -23,9 +29,10 @@ const Sidebar = () => {
 
   const activeBg = useSelector((state) => state.customizer.sidebarBg);
   const isFixed = useSelector((state) => state.customizer.isSidebarFixed);
-  // const dispatch = useDispatch();
+  // const topbarColor = useSelector((state) => state.customizer.topbarBg);
+
   const { dataUser } = useAuth();
-  const [userData, setUserData] = useState({name:'', role:''});
+  const [userData, setUserData] = useState({ name: '', role: '' });
   function getDatoUnico() {
     if (dataUser) {
       setUserData(dataUser);
@@ -38,7 +45,12 @@ const Sidebar = () => {
   }, [dataUser, userData])
   return (
     <div className={`sidebarBox shadow ${isFixed ? 'fixedSidebar' : ''}`}>
+
       <SimpleBar style={{ height: '100%' }}>
+        <div className='d-flex justify-content-center'>
+
+          <Logo />
+        </div>
         {/* <div className="py-3 px-4 d-flex align-items-center border-bottom-sidebar">
           <img src={user1} alt="user" width="30" className="rounded-circle" />
           <div className="ms-3 opacity-75 text-truncate user-name">{userData.name}</div>
@@ -49,7 +61,7 @@ const Sidebar = () => {
             (userData.role === 'client') ?
               // <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
               // <Nav vertical className={activeBg === 'white' ? '' : 'white'}  style={{color:"white"}}>
-              <Nav vertical className={activeBg === 'white' ? '' : 'white'}  style={{color:"white"}}>
+              <Nav vertical className={activeBg === 'white' ? '' : 'white'} style={{ color: "white" }}>
                 {SidebarDataClient.map((navi) => {
                   if (navi.caption) {
                     return (
@@ -70,7 +82,7 @@ const Sidebar = () => {
                         // toggle={() => toggle(navi.id)}
                         // collapsed={collapsed === navi.id}
                         isUrl={currentURL === navi.href}
-                        style={{color:"white"}}
+                        style={{ color: "white" }}
                       />
                     );
                   }

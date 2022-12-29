@@ -79,25 +79,25 @@ const BreadCrumbs = () => {
   return (
     <>
       <div className='d-flex'>
-       
-          <div className='me-auto p-2 bd-highlight'>
-            {/* <h4 className="text-capitalize">{secondUrl ? `${secondUrl}` : `${firstUrl}`}</h4> */}
 
-          </div>
-          <div >
+        <div className='me-auto p-2 bd-highlight'>
+          <h4 className="text-capitalize breadCrumbTitle">{secondUrl ? `${secondUrl}` : `${firstUrl}`}</h4>
+
+        </div>
+        <div >
           <Breadcrumb>
-              <BreadcrumbItem to="/" tag={Link} className="text-decoration-none fw-normal" style={{ color: "#1186a2" }}>
-                Home
-              </BreadcrumbItem>
-              {firstUrl ? <BreadcrumbItem active>{firstUrl}</BreadcrumbItem> : ''}
-              {secondUrl ? <BreadcrumbItem active>{secondUrl}</BreadcrumbItem> : ''}
-            </Breadcrumb>
-          </div>
-          
-         
-            
-          
-        
+            <BreadcrumbItem to="/" tag={Link} className="text-decoration-none fw-normal" style={{ color: "#1186a2" }}>
+              Home
+            </BreadcrumbItem>
+            {firstUrl ? <BreadcrumbItem active>{firstUrl}</BreadcrumbItem> : ''}
+            {secondUrl ? <BreadcrumbItem active>{secondUrl}</BreadcrumbItem> : ''}
+          </Breadcrumb>
+        </div>
+
+
+
+
+
       </div>
 
     </>

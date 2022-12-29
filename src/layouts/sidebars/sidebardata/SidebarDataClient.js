@@ -1,6 +1,15 @@
 import * as Icon from 'react-feather';
 
 const SidebarDataClient = [
+  
+  {
+    title: 'Home',
+    href: '/home',
+    id: 1,
+    icon: <Icon.Home />,
+    collapisble: true,
+    
+  },
   // { caption: 'Servicios' },
   // {
   //   title: 'Licencias',

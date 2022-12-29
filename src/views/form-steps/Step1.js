@@ -20,6 +20,7 @@ export default class Step1 extends Component {
   }
 
   isValidated() {
+    console.log("Triggered isValidated");
     const userInput = this._grabUserInput(); // grab user entered vals
     const validateNewInput = this._validateData(userInput); // run the new input against the validator
     let isDataValid = false;
@@ -57,7 +58,7 @@ export default class Step1 extends Component {
 
     const userInput = this._grabUserInput(); // grab user entered vals
     const validateNewInput = this._validateData(userInput); // run the new input against the validator
-
+    console.log("userinput: ",userInput);
     this.setState(
       Object.assign(userInput, validateNewInput, this._validationErrors(validateNewInput)),
     );

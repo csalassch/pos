@@ -11,6 +11,7 @@ import {
   ToggleTopbar,
   FixedSidebar,
   ToggleHorizontal,
+  // ToggleCustomizer
 } from '../../store/customizer/CustomizerSlice';
 import { ColorsBg, SidebarColorsBg } from './data';
 

@@ -15,16 +15,18 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  ButtonGroup
 } from 'reactstrap';
 import * as Icon from 'react-feather';
 import { update, ref, onValue } from 'firebase/database';
 import { ReactComponent as LogoWhite } from '../../assets/images/logos/white-logo-icon.svg';
 import MessageDD from './MessageDD';
+
 import NotificationDD from './NotificationDD';
 import MegaDD from './MegaDD';
 import user1 from '../../assets/images/users/user4.jpg';
-import Logo from '../logo/Logo';
-import { ToggleMiniSidebar, ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
+// import Logo from '../logo/Logo';
+import { ToggleMiniSidebar, ToggleMobileSidebar,ChangeDarkMode } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
 import { db } from '../../FirebaseConfig/firebase';
 
@@ -54,6 +56,8 @@ const Header = () => {
     { value: 'he', label: israel },
 
   ];
+  const isFixed = useSelector((state) => state.customizer.isMiniSidebar);
+
   const { url } = useParams();
   const [query, setQuery] = useState("");
   const [savedLangLabel, setSavedLangLabel] = useState("");
@@ -129,14 +133,17 @@ const Header = () => {
         style={{ maxHeight: "50px" }}
       >
         {/********Logo*******/}
-        <div className="d-none d-lg-flex align-items-center justify-content-center logo-space p-0" style={{ backgroundColor: "#1f4f67" }}>
-          <Logo />
-          <Button
-            close
-            size="sm"
-            className="ms-auto d-sm-block d-lg-none"
-            onClick={() => dispatch(ToggleMobileSidebar())}
-          />
+        <div className={`sidebarBox shadow ${isFixed ? 'fixedTopbar' : ''}`}>
+
+          <div className="d-none d-lg-flex align-items-center justify-content-center logo-space p-0">
+            {/* <Logo /> */}
+            <Button
+              close
+              size="sm"
+              className="ms-auto d-sm-block d-lg-none"
+              onClick={() => dispatch(ToggleMobileSidebar())}
+            />
+          </div>
         </div>
         {/******************************/}
         {/**********Toggle Buttons**********/}
@@ -159,10 +166,10 @@ const Header = () => {
           >
             <i className="bi bi-list" />
           </Button>
-          <div style={{width:"85px"}} className='container-fluid'  onClick={() => dispatch(ToggleMobileSidebar())}>
+          <div style={{ width: "85px",backgroundColor:"transparent" }} className='container-fluid' onClick={() => dispatch(ToggleMobileSidebar())}>
 
             <Select
-
+              style={{backgroundColor:"transparent"}}
               id="languageSelected"
               value={[{ value: savedLangVal, label: savedLangLabel }]}
               label="Selecciona Idioma"
@@ -250,9 +257,30 @@ const Header = () => {
         </Nav> */}
 
         <div className="d-flex align-items-center">
+        <ButtonGroup >
+                <Button
+                style={{paddingTop:"0px",paddingBottom:"0px"}}
+                  outline={!!isDarkMode}
+                  color="primary"
+                  size="sm"
+                  onClick={() => dispatch(ChangeDarkMode(false)) && window.location.reload(false)}
+                >
+                  <Icon.Sun style={{width:"17px"}}/>
+                </Button>
+                <Button
+                style={{paddingTop:"0px",paddingBottom:"0px"}}
+                  color="primary"
+                  size="sm"
+                  outline={!isDarkMode}
+                  onClick={() => dispatch(ChangeDarkMode(true))}
+                >
+                  <Icon.Moon style={{width:"17px"}}/>
+                </Button>
+              </ButtonGroup>
           {/******************************/}
           {/**********Profile DD**********/}
           {/******************************/}
+
           <UncontrolledDropdown>
             <DropdownToggle color="transparent" className=" hov-dd">
               <img src={user1} alt="profile" className="rounded-circle" width="30" />

@@ -90,7 +90,7 @@ class FormSteps extends Component {
         >
           <div className="example">
             <div className="step-progress">
-              <StepZilla steps={steps} nextTextOnFinalActionStep="Save" />
+              <StepZilla steps={steps} nextTextOnFinalActionStep="Save" prevBtnOnLastStep={false}/>
             </div>
           </div>
         </ComponentCard>

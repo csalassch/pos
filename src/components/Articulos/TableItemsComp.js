@@ -5,14 +5,17 @@ import * as Icon from 'react-feather';
 import Select from 'react-select';
 
 // import { Link } from 'react-router-dom';
-import { Table, Modal, ModalHeader, Alert, ModalBody, ModalFooter, Button, Label, Row, Col, Card, CardBody, CardHeader, Form, Input, FormGroup, Collapse } from 'reactstrap';
+import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
 import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
 import { CFormSwitch } from '@coreui/bootstrap-react';
 
 import { onValue, ref, update, push } from 'firebase/database';
 import Papa from "papaparse";
 import { useTranslation } from 'react-i18next';
+import DataTable from 'react-data-table-component';
 import { db, dbStorage } from '../../FirebaseConfig/firebase';
+import { useAuth } from '../../Context/authContext';
+
 import MultiSteps from './MultiSteps';
 
 
@@ -20,9 +23,11 @@ import MultiSteps from './MultiSteps';
 
 const TableItemsComp = () => {
     const { t } = useTranslation();
+    const {user}=useAuth();
 
     const [modal, setModal] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
+    // const [lista, setLista] = useState([{}]);
     const [lista, setLista] = useState([{ id: '', nombre: '', urlImage: '', sku: '', precio: 0, active: false }]);
     const [modalCsv, setModalCsv] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
@@ -130,11 +135,10 @@ const TableItemsComp = () => {
         document.body.removeChild(a);
     }
 
+    const listaProductos =[];
     async function getDatosProductos() {
-        const listaProductos = [];
         onValue(ref(db, "items/"), snapshot => {
             snapshot.forEach(snap => {
-                console.log(snap.val().idImage);
                 let urlImage = "";
                 onValue(ref(db, `files/${snap.val().idImage}`), snapshotFiles => {
                     urlImage = snapshotFiles.val().url;
@@ -147,8 +151,8 @@ const TableItemsComp = () => {
                         active: snap.val().active
                     }
                     listaProductos.push(producto);
-                    setLista(listaProductos);
-                    console.log("List Prod: ", lista);
+                    // setLista(producto);
+
                 });
             })
         });
@@ -159,94 +163,280 @@ const TableItemsComp = () => {
         });
         getDatosProductos();
     }
+    // let data = [];
+    // let columns = [];
+    const [data, setData] = useState([]);
+    const [columns, setColumns] = useState([]);
+    let columnsTable = [];
+    const dataTable = [];
+    async function columnsAndData(listaFilled) {
+        columnsTable = [
+            {
+                name: t('active_headings'),
+                selector: row => row.active,
+            },
+            {
+                name: t('imagen_headings'),
+                selector: row => row.image,
+            },
+            {
+                name: t('name_headings'),
+                selector: row => row.name,
+            },
+            {
+                name: 'SKU',
+                selector: row => row.sku,
+            },
+            {
+                name: t('salePrice_headings'),
+                selector: row => row.priceSale,
+            },
+            {
+                name: t('purchasePrice_headings'),
+                selector: row => row.purchasePrice,
+            },
+            {
+                name: t('details_headings'),
+                selector: row => row.details,
+            },
+        ];
+        console.log("lista posicion", listaFilled);
+        for (let i = 0; i < listaFilled.length; i++) {
+
+            dataTable.push(
+                {
+                    id: i,
+                    active: listaFilled[i].active === true ? <div className='container-fluid'><div className='d-flex justify-content-center' onClick={() => { modifiedActive(listaFilled[i]) }}><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div></div>
+                        : <div className='container-fluid'><div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
+                        </div></div>,
+                    image: <img id="imageProductRetrieved"
+                        alt="..."
+                        className=" img-fluid rounded shadow-lg"
+                        src={listaFilled[i].urlImage}
+                        style={{ width: "40px" }}
+                    ></img>,
+                    name: listaFilled[i].nombre,
+                    sku: listaFilled[i].sku,
+                    priceSale: listaFilled[i].precio,
+                    purchasePrice: listaFilled[i].precio,
+                    details: <div className='d-flex justify-content-center'>
+                        <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                    </div>
+                }
+            );
+        }
+    }
     useEffect(() => {
-        if (lista.length <= 1) {
+        
+        // console.log("legnth when loaded: ", lengthListaProductos);
+        console.log("legnth when loaded: ",typeof listaProductos);
+        console.log("legnth when loaded data: ", data);
+       
+        if (listaProductos.length <= 1 && lista.length <= 1 ) {
+            console.log("Listaa has length: ", listaProductos.length);
             getDatosProductos().then(() => {
-                console.log("Listaa tuned: ", lista);
+                console.log("Lista Productos: ", listaProductos);
+                console.log("Lista Productos LENGTH: ", listaProductos.length);
+                setLista(listaProductos);
+                console.log("List Prod: ", lista);                
             });
         }
+        if(lista.length!==0 && lista){
+            console.log("LENGTH LISTA: ",lista.length);
+            console.log("LENGTH DATAA: ", data.length);
+            
+            if (lista[0].precio !==0 && data.length === 0  ) {
+                    if(!data.includes(lista) || lista.length!==data.length){
+                // if (lista.length !== 1 && data.length === 0) {
+    
+                        columnsAndData(lista).then(() => {
+                            console.log("columnsTable: ", columnsTable);
+            
+                            setColumns(columnsTable);
+                            console.log("columns: ", columns);
+            
+                            console.log("dataTablee gotten: ", dataTable);
+                            setData(dataTable);
+                            console.log("data gotten: ", data);
+                        });
+                    
+        
+                }
+            }
+
+
+            
+
+        }
+
         if (data2.length > 0) {
             insertCsvCategories();
         }
 
+        console.log("USER UID: ",user.uid);
 
 
+    }, [lista, data2, columns, data,user]);
+    //Function for pushing items for testing
+    // function pushItems(){
+    //     push(ref(db, 'items/'), {
+    //         name: "Clock Product for testing",
+    //         active: true,
+    //         description: "product for testing pagination",
+    //         idImage:"-NHBI9poZQ7hGfi25s22",
+    //         idUnit:"-NHBC3-kHm9L3ZHNZIRV",
+    //         price: "45,680",
+    //         sku:"PRD-TEST-001"
 
-    }, [lista, data2])
+    //     });
+    // }
+let searchPlacehorlder=t('placeholderSearch');
+if(searchPlacehorlder==="Seek"){
+    searchPlacehorlder="Search";
+}
     return (
         <Row>
-            <Col>
-                <Card>
-                    <CardHeader>
-                        <Row>
-                            <Col>
-                                {/* <Button onClick={newUnit} type="submit" className="btn btn-success"><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} />{btnMessage}</Button> */}
+            <Col md="9">
+                <Row>
+                    {/* <Col>
                                 <h4 style={{ color: "#EEF0F2" }}>{t('items_headings')}</h4>
-                            </Col>
-                            <Col>
-                                <div className='d-flex justify-content-end'>
-                                    <Button title={t('addItem_modal')} className='btn btn-icon' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "5px" }}><Icon.Plus style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
-                                    <Button title={t('upload_hover')} className='btn btn-icon' onClick={() => { setModalCsv(true) }} type="button"><Icon.Upload style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
-                                    <Button title={t('downloadTemplate_hover')} className='btn btn-icon' onClick={downloadTemplate} type="button" style={{ marginLeft: "5px" }}><Icon.FileText style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /></Button>
-                                    <Button title={t('filters_btn')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon' type="button" style={{ marginLeft: "5px" }}><Icon.Filter style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> </Button>
+                            </Col> */}
+                    <Col>
+                        <div className='d-flex justify-content-start'>
+                            <Button title={t('addItem_modal')} className='btn btn-icon-N mb-3' onClick={() => { setModal(true) }} type="button" style={{ marginRight: "5px" }}><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> {t('add_btn')}</Button>
+                            <Button title={t('upload_hover')} className='btn btn-icon-N mb-3' onClick={() => { setModalCsv(true) }} type="button"><Icon.Upload style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('btnImport')}</Button>
+                            <Button title={t('downloadTemplate_hover')} className='btn btn-icon-N mb-3' onClick={downloadTemplate} type="button" style={{ marginLeft: "5px" }}><Icon.FileText style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('btnTemplate')}</Button>
 
-                                </div >
-                            </Col>
+                        </div >
+                    </Col>
+                    <Col style={{ paddingRight: "0" }}>
+                        <div className='d-flex justify-content-end'>
+
+                            <Button title={t('filters_btn')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon-N mb-3' type="button" style={{ marginRight: "5px" }}><Icon.Filter style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('filters_btn')}</Button>
+
+                        </div >
+                    </Col>
+                    <Col md="3" style={{ paddingLeft: "0" }}>
+                        <div className='d-flex justify-content-end'>
+
+                            <Input type="text" placeholder={searchPlacehorlder} className="mb-3" style={{ border: "none" }} />
+
+                        </div >
+                    </Col>
+
+                </Row>
+                <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
+                    <Row style={{ marginBottom: "10px" }}>
+                        <Col>
+                            <FormGroup>
+                                <Label htmlFor="exampleFile">Categorías</Label>
+
+                                <Select
+                                    closeMenuOnSelect={false}
+                                    // defaultValue={[arrayCategories[1]]}
+                                    isMulti
+                                    options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
+                                    styles={colourStyles}
+                                // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
+
+                                // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
+
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col >
+                            <Label htmlFor="exampleFile">Nombre</Label>
+                            <Select
+                                label="Single select"
+                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                styles={colourStyles}
+                            />
+                        </Col>
+                        <Col >
+                            <Label htmlFor="exampleFile">SKU</Label>
+                            <Select
+                                label="Single select"
+                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                styles={colourStyles}
+                            />
+                        </Col>
+
+                    </Row>
+                    <Row>
+                        <Col>
+                            <div className='d-flex justify-content-end mb-2'>
+
+                                <Button type="submit" className="btn btn-success">Aplicar</Button>
+                            </div>
+                            {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
+
+                        </Col>
+                    </Row>
+
+                </Collapse>
+                <Card>
+                    {/* <CardHeader style={{ backgroundColor: "white" }}>
+                        <Row>
+                            <div className='d-flex justify-content-end'>
+                                <Col md="3">
+                                </Col>
+                            </div>
                         </Row>
-                    </CardHeader>
+
+                    </CardHeader> */}
                     <CardBody>
                         <div>
                             <Row>
 
-                                <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
-                                    <Row style={{ marginBottom: "10px" }}>
-                                        <Col>
-                                            <FormGroup>
-                                                <Label htmlFor="exampleFile">Categorías</Label>
+                                {/* <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
+                                <Row style={{ marginBottom: "10px" }}>
+                                    <Col>
+                                        <FormGroup>
+                                            <Label htmlFor="exampleFile">Categorías</Label>
 
-                                                <Select
-                                                    closeMenuOnSelect={false}
-                                                    // defaultValue={[arrayCategories[1]]}
-                                                    isMulti
-                                                    options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
-                                                    styles={colourStyles}
-                                                // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
-
-                                                // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
-
-                                                />
-                                            </FormGroup>
-                                        </Col>
-                                        <Col >
-                                            <Label htmlFor="exampleFile">Nombre</Label>
                                             <Select
-                                                label="Single select"
-                                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                                closeMenuOnSelect={false}
+                                                // defaultValue={[arrayCategories[1]]}
+                                                isMulti
+                                                options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
                                                 styles={colourStyles}
+                                            // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
+
+                                            // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
+
                                             />
-                                        </Col>
-                                        <Col >
-                                            <Label htmlFor="exampleFile">SKU</Label>
-                                            <Select
-                                                label="Single select"
-                                                options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
-                                                styles={colourStyles}
-                                            />
-                                        </Col>
+                                        </FormGroup>
+                                    </Col>
+                                    <Col >
+                                        <Label htmlFor="exampleFile">Nombre</Label>
+                                        <Select
+                                            label="Single select"
+                                            options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                            styles={colourStyles}
+                                        />
+                                    </Col>
+                                    <Col >
+                                        <Label htmlFor="exampleFile">SKU</Label>
+                                        <Select
+                                            label="Single select"
+                                            options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
+                                            styles={colourStyles}
+                                        />
+                                    </Col>
 
-                                    </Row>
-                                    <Row>
-                                        <Col>
-                                            <div className='d-flex justify-content-end'>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <div className='d-flex justify-content-end'>
 
-                                                <Button type="submit" className="btn btn-success">Aplicar</Button>
-                                            </div>
-                                            {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
+                                            <Button type="submit" className="btn btn-success">Aplicar</Button>
+                                        </div>
+                                        {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
 
-                                        </Col>
-                                    </Row>
+                                {/* </Col>
+                                </Row> 
 
-                                </Collapse>
+                            </Collapse> */}
                             </Row>
 
                             {/* <br /> */}
@@ -256,54 +446,65 @@ const TableItemsComp = () => {
                                     <p> Recargar</p>
                                 </div>
                             </div> */}
-                            <Table className="no-wrap mt-3 align-middle" responsive borderless >
-                                <thead>
-                                    <tr>
-                                        <th className='text-center'>{t('active_headings')}</th>
-                                        <th className='text-center'>{t('imagen_headings')}</th>
-                                        <th>{t('name_headings')}</th>
-                                        <th>SKU</th>
-                                        <th>{t('salePrice_headings')}</th>
-                                        <th>{t('purchasePrice_headings')}</th>
-                                        <th className='text-center'>{t('details_headings')}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {lista.map((tdata) => (
-                                        <tr key={tdata.id} className="border-top">
-                                            <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                                                {/* {tdata.active ? <div><Icon.ToggleRight style={{ color: "#fca311" }} /></div>
-                                                    : <div><Icon.ToggleLeft style={{ color: "#67757C" }} /></div>} */}
-                                                {tdata.active === "true" || tdata.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
-                                                    : <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
-                                                    </div>}
-                                            </div></td>
-                                            <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
-                                                alt="..."
-                                                className=" img-fluid rounded shadow-lg"
-                                                src={tdata.urlImage}
-                                                style={{ width: "40px" }}
-                                            ></img></td>
-                                            <td>{tdata.nombre}</td>
-                                            <td>{tdata.sku}</td>
-                                            <td>$ {tdata.precio}</td>
-                                            <td>$ {tdata.precio}</td>
-                                            <td>
-                                                <div className='d-flex justify-content-center'>
-                                                    <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                            <Row>
+                                <Col>
+                                    {/* <Table className="no-wrap mt-0 align-middle" responsive borderless >
+                                        <thead >
+                                            <tr>
+                                                <th className='text-center'>{t('active_headings')}</th>
+                                                <th className='text-center'>{t('imagen_headings')}</th>
+                                                <th>{t('name_headings')}</th>
+                                                <th>SKU</th>
+                                                <th>{t('salePrice_headings')}</th>
+                                                <th>{t('purchasePrice_headings')}</th>
+                                                <th className='text-center'>{t('details_headings')}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style={{ fontSize: "13px" }}>
+                                            {lista.map((tdata) => (
+                                                <tr key={tdata.id} className="border-top">
+                                                    <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
+                                                        
+                                                        {tdata.active === "true" || tdata.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
+                                                            : <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
+                                                            </div>}
+                                                    </div></td>
+                                                    <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
+                                                        alt="..."
+                                                        className=" img-fluid rounded shadow-lg"
+                                                        src={tdata.urlImage}
+                                                        style={{ width: "40px" }}
+                                                    ></img></td>
+                                                    <td>{tdata.nombre}</td>
+                                                    <td>{tdata.sku}</td>
+                                                    <td>$ {tdata.precio}</td>
+                                                    <td>$ {tdata.precio}</td>
+                                                    <td>
+                                                        <div className='d-flex justify-content-center'>
+                                                            <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
 
 
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </Table>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table> */}
+                                    {/* DataTable component */}
+                                    <div className='container-fluid'>
+
+                                        <DataTable columns={columns} data={data} pagination />
+                                    </div>
+
+
+                                </Col>
+
+                            </Row>
                             <Modal className='modal-lg' isOpen={modal} toggle={() => { setModal(false) }}>
-                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle style={{ marginRight: "7px" }} /> {t('addItem_modal')}</ModalHeader>
+                                <ModalHeader style={{ color: "#1186a2" }} toggle={() => { setModal(false) }} ><Icon.PlusCircle /> {t('addItem_modal')}</ModalHeader>
                                 <ModalBody>
                                     <div className="stepsWrapper">
-                                        <MultiSteps />
+                                        <MultiSteps user={user.uid}/>
                                     </div>
                                 </ModalBody>
                                 <ModalFooter>
@@ -344,7 +545,61 @@ const TableItemsComp = () => {
                     </CardBody>
                 </Card>
             </Col>
-        </Row>
+            <Col>
+                <Card>
+
+                    <CardBody>
+                        <div className='d-flex justify-content-center'>
+                            <h1 style={{ fontWeight: "600", color: "#1186a2" }}>+300</h1>
+
+                        </div>
+                        <div className='d-flex justify-content-center'>
+
+                            {t('headingTotalItems')}
+                        </div>
+                    </CardBody>
+                </Card>
+                <Card>
+                    <CardHeader style={{ paddingBottom: "0" }}>
+                        <h4 style={{ fontWeight: "600", color: "	#1186a2" }}>{t('heading_recent_transactions')}</h4>
+                    </CardHeader>
+                    <CardBody style={{ paddingTop: "0" }}>
+                        <Table className="no-wrap mt-0 align-middle table table-sm" responsive borderless style={{ fontSize: "11px" }}>
+                            <thead>
+                                <tr>
+                                    <th>13 Diciembre 2022</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <Icon.ArrowDownLeft style={{ color: "#00E672" }} />
+                                    </td>
+                                    <td>
+                                        From Magdiel
+                                    </td>
+                                    <td>3:50 pm </td>
+                                    <td>Zapato Rojo Versace</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <Icon.ArrowUpRight />
+                                    </td>
+                                    <td>
+                                        From Magdiel
+                                    </td>
+                                    <td>3:50 pm </td>
+                                    <td>Zapato Rojo Versace</td>
+                                </tr>
+                            </tbody>
+                        </Table>
+                    </CardBody>
+                </Card>
+            </Col>
+        </Row >
     );
 };
 

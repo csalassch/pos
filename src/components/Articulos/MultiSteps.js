@@ -18,11 +18,24 @@ class MultiSteps extends Component {
     constructor(props) {
         super(props);
         this.state = {};
-    
+        console.log("PROPS MULTI: ",this.props.user);
+    //For storing the data on each step, updating, etc.
         this.sampleStore = {
           email: '',
+          
           gender: '',
           savedToCloud: false,
+          user:this.props.user,
+          //For all fields on step 1
+          name:'',
+          sku:'',
+          idCategoriesArr:[{}],
+          description:'',
+          picture:[],
+          urlImage:"",
+          hasVariants:false,
+          productPrice:"",
+          variantDetails:[{}]
         };
       }
     
@@ -47,6 +60,7 @@ class MultiSteps extends Component {
                 updateStore={(u) => {
                   this.updateStore(u);
                 }}
+               
               />
             ),
           },
@@ -72,20 +86,8 @@ class MultiSteps extends Component {
               />
             ),
           }
-          // {
-          //   name: 'Fin',
-          //   component: (
-          //     <Step4
-          //       getStore={() => this.getStore()}
-          //       updateStore={(u) => {
-          //         this.updateStore(u);
-          //       }}
-          //     />
-          //   ),
-          // },
         ];
-        // document.getElementById("next-button").value="Holi";
-
+        console.log("Length Steps: ",steps.length);
         return (
           <>
             
