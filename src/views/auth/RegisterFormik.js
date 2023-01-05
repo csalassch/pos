@@ -2,7 +2,9 @@ import React from 'react';
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link, useNavigate, } from 'react-router-dom';
+import { Link, 
+  // useNavigate,
+ } from 'react-router-dom';
 import AuthLogo from "../../layouts/logo/AuthLogo";
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
@@ -10,7 +12,7 @@ import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right
 import { useAuth } from '../../Context/authContext';
 
 const RegisterFormik = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { signup } = useAuth();
   const initialValues = {
     UserName: '',
@@ -27,15 +29,24 @@ const RegisterFormik = () => {
     confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
     acceptTerms: Yup.bool().oneOf([true], 'Accept Terms & Conditions is required'),
   });
-  const handleSubmit = async (UserName, email, password) => {
+  const handleSubmit = async (UserName, email,password) => {
     try {
-      console.log(UserName)
+      console.log(UserName);
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email,username:UserName })
+    };
+    const response=await fetch('http://192.168.1.77:5500/', requestOptions);
+    const data=await response.json();
+    console.log(data);
       await signup(email, password, UserName, "client");
-      navigate('/');
+      // navigate('/');
 
     } catch (error) {
       // eslint-disable-next-line
       // alert(error.code)
+      console.log(error)
     }
   }
   return (

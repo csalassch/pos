@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from 'firebase/auth';
 import { set, ref, onValue } from 'firebase/database';
 import { auth, db } from '../FirebaseConfig/firebase';
 
@@ -18,9 +18,13 @@ export function AuthProvider({ children }) {
 
     //Constante para registrarse y hacer un registro en la base de datos
     const signup = (email, password, UserName, role) => createUserWithEmailAndPassword(auth, email, password).
-        then((userCredential) => {
+        then(async (userCredential) => {
             const user1 = userCredential.user;
             console.log(`ahh:${user1.uid}`);
+            sendEmailVerification(user1).then((e)=>{
+                console.log("email sent",e);
+            })
+            // await userCredential.user.sendEmailVerification();
             set(ref(db, `usuarios/${user1.uid}`), {
                 mail: email,
                 name: UserName,
