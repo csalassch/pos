@@ -2,7 +2,7 @@ import { Button, Card, CardBody } from 'reactstrap';
 
 const LicenciaDescripcion = () => {
   return (
-    <Card className="bg-primary">
+    <Card style={{backgroundColor:"#077cab"}}>
       <CardBody>
         <div className="d-flex">
           <div className="stats">

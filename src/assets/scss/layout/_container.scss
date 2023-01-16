@@ -148,7 +148,24 @@
 .loginBox {
   height: 100vh;
   .loginContainer {
-    max-width: 390px;
+    // max-width: 390px;
+  }
+}
+/* Login Container width changer */
+@media only screen and (max-width: 1080px) {
+  .loginBox {
+
+    .loginContainer{
+        width: 100%;
+    }
+  }
+}
+@media only screen and (min-width: 1081px) {
+  .loginBox {
+
+    .loginContainer{
+        width: 50%;
+    }
   }
 }
 
@@ -187,4 +204,8 @@ table th {
 
 .rdw-embedded-modal-header-option {
   width: 100% !important;
+}
+//For title size in loginform
+.mainTitle{
+  font-size: 2.7rem;
 }

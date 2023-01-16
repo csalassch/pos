@@ -369,3 +369,29 @@ $sideBarColor:#1f4f67;
   display: flex;
   justify-content:space-between !important;
 }
+// Headings outside card
+.outsideCardHeadings{
+  color:#077CAB;
+  filter: saturate(3);
+  // text-shadow: 0px 4px 7px rgba(0, 0, 0, 0.2);
+
+}
+.quickLinksHeadings{
+  color:#d9e1e2;
+  filter: saturate(0);
+
+  // text-shadow: 0px 0px 15px rgba(172,176,180, 0.2);
+
+}
+.homeWelcomeCard{
+  background-color:#077CAB  !important;
+}
+.apexcharts-toolbar{
+  color:#d9e1e2 !important;
+}
+.apexcharts-menu-open{
+  background-color:#192430 !important;
+  border-color: 	#174a5b !important;
+
+}
+

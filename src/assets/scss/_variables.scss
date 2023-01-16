@@ -16,8 +16,10 @@ $font-family-sans-serif: 'Poppins', sans-serif;
 /*******************/
 // Theme Colors
 /********************/
-$primary: #1186a2;
-$info: #1f4f67;
+$primary: #077cab;
+// $primary: #1186a2;
+$info: #174a5b;
+// $info: #1f4f67;
 $danger: #ef5350;
 $success: #06d79c;
 $warning: #ffb22b;
@@ -300,4 +302,14 @@ $sideBarColor:white;
 .dwPlXY{
   display: flex;
   justify-content:space-between !important;
+}
+// Headings outside card
+.outsideCardHeadings{
+  color:#077CAB;
+}
+.quickLinksHeadings{
+  color:#077cab;
+
+  // text-shadow: 0px 0px 15px rgba(172,176,180, 0.2);
+
 }

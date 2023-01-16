@@ -374,12 +374,12 @@ const SidebarData = [
       },
       {
         title: 'Login',
-        href: '/auth/loginformik',
+        href: '/auth/loginform',
         icon: <Icon.LogIn />,
       },
       {
         title: 'Register',
-        href: '/auth/registerformik',
+        href: '/auth/registerform',
         icon: <Icon.Edit2 />,
       },
       {

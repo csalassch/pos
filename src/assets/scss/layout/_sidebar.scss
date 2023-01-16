@@ -29,7 +29,8 @@
 
   .nav-item.activeParent>.nav-link {
     opacity: 1;
-    color: #1186A2;
+    color: #174a5b;
+    // color: #1186A2;
   }
 
   .nav-link {
@@ -55,7 +56,8 @@
 
   .activeLink .nav-link {
     opacity: 1;
-    color: #1186A2;
+    color: #174a5b;
+    // color: #1186A2;
   }
 
   .subMenu {
@@ -213,11 +215,13 @@
 
         &:hover {
           width: $sidebarWidth;
-          background-color: #1F4F67;
+          background-color: #077cab;
+          filter: saturate(0.8);
+          // background-color: #1F4F67;
           
           .nav-link {
             opacity: 1;
-            color: #ffffff;
+            color: #d9e1e2;
           }
           // border-radius:0.3rem;
           .imgAdjust {
@@ -242,7 +246,8 @@
       }
       .nav-link {
         opacity: 1;
-        color: #1186A2;
+        color: #077cab;
+        // color: #1186A2;
       }
 
     }

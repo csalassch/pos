@@ -12,7 +12,9 @@
 }
 
 .fixedSidebar {
-    background-color: #1f4f67;
+    background-color: #077cab;
+    filter: saturate(0.8);
+    /* background-color: #1f4f67; */
 }
 
 .modal-title {
@@ -145,6 +147,56 @@
 .dApqnJ {
     display: block !important;
 }
+@media only screen and (max-width: 699px) {
+    .helloImage{
+        margin-top: -4rem;
+        width: 130px;
+    }
+    
+}
+@media only screen and (max-width: 850px) and (min-width: 700px) {
+    .helloImage{
+        margin-top: -4rem;
+        width: 110px;
+    }
+    
+}
+@media only screen and (max-width: 912px) and (min-width: 850px) {
+    .helloImage{
+        margin-top: -4rem;
+        width: 135px;
+    }
+    
+}
+@media only screen and (min-width: 913px) and (max-width: 1024px) {
+    .helloImage{
+        margin-top: -4rem;
+        width: 145px;
+    }
+    
+}
+
+
+@media only screen and (min-width: 1025px) and (max-width: 1180px) {
+    .helloImage{
+        margin-top: -4rem;
+        width: 150px;
+    }
+}
+@media only screen and (min-width: 1181px) and (max-width: 1300px) {
+    .helloImage{
+        margin-top: -4rem;
+        width: 170px;
+    }
+}
+@media only screen and (min-width: 1301px) {
+    .helloImage{
+        margin-top: -4rem;
+        width: 190px;
+    }
+}
+
+
 
 /* [data-column-id="1"].rdt_TableCol {
     background-color: orange;

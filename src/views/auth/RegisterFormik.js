@@ -2,9 +2,10 @@ import React from 'react';
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody } from 'reactstrap';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { Link, 
+import {
+  Link,
   // useNavigate,
- } from 'react-router-dom';
+} from 'react-router-dom';
 import AuthLogo from "../../layouts/logo/AuthLogo";
 import { ReactComponent as LeftBg } from '../../assets/images/bg/login-bgleft.svg';
 import { ReactComponent as RightBg } from '../../assets/images/bg/login-bg-right.svg';
@@ -29,17 +30,17 @@ const RegisterFormik = () => {
     confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
     acceptTerms: Yup.bool().oneOf([true], 'Accept Terms & Conditions is required'),
   });
-  const handleSubmit = async (UserName, email,password) => {
+  const handleSubmit = async (UserName, email, password) => {
     try {
       console.log(UserName);
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email,username:UserName })
-    };
-    const response=await fetch('http://192.168.1.77:5500/', requestOptions);
-    const data=await response.json();
-    console.log(data);
+        body: JSON.stringify({ email: email, username: UserName })
+      };
+      const response = await fetch('http://192.168.1.77:5500/', requestOptions);
+      const data = await response.json();
+      console.log(data);
       await signup(email, password, UserName, "client");
       // navigate('/');
 
@@ -61,7 +62,7 @@ const RegisterFormik = () => {
               <CardBody className="p-4 m-1">
                 <h4 className="mb-0 fw-bold">Registrar</h4>
                 <small className="pb-4 d-block">
-                  ¿Ya tienes cuenta? <Link className='link-info fw-normal' to="/auth/loginformik">Inicio de sesión</Link>
+                  ¿Ya tienes cuenta? <Link className='link-info fw-normal' to="/auth/loginform">Inicio de sesión</Link>
                 </small>
                 <Formik
                   initialValues={initialValues}
@@ -143,7 +144,7 @@ const RegisterFormik = () => {
                           className="invalid-feedback"
                         />
                       </FormGroup>
-                      
+
                       <FormGroup>
                         <Button type="submit" color="info" className="me-2">
                           Registrar

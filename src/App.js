@@ -102,8 +102,8 @@ const CASL = Loadable(lazy(() => import('./views/apps/accessControlCASL/AccessCo
 
 /***** Auth Pages ****/
 const Error = Loadable(lazy(() => import('./views/auth/Error')));
-const RegisterFormik = Loadable(lazy(() => import('./views/auth/RegisterFormik')));
-const LoginFormik = Loadable(lazy(() => import('./views/auth/LoginFormik')));
+const RegisterForm = Loadable(lazy(() => import('./views/auth/RegisterForm')));
+const LoginForm = Loadable(lazy(() => import('./views/auth/LoginForm')));
 const Maintanance = Loadable(lazy(() => import('./views/auth/Maintanance')));
 const LockScreen = Loadable(lazy(() => import('./views/auth/LockScreen')));
 const RecoverPassword = Loadable(lazy(() => import('./views/auth/RecoverPassword')));
@@ -137,8 +137,8 @@ const App = () => {
             <Route path='/auth' element={<BlankLayout />} >
               <Route path='404' element={<Error />} />,
               <Route path='*' element={<Navigate to="/auth/404" />} />,
-              <Route path='registerformik' element={<RegisterFormik />} />,
-              <Route path='loginformik' element={<LoginFormik />} />,
+              <Route path='registerform' element={<RegisterForm />} />,
+              <Route path='loginform' element={<LoginForm />} />,
               <Route path='maintanance' element={<Maintanance />} />,
               <Route path='lockscreen' element={<LockScreen />} />,
               <Route path='recoverpwd' element={<RecoverPassword />} />,

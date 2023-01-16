@@ -49,7 +49,7 @@ const LoginFormik = () => {
               <CardBody className="p-4 m-1">
                 <h4 className="mb-0 fw-bold">Inicio de sesión</h4>
                 <small className="pb-4 d-block">
-                  ¿No tienes cuenta aun? <Link to="/auth/registerformik">Registrarme</Link>
+                  ¿No tienes cuenta aun? <Link to="/auth/registerform">Registrarme</Link>
                 </small>
                 <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={(fields) => {
                   handleSubmit(fields.email, fields.password)
@@ -69,7 +69,7 @@ const LoginFormik = () => {
                       <FormGroup className="form-check d-flex" inline>
                         <Label check>
                           <Input type="checkbox" />
-                          Recuerdame
+                          Recuérdame
                         </Label>
                         <Link
                           className="ms-auto text-decoration-none link-info fw-normal"

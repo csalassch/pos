@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+// import React, { useEffect, useState } from 'react';
 import { Nav } from 'reactstrap';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import SimpleBar from 'simplebar-react';
 
-import SidebarData from '../sidebardata/SidebarData';
+// import SidebarData from '../sidebardata/SidebarData';
 import SidebarDataClient from '../sidebardata/SidebarDataClient';
 import NavItemContainer from './NavItemContainer';
 import NavSubMenu from './NavSubMenu';
@@ -14,7 +15,7 @@ import Logo from '../../logo/Logo';
 // import { ToggleMiniSidebar} from '../../store/customizer/CustomizerSlice';
 
 // import user1 from '../../../assets/images/users/user4.jpg';
-import { useAuth } from '../../../Context/authContext';
+// import { useAuth } from '../../../Context/authContext';
 import '../../../assets/css/styles.css';
 
 
@@ -31,18 +32,19 @@ const Sidebar = () => {
   const isFixed = useSelector((state) => state.customizer.isSidebarFixed);
   // const topbarColor = useSelector((state) => state.customizer.topbarBg);
 
-  const { dataUser } = useAuth();
-  const [userData, setUserData] = useState({ name: '', role: '' });
-  function getDatoUnico() {
-    if (dataUser) {
-      setUserData(dataUser);
-    }
-  }
+  // const { dataUser } = useAuth();
+  // const [userData, setUserData] = useState({ name: '', role: '' });
+  // function getDatoUnico() {
+  //   if (dataUser) {
+  //     setUserData(dataUser);
+  //   }
+  // }
 
   useEffect(() => {
-    getDatoUnico()
-    console.log(userData)
-  }, [dataUser, userData])
+    // getDatoUnico()
+    // console.log(userData)
+  }, [])
+  // }, [dataUser, userData])
   return (
     <div className={`sidebarBox shadow ${isFixed ? 'fixedSidebar' : ''}`}>
 
@@ -58,7 +60,7 @@ const Sidebar = () => {
         {/********Sidebar Content*******/}
         <div className="p-3">
           {
-            (userData.role === 'client') ?
+            // (userData.role === 'client') ?
               // <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
               // <Nav vertical className={activeBg === 'white' ? '' : 'white'}  style={{color:"white"}}>
               <Nav vertical className={activeBg === 'white' ? '' : 'white'} style={{ color: "white" }}>
@@ -99,45 +101,7 @@ const Sidebar = () => {
                     />
                   );
                 })}
-              </Nav> :
-              <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
-                {SidebarData.map((navi) => {
-                  if (navi.caption) {
-                    return (
-                      <div className="navCaption text-uppercase mt-4" key={navi.caption}>
-                        {navi.caption}
-                      </div>
-                    );
-                  }
-                  if (navi.children) {
-                    return (
-                      <NavSubMenu
-                        key={navi.id}
-                        icon={navi.icon}
-                        title={navi.title}
-                        items={navi.children}
-                        suffix={navi.suffix}
-                        suffixColor={navi.suffixColor}
-                        // toggle={() => toggle(navi.id)}
-                        // collapsed={collapsed === navi.id}
-                        isUrl={currentURL === navi.href}
-                      />
-                    );
-                  }
-                  return (
-                    <NavItemContainer
-                      key={navi.id}
-                      //toggle={() => toggle(navi.id)}
-                      className={location.pathname === navi.href ? 'activeLink' : ''}
-                      to={navi.href}
-                      title={navi.title}
-                      suffix={navi.suffix}
-                      suffixColor={navi.suffixColor}
-                      icon={navi.icon}
-                    />
-                  );
-                })}
-              </Nav>
+              </Nav> 
           }
         </div>
       </SimpleBar>

@@ -14,19 +14,18 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Button,
-  ButtonGroup
+  Button
 } from 'reactstrap';
 import * as Icon from 'react-feather';
 import { update, ref, onValue } from 'firebase/database';
 import { ReactComponent as LogoWhite } from '../../assets/images/logos/white-logo-icon.svg';
-import MessageDD from './MessageDD';
+// import MessageDD from './MessageDD';
 
 import NotificationDD from './NotificationDD';
-import MegaDD from './MegaDD';
+// import MegaDD from './MegaDD';
 import user1 from '../../assets/images/users/user4.jpg';
 // import Logo from '../logo/Logo';
-import { ToggleMiniSidebar, ToggleMobileSidebar,ChangeDarkMode } from '../../store/customizer/CustomizerSlice';
+import { ToggleMiniSidebar, ToggleMobileSidebar } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD';
 import { db } from '../../FirebaseConfig/firebase';
 
@@ -166,10 +165,10 @@ const Header = () => {
           >
             <i className="bi bi-list" />
           </Button>
-          <div style={{ width: "85px",backgroundColor:"transparent" }} className='container-fluid' onClick={() => dispatch(ToggleMobileSidebar())}>
+          <div style={{ width: "85px", backgroundColor: "transparent" }} className='container-fluid' onClick={() => dispatch(ToggleMobileSidebar())}>
 
             <Select
-              style={{backgroundColor:"transparent"}}
+              style={{ backgroundColor: "transparent" }}
               id="languageSelected"
               value={[{ value: savedLangVal, label: savedLangLabel }]}
               label="Selecciona Idioma"
@@ -188,14 +187,14 @@ const Header = () => {
           {/******************************/}
           {/**********Mega DD**********/}
           {/******************************/}
-          <UncontrolledDropdown className="mega-dropdown mx-1 hov-dd">
+          {/* <UncontrolledDropdown className="mega-dropdown mx-1 hov-dd">
             <DropdownToggle className="bg-transparent border-0" color={topbarColor}>
               <Icon.Grid size={18} />
             </DropdownToggle>
             <DropdownMenu>
               <MegaDD />
             </DropdownMenu>
-          </UncontrolledDropdown>
+          </UncontrolledDropdown> */}
 
 
           {/******************************/}
@@ -221,7 +220,7 @@ const Header = () => {
           {/******************************/}
           {/**********Message DD**********/}
           {/******************************/}
-          <UncontrolledDropdown className="mx-1 hov-dd">
+          {/* <UncontrolledDropdown className="mx-1 hov-dd">
             <DropdownToggle className="bg-transparent border-0" color={topbarColor}>
               <Icon.Mail size={18} />
             </DropdownToggle>
@@ -237,7 +236,7 @@ const Header = () => {
                 </Button>
               </div>
             </DropdownMenu>
-          </UncontrolledDropdown>
+          </UncontrolledDropdown> */}
         </div>
 
         {/******************************/}
@@ -257,26 +256,7 @@ const Header = () => {
         </Nav> */}
 
         <div className="d-flex align-items-center">
-        <ButtonGroup >
-                <Button
-                style={{paddingTop:"0px",paddingBottom:"0px"}}
-                  outline={!!isDarkMode}
-                  color="primary"
-                  size="sm"
-                  onClick={() => dispatch(ChangeDarkMode(false)) && window.location.reload(false)}
-                >
-                  <Icon.Sun style={{width:"17px"}}/>
-                </Button>
-                <Button
-                style={{paddingTop:"0px",paddingBottom:"0px"}}
-                  color="primary"
-                  size="sm"
-                  outline={!isDarkMode}
-                  onClick={() => dispatch(ChangeDarkMode(true))}
-                >
-                  <Icon.Moon style={{width:"17px"}}/>
-                </Button>
-              </ButtonGroup>
+         
           {/******************************/}
           {/**********Profile DD**********/}
           {/******************************/}
