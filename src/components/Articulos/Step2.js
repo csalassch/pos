@@ -2,10 +2,12 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import DataTable from 'react-data-table-component';
+
 // import { Label } from 'reactstrap';
 import * as Icon from 'react-feather';
 
-import { Label, Col, Row, FormGroup, Button, Collapse, Table} from 'reactstrap';
+import { Label, Col, Row, FormGroup, Button, Collapse, Alert } from 'reactstrap';
 
 export default class Step2 extends Component {
   constructor(props) {
@@ -14,13 +16,16 @@ export default class Step2 extends Component {
 
     this.state = {
       checked: false,
-      
+
       // variantName:'',
       // variantSku:'',
       // variantPrice:'',
       hasVariants: props.getStore().hasVariants,
       productPrice: props.getStore().productPrice,
-      // variantDetails: props.getStore().variantDetails
+      visible: false,
+      message: "",
+
+      variantDetails: props.getStore().variantDetails
     };
 
     // eslint-disable-next-line no-underscore-dangle
@@ -28,6 +33,23 @@ export default class Step2 extends Component {
 
     this.validationCheck = this.validationCheck.bind(this);
     this.isValidated = this.isValidated.bind(this);
+  }
+
+
+  componentDidUpdate(prevProps) {
+    if (this.props.getStore().variantDetails) {
+
+      console.log("TABLE ACT: ", this.props.getStore().variantDetails);
+    }
+
+    console.log("TABLE EXEC: ", this.variantDetails);
+    console.log("TABLE EXEC PREV: ", prevProps.getStore().variantDetails);
+
+
+  }
+
+  onDismiss() {
+    this.setState({ visible: false });
   }
 
   isValidated() {
@@ -81,8 +103,8 @@ export default class Step2 extends Component {
     return {
 
       // hasVariantsVal: data.hasVariants !== '',
-      productPriceVal: data.productPrice !== '' && Number.isNaN(data.productPrice) === false,
-      variantDetailsVal: data.hasVariants === true ? data.variantDetails.length !== 0 : true,
+      productPriceVal: data.hasVariants === false ? Number.isNaN(data.productPrice) === false : true,
+      variantDetailsVal: data.hasVariants === true && data.variantDetails? data.variantDetails.length !== 0 : true,
       // required: regex w3c uses in html5
     };
   }
@@ -100,21 +122,45 @@ export default class Step2 extends Component {
   _grabUserInput() {
     return {
 
-      hasVariants: this.hasVariants.value,
+      hasVariants: this.hasVariants,
       productPrice: this.productPrice.value,
-      variantDetails: this.hasVariants.value === true ? this.variantDetails : [0],
+      // variantDetails: this.variantDetails,
+      variantDetails: this.hasVariants === true ? this.variantDetails : [0],
     };
   }
 
-  pushVariant(){
-    const objVariantInput={
-      name:document.getElementById('variantName').value,
-      sku:document.getElementById('variantSku').value,
-      price:document.getElementById('variantPrice').value
-    } 
-    // this.variantDetails.push(objVariantInput);
-    // this.state.variantDetails.push(objVariantInput);
-    console.log(objVariantInput);
+  async pushVariant() {
+    const objVariantInput = {
+      name: document.getElementById('variantName').value,
+      sku: document.getElementById('variantSku').value,
+      price: document.getElementById('variantPrice').value,
+
+
+      options: <div><Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Trash style={{ maxWidth: "18px", color: "#ef5350" }} /></Button></div>
+    }
+    //Check if name or sku already exists as a variant
+
+      if (this.state.variantDetails.some(e => e.name === objVariantInput.name || e.sku === objVariantInput.sku) === false) {
+  
+        this.state.variantDetails.push(objVariantInput);
+  
+        console.log(this.state.variantDetails);
+      } else {
+        //Ask the user to choose another name or sku
+        this.setState({ visible: true });
+        this.setState({ message: "Variante con nombre o SKU existente. Favor de escoger otro" });
+      }
+      this.variantDetails = this.state.variantDetails;
+    // return this.state.variantDetails;
+  }
+
+  async changeCheckValues(e) {
+    this.hasVariants = e.target.checked;
+    this.state.hasVariants = e.target.checked;
+    this.state.checked= e.target.checked;
+    this.setState({ checked: e.target.checked });
+    console.log(this.hasVariants, " checked");
+
   }
 
   render() {
@@ -135,32 +181,35 @@ export default class Step2 extends Component {
       notValidClasses.variantDetailsValGrpCls = 'text-danger';
     }
 
+    // let auxVar=[];
 
 
     return (
       <div className="step step2 mt-5">
         <div className="row justify-content-md-center">
           <div className="col-lg">
+            <Alert color="danger" isOpen={this.state.visible}
+              toggle={this.onDismiss.bind(this)}
+            >
+              {this.state.message}
+            </Alert>
             <FormGroup>
               <FormGroup check>
-                <input type="checkbox" id="checkVariantes" onChange={(e) => {
-                  this.hasVariants = e.target.checked;
-                  this.state.hasVariants = e.target.checked;
-                  this.setState({ checked: e.target.checked });
-                  console.log(this.state.checked, " checked")
+                <input defaultChecked={this.state.hasVariants} type="checkbox" id="checkVariantes" onChange={(e) => {
+                  this.changeCheckValues(e);
                 }} />
                 <Label check> Tiene Variantes</Label>
               </FormGroup>
 
-              <Collapse isOpen={this.state.checked}>
+              <Collapse isOpen={this.state.hasVariants}>
                 <Row style={{ marginBottom: "10px" }}>
                   <Col md="6">
                     <Label style={{ minWidth: "80px" }}>Nombre</Label>
                     <input id='variantName' placeholder="Ej. Cartera Roja" type='text'
-                    // ref={(f)=>{
-                    //   this.state.variantName=f;
-                    // }}
-                    // onChange={this.validationCheck}
+                      // ref={(f)=>{
+                      //   this.state.variantName=f;
+                      // }}
+                      // onChange={this.validationCheck}
                       // onChange={(e) => {
                       //   console.log(e.target);
                       // }}
@@ -178,7 +227,7 @@ export default class Step2 extends Component {
                       // }}
                       // onChange={this.validationCheck}
                       // defaultValue={this.state.variantSku}
-                       autoComplete='off'
+                      autoComplete='off'
                       className={notValidClasses.variantDetailsCls} required />
                     <div className={notValidClasses.variantDetailsValGrpCls}>{this.state.variantDetailsValMsg}</div>
 
@@ -204,46 +253,36 @@ export default class Step2 extends Component {
                   <Col>
                     <div className='d-flex justify-content-end'>
 
-                      <Button onClick={this.pushVariant} type="submit" className="btn btn-success">Añadir</Button>
+                      <Button onClick={() => {
+                        this.pushVariant(this).then(this.validationCheck);
+
+                        //  this.variantDetails=auxVar;
+                        // this.state.variantDetails=auxVar;
+                        console.log(this.variantDetails);
+                        // this.validationCheck();
+                      }} type="submit" className="btn btn-success">Añadir</Button>
                     </div>
                     {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
 
                   </Col>
                 </Row>
-                <Table responsive>
-                  <thead style={{ textAlign: "center" }}>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nombre</th>
-                      <th>SKU</th>
-                      <th>Precio</th>
-                      <th>Opciones</th>
-                    </tr>
-                  </thead>
-                  <tbody style={{ textAlign: "center" }}>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Rojo</td>
-                      <td>ZAP-ROUGE-0987-98</td>
-                      <td>$ 235.00</td>
-                      <td><Icon.Trash style={{ color: "red", width: "17px" }} /></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">2</th>
-                      <td>Azul Celeste</td>
-                      <td>ZAP-BLUE-0234-877</td>
-                      <td>$ 225.50</td>
-                      <td><Icon.Trash style={{ color: "red", width: "17px" }} /></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">3</th>
-                      <td>Azul Marino</td>
-                      <td>ZAP-DBLUE-896-009</td>
-                      <td>$ 195.50</td>
-                      <td><Icon.Trash style={{ color: "red", width: "17px" }} /></td>
-                    </tr>
-                  </tbody>
-                </Table>
+
+                <div className='container-fluid mx-0 p-0 mt-2'>
+
+                  <DataTable columns={[{
+                    name: "Nombre",
+                    selector: row => row.name
+                  }, {
+                    name: "SKU",
+                    selector: row => row.sku
+                  }, {
+                    name: "Precio",
+                    selector: row => row.price
+                  }, {
+                    name: "Opciones",
+                    selector: row => row.options
+                  }]} data={this.state.variantDetails} />
+                </div>
               </Collapse>
             </FormGroup>
             <Row>

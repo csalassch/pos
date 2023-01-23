@@ -377,7 +377,7 @@ class Step1 extends Component {
                 <form id="Form" className="form-horizontal mt-2">
                   <Row>
                     <Alert color={this.state.alertColor} isOpen={this.state.visible}
-                      toggle={this.onDismiss.bind(null)}
+                      toggle={this.onDismiss.bind(this)}
                     >
                       {this.state.message}
                     </Alert>

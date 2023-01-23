@@ -35,7 +35,7 @@ class MultiSteps extends Component {
           urlImage:"",
           hasVariants:false,
           productPrice:"",
-          variantDetails:[{}]
+          variantDetails:[]
         };
       }
     

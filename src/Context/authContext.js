@@ -16,25 +16,54 @@ export function AuthProvider({ children }) {
     const [dataUser, setDataUser] = useState(null);
     const [loading, setloading] = useState(true);
 
+    async function registraTienda(user1){
+        set(ref(db, `${user1.uid}/`), {
+            articulos:["lista","otro"],
+            ubicacion:["qro","celaya"]
+        });
+    }
     //Constante para registrarse y hacer un registro en la base de datos
     const signup = (email, password, UserName, role) => createUserWithEmailAndPassword(auth, email, password).
         then((userCredential) => {
             const user1 = userCredential.user;
-            console.log(`ahh:${user1.uid}`);
-            set(ref(db, `usuarios/${user1.uid}`), {
-                mail: email,
-                name: UserName,
-                password: password,
-                dateCreated: (new Date()).toUTCString(),
-                role: role,
-                language:"es-MX"
-            });
+            console.log(`usr:${user1.uid}`);
+            // set(ref(db, `usuarios/${user1.uid}`), {
+                registraTienda(user1).then(()=>{
+                    set(ref(db, `usuarios/${user1.uid}`), {
+                        mail: email,
+                        name: UserName,
+                        password: password,
+                        dateCreated: (new Date()).toUTCString(),
+                        role: role,
+                        language:"es-MX"
+                    });
+                })
+            
+        });
+    const signupEmployees = (email, password, UserName, role) => createUserWithEmailAndPassword(auth, email, password).
+        then((userCredential) => {
+            const user1 = userCredential.user;
+            console.log(`usr:${user1.uid}`);
+            // set(ref(db, `usuarios/${user1.uid}`), {
+                registraTienda(user1).then(()=>{
+                    set(ref(db, `usuarios/${user1.uid}`), {
+                        mail: email,
+                        name: UserName,
+                        password: password,
+                        dateCreated: (new Date()).toUTCString(),
+                        role: role,
+                        language:"es-MX"
+                    });
+                })
+            
         });
     //Constante para el logueo
     const login = (email, password) => signInWithEmailAndPassword(auth, email, password);
     //Constante para cierre de sesion
     const logout = () => signOut(auth);
     function getDataUser(data) {
+        //uidEmpres/usuarios/${data.uid} -> registros
+
         onValue(ref(db, `usuarios/${data.uid}`), (snapshot => {
             setDataUser(snapshot.val())
         }));
@@ -50,7 +79,7 @@ export function AuthProvider({ children }) {
     }, [user])
     return (
         //Proporcionamos los datos necesarios para nuestro componente hijo
-        <authContext.Provider value={{ signup, login, user, logout, loading, dataUser }}>
+        <authContext.Provider value={{ signup, login, user, logout, loading, dataUser,signupEmployees }}>
             {children}
         </authContext.Provider>
     )
