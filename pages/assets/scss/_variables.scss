@@ -1,0 +1,345 @@
+/*******************/
+// Theme Fonts
+/********************/
+
+  // @import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,600,700');
+  // @import url('https://fonts.googleapis.com/css?family=Heebo:300,400,500,600,700');
+  // @import url('https://fonts.googleapis.com/css?family=Nunito:300,400,500,600,700');
+  @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700');
+  // @import url("https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700");
+  // @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700");
+  // $font-family-sans-serif: 'Montserrat', sans-serif;
+  // $font-family-sans-serif: 'Inter', sans-serif;
+  $font-family-sans-serif: 'Poppins',
+  sans-serif;
+  // $font-family-sans-serif: 'Nunito', sans-serif;
+  // $font-family-sans-serif: 'Heebo', sans-serif;
+  // $font-family-sans-serif: 'Rubik', sans-serif;
+  /*******************/
+  // Theme Colors
+  /********************/
+  $primary: #077cab;
+  // $primary: #1186a2;
+  $info: #174a5b;
+  // $info: #1f4f67;
+  $danger: #ef5350;
+  $success: #06d79c;
+  $warning: #ffb22b;
+  $dark: #242a33;
+  $light: #eaf2fb;
+  $secondary: #545b62;
+
+  $theme-colors: ('primary': $primary,
+    'secondary': $secondary,
+    'success': $success,
+    'info': $info,
+    'warning': $warning,
+    'danger': $danger,
+    'light': $light,
+    'dark': $dark,
+    'light-primary': #c7eaff,
+    'light-success': #e8fdeb,
+    'light-info': #cfecfe,
+    'light-warning': #fff8ec,
+    'light-danger': #f9e7eb,
+    'light-secondary': #f3f2f2,
+  );
+  // scss-docs-start gray-color-variables
+  $white: #fff !default;
+  $gray-100: #f8f9fa !default;
+  $gray-200: #f2f7f8 !default;
+  $gray-300: #dee2e6 !default;
+  $gray-400: #ced4da !default;
+  $gray-500: #adb5bd !default;
+  $gray-600: #99abb4 !default;
+  $gray-700: #495057 !default;
+  $gray-800: #343a40 !default;
+  $gray-900: #1e2a35 !default;
+  $black: #000 !default;
+
+  /*******************/
+  // Theme Text Contrast
+  /********************/
+  $min-contrast-ratio: 1.6 !default;
+  //$enable-shadows: true !default;
+
+  /*******************/
+  // Theme body bg & text color
+  /********************/
+  $body-bg: #f4f6f9 !default;
+  $body-color: #67757c !default;
+  $font-size-base: 0.875rem !default;
+
+  // heading fonts setting
+  $h1-font-size: 36px !default;
+  $h2-font-size: 24px !default;
+  $h3-font-size: 21px !default;
+  $h4-font-size: 18px !default;
+  $h5-font-size: 16px !default;
+  $h6-font-size: 14px !default;
+
+  // Font size
+  $font-sizes: (1: 36px,
+    2: 24px,
+    3: 21px,
+    4: 18px,
+    5: 16px,
+    6: 14px,
+    7: 12px,
+  );
+
+  /*******************/
+  // Theme common variable
+  /********************/
+  $border-radius: 0.3rem !default;
+  $box-shadow: 0 0.5rem 1rem rgba($black, 0.1);
+  // $box-shadow: 0 0.5rem 1rem rgba($black, 0.05);
+  $headings-font-weight: 400 !default;
+  $font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+
+  $font-weight-light: 400 !default;
+  $font-weight-normal: 500 !default;
+  $font-weight-bold: 600 !default;
+  $font-weight-base: $font-weight-light !default;
+
+  $h5-font-size: $font-size-base * 1.1 !default;
+  $card-border-width: 0 !default;
+  $card-box-shadow: $box-shadow !default;
+  $card-spacer-y: 1.25rem !default;
+  $card-spacer-x: 1.25rem !default;
+  $grid-gutter-width: 1.85rem !default;
+
+  $input-bg: $white !default;
+  $badge-font-weight: 300 !default;
+  $badge-padding-y: 0.35em !default;
+  $badge-padding-x: 0.7em !default;
+  $badge-pill-padding-x: 0.7em !default;
+  $badge-pill-padding-y: 1em !default;
+
+  // Progress bars
+  $progress-height: 6px !default;
+
+  /*******************/
+  // Theme btn
+  /********************/
+  $btn-focus-width: 0px;
+  $btn-box-shadow: 0 !default;
+  $btn-focus-box-shadow: 0;
+
+  /*******************/
+  // Theme sidebar width
+  /********************/
+  $sidebarWidth: 240px;
+  $sidebartext: $gray-900;
+  $sidebartextlight: rgba(30, 42, 53, 0.5);
+  $miniSidebarWidth: 80px;
+
+  $topbarHeight: 60px;
+
+  $dropdown-border-width: 0 !default;
+  $dropdown-box-shadow: $box-shadow !default;
+  $dropdown-link-hover-bg: $gray-100 !default;
+
+  $enable-negative-margins: true;
+
+  $table-cell-padding-y: 0.75rem !default;
+  $table-cell-padding-x: 0.75rem !default;
+  //Added
+  $theadColor: #1f4f67;
+
+  .card-header {
+    background-color: white;
+  }
+
+  #languageSelected .css-yk16xz-control {
+    background-color: transparent;
+    border: none;
+    border-style: none;
+  }
+
+  $sideBarColor: white;
+
+  .breadCrumbTitle {
+    color: #1f4f67;
+    // color:#1186a2;
+    font-weight: 600;
+    font-size: 25px;
+  }
+
+  //Modal redesign
+  .modal-header {
+    background-color: #eef0f2;
+  }
+
+  .modal-title {
+    color: #1f4f67;
+  }
+
+  .modal-header .btn-close {
+    background-color: transparent;
+  }
+
+  .modal-body {
+    background-color: #eef0f2;
+  }
+
+  .modal-body .progtrckr-todo:before {
+    background-color: #eef0f2;
+  }
+
+  .modal-footer {
+    background-color: #eef0f2;
+  }
+
+  .rdt_TableCol {
+    background-color: transparent;
+    padding: 0;
+    display: inline-flex;
+    justify-content: center;
+    color: #1f4f67;
+    font-size: 15px;
+    // font-size:15px;
+
+  }
+
+  [data-column-id="1"].bQdYbR {
+    // min-width: 10% !important;
+    flex-grow: 0 !important;
+    flex-shrink: 1 !important;
+    flex-basis: 0 !important;
+    -webkit-flex-shrink: 0 !important;
+    -webkit-flex-grow: 0 !important;
+    justify-content: center;
+    display: inline-flex;
+
+  }
+
+  [data-tag="allowRowEvents"] {
+    display: flex;
+    justify-content: center;
+  }
+
+  [data-column-id="2"].bQdYbR {
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: 0 !important;
+    -webkit-flex-shrink: 0 !important;
+    -webkit-flex-grow: 0 !important;
+    display: inline-flex;
+
+  }
+
+  [data-column-id="3"].bQdYbR {
+    // min-width: 20% !important;
+    flex-grow: 2 !important;
+    flex-shrink: 0 !important;
+    flex-basis: 0 !important;
+    -webkit-flex-shrink: 0 !important;
+    -webkit-flex-grow: 0 !important;
+    display: inline-flex;
+
+  }
+
+  [data-column-id="4"].bQdYbR {
+    // min-width: 20% !important;
+    flex-grow: 2 !important;
+    flex-shrink: 0 !important;
+    flex-basis: 0 !important;
+    -webkit-flex-shrink: 0 !important;
+    -webkit-flex-grow: 0 !important;
+    display: inline-flex;
+
+  }
+
+  [data-column-id="7"].bQdYbR {
+    // min-width: 10% !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: 0 !important;
+    -webkit-flex-shrink: 0 !important;
+    -webkit-flex-grow: 0 !important;
+    display: inline-flex;
+
+  }
+
+  [data-column-id="6"].bQdYbR {
+    // min-width: 80px !important;
+    // min-width: 15% !important;
+
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: 0 !important;
+    -webkit-flex-shrink: 0 !important;
+    -webkit-flex-grow: 0 !important;
+
+    display: inline-flex;
+  }
+
+  [data-column-id="6"].hbotQl {
+    padding: 5px;
+    white-space: normal !important;
+  }
+
+  [data-column-id="5"].bQdYbR {
+    // min-width: 80px !important;
+
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: 0 !important;
+    -webkit-flex-shrink: 0 !important;
+    -webkit-flex-grow: 0 !important;
+    display: inline-flex;
+
+  }
+
+  .glyQNg {
+    display: inline-flex !important;
+    padding: 0 !important;
+  }
+
+  .hbotQl {
+    white-space: normal !important;
+    // white-space: nowrap !important;
+    word-break: keep-all !important;
+    min-width: 100%;
+    display: inline-flex !important;
+    justify-content: center !important;
+
+  }
+
+  .dtqzBx div:first-child {
+    white-space: normal !important;
+    overflow: visible;
+
+  }
+
+  .form-check .form-switch {
+    display: flex;
+    justify-content: center;
+  }
+
+  .form-switch {
+    padding-left: 0 !important;
+  }
+
+  .form-check .form-check-input {
+    margin-left: 0 !important;
+  }
+
+  .iSAVrt,
+  .dwPlXY {
+    display: flex;
+    justify-content: space-between !important;
+  }
+
+  // Headings outside card
+  .outsideCardHeadings {
+    color: #077CAB;
+  }
+
+  .quickLinksHeadings {
+    color: #077cab;
+
+    // text-shadow: 0px 0px 15px rgba(172,176,180, 0.2);
+
+  }
