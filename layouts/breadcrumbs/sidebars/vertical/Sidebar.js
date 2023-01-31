@@ -101,7 +101,7 @@ const Sidebar = () => {
                   //   suffixColor={navi.suffixColor}
                   //   icon={navi.icon}
                   // />
-                  <li className='nav-item'>
+                  <li className='nav-item' key={navi.id}>
 
                     <div key={navi.id} className={location.pathname === navi.href ? 'nav-link active px-2 d-flex align-items-end' : 'nav-link px-2 d-flex align-items-end'}>
                       <Link className='linkSideBar gap-3 d-flex align-items-end' href={navi.href}>

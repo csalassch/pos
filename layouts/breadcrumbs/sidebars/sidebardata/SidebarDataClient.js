@@ -117,6 +117,11 @@ const SidebarDataClient = [
         title: 'Roles',
         href: '/views/Usuarios/roles',
         icon: <Icon.Tag />,
+      },
+      {
+        title: 'Permisos',
+        href: '/views/Usuarios/permisos',
+        icon: <Icon.Tag />,
       }
     ],
     
