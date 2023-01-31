@@ -5,6 +5,7 @@ import Image from 'next/image';
 import TwoColumnComp from '../twoColumn/TwoColumnComp';
 import LeftMenu from './leftMenu';
 import RightMenu from './rightMenu';
+import Link from 'next/link';
 
 const MiPerfilComp = () => {
   return (
@@ -16,7 +17,7 @@ const MiPerfilComp = () => {
         </CardTitle>
         <CardSubtitle className="text-muted">magdiel.jimenez.com@freebug.mx</CardSubtitle>
         <div className='d-flex align-items-center justify-content-center mt-4 gap-2'>
-            <a href='/' className='badge bg-primary text-white rounded-pill text-decoration-none'>Administrador</a>
+            <Link href='/' className='badge bg-primary text-white rounded-pill text-decoration-none'>Administrador</Link>
             
 
         </div>

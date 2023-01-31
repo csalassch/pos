@@ -10,7 +10,7 @@ import "./assets/scss/style.scss"
 import "./assets/scss/steps.scss"
 // import "./assets/scss/styledark.scss"
 import store from '@/store/Store'
-import IndexPage from ".";
+import IndexPage from "../";
 import Router from "next/router";
 import Loader from "@/components/Loader/loader";
 import { useEffect, useState } from "react";

@@ -156,8 +156,8 @@ export default class Step2 extends Component {
 
   async changeCheckValues(e) {
     this.hasVariants = e.target.checked;
-    this.state.hasVariants = e.target.checked;
-    this.state.checked= e.target.checked;
+    // this.state.hasVariants = e.target.checked;
+    // this.state.checked= e.target.checked;
     this.setState({ checked: e.target.checked });
     console.log(this.hasVariants, " checked");
 

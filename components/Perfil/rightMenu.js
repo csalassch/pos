@@ -4,7 +4,7 @@ const RightMenu = () => {
 
     return (
         <div>
-        I'm Right Menu
+         Right Menu
     </div>
     );
 };
