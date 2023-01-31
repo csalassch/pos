@@ -28,14 +28,14 @@ function LoginPage() {
         console.log("Submit: ", response.status);
         if (response.status === 200) {
             // router.push("/dashboard");
-            router.push("/dashboard").then(()=>{
+            router.push("/views/dashboard").then(()=>{
                 window.location.reload();
             });
 
         }
     }
     const signUpLink=()=>{
-        router.push("/register");
+        router.push("/views/register");
     }
     const initialValues = {
         email: '',
