@@ -25,7 +25,7 @@ import MessageDD from './MessageDD';
 
 import NotificationDD from './NotificationDD';
 import MegaDD from './MegaDD';
-import user1 from '../../assets/images/users/user4.jpg';
+import user1 from '@/pages/assets/images/users/user4.jpg';
 // import Logo from '../logo/Logo';
 import { ToggleMiniSidebar, ToggleMobileSidebar, ChangeDarkMode } from '../../store/customizer/CustomizerSlice';
 import ProfileDD from './ProfileDD'

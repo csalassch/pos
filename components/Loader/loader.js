@@ -1,5 +1,5 @@
 import Image from "next/image";
-import loaderKoonol from '../../assets/images/loader/loaderKoonol.gif';
+import loaderKoonol from '@/pages/assets/images/loader/loaderKoonol.gif';
 
 export default function Loader(){
     return (

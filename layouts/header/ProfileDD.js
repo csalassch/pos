@@ -10,8 +10,7 @@ import {
   useSelector,
   useDispatch
 } from 'react-redux';
-import { ChangeDarkMode } from '../../store/customizer/CustomizerSlice';
-import user1 from '../../assets/images/users/user4.jpg';
+
 import { useCookies } from "react-cookie"
 import Link from 'next/link';
 

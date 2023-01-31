@@ -1,12 +1,12 @@
-import Sidebar from "./layouts/breadcrumbs/sidebars/vertical/Sidebar";
+import Sidebar from "@/layouts/breadcrumbs/sidebars/vertical/Sidebar";
 import { useSelector } from 'react-redux';
-import HorizontalHeader from "./layouts/header/HorizontalHeader";
-import HorizontalSidebar from "./layouts/breadcrumbs/sidebars/horizontal/HorizontalSidebar";
+import HorizontalHeader from "@/layouts/header/HorizontalHeader";
+import HorizontalSidebar from "@/layouts/breadcrumbs/sidebars/horizontal/HorizontalSidebar";
 import { Container } from 'reactstrap';
-import Header from "./layouts/header/Header";
+import Header from "@/layouts/header/Header";
 import { useRouter } from 'next/router';
 import Router from "next/router";
-import Loader from "./components/Loader/loader";
+import Loader from "@/components/Loader/loader";
 import { appWithTranslation } from "next-i18next";
 import { useState } from "react";
 

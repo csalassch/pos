@@ -13,7 +13,7 @@ import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, But
 import Papa from "papaparse";
 // import { useTranslation } from 'next-i18next';
 // import { useTranslation } from 'react-i18next';
-import useTranslation from '../../hooks/useTranslation';
+import useTranslation from '@/hooks/useTranslation';
 // import ReactDataTablePagination from 'react-datatable-pagination'
 
 import DataTable from 'react-data-table-component';

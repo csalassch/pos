@@ -1,24 +1,7 @@
-// import { useState } from 'react';
-// import {
-//     Row, Col, FormGroup, Label, Form, Input, Button, Alert, InputGroup,
-//     InputGroupText
 
-// } from 'reactstrap';
-// import { ref, uploadBytesResumable} from 'firebase/storage';
+import CategoriesComp from "@/components/Articulos/CategoriesComp";
+import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 
-// import '../tables/ReactBootstrapTable.scss';
-
-
-
-// import BreadCrumbs from "../layouts/breadcrumbs/BreadCrumbs";
-import CategoriesComp from "@/pages/components/Articulos/CategoriesComp";
-import BreadCrumbs from "@/pages/layouts/breadcrumbs/BreadCrumbs";
-
-// import { dbStorage} from '../../FirebaseConfig/firebase';
-// import ComponentCard from '../../components/ComponentCard';
-// import ArticuloNuevoFormComp from '../../components/Articulos/ArticuloNuevoFormComp';
-import TableItemsComp from '../../components/Articulos/TableItemsComp';
-// import { colourOptions } from '../form-pickers/Data';
 
 
 

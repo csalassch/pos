@@ -1,5 +1,5 @@
 import { Card, CardBody ,Table,CardHeader} from 'reactstrap';
-import useTranslation from '../../hooks/useTranslation';
+import useTranslation from '@/hooks/useTranslation';
 import * as Icon from 'react-feather';
 
 

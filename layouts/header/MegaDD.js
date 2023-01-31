@@ -9,9 +9,9 @@ import {
   Button,
 } from 'reactstrap';
 
-import contact1 from '../../assets/images/users/user1.jpg';
-import contact2 from '../../assets/images/users/user2.jpg';
-import contact3 from '../../assets/images/users/user3.jpg';
+import contact1 from '@/pages/assets/images/users/user1.jpg';
+import contact2 from '@/pages/assets/images/users/user2.jpg';
+import contact3 from '@/pages/assets/images/users/user3.jpg';
 
 const featureData = [
   {

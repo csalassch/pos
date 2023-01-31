@@ -1,78 +1,98 @@
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import useTranslation from '../../hooks/useTranslation';
+import useTranslation from '@/hooks/useTranslation';
 import Badge from 'react-bootstrap/Badge';
 import * as Icon from 'react-feather';
-import { Col, Row } from 'reactstrap';
 
 
-const ExpandedComponentUsuarios = () => {
+const ExpandedComponentSubsidiaries = () => {
     const { t } = useTranslation();
     const [isSSR, setIsSSR] = useState(true);
     const columns = [
+        
         {
-
             name: t('active_headings'),
             selector: row => row.active,
-            width: "14rem"
-            
+            width: "3.5rem"
         }
         ,
-
+        
         {
-            name: "Permiso",
+            name: t('name_headings'),
             selector: row => row.name,
-            width: "18rem"
+            width: "8rem"
+        },
+        {
+            name: "Dirección",
+            selector: row => row.address,
+            width: "10rem"
         }
+        ,
+        {
+            name: "Staff",
+            selector: row => row.staff,
+            width: "4.5rem"
 
-
+        },
+        {
+            name: "Stock",
+            selector: row => row.stock,
+            width: "4rem"
+        },
     ];
 
     const dataSubs = [
         {
             id: 1,
-
+            
             active:
                 <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round" ></span>
                 </label>
             ,
-            name: "Dar de alta usuarios"
-        },
-        {
-            id: 3,
+            
 
-            active:
-                <label className="switch">
-                    <input type="checkbox" />
-                    <span className="slider round" ></span>
-                </label>
-            ,
-            name: "Editar usuarios"
-        },
-        {
-            id: 4,
+            name: "Tienda Souvenirs",
+            address: "Ladera del Cubilete 211, col. La Ladera",
+            staff:"15",
+            stock:<a href='https://www.freebug.mx/'><Icon.Box /></a>
 
-            active:
-                <label className="switch">
-                    <input type="checkbox" />
-                    <span className="slider round" ></span>
-                </label>
-            ,
-            name: "Desactivar usuarios"
         },
         {
             id: 2,
-
+            
             active:
                 <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round" ></span>
                 </label>
             ,
-            name: "Leer"
+            
+
+            name: "Tienda Galindas",
+            address: "Ave. Galindas #180, int.1",
+            staff:"7",
+            stock:<a href='https://www.freebug.mx/'><Icon.Box /></a>
+
         },
+        {
+            id: 3,
+            
+            active:
+                <label className="switch">
+                    <input type="checkbox" />
+                    <span className="slider round" ></span>
+                </label>
+            ,
+            
+
+            name: "Restaurante",
+            address: "Torres Orvit",
+            staff:"5",
+            stock:<a href='https://www.freebug.mx/'><Icon.Box /></a>
+
+        }
 
     ];
 
@@ -85,9 +105,9 @@ const ExpandedComponentUsuarios = () => {
             {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
 
             {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-            {!isSSR && <div className='d-flex justify-content-center align-items-center'><Row><Col><DataTable columns={columns} data={dataSubs} /></Col></Row></div>}
+            {!isSSR && <DataTable columns={columns} data={dataSubs}/>}
         </div>
 
     );
 };
-export default ExpandedComponentUsuarios;
+export default ExpandedComponentSubsidiaries;

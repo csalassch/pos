@@ -1,5 +1,5 @@
-import BreadCrumbs from "@/pages/layouts/breadcrumbs/BreadCrumbs";
-import UsuariosComp from "@/pages/components/Usuarios/UsuariosComp";
+import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
+import UsuariosComp from "@/components/Usuarios/UsuariosComp";
 
 const usuarios = () => {
 

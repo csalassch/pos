@@ -1,5 +1,5 @@
-import BreadCrumbs from "@/pages/layouts/breadcrumbs/BreadCrumbs";
-import RolesComp from "@/pages/components/Usuarios/RolesComp";
+import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
+import RolesComp from "@/components/Usuarios/RolesComp";
 
 const subsidiarias = () => {
 

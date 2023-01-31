@@ -1,6 +1,6 @@
 
-import SubsidiariesComp from "@/pages/components/Ubicaciones/SubsidiariesComp";
-import BreadCrumbs from "@/pages/layouts/breadcrumbs/BreadCrumbs";
+import SubsidiariesComp from "@/components/Ubicaciones/SubsidiariesComp";
+import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 
 const subsidiarias = () => {
 

@@ -1,4 +1,4 @@
-import MiPerfilComp from "@/pages/components/Perfil/MiPerfilComp";
+import MiPerfilComp from "@/components/Perfil/MiPerfilComp";
 
 const MiPerfil = () => {
 

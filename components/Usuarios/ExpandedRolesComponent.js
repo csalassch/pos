@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import useTranslation from '../../hooks/useTranslation';
+import useTranslation from '@/hooks/useTranslation';
 import Badge from 'react-bootstrap/Badge';
 import * as Icon from 'react-feather';
 import { Col, Row } from 'reactstrap';

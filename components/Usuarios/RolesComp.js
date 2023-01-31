@@ -4,22 +4,18 @@ import * as Icon from 'react-feather';
 import Select from 'react-select';
 import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
 import Papa from "papaparse";
-import useTranslation from '../../hooks/useTranslation';
+import useTranslation from '@/hooks/useTranslation';
 import DataTable from 'react-data-table-component';
 import Transactions from '../Transactions/transactions';
 import TotalRegistries from '../TotalRegistries/totalRegistries';
 import Badge from 'react-bootstrap/Badge';
-import ExpandedComponentSubsidiaries from './ExpandedComponentSubsidiaries';
+import ExpandedRolesComponent from './ExpandedRolesComponent';
 
-const SubsidiariesComp = () => {
+const RolesComp = () => {
     const { t } = useTranslation();
-    // const { user } = useAuth();
     const user = { uid: "example" };
-
-
     const [modal, setModal] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
-    // const [lista, setLista] = useState([{}]);
     const [lista, setLista] = useState([{ id: '', nombre: '', urlImage: '', sku: '', precio: 0, active: false }]);
     const [modalCsv, setModalCsv] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
@@ -167,7 +163,7 @@ const SubsidiariesComp = () => {
             name: <div className="form-check d-flex flex-row">
                 <input style={{ marginRight: "5px" }} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
             </div>,
-            selector: row => row.subsidiarySelect,
+            selector: row => row.roleselect,
             width: "3rem"
         }
         ,
@@ -177,40 +173,31 @@ const SubsidiariesComp = () => {
             width: "3.5rem"
         }
         ,
-        {
-            name: "Logo",
-            selector: row => row.logo,
-            width: "4.5rem"
-        }
-        ,
-        {
-            name: "Subsidiaria Matriz",
-            selector: row => row.matriz,
-            width: "8rem"
-        }
-        ,
 
         {
             name: t('name_headings'),
             selector: row => row.name,
             width: "8rem"
-        },
+        }
+
+        ,
         {
-            name: "Website",
-            selector: row => row.website,
-            width:"4rem"
-        },
+            name: "Subsidiaria",
+            selector: row => row.subsidiary,
+            width: "8rem"
+        }
+        ,
         {
-            name: "Currency",
-            selector: row => row.currency,
+            name: "Usuarios",
+            selector: row => row.users,
             width: "4rem"
-        },
+        }
     ];
 
     const dataSubs = [
         {
             id: 1,
-            subsidiarySelect: <div className="form-check">
+            roleselect: <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
             </div>,
             active:
@@ -219,22 +206,10 @@ const SubsidiariesComp = () => {
                     <span className="slider round" ></span>
                 </label>
             ,
-            logo: <img id="imageProductRetrieved2"
-                alt="..."
-                className=" img-fluid rounded shadow-lg"
-                src="https://picsum.photos/seed/picsum/200/300"
-                style={{ width: "40px" }}
-            ></img>,
-            matriz:"Freebug",
-
-            name: "Sucursal Centro Sur Querétaro",
-            website: <a href='https://www.freebug.mx/'><Icon.Globe /></a>,
-            currency: <h6><Badge className='badgeCurrency'>
-                MXN
-            </Badge></h6>
-
+            subsidiary: "Freebug",
+            name: "Administrador",
+            users: "14"
         }
-
     ];
 
 
@@ -326,13 +301,11 @@ const SubsidiariesComp = () => {
             <Col md="8">
                 <div className="d-flex align-items-stretch">
                     <div className="p-1 align-self-stretch">
-                        <Button title={t('addItem_modal')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> Subsidiaria</Button>
+                        <Button title={t('addItem_modal')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> Rol</Button>
                     </div>
-                    <div className="p-1 align-self-stretch">
-                        <Button title={t('addItem_modal')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> Locación</Button>
-                    </div>
-                    
-                    
+
+
+
                     <div className="p-1 align-self-stretch" style={{ marginLeft: "auto" }}>
                         <Button title={t('filters_btn')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon-N mb-3' type="button"><Icon.Filter style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('filters_btn')}</Button>
                     </div>
@@ -360,154 +333,78 @@ const SubsidiariesComp = () => {
                     <Row>
                         <Col>
                             <div className='d-flex justify-content-end mb-2'>
-
                                 <Button type="submit" className="btn btn-success" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }}>{t('add_btn')}</Button>
                             </div>
-                            {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
-
                         </Col>
                     </Row>
-
                 </Collapse>
                 <Card className='border-0'>
-                    {/* <CardHeader style={{ backgroundColor: "white" }}>
-                        <Row>
-                            <div className='d-flex justify-content-end'>
-                                <Col md="3">
-                                </Col>
-                            </div>
-                        </Row>
-
-                    </CardHeader> */}
                     <CardBody>
                         <div>
-                            <Row>
-
-                                {/* <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
-                                <Row style={{ marginBottom: "10px" }}>
-                                    <Col>
-                                        <FormGroup>
-                                            <Label htmlFor="exampleFile">Categorías</Label>
-
-                                            <Select
-                                                closeMenuOnSelect={false}
-                                                // defaultValue={[arrayCategories[1]]}
-                                                isMulti
-                                                options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
-                                                styles={colourStyles}
-                                            // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
-
-                                            // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
-
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col >
-                                        <Label htmlFor="exampleFile">Nombre</Label>
-                                        <Select
-                                            label="Single select"
-                                            options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
-                                            styles={colourStyles}
-                                        />
-                                    </Col>
-                                    <Col >
-                                        <Label htmlFor="exampleFile">SKU</Label>
-                                        <Select
-                                            label="Single select"
-                                            options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
-                                            styles={colourStyles}
-                                        />
-                                    </Col>
-
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <div className='d-flex justify-content-end'>
-
-                                            <Button type="submit" className="btn btn-success">Aplicar</Button>
-                                        </div>
-                                        {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
-
-                                {/* </Col>
-                                </Row> 
-
-                            </Collapse> */}
-                            </Row>
-
-                            {/* <br /> */}
-                            {/* <div className='w-full d-flex justify-content-start m-6'>
-                                <div style={{ cursor: "pointer" }} className="d-flex justify-content-center" onClick={getDatosProductos}>
-                                    <Icon.RefreshCw style={{ marginRight: "5px" }} />
-                                    <p> Recargar</p>
-                                </div>
-                            </div> */}
                             <Row className='d-flex justify-content-center'>
                                 <Col>
-                                    {/* <Table className="no-wrap mt-0 align-middle" responsive borderless >
-                                        <thead >
-                                            <tr>
-                                                <th className='text-center'>{t('active_headings')}</th>
-                                                <th className='text-center'>{t('imagen_headings')}</th>
-                                                <th>{t('name_headings')}</th>
-                                                <th>SKU</th>
-                                                <th>{t('salePrice_headings')}</th>
-                                                <th>{t('purchasePrice_headings')}</th>
-                                                <th className='text-center'>{t('details_headings')}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style={{ fontSize: "13px" }}>
-                                            {lista.map((tdata) => (
-                                                <tr key={tdata.id} className="border-top">
-                                                    <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                                                        
-                                                        {tdata.active === "true" || tdata.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
-                                                            : <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
-                                                            </div>}
-                                                    </div></td>
-                                                    <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
-                                                        alt="..."
-                                                        className=" img-fluid rounded shadow-lg"
-                                                        src={tdata.urlImage}
-                                                        style={{ width: "40px" }}
-                                                    ></img></td>
-                                                    <td>{tdata.nombre}</td>
-                                                    <td>{tdata.sku}</td>
-                                                    <td>$ {tdata.precio}</td>
-                                                    <td>$ {tdata.precio}</td>
-                                                    <td>
-                                                        <div className='d-flex justify-content-center'>
-                                                            <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
-
-
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table> */}
                                     {/* DataTable component */}
                                     <div className='container-fluid'>
-                                        {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
-
-                                        {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedComponentSubsidiaries} />}
+                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedRolesComponent} />}
                                     </div>
-
-
                                 </Col>
-
                             </Row>
-                            <Modal isOpen={modal} toggle={() => { setModal(false); setisEdited(false); }}>
+                            <Modal className='modal-lg' isOpen={modal} toggle={() => { setModal(false); setisEdited(false); }}>
                                 <ModalHeader toggle={() => { setModal(false); }} style={{ color: "#1f4f67" }}>
                                     {isEdited === false ? <Icon.PlusCircle style={{ marginRight: "5px" }} /> : (<Icon.Edit2 style={{ marginRight: "5px" }} />)}
-                                    {isEdited === false ? t('addCategory_hover') : t('editCategories_headings')}
+                                    {isEdited === false ? "Agregar Rol" : t('editCategories_headings')}
 
                                 </ModalHeader>
                                 <ModalBody className='pb-0'>
                                     <FormGroup>
                                         {/* <InputGroup> */}
-                                        <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('name_headings')}</Label>
-                                        <Input className='inputBox' style={{ marginTop: "0px" }} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false); }} />
+                                        <Row>
+                                            <Col md="6">
+                                                <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('name_headings')}</Label>
+                                                <Input className='inputBox' style={{ marginTop: "0px" }} />
+                                            </Col>
+                                        </Row>
+                                        <h5 className='mt-3'>Permisos</h5>
+                                        <Row className='mt-3'>
+                                            <Col>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                                    <Label className='labels' style={{ fontWeight: "400", marginLeft: "5px" }}>Dar de alta usuarios</Label>
+                                                </div>
+                                            </Col>
+                                            <Col>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                                    <Label className='labels' style={{ fontWeight: "400", marginLeft: "5px" }}>Editar usuarios</Label>
+                                                </div>
+                                            </Col>
+                                            <Col>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                                    <Label className='labels' style={{ fontWeight: "400", marginLeft: "5px" }}>Eliminar usuarios</Label>
+                                                </div>
+                                            </Col>
+                                        </Row>
+                                        <Row className='mt-3'>
+                                            <Col>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                                    <Label className='labels' style={{ fontWeight: "400", marginLeft: "5px" }}>Dar de alta productos</Label>
+                                                </div>
+                                            </Col>
+                                            <Col>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                                    <Label className='labels' style={{ fontWeight: "400", marginLeft: "5px" }}>Editar Productos</Label>
+                                                </div>
+                                            </Col>
+                                            <Col>
+                                                <div className="form-check">
+                                                    <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                                    <Label className='labels' style={{ fontWeight: "400", marginLeft: "5px" }}>Eliminar usuarios</Label>
+                                                </div>
+                                            </Col>
+                                        </Row>
                                         {/* </InputGroup> */}
                                     </FormGroup>
                                     <div className='d-flex justify-content-end'>
@@ -552,7 +449,7 @@ const SubsidiariesComp = () => {
                 </Card>
             </Col>
             <Col>
-                <TotalRegistries txt={"Subsidiarias"} />
+                <TotalRegistries txt={"Roles"} />
                 <Transactions />
 
             </Col>
@@ -560,4 +457,4 @@ const SubsidiariesComp = () => {
     );
 };
 
-export default SubsidiariesComp;
+export default RolesComp;

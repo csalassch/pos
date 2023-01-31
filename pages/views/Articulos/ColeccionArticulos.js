@@ -11,12 +11,12 @@
 
 
 // import BreadCrumbs from "../layouts/breadcrumbs/BreadCrumbs";
-import BreadCrumbs from "@/pages/layouts/breadcrumbs/BreadCrumbs";
+import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 
 // import { dbStorage} from '../../FirebaseConfig/firebase';
 // import ComponentCard from '../../components/ComponentCard';
 // import ArticuloNuevoFormComp from '../../components/Articulos/ArticuloNuevoFormComp';
-import TableItemsComp from '../../components/Articulos/TableItemsComp';
+import TableItemsComp from '@/components/Articulos/TableItemsComp';
 // import { colourOptions } from '../form-pickers/Data';
 
 

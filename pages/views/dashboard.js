@@ -6,9 +6,9 @@ import * as Icon from 'react-feather';
 import dynamic from 'next/dynamic'
 import { Card, CardBody, CardTitle, CardSubtitle, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Button, Row, Col } from 'reactstrap';
 import DataTable from 'react-data-table-component';
-import BreadCrumbs from "./layouts/breadcrumbs/BreadCrumbs";
-import LicenciaDescripcion from "./components/HomeComponents/LicenciaDescripcion";
-import useTranslation from "./hooks/useTranslation";
+import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
+import LicenciaDescripcion from "@/components/HomeComponents/LicenciaDescripcion";
+import useTranslation from "@/hooks/useTranslation";
 
 
 function Dashboard() {

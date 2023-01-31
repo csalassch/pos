@@ -4,14 +4,14 @@ import * as Icon from 'react-feather';
 import Select from 'react-select';
 import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
 import Papa from "papaparse";
-import useTranslation from '../../hooks/useTranslation';
+import useTranslation from '@/hooks/useTranslation';
 import DataTable from 'react-data-table-component';
 import Transactions from '../Transactions/transactions';
 import TotalRegistries from '../TotalRegistries/totalRegistries';
 import Badge from 'react-bootstrap/Badge';
-import ExpandedComponentUsuarios from './ExpandedComponentUsuarios';
+import ExpandedComponentSubsidiaries from './ExpandedComponentSubsidiaries';
 
-const UsuariosComp = () => {
+const SubsidiariesComp = () => {
     const { t } = useTranslation();
     // const { user } = useAuth();
     const user = { uid: "example" };
@@ -176,34 +176,34 @@ const UsuariosComp = () => {
             selector: row => row.active,
             width: "3.5rem"
         }
-        
+        ,
+        {
+            name: "Logo",
+            selector: row => row.logo,
+            width: "4.5rem"
+        }
+        ,
+        {
+            name: "Subsidiaria Matriz",
+            selector: row => row.matriz,
+            width: "8rem"
+        }
         ,
 
         {
             name: t('name_headings'),
             selector: row => row.name,
             width: "8rem"
-        }
-        ,
-        {
-            name: "Subsidiaria",
-            selector: row => row.subsidiary,
-            width: "8rem"
         },
         {
-            name: "Locación",
-            selector: row => row.location,
-            width:"8rem"
+            name: "Website",
+            selector: row => row.website,
+            width:"4rem"
         },
         {
-            name: "Puesto",
-            selector: row => row.puesto,
-            width: "8rem"
-        },
-        {
-            name: "Perfil",
-            selector: row => row.profile,
-            width: "5rem"
+            name: "Currency",
+            selector: row => row.currency,
+            width: "4rem"
         },
     ];
 
@@ -219,14 +219,18 @@ const UsuariosComp = () => {
                     <span className="slider round" ></span>
                 </label>
             ,
-            
-            subsidiary:"Sucursal Centro Sur Querétaro",
-            profile:<a href='https://www.freebug.mx/'><Icon.User /></a>,
+            logo: <img id="imageProductRetrieved2"
+                alt="..."
+                className=" img-fluid rounded shadow-lg"
+                src="https://picsum.photos/seed/picsum/200/300"
+                style={{ width: "40px" }}
+            ></img>,
+            matriz:"Freebug",
 
-            name: "Jorge Tenorio",
-            location: "Tienda Galindas",
-            puesto: <h6><Badge className='badgeCurrency'>
-                Administrador
+            name: "Sucursal Centro Sur Querétaro",
+            website: <a href='https://www.freebug.mx/'><Icon.Globe /></a>,
+            currency: <h6><Badge className='badgeCurrency'>
+                MXN
             </Badge></h6>
 
         }
@@ -241,23 +245,30 @@ const UsuariosComp = () => {
                 name: t('FreePOS:active_headings'),
                 selector: row => row.active,
             },
-            
+            {
+                name: t('imagen_headings'),
+                selector: row => row.image,
+            },
             {
                 name: t('name_headings'),
                 selector: row => row.name,
             },
             {
                 name: 'SKU',
-                selector: row => row.subsidiary,
+                selector: row => row.sku,
             },
             {
                 name: t('salePrice_headings'),
-                selector: row => row.location,
+                selector: row => row.priceSale,
             },
             {
                 name: t('purchasePrice_headings'),
-                selector: row => row.puesto,
-            }
+                selector: row => row.purchasePrice,
+            },
+            {
+                name: t('details_headings'),
+                selector: row => row.details,
+            },
         ];
         console.log("lista posicion", listaFilled);
         for (let i = 0; i < listaFilled.length; i++) {
@@ -315,9 +326,11 @@ const UsuariosComp = () => {
             <Col md="8">
                 <div className="d-flex align-items-stretch">
                     <div className="p-1 align-self-stretch">
-                        <Button title={t('addItem_modal')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> Usuario</Button>
+                        <Button title={t('addItem_modal')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> Subsidiaria</Button>
                     </div>
-                    
+                    <div className="p-1 align-self-stretch">
+                        <Button title={t('addItem_modal')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> Locación</Button>
+                    </div>
                     
                     
                     <div className="p-1 align-self-stretch" style={{ marginLeft: "auto" }}>
@@ -477,7 +490,7 @@ const UsuariosComp = () => {
                                         {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
 
                                         {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={Expa} />}
+                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedComponentSubsidiaries} />}
                                     </div>
 
 
@@ -539,7 +552,7 @@ const UsuariosComp = () => {
                 </Card>
             </Col>
             <Col>
-                <TotalRegistries txt={"Usuarios"} />
+                <TotalRegistries txt={"Subsidiarias"} />
                 <Transactions />
 
             </Col>
@@ -547,4 +560,4 @@ const UsuariosComp = () => {
     );
 };
 
-export default UsuariosComp;
+export default SubsidiariesComp;

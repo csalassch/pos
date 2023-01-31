@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardTitle, CardSubtitle, Row, Col } from 'reactstrap';
-import img1 from '../../assets/images/users/prfileMag2.jpg';
+import img1 from '@/pages/assets/images/users/prfileMag2.jpg';
 import Image from 'next/image';
 import TwoColumnComp from '../twoColumn/TwoColumnComp';
 import LeftMenu from './leftMenu';

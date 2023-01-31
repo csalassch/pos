@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListGroup, ListGroupItem ,Button} from 'reactstrap';
-import { setVisibilityFilter } from '@/pages/store/apps/contacts/ContactSlice';
+import { setVisibilityFilter } from '@/store/apps/contacts/ContactSlice';
 
 const LeftMenu = () => {
     const dispatch = useDispatch();
