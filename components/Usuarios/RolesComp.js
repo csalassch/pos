@@ -164,33 +164,36 @@ const RolesComp = () => {
                 <input style={{ marginRight: "5px" }} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
             </div>,
             selector: row => row.roleselect,
-            width: "3rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         ,
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width: "3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         ,
 
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width: "8rem"
+            maxWidth:"30em"
         }
 
         ,
         {
             name: "Subsidiaria",
             selector: row => row.subsidiary,
-            width: "8rem"
+            maxWidth:"30em"
         }
         ,
         {
             name: "Usuarios",
             selector: row => row.users,
-            width: "4rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
     ];
 

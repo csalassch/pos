@@ -168,13 +168,15 @@ const UsuariosComp = () => {
                 <input style={{ marginRight: "5px" }} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
             </div>,
             selector: row => row.subsidiarySelect,
-            width: "3rem"
+            minWidth:"4rem",
+            maxWidth:"4em"
         }
         ,
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width: "3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         
         ,
@@ -182,28 +184,29 @@ const UsuariosComp = () => {
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width: "8rem"
         }
         ,
         {
             name: "Subsidiaria",
             selector: row => row.subsidiary,
-            width: "8rem"
+
         },
         {
             name: "Locación",
             selector: row => row.location,
-            width:"8rem"
+
         },
         {
             name: "Puesto",
             selector: row => row.puesto,
-            width: "8rem"
+            minWidth:"8rem",
+            maxWidth:"8em"
         },
         {
             name: "Perfil",
             selector: row => row.profile,
-            width: "5rem"
+            minWidth:"4rem",
+            maxWidth:"4em"
         },
     ];
 
@@ -357,127 +360,18 @@ const UsuariosComp = () => {
 
                 </Collapse>
                 <Card className='border-0'>
-                    {/* <CardHeader style={{ backgroundColor: "white" }}>
-                        <Row>
-                            <div className='d-flex justify-content-end'>
-                                <Col md="3">
-                                </Col>
-                            </div>
-                        </Row>
-
-                    </CardHeader> */}
+                   
                     <CardBody>
                         <div>
-                            <Row>
-
-                                {/* <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
-                                <Row style={{ marginBottom: "10px" }}>
-                                    <Col>
-                                        <FormGroup>
-                                            <Label htmlFor="exampleFile">Categorías</Label>
-
-                                            <Select
-                                                closeMenuOnSelect={false}
-                                                // defaultValue={[arrayCategories[1]]}
-                                                isMulti
-                                                options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
-                                                styles={colourStyles}
-                                            // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
-
-                                            // onChange={(e) => { const arrCatAux = []; for (let i = 0; i < e.length; i++) { if (!arrCatAux.includes(e[i].key)) { arrCatAux.push(e[i].key); } } console.log(arrCatAux); setIdCategoriesArr(arrCatAux); }}
-
-                                            />
-                                        </FormGroup>
-                                    </Col>
-                                    <Col >
-                                        <Label htmlFor="exampleFile">Nombre</Label>
-                                        <Select
-                                            label="Single select"
-                                            options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
-                                            styles={colourStyles}
-                                        />
-                                    </Col>
-                                    <Col >
-                                        <Label htmlFor="exampleFile">SKU</Label>
-                                        <Select
-                                            label="Single select"
-                                            options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
-                                            styles={colourStyles}
-                                        />
-                                    </Col>
-
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <div className='d-flex justify-content-end'>
-
-                                            <Button type="submit" className="btn btn-success">Aplicar</Button>
-                                        </div>
-                                        {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
-
-                                {/* </Col>
-                                </Row> 
-
-                            </Collapse> */}
-                            </Row>
-
-                            {/* <br /> */}
-                            {/* <div className='w-full d-flex justify-content-start m-6'>
-                                <div style={{ cursor: "pointer" }} className="d-flex justify-content-center" onClick={getDatosProductos}>
-                                    <Icon.RefreshCw style={{ marginRight: "5px" }} />
-                                    <p> Recargar</p>
-                                </div>
-                            </div> */}
+                            
                             <Row className='d-flex justify-content-center'>
                                 <Col>
-                                    {/* <Table className="no-wrap mt-0 align-middle" responsive borderless >
-                                        <thead >
-                                            <tr>
-                                                <th className='text-center'>{t('active_headings')}</th>
-                                                <th className='text-center'>{t('imagen_headings')}</th>
-                                                <th>{t('name_headings')}</th>
-                                                <th>SKU</th>
-                                                <th>{t('salePrice_headings')}</th>
-                                                <th>{t('purchasePrice_headings')}</th>
-                                                <th className='text-center'>{t('details_headings')}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody style={{ fontSize: "13px" }}>
-                                            {lista.map((tdata) => (
-                                                <tr key={tdata.id} className="border-top">
-                                                    <td><div className='d-flex justify-content-center' onClick={() => { modifiedActive(tdata) }}>
-                                                        
-                                                        {tdata.active === "true" || tdata.active === true ? <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckChecked" defaultChecked /></div>
-                                                            : <div className='d-flex justify-content-center'><CFormSwitch id="formSwitchCheckDefault" />
-                                                            </div>}
-                                                    </div></td>
-                                                    <td className='d-flex justify-content-center'><img id="imageProductRetrieved"
-                                                        alt="..."
-                                                        className=" img-fluid rounded shadow-lg"
-                                                        src={tdata.urlImage}
-                                                        style={{ width: "40px" }}
-                                                    ></img></td>
-                                                    <td>{tdata.nombre}</td>
-                                                    <td>{tdata.sku}</td>
-                                                    <td>$ {tdata.precio}</td>
-                                                    <td>$ {tdata.precio}</td>
-                                                    <td>
-                                                        <div className='d-flex justify-content-center'>
-                                                            <Button color='secondary' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
-
-
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </Table> */}
-                                    {/* DataTable component */}
+                                    
                                     <div className='container-fluid'>
                                         {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
 
                                         {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedComponentUsuarios} />}
+                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination />}
                                     </div>
 
 

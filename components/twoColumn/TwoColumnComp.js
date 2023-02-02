@@ -5,7 +5,7 @@ import { ListGroup, ListGroupItem, Button, FormGroup, Label, Input, Row, Col } f
 import Select from 'react-select';
 import SimpleBar from 'simplebar-react';
 
-const TwoColumnComp = ({ leftContent, rightContent }) => {
+const TwoColumnComp = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     const [isEditClick, setIsEditClick] = React.useState(true);
     const [isOpenMenu, setIsOpenMenu] = React.useState({ myInformation: true, myCompany: false, payments: false });
@@ -60,7 +60,7 @@ const TwoColumnComp = ({ leftContent, rightContent }) => {
 
                     <div className="p-3 border-bottom">
                         <Button className='btn-icon-Modal' block onClick={() => setIsEditClick(false)}>
-                            <i class="bi bi-pencil mx-1"></i>Editar {editTxt}
+                            <i className="bi bi-pencil mx-1"></i>Editar {editTxt}
                         </Button>
                     </div>
                     <ListGroup className='pb-4' flush>
@@ -99,7 +99,7 @@ const TwoColumnComp = ({ leftContent, rightContent }) => {
                             onClick={() => setIsOpenMenu({ myInformation: false, myCompany: true, payments: true })}
 
                         >
-                            <i class="bi bi-cash-coin"></i> Configuración de pago
+                            <i className="bi bi-cash-coin"></i> Configuración de pago
                         </ListGroupItem>
                     </ListGroup>
                 </SimpleBar>

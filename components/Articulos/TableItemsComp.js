@@ -181,39 +181,43 @@ const TableItemsComp = () => {
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width:"3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         ,
         {
             name: t('imagen_headings'),
             selector: row => row.image,
-            width:"4rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         },
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width:"6rem"
+            maxWidth:"20em",
         },
         {
             name: 'SKU',
             selector: row => row.sku,
-            width:"6rem"
+            maxWidth:"20em"
         },
         {
             name: t('salePrice_headings'),
             selector: row => row.priceSale,
-            width:"5.5rem"
+            maxWidth:"5em",
+
         },
         {
             name: t('purchasePrice_headings'),
             selector: row => row.purchasePrice,
-            width:"5.5rem"
+            maxWidth:"5em"
 
         },
         {
             name: t('details_headings'),
             selector: row => row.details,
-            width:"3.5rem"
+            minWidth:"4rem",
+            maxWidth:"4em"
         }
     ];
 
@@ -586,7 +590,7 @@ const TableItemsComp = () => {
                                         {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
 
                                         {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-                                        {!isSSR && <DataTable columns={columns} data={data} pagination />}
+                                        {!isSSR && <DataTable columns={columns} data={data} pagination responsive />}
                                     </div>
 
 

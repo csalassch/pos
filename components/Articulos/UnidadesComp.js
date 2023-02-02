@@ -1,42 +1,21 @@
-
 import { useEffect, useState } from 'react';
-
 import * as Icon from 'react-feather';
 import Select from 'react-select';
-
-// import { Link } from 'react-router-dom';
 import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
-// import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
-// import { CFormSwitch } from '@coreui/bootstrap-react';
-
-// import { onValue, ref, update, push } from 'firebase/database';
 import Papa from "papaparse";
-// import { useTranslation } from 'next-i18next';
-// import { useTranslation } from 'react-i18next';
 import useTranslation from '@/hooks/useTranslation';
-// import ReactDataTablePagination from 'react-datatable-pagination'
-
 import DataTable from 'react-data-table-component';
 import Transactions from '../Transactions/transactions';
 import TotalRegistries from '../TotalRegistries/totalRegistries';
-// import { db, dbStorage } from '../../FirebaseConfig/firebase';
-// import { useAuth } from '../../Context/authContext';
-
-// import MultiSteps from './MultiSteps';
-// import { useTranslation } from "next-i18next";
 
 
 
 
 const UnidadesComp = () => {
     const { t } = useTranslation();
-    // const { user } = useAuth();
     const user = { uid: "example" };
-
-
     const [modal, setModal] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
-    // const [lista, setLista] = useState([{}]);
     const [lista, setLista] = useState([{ id: '', nombre: '', urlImage: '', sku: '', precio: 0, active: false }]);
     const [modalCsv, setModalCsv] = useState(false);
     const [hiddenSuccessUpload, sethiddenSuccessUpload] = useState(false);
@@ -181,19 +160,21 @@ const UnidadesComp = () => {
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width: "3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         ,
 
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width: "12rem"
+            maxWidth:"50em"
         },
         {
             name: t('details_headings'),
             selector: row => row.details,
-            width: "3.5rem"
+            minWidth:"4rem",
+            maxWidth:"4em"
         }
     ];
 

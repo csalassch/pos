@@ -183,19 +183,21 @@ const CategoriesComp = () => {
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width: "3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         ,
 
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width: "12rem"
+            maxWidth:"50em",
         },
         {
             name: t('details_headings'),
             selector: row => row.details,
-            width: "3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
     ];
 

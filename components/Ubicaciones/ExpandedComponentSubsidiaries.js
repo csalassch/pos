@@ -13,31 +13,35 @@ const ExpandedComponentSubsidiaries = () => {
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width: "3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         ,
         
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width: "8rem"
+            maxWidth:"20em"
         },
         {
             name: "Dirección",
             selector: row => row.address,
-            width: "10rem"
+            maxWidth:"20em"
         }
         ,
         {
             name: "Staff",
             selector: row => row.staff,
-            width: "4.5rem"
+            minWidth:"4rem",
+            maxWidth:"4em",
+
 
         },
         {
             name: "Stock",
             selector: row => row.stock,
-            width: "4rem"
+            minWidth:"4rem",
+            maxWidth:"4em"
         },
     ];
 

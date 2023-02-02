@@ -163,56 +163,53 @@ const SubsidiariesComp = () => {
     let columnsTable = [];
     const dataTable = [];
     const columns = [
-        {
-            name: <div className="form-check d-flex flex-row">
-                <input style={{ marginRight: "5px" }} className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-            </div>,
-            selector: row => row.subsidiarySelect,
-            width: "3rem"
-        }
-        ,
+        
+        
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width: "3.5rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         }
         ,
         {
             name: "Logo",
             selector: row => row.logo,
-            width: "4.5rem"
+            minWidth:"7rem",
+            maxWidth:"7em"
         }
         ,
         {
             name: "Subsidiaria Matriz",
             selector: row => row.matriz,
-            width: "8rem"
+            maxWidth:"10em"
         }
         ,
 
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width: "8rem"
+            maxWidth:"10em"
         },
         {
             name: "Website",
             selector: row => row.website,
-            width:"4rem"
+            maxWidth:"5em",
+            minWidth:"5rem",
+
         },
         {
             name: "Currency",
             selector: row => row.currency,
-            width: "4rem"
+            minWidth:"5rem",
+            maxWidth:"5em"
         },
     ];
 
     const dataSubs = [
         {
             id: 1,
-            subsidiarySelect: <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-            </div>,
+            
             active:
                 <label className="switch">
                     <input type="checkbox" />
@@ -225,7 +222,7 @@ const SubsidiariesComp = () => {
                 src="https://picsum.photos/seed/picsum/200/300"
                 style={{ width: "40px" }}
             ></img>,
-            matriz:"Freebug",
+            matriz:"Freebug Magdiel Elienai Jiménez Tabla S.A de C.V",
 
             name: "Sucursal Centro Sur Querétaro",
             website: <a href='https://www.freebug.mx/'><Icon.Globe /></a>,

@@ -12,16 +12,19 @@ const ExpandedRolesComponent = () => {
     const columns = [
         {
 
-            name: "",
+            name: <Icon.Check className='checkRoles' />,
             selector: row => row.active,
-            width: "2rem"
+            minWidth:"5rem",
+            maxWidth:"5em",
+            compact:true
         }
         ,
 
         {
             name: "Permiso",
             selector: row => row.name,
-            width: "18rem"
+            maxWidth:"30em",
+            compact:true
         }
 
 
@@ -72,7 +75,7 @@ const ExpandedRolesComponent = () => {
             {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
 
             {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-            {!isSSR && <div className='d-flex justify-content-center align-items-center'><Row><Col><DataTable columns={columns} data={dataSubs} dense style={{backgroundColor:"red"}} /></Col></Row></div>}
+            {!isSSR && <div className='d-flex justify-content-center align-items-center'><Row><Col><DataTable columns={columns} data={dataSubs} style={{backgroundColor:"red"}} /></Col></Row></div>}
         </div>
 
     );

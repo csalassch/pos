@@ -23,7 +23,7 @@ const MiPerfilComp = () => {
         </div>
       </CardBody>
       <CardBody>
-          <TwoColumnComp leftContent={LeftMenu} rightContent={RightMenu}/>
+          <TwoColumnComp/>
       </CardBody>
     </Card>
   );

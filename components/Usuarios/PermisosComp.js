@@ -38,14 +38,15 @@ const PermisosComp = () => {
         {
             name: t('active_headings'),
             selector: row => row.active,
-            width: "3.5rem"
+            minWidth: "5rem",
+            maxWidth: "5em"
         }
         ,
 
         {
             name: t('name_headings'),
             selector: row => row.name,
-            width: "14rem"
+            maxWidth: "50em"
         }
     ];
 
@@ -69,52 +70,52 @@ const PermisosComp = () => {
         searchPlacehorlder = "Search";
     }
     const [isSSR, setIsSSR] = useState(true);
-    const [dataItems2,setDataItems2]=useState([]);
-    const [dataSales,setDataSales]=useState([]);
-    const [dataPurchases,setDataPurchases]=useState([]);
-    const [dataSuppliers,setDataSuppliers]=useState([]);
-    const [dataAdmin,setDataAdmin]=useState([]);
-    const dataItems=[];
-    async function classifyPermits(classification){
-        const bunch=[];
-        CatalogoPermisos.forEach((permit)=>{
-            if(permit.tipo===classification){
-                
+    const [dataItems2, setDataItems2] = useState([]);
+    const [dataSales, setDataSales] = useState([]);
+    const [dataPurchases, setDataPurchases] = useState([]);
+    const [dataSuppliers, setDataSuppliers] = useState([]);
+    const [dataAdmin, setDataAdmin] = useState([]);
+    const dataItems = [];
+    async function classifyPermits(classification) {
+        const bunch = [];
+        CatalogoPermisos.forEach((permit) => {
+            if (permit.tipo === classification) {
+
                 bunch.push({
-                    id: permit.id, 
+                    id: permit.id,
                     active: <label className="switch">
                         <input type="checkbox" />
                         <span className="slider round" ></span>
-                    </label>, 
+                    </label>,
                     name: permit.permiso
                 });
             }
         });
-        console.log("Bunch: ",bunch);
+        console.log("Bunch: ", bunch);
         return bunch;
     }
 
     useEffect(() => {
         setIsSSR(false);
-        if(dataItems.length===0){
-           classifyPermits("Artículos").then((list)=>{
-                dataItems=list;
+        if (dataItems.length === 0) {
+            classifyPermits("Artículos").then((list) => {
+                dataItems = list;
                 setDataItems2(list);
             });
-           classifyPermits("Ventas").then((list)=>{
+            classifyPermits("Ventas").then((list) => {
                 setDataSales(list);
             });
-           classifyPermits("Compras").then((list)=>{
+            classifyPermits("Compras").then((list) => {
                 setDataPurchases(list);
             });
-           classifyPermits("Proveedores").then((list)=>{
+            classifyPermits("Proveedores").then((list) => {
                 setDataSuppliers(list);
             });
-           classifyPermits("Administrativo").then((list)=>{
+            classifyPermits("Administrativo").then((list) => {
                 setDataAdmin(list);
             });
         }
-        
+
     }, []);
     return (
         <Row>
@@ -130,7 +131,7 @@ const PermisosComp = () => {
                     </div>
                 </div>
                 <Row>
-                    <Col className='mt-3 py-3'>
+                    <Col md="4" className='mt-3 py-3'>
                         <Card style={{ cursor: "pointer" }} className='border-0' onClick={() => { setShowPermits({ items: !showPermits.items, sales: showPermits.sales, purchases: showPermits.purchases, suppliers: showPermits.suppliers, admin: showPermits.admin }) }}>
                             <CardBody>
                                 <div>
@@ -143,7 +144,7 @@ const PermisosComp = () => {
                                                     <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconItem2.png?alt=media&token=659a426e-7e8e-4fc4-8f66-77b6a772c292' />
 
 
-                                                    <h3 style={{marginLeft:"5px"}} className='quickLinksHeadings'>Artículos</h3>
+                                                    <h3 style={{ marginLeft: "5px" }} className='quickLinksHeadings'>Artículos</h3>
 
                                                 </div>
                                             </div>
@@ -154,9 +155,7 @@ const PermisosComp = () => {
                                 <Collapse isOpen={showPermits.items} style={{ marginTop: "10px" }}>
                                     <Row style={{ marginBottom: "10px" }}>
                                         <Col >
-                                            <div className='container-fluid'>
-                                                {!isSSR && <DataTable columns={columns} data={dataItems2} pagination />}
-                                            </div>
+                                                {!isSSR && <DataTable columns={columns} data={dataItems2} pagination responsive />}
                                         </Col>
                                     </Row>
 
@@ -164,7 +163,7 @@ const PermisosComp = () => {
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col className='py-3 mt-3'>
+                    <Col md="4" className='py-3 mt-3'>
                         <Card style={{ cursor: "pointer" }} className='border-0' onClick={() => { setShowPermits({ items: showPermits.items, sales: !showPermits.sales, purchases: showPermits.purchases, suppliers: showPermits.suppliers, admin: showPermits.admin }) }}>
                             <CardBody>
                                 <div>
@@ -189,9 +188,7 @@ const PermisosComp = () => {
                                     <Row style={{ marginBottom: "10px" }}>
 
                                         <Col >
-                                        <div className='container-fluid'>
-                                                {!isSSR && <DataTable columns={columns} data={dataSales} pagination />}
-                                            </div>
+                                                {!isSSR && <DataTable columns={columns} data={dataSales} pagination responsive />}
                                         </Col>
 
                                     </Row>
@@ -206,7 +203,7 @@ const PermisosComp = () => {
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col className='py-3 mt-3'>
+                    <Col md="4" className='py-3 mt-3'>
                         <Card style={{ cursor: "pointer" }} className='border-0' onClick={() => { setShowPermits({ items: showPermits.items, sales: showPermits.sales, purchases: !showPermits.purchases, suppliers: showPermits.suppliers, admin: showPermits.admin }) }}>
                             <CardBody>
                                 <div>
@@ -216,8 +213,8 @@ const PermisosComp = () => {
 
                                                 <div className='d-flex align-items-center justify-content-center'>
 
-                                                    <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' 
-                                                    src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconCompras.png?alt=media&token=d200bd67-8852-4235-99cc-e0f6840b01bb' />
+                                                    <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access'
+                                                        src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconCompras.png?alt=media&token=d200bd67-8852-4235-99cc-e0f6840b01bb' />
 
 
                                                     <h3 className='quickLinksHeadings'>Compras</h3>
@@ -232,9 +229,7 @@ const PermisosComp = () => {
                                     <Row style={{ marginBottom: "10px" }}>
 
                                         <Col >
-                                        <div className='container-fluid'>
-                                                {!isSSR && <DataTable columns={columns} data={dataPurchases} pagination />}
-                                            </div>
+                                                {!isSSR && <DataTable columns={columns} data={dataPurchases} pagination responsive />}
                                         </Col>
 
                                     </Row>
@@ -262,8 +257,8 @@ const PermisosComp = () => {
 
                                                 <div className='d-flex align-items-center justify-content-center'>
 
-                                                    <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' 
-                                                    src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconProveedor.png?alt=media&token=4a3bd446-5d54-46d4-8e54-9b79b152be16' />
+                                                    <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access'
+                                                        src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconProveedor.png?alt=media&token=4a3bd446-5d54-46d4-8e54-9b79b152be16' />
 
 
                                                     <h3 className='quickLinksHeadings'>Proveedores</h3>
@@ -277,9 +272,7 @@ const PermisosComp = () => {
                                 <Collapse isOpen={showPermits.suppliers} style={{ marginTop: "10px" }}>
                                     <Row style={{ marginBottom: "10px" }}>
                                         <Col >
-                                            <div className='container-fluid'>
-                                                {!isSSR && <DataTable columns={columns} data={dataSuppliers} pagination />}
-                                            </div>
+                                                {!isSSR && <DataTable columns={columns} data={dataSuppliers} pagination responsive />}
                                         </Col>
                                     </Row>
 
@@ -309,24 +302,23 @@ const PermisosComp = () => {
 
                                 </div >
                                 <Collapse isOpen={showPermits.admin} style={{ marginTop: "10px" }}>
-                                    <Row style={{ marginBottom: "10px" }}>
 
-                                        <Col >
-                                        <div className='container-fluid'>
-                                                {!isSSR && <DataTable columns={columns} data={dataAdmin} pagination />}
-                                            </div>
-                                        </Col>
+                                        <Row style={{ marginBottom: "10px" }}>
 
-                                    </Row>
-                                    
+                                            <Col >
+                                                    {!isSSR && <DataTable columns={columns} data={dataAdmin} pagination responsive />}
+                                            </Col>
+
+                                        </Row>
+
                                 </Collapse>
                             </CardBody>
                         </Card>
                     </Col>
-                    
+
 
                 </Row>
-                
+
             </Col>
 
         </Row >
