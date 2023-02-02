@@ -122,7 +122,9 @@ const ProfileDD = () => {
             {darkTheme !== undefined && (
 
               <label className="switch">
-                <input type="checkbox" checked={darkTheme} onChange={(e) => { handleToggle(e); window.location.reload() }} />
+                <input type="checkbox" checked={darkTheme} onChange={(e) => { handleToggle(e); 
+                  // window.location.reload() 
+                  }} />
                 <span className="slider round" ></span>
               </label>
             )}

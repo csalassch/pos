@@ -4,7 +4,7 @@ const SidebarDataClient = [
   
   {
     title: 'Home',
-    href: '/dashboard',
+    href: '/views/dashboard',
     id: 1,
     icon: <Icon.Home />,
     collapisble: true,

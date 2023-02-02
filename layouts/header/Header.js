@@ -47,10 +47,10 @@ const Header = ({ setModeFunc, mode }) => {
 
   // const { logout } = useAuth();
   const handleLogout = async () => {
-    const response=await axios.post('/api/auth/logout');
-    if(response.status===200){
-      router.push("/login");
-  }
+    const response = await axios.post('/api/auth/logout');
+    if (response.status === 200) {
+      router.push("/views/login");
+    }
     // await logout();
   }
   const mexico = <div> <Link href={router.pathname} locale="esMX"><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" /></Link></div>;
@@ -139,12 +139,18 @@ const Header = ({ setModeFunc, mode }) => {
         } else if (cookie.preferredLanguage === "fr") {
           setSavedLangLabel(france);
         }
-      }else{
+      } else {
         setCookie("preferredLanguage", "esMX", {
           path: "/",
           maxAge: 3600, // Expires after 1hr
           sameSite: true,
         });
+        setSavedLangLabel(mexico);
+        setSavedLangVal("esMX");
+      }
+      if(!cookie.preferredLanguage || cookie.preferredLanguage==="undefined"){
+        setSavedLangLabel(mexico);
+        setSavedLangVal("esMX");
       }
     }
 
