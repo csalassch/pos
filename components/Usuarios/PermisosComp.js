@@ -91,7 +91,6 @@ const PermisosComp = () => {
                 });
             }
         });
-        console.log("Bunch: ", bunch);
         return bunch;
     }
 

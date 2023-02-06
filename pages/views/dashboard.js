@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -10,13 +10,16 @@ import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 import LicenciaDescripcion from "@/components/HomeComponents/LicenciaDescripcion";
 import useTranslation from "@/hooks/useTranslation";
 import Link from "next/link";
+import Image from "next/image";
 
 
 function Dashboard() {
 
     const { t } = useTranslation();
-    const seeInformationTxt=t('txtSeeInformation');
+    const seeInformationTxt = t('txtSeeInformation');
     const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
+    const [isSSR, setIsSSR] = useState(true);
+
     const [user, setUser] = useState({
         email: "",
         username: ""
@@ -211,6 +214,10 @@ function Dashboard() {
             },
         },
     };
+    useEffect(()=>{
+        setIsSSR(false);
+
+    })
 
     return (
         <>
@@ -218,7 +225,7 @@ function Dashboard() {
                 <div className="boxContainer p-4 container-fluid">
 
 
-                    <BreadCrumbs className="breadCrumbs"/>
+                    <BreadCrumbs className="breadCrumbs" />
                     <div className='row mt-3'>
                         <div className='col-md-6 col-sm-8'>
 
@@ -230,15 +237,20 @@ function Dashboard() {
                                         <Col className='col-md-8 col-sm-6'>
                                             <h1 className="display-7 txtWelcome">{t('txtHello')}<br /><strong>Magdiel Elienai Jiménez Tabla!</strong></h1>
                                             <p className='lead txtWelcome'>
-                                            {t('txtWelcome')} Koonol
+                                                {t('txtWelcome')} Koonol
                                             </p>
                                         </Col>
 
                                         <Col className='col-md-4 col-sm-6'>
-                                            <img
-                                                className='helloImage'
+                                            <div className="helloImage">
 
-                                                alt='helloKonool' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FHello%20(3).png?alt=media&token=0731a8b9-3896-444c-82e7-ded61de64b69' />
+                                                <Image
+                                                    className='helloImage'
+                                                    width={300}
+                                                    height={300}
+
+                                                    alt='helloKonool' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FHello%20(3).png?alt=media&token=0731a8b9-3896-444c-82e7-ded61de64b69' />
+                                            </div>
 
                                             {/* <div style={{ backgroundImage: "url('https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FHello.png?alt=media&token=6ff16889-9f27-4171-be5f-0af5b4a65357')", backgroundSize: "contain", width: "200px", backgroundRepeat: "no-repeat" }}>
     
@@ -268,8 +280,12 @@ function Dashboard() {
                                             <div className="container-fluid">
 
                                                 <div className='d-flex align-items-center justify-content-center'>
+                                                    <div style={{ marginTop: "-4rem", maxHeight: "120px" }}>
 
-                                                    <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconVentas.png?alt=media&token=f4ef9eaf-92f9-4d16-997f-1a0f97c1719f' />
+                                                        <Image width={90} height={120} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconVentas.png?alt=media&token=f4ef9eaf-92f9-4d16-997f-1a0f97c1719f' />
+                                                    </div>
+
+                                                    {/* <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconVentas.png?alt=media&token=f4ef9eaf-92f9-4d16-997f-1a0f97c1719f' /> */}
 
 
                                                     <h4 className='quickLinksHeadings'>{t('txt_TotalSales')}</h4>
@@ -290,8 +306,10 @@ function Dashboard() {
                                             <div className="container-fluid">
 
                                                 <div className='d-flex align-items-center justify-content-center'>
+                                                    <div style={{ maxHeight: "120px", marginTop: "-4rem" }}>
+                                                        <Image layout="fixed" width={100} height={120} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconCompras.png?alt=media&token=d200bd67-8852-4235-99cc-e0f6840b01bb' />
+                                                    </div>
 
-                                                    <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconCompras.png?alt=media&token=d200bd67-8852-4235-99cc-e0f6840b01bb' />
 
                                                     <h4 className='quickLinksHeadings'>{t('txtPurchases')}</h4>
 
@@ -311,7 +329,10 @@ function Dashboard() {
                                             <div className="container-fluid">
 
                                                 <div className='d-flex align-items-center justify-content-center'>
-                                                    <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconProveedor.png?alt=media&token=4a3bd446-5d54-46d4-8e54-9b79b152be16' />
+                                                    <div style={{ maxHeight: "120px", marginTop: "-4rem" }}>
+
+                                                        <Image layout="fixed" width={55} height={120} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconProveedor.png?alt=media&token=4a3bd446-5d54-46d4-8e54-9b79b152be16' />
+                                                    </div>
                                                     <h4 className='quickLinksHeadings'>{t('txtSuppliers')}</h4>
 
 
@@ -343,10 +364,12 @@ function Dashboard() {
                             <h3 className='outsideCardHeadings' >{t('txt_TopItemsSold')}</h3>
                             <Card className="border-0">
                                 <CardBody>
+                                {!isSSR &&
                                     <DataTable
                                         columns={columns}
                                         data={data}
                                     />
+                                }
 
                                 </CardBody>
                             </Card>
@@ -362,24 +385,24 @@ function Dashboard() {
                                 <CardBody>
                                     <Row>
                                         <Col>
-                                            <LicenciaDescripcion txtSeeInformation={ seeInformationTxt} />
+                                            <LicenciaDescripcion txtSeeInformation={seeInformationTxt} />
                                         </Col>
                                         <Col>
                                             <LicenciaDescripcion txtSeeInformation={t('txtSeeInformation')} />
                                         </Col>
                                         <Col>
-                                            <LicenciaDescripcion txtSeeInformation={ seeInformationTxt}/>
+                                            <LicenciaDescripcion txtSeeInformation={seeInformationTxt} />
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Col>
-                                            <LicenciaDescripcion txtSeeInformation={ seeInformationTxt} />
+                                            <LicenciaDescripcion txtSeeInformation={seeInformationTxt} />
                                         </Col>
                                         <Col>
-                                            <LicenciaDescripcion txtSeeInformation={ seeInformationTxt} />
+                                            <LicenciaDescripcion txtSeeInformation={seeInformationTxt} />
                                         </Col>
                                         <Col>
-                                            <LicenciaDescripcion txtSeeInformation={ seeInformationTxt}/>
+                                            <LicenciaDescripcion txtSeeInformation={seeInformationTxt} />
                                         </Col>
                                     </Row>
 
@@ -427,7 +450,7 @@ function Dashboard() {
 }
 
 export default Dashboard;
-const StyledPage=styled.div`
+const StyledPage = styled.div`
 background-color: {({ theme }) => theme.backgroundColor };
 color: {({ theme }) => theme.fontColor };
 `;

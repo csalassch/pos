@@ -33,6 +33,7 @@ class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
+        <script>0</script>
       </Html>
     );
   }

@@ -27,7 +27,7 @@ function LoginPage() {
         const response = await axios.post('/api/auth/login', credentials);
         console.log("Submit: ", response.status);
         if (response.status === 200) {
-            // router.push("/dashboard");
+            // router.push("/views/dashboard");
             router.push("/views/dashboard").then(()=>{
                 window.location.reload();
             });

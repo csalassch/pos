@@ -407,6 +407,15 @@
         display: flex;
         justify-content: space-between !important;
     }
+    .listPermitsRole{
+        background-color: transparent;
+        &:hover{
+            background-color: #d9e1e2;
+            color:$primary;
+            cursor:pointer;
+
+        }
+    }
 }
 
 [data-theme='dark'] {
@@ -1018,6 +1027,14 @@
     }
     #loader{
         content:url("../images/loader/loaderDarkKoonol.gif");
+    }
+    .listPermitsRole{
+        background-color: transparent;
+        &:hover{
+            background-color: #192430;
+            color:$primary;
+
+        }
     }
 
 }

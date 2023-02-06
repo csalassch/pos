@@ -14,7 +14,20 @@ const nextConfig = {
         permanent:true
       }
     ]
-  }
+  },
+  images: {
+    domains: ['firebasestorage.googleapis.com'],
+  },
+  // images: {
+  //   remotePatterns: [
+  //     {
+  //       protocol: 'https',
+  //       hostname: 'firebasestorage.googleapis.com',
+  //       port: '',
+  //       pathname: '/v0/b/panellicencia.appspot.com/o/images%2FiconVentas.png?alt=media&token=f4ef9eaf-92f9-4d16-997f-1a0f97c1719f',
+  //     },
+  //   ],
+  // },
 }
 
 module.exports = nextConfig
