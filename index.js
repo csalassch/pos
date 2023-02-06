@@ -78,6 +78,7 @@ function IndexPage({ Component, pageProps }) {
       {/* </div> */}
 
     </main>
+    
   )
 }
 
