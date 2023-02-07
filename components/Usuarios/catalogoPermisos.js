@@ -11,7 +11,7 @@ const CatalogoPermisos = [
     },
     { permiso: "Aprobación de autorización de devolución de proveedor", tipo: "Proveedores",id:3 },
     { permiso: "Aprobación de factura de proveedor", tipo: "Proveedores",id:4 },
-    { permiso: "Aprobación de factura de venta", tipo: "Proveedores" ,id:5},
+    { permiso: "Aprobación de factura de venta", tipo: "Ventas" ,id:5},
     { permiso: "Aprobación de orden de venta", tipo: "Ventas" ,id:6},
     { permiso: "Aprobación de pagos de proveedor", tipo: "Proveedores" ,id:7},
     { permiso: "Autorización de devolución",tipo:"Ventas",id:8 },

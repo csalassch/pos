@@ -9,7 +9,7 @@ const Transactions = () => {
     return (
         <Card className='border-0'>
                     <CardHeader style={{ paddingBottom: "0" }}>
-                        <h4 style={{ fontWeight: "600", color: "	#1186a2" }}>{t('heading_recent_transactions')}</h4>
+                        <h4 style={{ fontWeight: "600", color: "	#1186a2" }}>{t('txt_023')}</h4>
                     </CardHeader>
                     <CardBody style={{ paddingTop: "0" }}>
                         <Table className="no-wrap mt-0 align-middle table table-sm txtRecentTransactions" responsive borderless style={{ fontSize: "11px" }}>

@@ -11,7 +11,7 @@ const ExpandedComponentSubsidiaries = () => {
     const columns = [
         
         {
-            name: t('active_headings'),
+            name: t('txt_017'),
             selector: row => row.active,
             minWidth:"5rem",
             maxWidth:"5em"
@@ -19,7 +19,7 @@ const ExpandedComponentSubsidiaries = () => {
         ,
         
         {
-            name: t('name_headings'),
+            name: t('txt_008'),
             selector: row => row.name,
             maxWidth:"20em"
         },
@@ -106,9 +106,6 @@ const ExpandedComponentSubsidiaries = () => {
 
     return (
         <div className='container-fluid'>
-            {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
-
-            {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
             {!isSSR && <DataTable columns={columns} data={dataSubs}/>}
         </div>
 

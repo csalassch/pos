@@ -16,7 +16,7 @@ import Image from "next/image";
 function Dashboard() {
 
     const { t } = useTranslation();
-    const seeInformationTxt = t('txtSeeInformation');
+    const seeInformationTxt = t('txt_012');
     const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
     const [isSSR, setIsSSR] = useState(true);
 
@@ -50,11 +50,11 @@ function Dashboard() {
             selector: row => row.num,
         },
         {
-            name: t('name_headings'),
+            name: t('txt_008'),
             selector: row => row.name,
         },
         {
-            name: t('txt_TotalSales'),
+            name: t('txt_009'),
             selector: row => row.sales,
         },
     ];
@@ -217,7 +217,7 @@ function Dashboard() {
     useEffect(()=>{
         setIsSSR(false);
 
-    })
+    });
 
     return (
         <>
@@ -225,7 +225,7 @@ function Dashboard() {
                 <div className="boxContainer p-4 container-fluid">
 
 
-                    <BreadCrumbs className="breadCrumbs" />
+                {!isSSR &&<BreadCrumbs className="breadCrumbs" />}
                     <div className='row mt-3'>
                         <div className='col-md-6 col-sm-8'>
 
@@ -235,9 +235,9 @@ function Dashboard() {
                                     <Row>
 
                                         <Col className='col-md-8 col-sm-6'>
-                                            <h1 className="display-7 txtWelcome">{t('txtHello')}<br /><strong>Magdiel Elienai Jiménez Tabla!</strong></h1>
+                                            <h1 className="display-7 txtWelcome">{t('txt_001')}<br /><strong>Magdiel Elienai Jiménez Tabla!</strong></h1>
                                             <p className='lead txtWelcome'>
-                                                {t('txtWelcome')} Koonol
+                                                {t('txt_002')} Koonol
                                             </p>
                                         </Col>
 
@@ -271,7 +271,7 @@ function Dashboard() {
                     <div className='row mt-3'>
                         <div className='col align-self-stretch'>
                             <Row>
-                                <h3 className='outsideCardHeadings' >{t('quickLinks')}</h3>
+                                <h3 className='outsideCardHeadings' >{t('txt_003')}</h3>
 
                                 <Col className='mt-5 col-md-4 col-sm'>
                                     <Card className="border-0">
@@ -288,54 +288,36 @@ function Dashboard() {
                                                     {/* <img style={{ maxHeight: "120px", marginTop: "-4rem" }} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconVentas.png?alt=media&token=f4ef9eaf-92f9-4d16-997f-1a0f97c1719f' /> */}
 
 
-                                                    <h4 className='quickLinksHeadings'>{t('txt_TotalSales')}</h4>
+                                                    <h4 className='quickLinksHeadings'>{t('txt_004')}</h4>
 
                                                 </div>
                                             </div>
-
-
-
-
                                         </CardBody>
                                     </Card>
                                 </Col>
                                 <Col className='mt-5 col-md-4 col-sm'>
                                     <Card className="border-0">
-
                                         <CardBody>
                                             <div className="container-fluid">
-
                                                 <div className='d-flex align-items-center justify-content-center'>
                                                     <div style={{ maxHeight: "120px", marginTop: "-4rem" }}>
                                                         <Image layout="fixed" width={100} height={120} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconCompras.png?alt=media&token=d200bd67-8852-4235-99cc-e0f6840b01bb' />
                                                     </div>
-
-
-                                                    <h4 className='quickLinksHeadings'>{t('txtPurchases')}</h4>
-
-
-
+                                                    <h4 className='quickLinksHeadings'>{t('txt_005')}</h4>
                                                 </div>
                                             </div>
-
-
                                         </CardBody>
                                     </Card>
                                 </Col>
                                 <Col className='mt-5 col-md-4 col-sm'>
                                     <Card className="border-0">
-
                                         <CardBody>
                                             <div className="container-fluid">
-
                                                 <div className='d-flex align-items-center justify-content-center'>
                                                     <div style={{ maxHeight: "120px", marginTop: "-4rem" }}>
-
                                                         <Image layout="fixed" width={55} height={120} alt='access' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FiconProveedor.png?alt=media&token=4a3bd446-5d54-46d4-8e54-9b79b152be16' />
                                                     </div>
-                                                    <h4 className='quickLinksHeadings'>{t('txtSuppliers')}</h4>
-
-
+                                                    <h4 className='quickLinksHeadings'>{t('txt_006')}</h4>
                                                 </div>
                                             </div>
 
@@ -347,7 +329,7 @@ function Dashboard() {
                             </Row>
                             <Row>
                                 <Col>
-                                    <h3 className='outsideCardHeadings' >{t('txt_monthlySales')}</h3>
+                                    <h3 className='outsideCardHeadings' >{t('txt_010')}</h3>
                                     <Card className="border-0">
 
                                         <CardBody>
@@ -361,7 +343,7 @@ function Dashboard() {
 
                         </div>
                         <div className='col-md-4 align-self-stretch'>
-                            <h3 className='outsideCardHeadings' >{t('txt_TopItemsSold')}</h3>
+                            <h3 className='outsideCardHeadings' >{t('txt_007')}</h3>
                             <Card className="border-0">
                                 <CardBody>
                                 {!isSSR &&
@@ -379,7 +361,7 @@ function Dashboard() {
                     {/* Licencias  Compradas*/}
                     <div className='row mt-4'>
                         <div className='col'>
-                            <h3 className='outsideCardHeadings' >{t('txtMyServices')}</h3>
+                            <h3 className='outsideCardHeadings' >{t('txt_011')}</h3>
                             <Card className="border-0">
 
                                 <CardBody>
@@ -388,7 +370,7 @@ function Dashboard() {
                                             <LicenciaDescripcion txtSeeInformation={seeInformationTxt} />
                                         </Col>
                                         <Col>
-                                            <LicenciaDescripcion txtSeeInformation={t('txtSeeInformation')} />
+                                            <LicenciaDescripcion txtSeeInformation={t('txt_012')} />
                                         </Col>
                                         <Col>
                                             <LicenciaDescripcion txtSeeInformation={seeInformationTxt} />

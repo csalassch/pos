@@ -15,13 +15,16 @@ const BreadCrumbs = () => {
   let firstUrl = location.pathname.split('/')[1];
   let secondUrl = location.pathname.split('/')[2];
   let thirdUrl = location.pathname.split('/')[3];
-  console.log(firstUrl, secondUrl);
+  console.log(firstUrl, secondUrl,thirdUrl);
   if (firstUrl === "Articulos") {
-    if (t('items_headings') === "Elementos") {
-      firstUrl = "Artículos"
-    } else {
-      firstUrl = t('items_headings');
-    }
+   
+      firstUrl = t('txt_076');
+    
+  }
+  if (thirdUrl === "subsidiarias") {
+   
+      thirdUrl = t('txt_028');
+    
   }
   if (thirdUrl === "Articulos") {
 
@@ -34,12 +37,12 @@ const BreadCrumbs = () => {
 
   if (thirdUrl === "Categorias") {
 
-    thirdUrl = t('categories_modal')
+    thirdUrl = t('txt_025')
   }
 
   if (thirdUrl === "ColeccionArticulos") {
 
-    thirdUrl = t('itemCollection_navbar');
+    thirdUrl = t('txt_013');
   }
   if (firstUrl === "PanelLicenciasAdmin") {
     firstUrl = "Versiones";
