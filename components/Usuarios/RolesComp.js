@@ -11,9 +11,11 @@ import TotalRegistries from '../TotalRegistries/totalRegistries';
 import CatalogoPermisos from './catalogoPermisos';
 import ExpandedRolesComponent from './ExpandedRolesComponent';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import ThreeColumnRoles from '../threeColumn/threeColumnRoles';
 
 const RolesComp = () => {
+    const router=useRouter();
     const { t } = useTranslation();
     const [modal, setModal] = useState(false);
     const [modalDetails, setModalDetails] = useState(false);
@@ -64,7 +66,7 @@ const RolesComp = () => {
         }
         ,
         {
-            name: t('active_headings'),
+            name: t('txt_017'),
             selector: row => row.active,
             minWidth: "5rem",
             maxWidth: "5em"
@@ -72,26 +74,26 @@ const RolesComp = () => {
         ,
 
         {
-            name: t('name_headings'),
+            name: t('txt_008'),
             selector: row => row.name,
             maxWidth: "30em"
         }
 
         ,
         {
-            name: "Subsidiaria",
+            name: t('txt_029'),
             selector: row => row.subsidiary,
             maxWidth: "30em"
         }
         ,
         {
-            name: "Usuarios",
+            name: t('txt_036'),
             selector: row => row.users,
             minWidth: "5rem",
             maxWidth: "5em"
         },
         {
-            name: t('details_headings'),
+            name: t('txt_021'),
             selector: row => row.details,
             minWidth: "5rem",
             maxWidth: "5em"
@@ -121,14 +123,14 @@ const RolesComp = () => {
     ];
 
 
-    let searchPlacehorlder = t('placeholderSearch');
+    let searchPlacehorlder = t('txt_078');
     if (searchPlacehorlder === "Seek") {
         searchPlacehorlder = "Search";
     }
 
     async function classifyPermits(classification) {
         const bunch = [];
-        CatalogoPermisos.forEach((permit) => {
+        CatalogoPermisos(router).forEach((permit) => {
             if (permit.tipo === classification) {
 
                 bunch.push({
@@ -169,13 +171,13 @@ const RolesComp = () => {
             <Col md="8">
                 <div className="d-flex align-items-stretch">
                     <div className="p-1 align-self-stretch">
-                        <Button title={t('addItem_modal')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} /> Rol</Button>
+                        <Button title={t('txt_074')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />{t('txt_014')}</Button>
                     </div>
 
 
 
                     <div className="p-1 align-self-stretch" style={{ marginLeft: "auto" }}>
-                        <Button title={t('filters_btn')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon-N mb-3' type="button"><Icon.Filter style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('filters_btn')}</Button>
+                        <Button title={t('txt_024')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon-N mb-3' type="button"><Icon.Filter style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('txt_024')}</Button>
                     </div>
                     <div className="p-1 align-self-stretch">
                         <Input className='searchBar' type="text" placeholder={searchPlacehorlder} style={{ border: "none" }} />
@@ -188,7 +190,7 @@ const RolesComp = () => {
                         <Col >
                             <FormGroup id='name'>
 
-                                <Label className='headingCard' htmlFor="exampleFile">{t('name_headings')}</Label>
+                                <Label className='headingCard' htmlFor="exampleFile">{t('txt_008')}</Label>
                                 <Select
                                     label="Single select"
                                     options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
@@ -201,7 +203,7 @@ const RolesComp = () => {
                     <Row>
                         <Col>
                             <div className='d-flex justify-content-end mb-2'>
-                                <Button type="submit" className="btn btn-success" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }}>{t('add_btn')}</Button>
+                                <Button type="submit" className="btn btn-success" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }}>{t('txt_014')}</Button>
                             </div>
                         </Col>
                     </Row>
@@ -220,7 +222,7 @@ const RolesComp = () => {
                             <Modal className='modal-lg' isOpen={modal} toggle={() => { setModal(false); setisEdited(false); }}>
                                 <ModalHeader toggle={() => { setModal(false); }} style={{ color: "#1f4f67" }}>
                                     {isEdited === false ? <Icon.PlusCircle style={{ marginRight: "5px" }} /> : (<Icon.Edit2 style={{ marginRight: "5px" }} />)}
-                                    {isEdited === false ? "Agregar Rol" : t('editCategories_headings')}
+                                    {isEdited === false ? t('txt_074') : t('txt_083')}
 
                                 </ModalHeader>
                                 <ModalBody className='pb-0'>
@@ -228,7 +230,7 @@ const RolesComp = () => {
                                         {/* <InputGroup> */}
                                         <Row className='mb-3'>
                                             <Col md="6">
-                                                <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('name_headings')}</Label>
+                                                <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('txt_008')}</Label>
                                                 <Input className='inputBox' style={{ marginTop: "0px" }} />
                                             </Col>
                                         </Row>
@@ -238,7 +240,7 @@ const RolesComp = () => {
                                     </FormGroup>
                                     <div className='d-flex justify-content-end'>
                                         <Button className='btn-icon-Modal px-2' onClick={() => { checkRepeatedValues(nameUnit).then((e) => { console.log("Returned Val: ", e); newUnit(e) }); }}>
-                                            {t('add_btn')}
+                                            {t('txt_014')}
                                         </Button>
                                     </div>
                                 </ModalBody>
@@ -255,16 +257,16 @@ const RolesComp = () => {
                                     <FormGroup>
                                         <Row className='mb-3'>
                                             <Col md="6">
-                                                <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('name_headings')}</Label>
+                                                <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('txt_008')}</Label>
                                                 <Input className='inputBox' style={{ marginTop: "0px" }} disabled={isEditBtn}/>
                                             </Col>
                                         </Row>
                                     </FormGroup>
-                                    <ThreeColumnRoles ids={CatalogoPermisos} />
+                                    <ThreeColumnRoles ids={CatalogoPermisos(router)} />
 
                                     <div className='d-flex justify-content-end'>
                                         <Button className='btn-icon-Modal px-2'>
-                                            {t('add_btn')}
+                                            {t('txt_014')}
                                         </Button>
                                     </div>
                                 </ModalBody>

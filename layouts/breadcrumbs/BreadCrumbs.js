@@ -8,23 +8,52 @@ import { useRouter } from 'next/router';
 
 const BreadCrumbs = () => {
   const { t } = useTranslation();
-  
+
   // const router = useRouter();
   const location = useRouter();
   // const location = useLocation();
   let firstUrl = location.pathname.split('/')[1];
   let secondUrl = location.pathname.split('/')[2];
   let thirdUrl = location.pathname.split('/')[3];
-  console.log(firstUrl, secondUrl,thirdUrl);
+  console.log(firstUrl, secondUrl, thirdUrl);
   if (firstUrl === "Articulos") {
-   
-      firstUrl = t('txt_076');
-    
+
+    firstUrl = t('txt_076');
+
   }
   if (thirdUrl === "subsidiarias") {
-   
-      thirdUrl = t('txt_028');
-    
+
+    thirdUrl = t('txt_028');
+
+  }
+  if (thirdUrl === "usuarios") {
+
+    thirdUrl = t('txt_036');
+
+  }
+  if (secondUrl === "Usuarios") {
+
+    secondUrl = t('txt_036');
+
+  }
+  if (secondUrl === "dashboard") {
+
+    secondUrl = t('txt_109');
+
+  }
+  if (secondUrl === "Ubicaciones") {
+
+    secondUrl = t('txt_112');
+
+  }
+  if (secondUrl === "Articulos") {
+    secondUrl = t('txt_076');
+  }
+  if (thirdUrl === "roles") {
+    thirdUrl = t('txt_040');
+  }
+  if (thirdUrl === "permisos") {
+    thirdUrl = t('txt_042');
   }
   if (thirdUrl === "Articulos") {
 
@@ -32,7 +61,7 @@ const BreadCrumbs = () => {
   }
   if (thirdUrl === "Unidades") {
 
-    thirdUrl = t('units_headings');
+    thirdUrl = t('txt_104');
   }
 
   if (thirdUrl === "Categorias") {
@@ -44,46 +73,7 @@ const BreadCrumbs = () => {
 
     thirdUrl = t('txt_013');
   }
-  if (firstUrl === "PanelLicenciasAdmin") {
-    firstUrl = "Versiones";
-
-  }
-  if (secondUrl === "PanelLicenciasAdmin") {
-
-    secondUrl = "Versiones"
-  }
-  if (firstUrl === "servicios") {
-    firstUrl = "Servicios";
-
-  }
-  if (secondUrl === "servicios") {
-
-    secondUrl = "Servicios"
-  }
-  if (firstUrl === "PanelProductosAdmin") {
-    firstUrl = "Productos";
-
-  }
-  if (secondUrl === "PanelProductosAdmin") {
-
-    secondUrl = "Productos"
-  }
-  if (firstUrl === "PanelLicencias") {
-    firstUrl = "Usuarios";
-
-  }
-  if (secondUrl === "PanelLicencias") {
-
-    secondUrl = "Usuarios"
-  }
-  if (firstUrl === "PanelModulosAdmin") {
-    firstUrl = "Módulos";
-
-  }
-  if (secondUrl === "PanelModulosAdmin") {
-
-    secondUrl = "Módulos"
-  }
+ 
 
   return (
     <>
@@ -97,7 +87,7 @@ const BreadCrumbs = () => {
         <div >
           <Breadcrumb>
             <Breadcrumb.Item to="/" tag={location.pathname} className="text-decoration-none fw-normal" style={{ color: "#1186a2" }}>
-              Home
+              {t('txt_108')}
             </Breadcrumb.Item>
             {secondUrl ? <Breadcrumb.Item >{secondUrl}</Breadcrumb.Item> : ''}
             {thirdUrl ? <Breadcrumb.Item >{thirdUrl}</Breadcrumb.Item> : ''}

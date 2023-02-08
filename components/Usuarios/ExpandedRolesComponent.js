@@ -21,7 +21,7 @@ const ExpandedRolesComponent = () => {
         ,
 
         {
-            name: "Permiso",
+            name: t('txt_042'),
             selector: row => row.name,
             maxWidth:"30em",
             compact:true

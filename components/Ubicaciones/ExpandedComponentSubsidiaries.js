@@ -24,13 +24,13 @@ const ExpandedComponentSubsidiaries = () => {
             maxWidth:"20em"
         },
         {
-            name: "Dirección",
+            name: t('txt_105'),
             selector: row => row.address,
             maxWidth:"20em"
         }
         ,
         {
-            name: "Staff",
+            name: t('txt_106'),
             selector: row => row.staff,
             minWidth:"4rem",
             maxWidth:"4em",
@@ -38,7 +38,7 @@ const ExpandedComponentSubsidiaries = () => {
 
         },
         {
-            name: "Stock",
+            name: t('txt_107'),
             selector: row => row.stock,
             minWidth:"4rem",
             maxWidth:"4em"

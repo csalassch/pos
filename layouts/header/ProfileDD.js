@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-// import React, { useState, useEffect } from 'react';
 import { DropdownItem } from 'reactstrap';
-
 import { User, FileText, Star, Settings, Moon } from 'react-feather';
-// import { CFormSwitch } from '@coreui/bootstrap-react';
-// import { useNavigate } from 'react-router-dom';
+import useTranslation from '@/hooks/useTranslation';
 import { useRouter } from 'next/router';
 import {
   useSelector,
@@ -20,8 +17,7 @@ import Link from 'next/link';
 
 const ProfileDD = () => {
   const [darkTheme, setDarkTheme] = useState(undefined);
-  // const { user, dataUser } = useAuth();
-  // const [userData, setUserData] = useState({ name: "" });
+  const { t } = useTranslation();
   const [isDarkMode, setIsDarkMode] = useState(false);
   // let isDarkMode = useSelector((state) => state.customizer.isDark);
   const dispatch = useDispatch();
@@ -101,7 +97,7 @@ const ProfileDD = () => {
           <div>
 
             <User size={20} />
-            &nbsp; Mi perfil
+            &nbsp; {t('txt_079')}
           </div>
         </Link>
       </DropdownItem>
@@ -109,14 +105,14 @@ const ProfileDD = () => {
       {/* Dark Mode Style 2 */}
 
 
-      <DropdownItem className="px-4 py-3 txtProfile">
+      {/* <DropdownItem className="px-4 py-3 txtProfile">
         <Star size={20} />
         &nbsp; My Balance
-      </DropdownItem>
+      </DropdownItem> */}
       <div className='container px-4 py-3 txtProfile'>
         <div className='d-flex flex-row'>
           <Moon size={20} />
-          &nbsp; Modo Oscuro
+          &nbsp; {t('txt_080')}
           &nbsp;
           <div>
             {darkTheme !== undefined && (
@@ -138,7 +134,7 @@ const ProfileDD = () => {
       <DropdownItem divider />
       <DropdownItem className="px-4 py-3 txtProfile">
         <Settings size={20} />
-        &nbsp; Settings
+        &nbsp; {t('txt_081')}
       </DropdownItem>
       <DropdownItem divider />
     </div>

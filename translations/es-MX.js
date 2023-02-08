@@ -101,5 +101,15 @@ module.exports = {
     txt_100: ".CER",
     txt_101: ".KEY",
     txt_102: "Forma de Pago",
-    txt_103: "Método de Pago"
+    txt_103: "Método de Pago",
+    txt_104: "Unidades",
+    txt_105: "Dirección",
+    txt_106: "Personal",
+    txt_107: "Existencias",
+    txt_108: "Home",
+    txt_109: "Dashboard",
+    txt_110: "Datos",
+    txt_111: "Guardar",
+    txt_112: "Ubicaciones",
+    txt_113: "Accesos"
 }

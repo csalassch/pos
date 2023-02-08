@@ -13,7 +13,7 @@ module.exports={
   txt_012: "Ver informações",
   txt_013: "Coleção de itens",
   txt_014: "Adicionar",
-  txt_015: "Matéria",
+  txt_015: "Carregar",
   txt_016: "Modelo",
   txt_017: "Ativo",
   txt_018: "Imagem",
@@ -99,7 +99,17 @@ module.exports={
   txt_098: "Razão social",
   txt_099: "R.F.C.",
   txt_100: ".CER",
-  txt_101: ".CHAVE",
+  txt_101: ".KEY",
   txt_102: "Forma de pagamento",
-  txt_103: "Forma de pagamento"
+  txt_103: "Forma de pagamento",
+  txt_104: "Unidades",
+  txt_105: "Endereço",
+  txt_106: "Funcionários",
+  txt_107: "Estoque",
+  txt_108: "lar",
+  txt_109: "painel",
+  txt_110: "Dados",
+  txt_111: "Manter",
+  txt_112: "Localizações",
+  txt_113: "Acesso"
 }

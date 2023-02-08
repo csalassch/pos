@@ -1,152 +1,78 @@
 import * as Icon from 'react-feather';
+import useTranslation from '@/hooks/useTranslation';
 
-const SidebarDataClient = [
-  
-  {
-    title: 'Home',
+function SidebarDataClient() {
+  const { t } = useTranslation();
+
+  const sidebarMenu = [{
+    title: t('txt_108'),
     href: '/views/dashboard',
     id: 1,
     icon: <Icon.Home />,
     collapisble: true,
-    
+
   },
-  // { caption: 'Servicios' },
-  // {
-  //   title: 'Licencias',
-  //   href: '/servicios/PanelLicencias',
-  //   icon: <Icon.Clipboard />,
-  //   id: 10.1,
-  //   collapisble: true,
-  //   children: [
-  //     {
-  //       title: 'Versiones',
-  //       href: '/servicios/PanelLicenciasAdmin',
-  //       icon: <Icon.Disc />,
-  //     },
-      
-  //     {
-  //       title: 'Productos',
-  //       href: '/servicios/PanelProductosAdmin',
-  //       icon: <Icon.Disc />,
-  //     },
-  //     {
-  //       title: 'Usuarios',
-  //       href: '/servicios/PanelLicencias/ConsultaUsuario',
-  //       icon: <Icon.Disc />,
-  //     },
-  //   ]
-  // },
- /* {
-    title: 'Licencias Cliente',
-    href: '/',
-    icon: <Icon.Clipboard />,
-    id: 30.1,
-    collapisble: true,
-    children: [
-      {
-        title: 'Planes',
-        href: '/',
-        icon: <Icon.Disc />,
-      },
-      
-      {
-        title: 'Compras',
-        href: '/',
-        icon: <Icon.Disc />,
-      },
-      {
-        title: 'Acerca de las licencias',
-        href: '/',
-        icon: <Icon.Disc />,
-      },
-    ]
-  },*/
   {
-    title: 'Artículos',
+    title: t('txt_076'),
     href: '/Articulos',
     icon: <Icon.Package />,
-    
+
     id: 10.3,
     collapisble: true,
     children: [
       {
-        title: 'Colección de artículos',
+        title: t('txt_013'),
         href: '/views/Articulos/ColeccionArticulos',
         icon: <Icon.Disc />,
       },
       {
-        title: 'Categorías',
+        title: t('txt_025'),
         href: '/views/Articulos/Categorias',
         icon: <Icon.Disc />,
       },
       {
-        title: 'Unidades',
+        title: t('txt_104'),
         href: '/views/Articulos/Unidades',
         icon: <Icon.Disc />,
       },
-      
-      // {
-      //   title: 'Ubicaciones',
-      //   href: '/views/Articulos/Ubicaciones',
-      //   icon: <Icon.Map />,
-      // }
-      
+
     ],
   },
   {
-    title: 'Ubicaciones',
+    title: t('txt_112'),
     href: '/views/Ubicaciones/subsidiarias',
     id: 2,
     icon: <Icon.MapPin />,
     collapisble: true,
-    
+
   },
   {
-    title: 'Usuarios',
+    title: t('txt_036'),
     href: '/views/Usuarios/usuarios',
     id: 3,
     icon: <Icon.Users />,
     collapisble: true,
     children: [
       {
-        title: 'Accesos',
+        title: t('txt_113'),
         href: '/views/Usuarios/usuarios',
         icon: <Icon.User />,
       },
       {
-        title: 'Roles',
+        title: t('txt_040'),
         href: '/views/Usuarios/roles',
         icon: <Icon.Tag />,
       },
       {
-        title: 'Permisos',
+        title: t('txt_042'),
         href: '/views/Usuarios/permisos',
         icon: <Icon.Tag />,
       }
     ],
-    
-  }
-  // { caption: 'Bugcarios' },
-  // {
-  //   title: 'Soporte',
-  //   href: '/tekiio/freebug/bugcarios',
-  //   icon: <Icon.Tool />,
-  //   id: 20.1,
-  //   collapisble: true,
-  //   children: [
-  //     {
-  //       title: 'Gestion personal',
-  //       href: '/Soporte',
-  //       icon: <Icon.Disc />,
-  //     },
-  //     {
-  //       title: 'Gestion Empresa',
-  //       href: '/servicios/PanelLicenciasAdmin',
-  //       icon: <Icon.Disc />,
-  //     }
-  //   ]
-  // }
-  
-];
+
+  }];
+
+  return sidebarMenu;
+};
 
 export default SidebarDataClient;

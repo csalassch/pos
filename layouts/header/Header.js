@@ -31,6 +31,7 @@ import { ToggleMiniSidebar, ToggleMobileSidebar, ChangeDarkMode } from '../../st
 import ProfileDD from './ProfileDD'
 import Link from 'next/link';
 import axios from 'axios';
+import useTranslation from '@/hooks/useTranslation';
 // import { db } from '../../FirebaseConfig/firebase';
 
 // import { useAuth } from '../../Context/authContext';
@@ -38,8 +39,7 @@ import axios from 'axios';
 
 
 const Header = ({ setModeFunc, mode }) => {
-  const isDarkMode = useSelector((state) => state.customizer.isDark);
-  const topbarColor = useSelector((state) => state.customizer.topbarBg);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
   const [cookie, setCookie] = useCookies(["preferredLanguage"])
@@ -99,31 +99,29 @@ const Header = ({ setModeFunc, mode }) => {
   //     // setSavedLangVal(snapshot.val().language);
   //   });
   // }
+  async function setCoookiesLang(e) {
+    console.log("Received value: ", e);
+    setCookie("preferredLanguage", e.value, {
+      path: "/",
+      maxAge: 3600, // Expires after 1hr
+      sameSite: true,
+    });
+    setSavedLangVal(e.value);
+    if (e.value === "en") {
+      setSavedLangLabel(usa);
+    } else if (e.value === "esMX") {
+      setSavedLangLabel(mexico);
+    } else if (e.value === "pt") {
+      setSavedLangLabel(brazil);
+    } else if (e.value === "he") {
+      setSavedLangLabel(israel);
+    } else if (e.value === "fr") {
+      setSavedLangLabel(france);
+    }
+  }
+
   useEffect(() => {
     console.log("loaded flag: ", savedLangLabel);
-    // if (savedLangLabel === "" || savedLangVal === "") {
-    //   loadSavedLanguage().then(() => {
-    //     const params = new URLSearchParams();
-    //     if (query) {
-    //       params.append("lng", query)
-    //     } else {
-    //       params.delete("lng")
-    //     }
-    //     console.log(url);
-    //     history({ search: `?${params.toString()}` });
-    //     console.log(window.location.href);
-    //   });
-    // } else {
-    // const params = new URLSearchParams()
-    // if (query) {
-    //   params.append("lng", query)
-    // } else {
-    //   params.delete("lng")
-    // }
-    // console.log(param);
-    // // history({ search: `?${params.toString()}` });
-    // console.log(window.location.href);
-    // }
     if (savedLangLabel === "" || savedLangVal === "") {
       if (cookie.preferredLanguage !== "") {
 
@@ -148,10 +146,11 @@ const Header = ({ setModeFunc, mode }) => {
         setSavedLangLabel(mexico);
         setSavedLangVal("esMX");
       }
-      if(!cookie.preferredLanguage || cookie.preferredLanguage==="undefined"){
+      if (!cookie.preferredLanguage || cookie.preferredLanguage === "undefined") {
         setSavedLangLabel(mexico);
         setSavedLangVal("esMX");
       }
+      console.log("Change in language: ", router);
     }
 
   }, [query, history, savedLangLabel, savedLangVal, cookie])
@@ -160,9 +159,6 @@ const Header = ({ setModeFunc, mode }) => {
   return (
     <>
       <Navbar
-        // color={topbarColor}
-        // dark={!isDarkMode}
-        // light={isDarkMode}
         expand="lg"
         className="topbar"
         style={{ maxHeight: "50px" }}
@@ -210,35 +206,8 @@ const Header = ({ setModeFunc, mode }) => {
               label="Selecciona Idioma"
               options={options}
               onChange={(e) => {
-                // languageChange(e).then(() => {
                 console.log("Selected: ", e.value);
-                setCookie("preferredLanguage", e.value, {
-                  path: "/",
-                  maxAge: 3600, // Expires after 1hr
-                  sameSite: true,
-                });
-                setSavedLangVal(e.value);
-                if (e.value === "en") {
-                  setSavedLangLabel(usa);
-                } else if (e.value === "esMX") {
-                  setSavedLangLabel(mexico);
-                } else if (e.value === "pt") {
-                  setSavedLangLabel(brazil);
-                } else if (e.value === "he") {
-                  setSavedLangLabel(israel);
-                } else if (e.value === "fr") {
-                  setSavedLangLabel(france);
-                }
-                // router.query.lng = e.value;
-                // router.push(router)
-
-
-                // const a = document.createElement('a');
-                // a.href = window.location.href;
-                // document.body.appendChild(a);
-                // // a.click();
-                // console.log("HREF: ",a.href)
-                // });
+                setCoookiesLang(e);
               }}
             />
           </div>
@@ -327,7 +296,7 @@ const Header = ({ setModeFunc, mode }) => {
               <ProfileDD setModeFunc={setModeFunc} mode={mode} />
               <div className="p-2 px-3 bgProfileDD">
                 <Button color="danger" size="sm" onClick={handleLogout}>
-                  Cerrar sesión
+                  {t('txt_082')}
                 </Button>
               </div>
             </DropdownMenu>

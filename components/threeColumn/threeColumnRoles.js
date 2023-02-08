@@ -6,8 +6,10 @@ import Select from 'react-select';
 import SimpleBar from 'simplebar-react';
 import CatalogoPermisos from '../Usuarios/catalogoPermisos';
 import * as Icon from 'react-feather';
+import { useRouter } from 'next/router';
 
 const ThreeColumnRoles = ({ids}) => {
+    const router=useRouter();
     const [isOpen, setIsOpen] = React.useState(false);
     const [isEditClick, setIsEditClick] = React.useState(true);
     const [isOpenMenu, setIsOpenMenu] = React.useState({ items: true, sales: false, purchases: false, suppliers: false, admin: false });
@@ -172,7 +174,7 @@ const ThreeColumnRoles = ({ids}) => {
             <div className="middlePart flex-shrink-0">
                 <div id='items' className='mt-4'>
                     <div className='container-fluid p-0'>
-                        {CatalogoPermisos.filter(permit => permit.tipo === "Artículos").map((permit) => {
+                        {CatalogoPermisos(router).filter(permit => permit.tipo === "Artículos").map((permit) => {
                             return (
 
                                 <Row key={permit.id}>
@@ -208,7 +210,7 @@ const ThreeColumnRoles = ({ids}) => {
                 </div>
                 <div id='sales' className='mt-4'>
                     <div className='container-fluid p-0'>
-                        {CatalogoPermisos.filter(permit => permit.tipo === "Ventas").map((permit) => {
+                        {CatalogoPermisos(router).filter(permit => permit.tipo === "Ventas").map((permit) => {
                             return (
 
                                 <Row key={permit.id}>
@@ -243,7 +245,7 @@ const ThreeColumnRoles = ({ids}) => {
                 </div>
                 <div id='purchases' className='mt-4'>
                     <div className='container-fluid p-0'>
-                        {CatalogoPermisos.filter(permit => permit.tipo === "Compras").map((permit) => {
+                        {CatalogoPermisos(router).filter(permit => permit.tipo === "Compras").map((permit) => {
                             return (
 
                                 <Row key={permit.id}>
@@ -278,7 +280,7 @@ const ThreeColumnRoles = ({ids}) => {
                 </div>
                 <div id='suppliers' className='mt-4'>
                     <div className='container-fluid p-0'>
-                        {CatalogoPermisos.filter(permit => permit.tipo === "Proveedores").map((permit) => {
+                        {CatalogoPermisos(router).filter(permit => permit.tipo === "Proveedores").map((permit) => {
                             return (
 
                                 <Row key={permit.id}>
@@ -313,7 +315,7 @@ const ThreeColumnRoles = ({ids}) => {
                 </div>
                 <div id='admin' className='mt-4'>
                     <div className='container-fluid p-0'>
-                        {CatalogoPermisos.filter(permit => permit.tipo === "Administrativo").map((permit) => {
+                        {CatalogoPermisos(router).filter(permit => permit.tipo === "Administrativo").map((permit) => {
                             return (
 
                                 <Row key={permit.id}>

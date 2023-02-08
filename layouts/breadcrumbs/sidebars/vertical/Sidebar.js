@@ -49,7 +49,7 @@ const Sidebar = () => {
   useEffect(() => {
     // getDatoUnico()
     // console.log(userData)
-  }, [])
+  }, [location])
   // }, [dataUser, userData])
   return (
     // <div className={`sidebarBox shadow ${isFixed ? 'fixedSidebar' : ''}`}>
@@ -65,7 +65,7 @@ const Sidebar = () => {
             // <Nav vertical className={activeBg === 'white' ? '' : 'lightText'}>
             // <Nav vertical className={activeBg === 'white' ? '' : 'white'}  style={{color:"white"}}>
             <Nav vertical className={activeBg === 'white' ? '' : 'white'} style={{ color: "white" }}>
-              {SidebarDataClient.map((navi) => {
+              {SidebarDataClient(location).map((navi) => {
                 if (navi.caption) {
                   return (
                     <div className="navCaption text-uppercase mt-4" key={navi.caption} >
