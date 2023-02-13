@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import Select from 'react-select';
+import axios from "axios";
+
 import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
 import Papa from "papaparse";
 import useTranslation from '@/hooks/useTranslation';
@@ -15,12 +17,12 @@ import { useRouter } from 'next/router';
 import ThreeColumnRoles from '../threeColumn/threeColumnRoles';
 
 const RolesComp = () => {
-    const router=useRouter();
+    const router = useRouter();
     const { t } = useTranslation();
     const [modal, setModal] = useState(false);
     const [modalDetails, setModalDetails] = useState(false);
     const [isEditBtn, setIsEditBtn] = useState(false);
-    
+
     const [showFilters, setShowFilters] = useState(false);
     const [dataItems2, setDataItems2] = useState([]);
     const [isSSR, setIsSSR] = useState(true);
@@ -115,10 +117,10 @@ const RolesComp = () => {
             subsidiary: "Freebug",
             name: "Administrador",
             users: "14",
-            details: 
-            <div className='d-flex justify-content-center'>
-                <Button onClick={() => { setModalDetails(true) }} className='btn-icon-N' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
-            </div>
+            details:
+                <div className='d-flex justify-content-center'>
+                    <Button onClick={() => { setModalDetails(true) }} className='btn-icon-N' type="submit" style={{ fontSize: "11px", border: "none" }}><Icon.Info style={{ maxWidth: "18px" }} /></Button>
+                </div>
         }
     ];
 
@@ -144,6 +146,50 @@ const RolesComp = () => {
         });
         console.log("Bunch: ", bunch);
         return bunch;
+    }
+    async function consulta() {
+
+        var data = {
+            user_name: "Neal Sipes III",
+            email: "Glenna_Prohaska@hotmail.com",
+            table_prefix: "maroon.3dml",
+            is_active: false,
+            name: "Rocio",
+            rol: "Direct Research Specialist",
+            rfc: "fb85c647-9926-4648-aa99-f9aa17715dbe",
+            phone: "625-667-5860",
+            is_main_user: false,
+            user_from_netsuite: true
+        };
+        // var data = JSON.stringify({
+        //     "user_name": "Theodore Kshlerin"
+        // });
+
+        var config = {
+            method: 'post',
+            url: 'https://us-central1-bloona-ef12e.cloudfunctions.net/freebug_pos/users',
+            headers: {
+                'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjVhNTA5ZjAxOWY3MGQ3NzlkODBmMTUyZDFhNWQzMzgxMWFiN2NlZjciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmxvb25hLWVmMTJlIiwiYXVkIjoiYmxvb25hLWVmMTJlIiwiYXV0aF90aW1lIjoxNjc1OTYxNTA0LCJ1c2VyX2lkIjoiUnh3dk5oQnZ6aWFyd0tEeXdkeEQ0SE1wQ1U4MyIsInN1YiI6IlJ4d3ZOaEJ2emlhcndLRHl3ZHhENEhNcENVODMiLCJpYXQiOjE2NzU5NjE1MDQsImV4cCI6MTY3NTk2NTEwNCwiZW1haWwiOiJnaGRnZmhkNjc4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJnaGRnZmhkNjc4QGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.BHpP7vmU8YIzJ-SWMgEtIeouGp8DnkcBB95sxQP0ZHkOwugvWh-K-2inFaSVhJ5TS2QGhoL1xKurbkO39MTyPrdHeJF_THDwlWPzYyMPEn-pgQQvK9me0GyA23JiM7vvBS_w1agT84sbSUm084porcMXCsTiQGpboJenA07ExBfxj10fwaLu4_OV0_UGdBTCDnpbj3UfhmdicX3zPWgO5k6n9Avy26sbA5q3mly2oj9xRbbLIFVl6ksY4fXBzO-YytDfTiCZdvynolHvUK7C53yB96Ah_8C9GORC_b5uqE79wu9olM2ZcqwD615l7_O0pLG0OMDiA_2rf9tzrp4FPA',
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+        const headers = {
+            'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjVhNTA5ZjAxOWY3MGQ3NzlkODBmMTUyZDFhNWQzMzgxMWFiN2NlZjciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmxvb25hLWVmMTJlIiwiYXVkIjoiYmxvb25hLWVmMTJlIiwiYXV0aF90aW1lIjoxNjc1OTYxNTA0LCJ1c2VyX2lkIjoiUnh3dk5oQnZ6aWFyd0tEeXdkeEQ0SE1wQ1U4MyIsInN1YiI6IlJ4d3ZOaEJ2emlhcndLRHl3ZHhENEhNcENVODMiLCJpYXQiOjE2NzU5NjE1MDQsImV4cCI6MTY3NTk2NTEwNCwiZW1haWwiOiJnaGRnZmhkNjc4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJnaGRnZmhkNjc4QGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.BHpP7vmU8YIzJ-SWMgEtIeouGp8DnkcBB95sxQP0ZHkOwugvWh-K-2inFaSVhJ5TS2QGhoL1xKurbkO39MTyPrdHeJF_THDwlWPzYyMPEn-pgQQvK9me0GyA23JiM7vvBS_w1agT84sbSUm084porcMXCsTiQGpboJenA07ExBfxj10fwaLu4_OV0_UGdBTCDnpbj3UfhmdicX3zPWgO5k6n9Avy26sbA5q3mly2oj9xRbbLIFVl6ksY4fXBzO-YytDfTiCZdvynolHvUK7C53yB96Ah_8C9GORC_b5uqE79wu9olM2ZcqwD615l7_O0pLG0OMDiA_2rf9tzrp4FPA',
+            'Content-Type': 'application/json'
+        }
+
+        await axios.post('https://us-central1-bloona-ef12e.cloudfunctions.net/freebug_pos/users', data, {
+            headers: headers
+        }).then(function (response) {
+            console.log(response);
+        })
+            .catch(function (error) {
+                console.log(error)
+            });
+        // response.data.headers['Content-Type'];
+        // console.log(response.data.headers['Content-Type']);
+
     }
     useEffect(() => {
         setIsSSR(false);
@@ -172,6 +218,9 @@ const RolesComp = () => {
                 <div className="d-flex align-items-stretch">
                     <div className="p-1 align-self-stretch">
                         <Button title={t('txt_074')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />{t('txt_014')}</Button>
+                    </div>
+                    <div className="p-1 align-self-stretch">
+                        <Button title={t('txt_074')} className='btn btn-icon-N' onClick={consulta} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />Consulta</Button>
                     </div>
 
 
@@ -205,6 +254,7 @@ const RolesComp = () => {
                             <div className='d-flex justify-content-end mb-2'>
                                 <Button type="submit" className="btn btn-success" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }}>{t('txt_014')}</Button>
                             </div>
+
                         </Col>
                     </Row>
                 </Collapse>
@@ -234,7 +284,7 @@ const RolesComp = () => {
                                                 <Input className='inputBox' style={{ marginTop: "0px" }} />
                                             </Col>
                                         </Row>
-                                        <ThreeColumnRoles ids={[]}/>
+                                        <ThreeColumnRoles ids={[]} />
 
                                         {/* </InputGroup> */}
                                     </FormGroup>
@@ -258,7 +308,7 @@ const RolesComp = () => {
                                         <Row className='mb-3'>
                                             <Col md="6">
                                                 <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('txt_008')}</Label>
-                                                <Input className='inputBox' style={{ marginTop: "0px" }} disabled={isEditBtn}/>
+                                                <Input className='inputBox' style={{ marginTop: "0px" }} disabled={isEditBtn} />
                                             </Col>
                                         </Row>
                                     </FormGroup>

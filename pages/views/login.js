@@ -4,10 +4,13 @@ import { useRouter } from "next/router";
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input,Form } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import * as Yup from 'yup';
+import { useAuth } from "@/Context/AuthContext";
 import * as Icon from 'react-feather';
 
 
 function LoginPage() {
+    const { login,resetPassword } = useAuth();
+
     const [credentials, setCredentials] = useState({
         email: "",
         password: ""
@@ -21,18 +24,27 @@ function LoginPage() {
         })
 
     }
+    const handleReset=async()=>{
+        await resetPassword(credentials.email);
+      }
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(credentials);
-        const response = await axios.post('/api/auth/login', credentials);
-        console.log("Submit: ", response.status);
-        if (response.status === 200) {
-            // router.push("/views/dashboard");
-            router.push("/views/dashboard").then(()=>{
-                window.location.reload();
-            });
+        const response = await login(credentials.email,credentials.password);
+        console.log("Submit login: ", response.uid);
 
-        }
+        router.push("/views/dashboard").then(() => {
+            window.location.reload();
+          });
+        // const response = await axios.post('/api/auth/login', credentials);
+        // console.log("Submit: ", response.status);
+        // if (response.status === 200) {
+        //     // router.push("/views/dashboard");
+        //     router.push("/views/dashboard").then(()=>{
+        //         window.location.reload();
+        //     });
+
+        // }
     }
     const signUpLink=()=>{
         router.push("/views/register");
@@ -86,7 +98,7 @@ function LoginPage() {
                                                         onClick={signUpLink}
                                                         style={{cursor:"pointer"}}
                                                     >
-                                                        <small>¿Olvidaste tu contraseña?</small>
+                                                        <small onClick={handleReset}>¿Olvidaste tu contraseña?</small>
                                                     </a>
                                                 </FormGroup>
                                                 <FormGroup>

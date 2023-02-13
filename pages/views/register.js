@@ -1,20 +1,25 @@
-import React from 'react';
+import React,{useState} from 'react';
+import axios from "axios";
 import { Button, Label, Form, FormGroup, Container, Row, Col, Card, CardBody, Input } from 'reactstrap';
 import * as Yup from 'yup';
 import Link from "next/link";
 import { useRouter } from 'next/router';
+import { useAuth } from '@/Context/AuthContext';
 
 const Register = () => {
   const navigate = useRouter();
-  // const navigate = useNavigate();
-  // const { signup } = useAuth();
-  const initialValues = {
-    UserName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    acceptTerms: false,
-  };
+  const { signup,resetPassword } = useAuth();
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: ""
+  });
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value
+    })
+
+  }
 
   const validationSchema = Yup.object().shape({
     UserName: Yup.string().required('UserName is required'),
@@ -23,19 +28,23 @@ const Register = () => {
     confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required'),
     acceptTerms: Yup.bool().oneOf([true], 'Accept Terms & Conditions is required'),
   });
-  const handleSubmit = async (UserName, email, password) => {
+  
+  const handleSubmit = async (e) => {
     try {
-      console.log(UserName);
-      // const requestOptions = {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email: email, username: UserName })
-      // };
-      // const response = await fetch('http://192.168.1.77:5500/', requestOptions);
-      // const data = await response.json();
-      console.log(UserName, email, password);
-      // await signup(email, password, UserName, "client");
-      navigate('/');
+      e.preventDefault();
+      console.log(credentials);
+      
+      const response = await signup(credentials.email,credentials.password);;
+      // const response = await axios.post('/api/auth/signUp', credentials);
+      console.log("Submit: ", response.uid);
+      // console.log("Submit: ", response.status);
+      // console.log("UID: ", response.data);
+      // if (response.status === 200) {
+        navigate.push("/views/dashboard").then(() => {
+          window.location.reload();
+        });
+
+      // }
 
     } catch (error) {
       // eslint-disable-next-line
@@ -55,7 +64,7 @@ const Register = () => {
           <Row className="justify-content-center align-items-center h-100">
             <Col sm="12" lg="6" md="6" className="loginContainer px-0">
               {/* <AuthLogo /> */}
-              <Card className="border-0 cardRegister" style={{backgroundColor:"white !important"}}>
+              <Card className="border-0 cardRegister" style={{ backgroundColor: "white !important" }}>
                 <h1 className='text-center mainTitle px-4 m-1' style={{ color: "#077CAB" }}><strong>Koonol</strong></h1>
 
                 <CardBody className="p-4 m-1">
@@ -63,68 +72,62 @@ const Register = () => {
                   <small className="pb-4 d-block">
                     ¿Ya tienes cuenta? <Link className="text-decoration-none link-info m-0 p-0" href="/login">Inicio de sesión</Link>
                   </small>
-                  
-                      <Form>
-                        <FormGroup>
-                          <Label htmlFor="firstName">Nombre del usuario</Label>
-                          <Input
-                            name="UserName"
-                            type="text"
-                            className={`form-control`}
-                          />
-                          
-                        </FormGroup>
 
-                        <FormGroup>
-                          <Label htmlFor="email">Correo</Label>
-                          <Input
-                            name="email"
-                            type="text"
-                            className={`form-control`}
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <Label htmlFor="password">Contraseña</Label>
-                          <Input
-                            name="password"
-                            type="password"
-                            className={`form-control`}
-                          />
-                          
-                        </FormGroup>
-                        <FormGroup>
-                          <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
-                          <Input
-                            name="confirmPassword"
-                            type="password"
-                            className={`form-control`}
-                          />
-                          
-                        </FormGroup>
-                        <FormGroup inline className="form-check d-flex justify-content-start p-0">
-                          <Input
-                            type="checkbox"
-                            name="acceptTerms"
-                            id="acceptTerms"
-                            style={{marginRight:"3px"}}
-                            className={`form-check-input`}
-                          />
-                          <Label htmlFor="acceptTerms" className="form-check-label">
-                            Acepto los terminos y condiciones
-                          </Label>
-                          
-                        </FormGroup>
+                  <Form onSubmit={handleSubmit}>
+                    
 
-                        <FormGroup>
-                          <Button type="submit" style={{backgroundColor:"#077CAB",borderColor:"#077CAB"}} className="me-2">
-                            Registrar
-                          </Button>
-                          {/* <Button type="reset" color="secondary">
+                    <FormGroup>
+                      <Label htmlFor="email">Correo</Label>
+                      <Input
+                        name="email"
+                        type="text"
+                        onChange={handleChange}
+                        className={`form-control`}
+                      />
+                    </FormGroup>
+                    <FormGroup>
+                      <Label htmlFor="password">Contraseña</Label>
+                      <Input
+                        name="password"
+                        type="password"
+                        onChange={handleChange}
+                        className={`form-control`}
+                      />
+
+                    </FormGroup>
+                    {/* <FormGroup>
+                      <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
+                      <Input
+                        name="confirmPassword"
+                        type="password"
+                        className={`form-control`}
+                      />
+
+                    </FormGroup> */}
+                    <FormGroup inline className="form-check d-flex justify-content-start p-0">
+                      <Input
+                        type="checkbox"
+                        name="acceptTerms"
+                        id="acceptTerms"
+                        style={{ marginRight: "3px" }}
+                        className={`form-check-input`}
+                      />
+                      <Label htmlFor="acceptTerms" className="form-check-label">
+                        Acepto los terminos y condiciones
+                      </Label>
+
+                    </FormGroup>
+
+                    <FormGroup>
+                      <Button type="submit" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }} className="me-2">
+                        Registrar
+                      </Button>
+                      {/* <Button type="reset" color="secondary">
                             Reiniciar
                           </Button> */}
-                        </FormGroup>
-                      </Form>
-                    
+                    </FormGroup>
+                  </Form>
+
                 </CardBody>
               </Card>
             </Col>
@@ -137,10 +140,10 @@ const Register = () => {
 
 export default Register;
 
-Register.getLayout = function Register(page){
-  return(
-      <>
+Register.getLayout = function Register(page) {
+  return (
+    <>
       {page}
-      </>
+    </>
   )
 }

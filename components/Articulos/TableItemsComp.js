@@ -58,7 +58,7 @@ const TableItemsComp = () => {
 
             return {
                 ...styles,
-                backgroundColor: "#d2cef9",
+                backgroundColor: "#d9e1e2",
             };
         },
         multiValueLabel: (styles) => ({
@@ -421,6 +421,7 @@ const TableItemsComp = () => {
                                     closeMenuOnSelect={false}
                                     // defaultValue={[arrayCategories[1]]}
                                     isMulti
+                                    id="selectInputs"
                                     options={[{ value: 'Categoría 1', label: 'Categoría 1' }, { value: 'Categoría 2', label: 'Categoría 2' }, { value: 'Categoría 3', label: 'Categoría 3' }, { value: 'Categoría 4', label: 'Categoría 4' }]}
                                     styles={colourStyles}
                                 // value={[{ value: idCategoriesArr.txt, label: idCategoriesArr.txt }]}
@@ -437,7 +438,8 @@ const TableItemsComp = () => {
                                 <Select
                                     label="Single select"
                                     options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
-                                    styles={colourStyles}
+                                    
+                                    id="selectInputs"
                                 />
                             </FormGroup>
                         </Col>
@@ -448,7 +450,7 @@ const TableItemsComp = () => {
                                 <Select
                                     label="Single select"
                                     options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
-                                    styles={colourStyles}
+                                    id="selectInputs"
                                 />
                             </FormGroup>
                         </Col>

@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useCookies } from "react-cookie"
-import Select from 'react-select';
+import dynamic from 'next/dynamic';
+const Select = dynamic(import('react-select').then(mod => mod.Tabs), { ssr: false }) // disable ssr
+
+// import Select from 'react-select';
 
 import SimpleBar from 'simplebar-react';
 import {
@@ -32,6 +35,7 @@ import ProfileDD from './ProfileDD'
 import Link from 'next/link';
 import axios from 'axios';
 import useTranslation from '@/hooks/useTranslation';
+import { useAuth } from '@/Context/AuthContext';
 // import { db } from '../../FirebaseConfig/firebase';
 
 // import { useAuth } from '../../Context/authContext';
@@ -43,14 +47,13 @@ const Header = ({ setModeFunc, mode }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [cookie, setCookie] = useCookies(["preferredLanguage"])
-
+  const { logout } = useAuth();
 
   // const { logout } = useAuth();
   const handleLogout = async () => {
-    const response = await axios.post('/api/auth/logout');
-    if (response.status === 200) {
+    await logout();
       router.push("/views/login");
-    }
+    
     // await logout();
   }
   const mexico = <div> <Link href={router.pathname} locale="esMX"><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" /></Link></div>;
@@ -119,9 +122,12 @@ const Header = ({ setModeFunc, mode }) => {
       setSavedLangLabel(france);
     }
   }
+  const [nameOfClass, setNameOfClass] = useState("languageSelected");
+
 
   useEffect(() => {
     console.log("loaded flag: ", savedLangLabel);
+    setNameOfClass("languageSelected");
     if (savedLangLabel === "" || savedLangVal === "") {
       if (cookie.preferredLanguage !== "") {
 
@@ -199,9 +205,9 @@ const Header = ({ setModeFunc, mode }) => {
           </Button>
           <div style={{ width: "85px", backgroundColor: "transparent" }} className='container-fluid' onClick={() => dispatch(ToggleMobileSidebar())}>
 
-            <Select
+         <Select
 
-              id="languageSelected"
+             className='languageSelected'
               value={[{ value: savedLangVal, label: savedLangLabel }]}
               label="Selecciona Idioma"
               options={options}

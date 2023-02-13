@@ -1,39 +1,17 @@
 
 import { useEffect, useState } from 'react';
-
 import * as Icon from 'react-feather';
 import Select from 'react-select';
-
-// import { Link } from 'react-router-dom';
 import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
-// import { ref as refStorage, uploadBytesResumable } from 'firebase/storage';
-// import { CFormSwitch } from '@coreui/bootstrap-react';
-
-// import { onValue, ref, update, push } from 'firebase/database';
 import Papa from "papaparse";
-// import { useTranslation } from 'next-i18next';
-// import { useTranslation } from 'react-i18next';
 import useTranslation from '@/hooks/useTranslation';
-// import ReactDataTablePagination from 'react-datatable-pagination'
-
 import DataTable from 'react-data-table-component';
 import Transactions from '../Transactions/transactions';
 import TotalRegistries from '../TotalRegistries/totalRegistries';
-// import { db, dbStorage } from '../../FirebaseConfig/firebase';
-// import { useAuth } from '../../Context/authContext';
-
-// import MultiSteps from './MultiSteps';
-// import { useTranslation } from "next-i18next";
-
-
-
 
 const CategoriesComp = () => {
     const { t } = useTranslation();
-    // const { user } = useAuth();
     const user = { uid: "example" };
-
-
     const [modal, setModal] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
     // const [lista, setLista] = useState([{}]);
@@ -410,6 +388,7 @@ const CategoriesComp = () => {
                                     label="Single select"
                                     options={[{ value: 'Nombre Item 1', label: 'Nombre Item 1' }, { value: 'Nombre Item 2', label: 'Nombre Item 2' }, { value: 'Nombre Item 3', label: 'Nombre Item 3' }, { value: 'Nombre Item 4', label: 'Nombre Item 4' }]}
                                     styles={colourStyles}
+                                    id="selectInputs"
                                 />
                             </FormGroup>
                         </Col>
@@ -521,10 +500,10 @@ const CategoriesComp = () => {
 
                                 </ModalHeader>
                                 <ModalBody className='pb-0'>
-                                    <FormGroup>
+                                    <FormGroup id='stepsStyle'>
                                         {/* <InputGroup> */}
                                         <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('txt_008')}</Label>
-                                        <Input className='inputBox' style={{ marginTop: "0px" }} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false); }} />
+                                        <Input className='inputBox' style={{ marginTop: "0px" }} type="text" />
                                         {/* </InputGroup> */}
                                     </FormGroup>
                                     <div className='d-flex justify-content-end'>
@@ -545,7 +524,7 @@ const CategoriesComp = () => {
                                         {message}
                                     </Alert>
                                     <Form>
-                                        <FormGroup>
+                                        <FormGroup >
                                             {/* <Label htmlFor="exampleFile">Carga Masiva por .CSV</Label> */}
                                             <Input id='fileInput' type="file" placeholder='selecciona archivo' onChange={(e) => { setFile(e.target.files[0]); setVisible(false); }} />
                                         </FormGroup>

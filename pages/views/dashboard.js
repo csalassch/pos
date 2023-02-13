@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import * as Icon from 'react-feather';
 import dynamic from 'next/dynamic'
 import { Card, CardBody, CardTitle, CardSubtitle, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Button, Row, Col } from 'reactstrap';
 import DataTable from 'react-data-table-component';
+import { useAuth } from "@/Context/AuthContext";
 import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 import LicenciaDescripcion from "@/components/HomeComponents/LicenciaDescripcion";
 import useTranslation from "@/hooks/useTranslation";
@@ -19,19 +20,12 @@ function Dashboard() {
     const seeInformationTxt = t('txt_012');
     const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
     const [isSSR, setIsSSR] = useState(true);
+    const {user,dataUser}=useAuth();
+    const [userData, setUserData] = useState({ name: "" });
 
-    const [user, setUser] = useState({
-        email: "",
-        username: ""
-    });
+    
+    
     const router = useRouter();
-
-
-    const getProfile = async () => {
-        const response = await axios.get('/api/profile');
-        setUser(response.data);
-        console.log(response)
-    }
     const logout = async () => {
         try {
             await axios.post('/api/auth/logout');
@@ -216,8 +210,12 @@ function Dashboard() {
     };
     useEffect(()=>{
         setIsSSR(false);
+        console.log("user: ",dataUser)
+        if (dataUser) {
+            setUserData(dataUser);
+          }
 
-    });
+    },[dataUser]);
 
     return (
         <>
@@ -235,7 +233,7 @@ function Dashboard() {
                                     <Row>
 
                                         <Col className='col-md-8 col-sm-6'>
-                                            <h1 className="display-7 txtWelcome">{t('txt_001')}<br /><strong>Magdiel Elienai Jiménez Tabla!</strong></h1>
+                                            <h1 className="display-7 txtWelcome">{t('txt_001')}<br /><strong>{userData.email}</strong></h1>
                                             <p className='lead txtWelcome'>
                                                 {t('txt_002')} Koonol
                                             </p>

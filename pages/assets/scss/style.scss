@@ -171,7 +171,7 @@
         background-color: white;
     }
 
-    #languageSelected .css-13cymwt-control {
+    .languageSelected .css-13cymwt-control {
         background-color: transparent;
         border: none;
         border-style: none;
@@ -401,18 +401,21 @@
         justify-content: space-between !important;
         align-items: stretch !important;
 
-        
+
     }
+
     [role="rowgroup"] {
         display: flex;
         justify-content: space-between !important;
     }
-    .listPermitsRole{
+
+    .listPermitsRole {
         background-color: transparent;
-        &:hover{
+
+        &:hover {
             background-color: #d9e1e2;
-            color:$primary;
-            cursor:pointer;
+            color: $primary;
+            cursor: pointer;
 
         }
     }
@@ -607,7 +610,7 @@
     // .css-yk16xz-control{
     //   background-color: transparent;
     // }
-    #languageSelected .css-13cymwt-control {
+    .languageSelected .css-13cymwt-control {
         border: none;
         background-color: transparent;
     }
@@ -958,13 +961,27 @@
 
     .searchBar {
         background-color: #192430;
+        color: #d9e1e2
     }
 
-    #sku>.css-b62m3t-container>.css-13cymwt-control,
-    #name>.css-b62m3t-container>.css-13cymwt-control,
-    #categories>.css-b62m3t-container>.css-13cymwt-control {
-        background-color: #192430;
-        border-color: #192430;
+    #sku>#selectInputs>*,
+    #name>#selectInputs>*,
+    #categories>#selectInputs>* {
+        background-color: #192430 !important;
+        border-color: #192430 !important;
+    }
+
+    #stepsStyle>#fileInput,
+    #stepsStyle>textarea,
+    #stepsStyle>input,
+    #stepsStyle>#selectInputs>* {
+        background-color: #101820 !important;
+        border-color: #101820 !important;
+    }
+
+    #stepsStyle>textarea,
+    #stepsStyle>input {
+        color: #d9e1e2
     }
 
     .btn-icon-Modal {
@@ -988,9 +1005,24 @@
         color: #d9e1e2;
     }
 
-    .inputBox {
-        background-color: #303a45 !important;
-        border-color: #303a45 !important;
+    #fileInput {
+        background-color: #101820;
+        border-color: #101820;
+        color: white
+    }
+
+    #selectInputs * {
+        color: #077cab;
+
+        // &:hover{
+        //     color:red;
+        //     background-color: #077CAB;
+        // }
+        &:active {
+            background-color: #101820;
+            color:#d9e1e2
+
+        }
     }
 
     .badgeCurrency {
@@ -1025,16 +1057,20 @@
         display: flex;
         justify-content: space-between !important;
     }
-    #loader{
-        content:url("../images/loader/loaderDarkKoonol.gif");
+
+    #loader {
+        content: url("../images/loader/loaderDarkKoonol.gif");
     }
-    .listPermitsRole{
+
+    .listPermitsRole {
         background-color: transparent;
-        &:hover{
+
+        &:hover {
             background-color: #192430;
-            color:$primary;
+            color: $primary;
 
         }
     }
+
 
 }

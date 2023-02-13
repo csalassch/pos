@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
+import Image from 'next/image';
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { Label, Col, Row, FormGroup, Alert } from 'reactstrap';
@@ -128,10 +129,10 @@ class Step1 extends Component {
     console.log("CATGEORIES IN _VALIDATEDATA", data.idCategoriesArr);
     return {
 
-      nameVal: data.name !== '',
-      skuVal: data.sku !== '',
-      descriptionVal: data.description !== '',
-      categoriesVal: data.idCategoriesArr.length !== 0
+      // nameVal: data.name !== '',
+      // skuVal: data.sku !== '',
+      // descriptionVal: data.description !== '',
+      // categoriesVal: data.idCategoriesArr.length !== 0
       // required: regex w3c uses in html5
     };
   }
@@ -156,7 +157,8 @@ class Step1 extends Component {
       description: this.description.value,
       // idCategoriesArr: this.props.getStore().idCategoriesArr,
       idCategoriesArr: this.idCategoriesArr,
-      urlImage: this.urlImage.src,
+      urlImage: 'example',
+      // urlImage: this.urlImage.src,
       picture: this.picture ? this.picture : [0]
       // picture: this.picture ? this.picture.target.files[0] : [0]
     };
@@ -386,19 +388,21 @@ class Step1 extends Component {
                         <FormGroup>
                           <Label htmlFor="exampleFile">Imagen Artículo</Label>
 
-                          <img id="imageProductRetrieved"
+                          {/* <img id="imageProductRetrieved"
                             alt="..."
                             className=" img-fluid rounded shadow-lg"
-                            ref={(f) => {
-                              this.urlImage = f;
-                            }}
-                            src={this.state.picture === "" || this.state.picture[0] === 0 || this.state.picture.length === 0 ? "https://i0.wp.com/zaveriamexico.com/wp-content/uploads/2022/02/04-scaled.jpg?fit=2560%2C1707&ssl=1" : this.state.urlImage}
+                            // ref={(f) => {
+                            //   this.urlImage = f;
+                            // }}
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSF4NtgL-C8A4TR2sOPOYm2OAQWI9a2EDH-8kYG26K-rNZHo74_dXBjI_AU2d_xGtqx1gc&usqp=CAU"
                             style={style}
-                          ></img>
+                          ></img> */}
+                          <Image className='img-fluid rounded shadow-lg' id="imageProductRetrieved" alt='imageProduct' width={450} height={450} src="https://picsum.photos/seed/picsum/450/450" />
+                           
 
 
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup id='stepsStyle'>
                           <input id='fileInput' className='form-control'
                             type="file" placeholder='selecciona archivo'
                             onBlur={this.validationCheck}
@@ -412,7 +416,7 @@ class Step1 extends Component {
                     <Col>
                       <div className="form-group content form-block-holder">
 
-                        <FormGroup>
+                        <FormGroup id='stepsStyle'>
 
                           <Label className='labels' style={{ width: "135px" }}>Nombre</Label>
                           <input  placeholder="Ej. Cartera" type='text' ref={(f) => {
@@ -423,7 +427,7 @@ class Step1 extends Component {
                           <div className={notValidClasses.nameValGrpCls}>{this.state.nameValMsg}</div>
                         </FormGroup>
 
-                        <FormGroup>
+                        <FormGroup id='stepsStyle'>
                           <Label className='labels' style={{ width: "135px" }}>SKU</Label>
                           <input placeholder="UGG-876-789-02" type='text' ref={(f) => {
                             this.sku = f;
@@ -431,12 +435,12 @@ class Step1 extends Component {
                            className={`${notValidClasses.skuCls} inputBox`} />
                            <div className={notValidClasses.skuValGrpCls}>{this.state.skuValMsg}</div>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup id='stepsStyle'>
                           <Label className='labels' htmlFor="exampleFile">Categorías</Label>
 
                           <Select
                             closeMenuOnSelect={false}
-                            className="select inputBox"
+                            id="selectInputs"
                             multiple
                             defaultValue={this.state.idCategoriesArr.filter((item) => item.value !== undefined)}
                             isMulti
@@ -454,7 +458,7 @@ class Step1 extends Component {
                           />
                           <div className={notValidClasses.categoriesValGrpCls}>{this.state.categoriesValMsg}</div>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup id='stepsStyle'>
                           <Label className='labels' style={{ width: "135px" }}>Descripción</Label>
                           <textarea type="textarea" rows="5" ref={(f) => {
                             this.description = f;
