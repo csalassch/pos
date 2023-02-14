@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { serialize } from "cookie";
 import { useAuth } from "@/Context/AuthContext";
 
-const loginHandler= (req, res)=> {
+const LoginHandler= (req, res)=> {
     const { email, password } = req.body;
     const { signup } = useAuth();
     const response=signup(email, password);
@@ -20,4 +20,4 @@ const loginHandler= (req, res)=> {
     
 
 }
-export default loginHandler;
+export default LoginHandler;

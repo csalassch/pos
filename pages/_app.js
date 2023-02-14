@@ -18,6 +18,8 @@ import { useEffect, useState } from "react";
 
 
 export default function App({ Component, pageProps }) {
+  
+    
   const [loading, setLoading] = useState(false);
 
   Router.events.on('routeChangeStart', (url) => {
@@ -28,7 +30,6 @@ export default function App({ Component, pageProps }) {
     console.log('Router completeeeed!');
     setLoading(false);
   });
-
   return (
     <Provider store={store}>
       {loading && <Loader />}

@@ -11,6 +11,7 @@ import { appWithTranslation } from "next-i18next";
 import { useState } from "react";
 
 function IndexPage({ Component, pageProps }) {
+  
   const toggleMiniSidebar = useSelector((state) => state.customizer.isMiniSidebar);
   const showMobileSidebar = useSelector((state) => state.customizer.isMobileSidebar);
   const topbarFixed = useSelector((state) => state.customizer.isTopbarFixed);

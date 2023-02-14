@@ -299,7 +299,6 @@
     @import "./layout/topbar";
     @import "./layout/rtl/rtl";
     --#{$prefix}body-bg: #f4f6f9;
-
     .btn-header {
         background-color: transparent;
         color: #6c757d;
@@ -395,7 +394,7 @@
         text-overflow: ellipsis !important;
         text-align: center;
     }
-
+    
     [role="row"] {
         display: flex;
         justify-content: space-between !important;
@@ -702,9 +701,13 @@
         // font-size:15px;
 
     }
-
-    .kVrXuC {
+    .rdt_ExpanderRow,
+    .rdt_Pagination,
+    [role="rowgroup"],
+    [role="row"],
+    [role="table"] {
         background-color: transparent !important;
+        color:#d9e1e2;
     }
 
     .gKbhqU {
@@ -915,6 +918,11 @@
     @import './layout/rtl/rtl';
     --#{$prefix}body-bg: #303a45;
     --#{$prefix}border-color:transparent !important;
+    .list-group-item{
+        background-color: transparent !important;
+        color:#d9e1e2;
+        cursor:pointer;
+    }
 
     .bgProfileDD {
         background-color: #192430;
@@ -963,20 +971,31 @@
         background-color: #192430;
         color: #d9e1e2
     }
-
+    
     #sku>#selectInputs>*,
     #name>#selectInputs>*,
     #categories>#selectInputs>* {
         background-color: #192430 !important;
         border-color: #192430 !important;
     }
-
+    .inputBox,
+    #paymentConfigurationSelect3>#selectInputs3>*,
+    #paymentConfigurationSelect>#selectInputs2>*,
     #stepsStyle>#fileInput,
     #stepsStyle>textarea,
     #stepsStyle>input,
     #stepsStyle>#selectInputs>* {
         background-color: #101820 !important;
         border-color: #101820 !important;
+    }
+    .inputBox{
+        color:#d9e1e2;
+    }
+    
+    .form-control:disabled{
+        background-color: #243649 !important;
+        border-color: #243649 !important;
+        color:#d9e1e2 !important;
     }
 
     #stepsStyle>textarea,
@@ -1013,11 +1032,22 @@
 
     #selectInputs * {
         color: #077cab;
+        &:active {
+            background-color: #101820;
+            color:#d9e1e2
 
-        // &:hover{
-        //     color:red;
-        //     background-color: #077CAB;
-        // }
+        }
+    }
+    #selectInputs2 * {
+        color: #d9e1e2;
+        &:active {
+            background-color: #101820;
+            color:#d9e1e2
+
+        }
+    }
+    #selectInputs3 * {
+        color: #d9e1e2;
         &:active {
             background-color: #101820;
             color:#d9e1e2

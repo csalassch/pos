@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import { useCookies } from "react-cookie"
-import dynamic from 'next/dynamic';
-const Select = dynamic(import('react-select').then(mod => mod.Tabs), { ssr: false }) // disable ssr
+import Select from 'react-select';
+// import dynamic from 'next/dynamic';
+// const Select = dynamic(import('react-select').then(mod => mod.Tabs), { ssr: false }) // disable ssr
 
-// import Select from 'react-select';
 
 import SimpleBar from 'simplebar-react';
 import {
@@ -43,6 +43,7 @@ import { useAuth } from '@/Context/AuthContext';
 
 
 const Header = ({ setModeFunc, mode }) => {
+  const [isSSR, setIsSSR] = useState(true);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
@@ -52,8 +53,8 @@ const Header = ({ setModeFunc, mode }) => {
   // const { logout } = useAuth();
   const handleLogout = async () => {
     await logout();
-      router.push("/views/login");
-    
+    router.push("/views/login");
+
     // await logout();
   }
   const mexico = <div> <Link href={router.pathname} locale="esMX"><img alt='Mexico Flag' src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Flag_of_Mexico.png/1200px-Flag_of_Mexico.png" height="20px" width="30px" /></Link></div>;
@@ -159,7 +160,11 @@ const Header = ({ setModeFunc, mode }) => {
       console.log("Change in language: ", router);
     }
 
-  }, [query, history, savedLangLabel, savedLangVal, cookie])
+  }, [query, history, savedLangLabel, savedLangVal, cookie]);
+
+  useEffect(()=>{
+    setIsSSR(false);
+});
 
 
   return (
@@ -203,11 +208,12 @@ const Header = ({ setModeFunc, mode }) => {
           >
             <i className="bi bi-list" />
           </Button>
-          <div style={{ width: "85px", backgroundColor: "transparent" }} className='container-fluid' onClick={() => dispatch(ToggleMobileSidebar())}>
+          {/* <div style={{ width: "85px", backgroundColor: "transparent" }} className='container-fluid' onClick={() => dispatch(ToggleMobileSidebar())}> */}
 
-         <Select
-
-             className='languageSelected'
+            {!isSSR &&<Select
+              id="flagSelect"
+            
+              className='languageSelected'
               value={[{ value: savedLangVal, label: savedLangLabel }]}
               label="Selecciona Idioma"
               options={options}
@@ -215,8 +221,8 @@ const Header = ({ setModeFunc, mode }) => {
                 console.log("Selected: ", e.value);
                 setCoookiesLang(e);
               }}
-            />
-          </div>
+            />}
+          {/* </div> */}
           {/******************************/}
           {/**********Mega DD**********/}
           {/******************************/}

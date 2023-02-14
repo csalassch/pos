@@ -66,7 +66,7 @@ const TwoColumnComp = () => {
                         </Button>
                     </div>
                     <ListGroup className='pb-4' flush>
-                        <h6 className="px-3 pt-3">{t('txt_110')} </h6>
+                        <h6 style={{ color: "#077cab" }} className="px-3 pt-3">{t('txt_110')} </h6>
                         <ListGroupItem
                             tag="a"
                             className={active === 'show_all' ? ' py-3 border-0' : 'py-3 border-0'}
@@ -83,12 +83,12 @@ const TwoColumnComp = () => {
                             tag="a"
                             className=' py-3 border-0 mb-3'
                             onClick={() => setIsOpenMenu({ myInformation: false, myCompany: true, payments: false })}
-                            
+
                         >
                             <i className="bi bi-buildings mx-1" /> {t('txt_085')}
                         </ListGroupItem>
                         <ListGroupItem
-                           
+
                             tag="a"
                             className=' border-0 mb-3'
                             onClick={() => setIsOpenMenu({ myInformation: false, myCompany: true, payments: true })}
@@ -320,9 +320,10 @@ const TwoColumnComp = () => {
                     <div className='container-fluid'>
                         <Row>
                             <Col>
-                                <FormGroup>
+                                <FormGroup id='paymentConfigurationSelect'>
                                     <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('txt_102')}</Label>
                                     <Select
+                                        id="selectInputs2"
                                         isDisabled={isEditClick}
                                         label="Single select"
                                         defaultValue={{ value: 'Nombre Item 2', label: 'Una sola exhibición' }}
@@ -336,12 +337,13 @@ const TwoColumnComp = () => {
                                 </FormGroup>
                             </Col>
                             <Col>
-                                <FormGroup>
+                                <FormGroup id='paymentConfigurationSelect3'>
                                     <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('txt_103')}</Label>
                                     <Select
                                         label="Single select"
                                         isDisabled={isEditClick}
-
+                                    
+                                        id="selectInputs3"
                                         defaultValue={{ value: 'Efectivo', label: 'Efectivo' }}
                                         options={
                                             [{ value: 'Tarjeta de crédito', label: 'Tarjeta de crédito' },

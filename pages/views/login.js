@@ -5,7 +5,6 @@ import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input,Fo
 import 'bootstrap/dist/css/bootstrap.css';
 import * as Yup from 'yup';
 import { useAuth } from "@/Context/AuthContext";
-import * as Icon from 'react-feather';
 
 
 function LoginPage() {

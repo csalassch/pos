@@ -12,7 +12,7 @@ const MiPerfilComp = () => {
     <Card className='border-0'>
       <CardBody className="text-center p-4 border-bottom">
         <Image src={img1} className="rounded-circle" width={200} height={200}  alt="avatar" />
-        <CardTitle tag="h4" className="fw-bold mt-3 mb-2">
+        <CardTitle style={{color:"#077cab"}} tag="h4" className="fw-bold mt-3 mb-2">
           Magdiel Jiménez Tabla
         </CardTitle>
         <CardSubtitle className="text-muted">magdiel.jimenez.com@freebug.mx</CardSubtitle>
