@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "@/config";
-import { onAuthStateChanged, createUserWithEmailAndPassword,signInWithPopup, signInWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail, GoogleAuthProvider } from 'firebase/auth';
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithPopup, signInWithEmailAndPassword, signOut, sendEmailVerification, sendPasswordResetEmail, GoogleAuthProvider } from 'firebase/auth';
 
 //Exportamos el contexto, es decir, informacion del usuario que haya iniciado sesion
 export const authContext = createContext();
@@ -11,11 +11,13 @@ export const useAuth = () => {
 }
 //AuthProvider proporciona al hijo todas las propiedades de un usuario para prevenir hacer importaciones o consultas innecesarias
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const [initializing, setInitializing] = useState(true);
+
+    const [user, setUser] = useState({});
     const [dataUser, setDataUser] = useState(null);
     const provider1 = new GoogleAuthProvider();
 
-    const provider = ()=>signInWithPopup(auth, provider1)
+    const provider = () => signInWithPopup(auth, provider1)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
             const credential = GoogleAuthProvider.credentialFromResult(result);
@@ -43,25 +45,61 @@ export function AuthProvider({ children }) {
             })
             console.log(`usr:${user1.uid}`);
             return user1;
+        }).catch((error) => {
+            const errorCode = error.code;
+            console.log("error signup: ", errorCode);
+            return errorCode;
         });
     const login = (email, password) => signInWithEmailAndPassword(auth, email, password);
     const logout = () => signOut(auth);
     const resetPassword = (email) => sendPasswordResetEmail(auth, email);
+    const sendVerificationEmail = () => sendEmailVerification(auth.currentUser).then(() => {
+        return "sent";
+    }).catch((error)=>{
+        console.log(error.code);
+        if(error.code==="auth/too-many-requests"){
+            return "errorRequests";
+        }
+            return error.message;
+        
+    });
+    const getAccessToken = () => {
+        return auth.currentUser.accessToken;
+    }
+    const getCurrentUser = () => {
+        return auth.currentUser;
+    }
+
 
 
     useEffect(() => {
         //Seteamos el valor del usuario actual en el estado user para ser pasado como parametro al hijo
+        //onAuthStateChanged actualiza el token
+
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
             console.log("Usuario actual: ", currentUser);
-            setUser(currentUser);
-            setDataUser(currentUser);
-            console.log("Usuario DATAUSER: ", dataUser);
+            const test = async () => {
+                setDataUser(currentUser);
+                return currentUser;
+            }
+            test().then((cur) => {
+                setUser(cur);
+                console.log("Usuario DATAUSER: ", user);
+                console.log("Usuario CURRENT: ",cur);
+
+                setInitializing(false);
+            })
+
         });
         return () => unSubscribe();
-    }, [user])
-    return (
+    }, []);
+    if (initializing === true) {
+        return null;
+    }
+    
+    return initializing===true? (<div></div>): (
         //Proporcionamos los datos necesarios para nuestro componente hijo
-        <authContext.Provider value={{ user, signup, dataUser, login, logout, resetPassword, provider }}>
+        <authContext.Provider value={{ user, sendVerificationEmail, signup, dataUser, login, logout, resetPassword, provider, getAccessToken,getCurrentUser }}>
             {children}
         </authContext.Provider>
     )

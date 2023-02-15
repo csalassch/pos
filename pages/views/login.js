@@ -1,14 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input,Form } from 'reactstrap';
+import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input, Form } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import * as Yup from 'yup';
 import { useAuth } from "@/Context/AuthContext";
 
 
 function LoginPage() {
-    const { login,resetPassword } = useAuth();
+    const { login, resetPassword } = useAuth();
+    const { provider } = useAuth();
 
     const [credentials, setCredentials] = useState({
         email: "",
@@ -23,18 +24,18 @@ function LoginPage() {
         })
 
     }
-    const handleReset=async()=>{
+    const handleReset = async () => {
         await resetPassword(credentials.email);
-      }
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(credentials);
-        const response = await login(credentials.email,credentials.password);
+        const response = await login(credentials.email, credentials.password);
         console.log("Submit login: ", response.uid);
 
         router.push("/views/dashboard").then(() => {
             window.location.reload();
-          });
+        });
         // const response = await axios.post('/api/auth/login', credentials);
         // console.log("Submit: ", response.status);
         // if (response.status === 200) {
@@ -45,8 +46,15 @@ function LoginPage() {
 
         // }
     }
-    const signUpLink=()=>{
+    const signUpLink = () => {
         router.push("/views/register");
+    }
+    const handleSubmitGoogle = async () => {
+        provider().then(() => {
+            router.push("/views/dashboard").then(() => {
+                window.location.reload();
+            });
+        });
     }
     const initialValues = {
         email: '',
@@ -67,64 +75,67 @@ function LoginPage() {
 
                 <Container fluid className="h-100 m-0 justify-content-center align-items-center loginContainer">
                     <Row className="justify-content-center align-items-center h-100">
-                        <Col sm="12" lg="6" md="6" className="loginContainer px-0" style={{backgroundColor:"white !important"}}>
+                        <Col sm="12" lg="6" md="6" className="loginContainer px-0" style={{ backgroundColor: "white !important" }}>
                             {/* <AuthLogo /> */}
-                            <Card className="border-0 cardLogin" style={{backgroundColor:"white !important"}}>
+                            <Card className="border-0 cardLogin" style={{ backgroundColor: "white !important" }}>
                                 <h1 className='text-center mainTitle px-4 m-1' style={{ color: "#077CAB" }}><strong>Koonol</strong></h1>
                                 <CardBody className="p-4 m-1">
                                     <h4 className="mb-0 fw-bold">Inicio de sesión</h4>
                                     <small className="pb-4 d-block">
-                                        ¿No tienes cuenta aún? <a style={{cursor:"pointer"}} className="text-decoration-none link-info m-0 p-0" onClick={signUpLink}>Registrarme</a>
+                                        ¿No tienes cuenta aún? <a style={{ cursor: "pointer" }} className="text-decoration-none link-info m-0 p-0" onClick={signUpLink}>Registrarme</a>
                                     </small>
-                                    
-                                            <Form onSubmit={handleSubmit}>
-                                                <FormGroup>
-                                                    <Label htmlFor="email">Correo electrónico</Label>
-                                                    <Input onChange={handleChange} name="email" type="text" className="form-control" />
-                                                    
-                                                </FormGroup>
-                                                <FormGroup>
-                                                    <Label htmlFor="password">Contraseña</Label>
-                                                    <Input onChange={handleChange} name="password" type="password" className="form-control" />
-                                                </FormGroup>
-                                                <FormGroup className="form-check d-flex justify-content-between p-0">
-                                                    <Label check>
-                                                        <Input type="checkbox" style={{ marginRight: "3px" }} />
-                                                        Recuérdame
-                                                    </Label>
-                                                    <a
-                                                        className="ms-auto text-decoration-none link-info fw-normal"
-                                                        onClick={signUpLink}
-                                                        style={{cursor:"pointer"}}
-                                                    >
-                                                        <small onClick={handleReset}>¿Olvidaste tu contraseña?</small>
-                                                    </a>
-                                                </FormGroup>
-                                                <FormGroup>
-                                                    <Button type="submit" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }} className="me-2">
-                                                        Iniciar Sesión
-                                                    </Button>
-                                                </FormGroup>
-                                            </Form>
-                                        
-                                    
+
+                                    <Form onSubmit={handleSubmit}>
+                                        <FormGroup>
+                                            <Label htmlFor="email">Correo electrónico</Label>
+                                            <Input onChange={handleChange} name="email" type="text" className="form-control" />
+
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Label htmlFor="password">Contraseña</Label>
+                                            <Input onChange={handleChange} name="password" type="password" className="form-control" />
+                                        </FormGroup>
+                                        <FormGroup className="form-check d-flex justify-content-between p-0">
+                                            <Label check>
+                                                <Input type="checkbox" style={{ marginRight: "3px" }} />
+                                                Recuérdame
+                                            </Label>
+                                            <a
+                                                className="ms-auto text-decoration-none link-info fw-normal"
+                                                onClick={signUpLink}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                <small onClick={handleReset}>¿Olvidaste tu contraseña?</small>
+                                            </a>
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Button type="submit" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }} className="me-2">
+                                                Iniciar Sesión
+                                            </Button>
+                                            <Button style={{ backgroundColor: "#ea4335", borderColor: "#ea4335" }} onClick={handleSubmitGoogle}>
+                                                <i className="bi bi-google"></i> Google
+                                            </Button>
+                                        </FormGroup>
+                                    </Form>
+
+
                                 </CardBody>
                             </Card>
                         </Col>
                     </Row>
                 </Container>
             </div>
-            
+
         </div>
     )
 }
 
 export default LoginPage
 
-LoginPage.getLayout = function LoginPage(page){
-    return(
+LoginPage.getLayout = function LoginPage(page) {
+    return (
         <>
-        {page}
+            {page}
         </>
     )
 }

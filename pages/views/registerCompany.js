@@ -1,12 +1,16 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input, Form, FormFeedback } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import { useRouter } from 'next/router';
+import Image from "next/image";
 import { useAuth } from "@/Context/AuthContext";
 
 const RegisterCompany = () => {
     const router = useRouter();
+    const { getAccessToken } = useAuth();
+    const { getCurrentUser } = useAuth();
+
     const [fldCompany, setCfldCompany] = useState({
         companyName: ""
     });
@@ -33,42 +37,51 @@ const RegisterCompany = () => {
         const objAllInvalidsTxt = {
             companyName: ""
         }
-        if (fldCompany.companyName === '' || fldCompany.companyName === " ") {
+        if (fldCompany.companyName === '' || fldCompany.companyName === " " || /^[a-z0-9,-./\/' À-ÿ\u00f1\u00d1]{3,45}$/i.test(fldCompany.companyName) === false) {
             objAllInvalids.companyName = false;
             objAllInvalidsTxt.companyName = "Favor de ingresar un nombre de empresa";
             setIsValidField({ companyName: objAllInvalids.companyName });
             setIsValidFieldTxt({ txtCompanyName: objAllInvalidsTxt.companyName });
         } else {
-            var data = {
-                company_name: fldCompany.companyName
-
-            };
-            const headers = {
-                'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjVhNTA5ZjAxOWY3MGQ3NzlkODBmMTUyZDFhNWQzMzgxMWFiN2NlZjciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYmxvb25hLWVmMTJlIiwiYXVkIjoiYmxvb25hLWVmMTJlIiwiYXV0aF90aW1lIjoxNjc1OTYxNTA0LCJ1c2VyX2lkIjoiUnh3dk5oQnZ6aWFyd0tEeXdkeEQ0SE1wQ1U4MyIsInN1YiI6IlJ4d3ZOaEJ2emlhcndLRHl3ZHhENEhNcENVODMiLCJpYXQiOjE2NzU5NjE1MDQsImV4cCI6MTY3NTk2NTEwNCwiZW1haWwiOiJnaGRnZmhkNjc4QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJnaGRnZmhkNjc4QGdtYWlsLmNvbSJdfSwic2lnbl9pbl9wcm92aWRlciI6InBhc3N3b3JkIn19.BHpP7vmU8YIzJ-SWMgEtIeouGp8DnkcBB95sxQP0ZHkOwugvWh-K-2inFaSVhJ5TS2QGhoL1xKurbkO39MTyPrdHeJF_THDwlWPzYyMPEn-pgQQvK9me0GyA23JiM7vvBS_w1agT84sbSUm084porcMXCsTiQGpboJenA07ExBfxj10fwaLu4_OV0_UGdBTCDnpbj3UfhmdicX3zPWgO5k6n9Avy26sbA5q3mly2oj9xRbbLIFVl6ksY4fXBzO-YytDfTiCZdvynolHvUK7C53yB96Ah_8C9GORC_b5uqE79wu9olM2ZcqwD615l7_O0pLG0OMDiA_2rf9tzrp4FPA',
-                'Content-Type': 'application/json'
-            }
-
-            // await axios.post(
-            //     'https://us-central1-bloona-ef12e.cloudfunctions.net/freebug_pos/users',
-            //     data,
-            //     {
-            //         headers: headers
-            //     })
-            //     .then(function (response) {
-            //         console.log(response);
-            //         navigate.push("/views/dashboard").then(() => {
-            //             window.location.reload();
-            //         });
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error)
-            //     });
-            router.push("/views/dashboard").then(() => {
-                window.location.reload();
+            //Aquí va mandar info a backend del objeto credentials
+            const userEmail=getCurrentUser().email;
+            sendInfo(fldCompany.companyName, userEmail).then(() => {
+                //Redirecciona a nota de verificacion de usuario
+                // const str = stringify(credentials);
+                // console.log("QS: ", str);
+                router.push("/views/dashboard").then(() => {
+                    window.location.reload();
+                });
             });
         }
 
 
+    }
+    const sendInfo = async (companyName, email) => {
+
+        var data = JSON.stringify({
+            // "name": "Tonya Larkin",
+            "company_name": companyName,
+            // "phone": "632-795-1068",
+            "email": email,
+            "created_date": 234234324324,
+            // "image": "http://placeimg.com/640/480"
+        });
+        const accessToken = getAccessToken();
+        const headers = {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+        console.log("access token: ", accessToken);
+
+        await axios.post('https://us-central1-bloona-ef12e.cloudfunctions.net/freebug_pos/starting', data, {
+            headers: headers
+        }).then(function (response) {
+            console.log(response);
+        })
+            .catch(function (error) {
+                console.log(error)
+            });
     }
     return (
         <div className="loginBox" >
@@ -81,6 +94,14 @@ const RegisterCompany = () => {
                             {/* <AuthLogo /> */}
                             <Card className="border-0 cardLogin" style={{ backgroundColor: "white !important" }}>
                                 <h1 className='text-center mainTitle px-4 m-1' style={{ color: "#077CAB" }}><strong>Koonol</strong></h1>
+                                <div className="d-flex justify-content-center">
+                                        <Image
+                                            className='helloImage'
+                                            width={170}
+                                            height={170}
+
+                                            alt='helloKonool' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FregistraEmpresa1.png?alt=media&token=b7d7fdfb-a4ef-4f04-991b-4c66c47a63d9' />
+                                    </div>
                                 <CardBody className="p-4 m-1">
                                     <h4 className="mb-0 fw-bold">Registra tu empresa</h4>
 

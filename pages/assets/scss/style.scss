@@ -418,6 +418,9 @@
 
         }
     }
+    .links >a{
+        text-decoration: none;
+    }
 }
 
 [data-theme='dark'] {
@@ -1100,6 +1103,10 @@
             color: $primary;
 
         }
+    }
+
+    .links >a{
+        text-decoration: none;
     }
 
 

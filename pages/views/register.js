@@ -6,11 +6,13 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import { useAuth } from '@/Context/AuthContext';
 import { signInWithPopup } from 'firebase/auth';
+import QueryString, { stringify } from 'qs';
 
 const Register = () => {
   const navigate = useRouter();
   const { signup } = useAuth();
   const { provider } = useAuth();
+  const { getAccessToken } = useAuth();
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
@@ -96,7 +98,7 @@ const Register = () => {
         companyName: "",
         acceptTerms: ""
       }
-      console.log("Email ingresado: ", registerFields.email)
+      console.log("Email ingresado: ", registerFields.email);
       if (isValidEmail === false || registerFields.email === '') {
         objAllInvalids.email = false;
         objAllInvalidsTxt.email = "Correo electrónico inválido"
@@ -111,7 +113,7 @@ const Register = () => {
         objAllInvalids.confirmPassword = false;
         objAllInvalidsTxt.confirmPassword = "Las contraseñas no coinciden";
       }
-      if (registerFields.companyName === '' || registerFields.companyName === " ") {
+      if (registerFields.companyName === '' || registerFields.companyName === " " || /^[a-z0-9,-./\/' À-ÿ\u00f1\u00d1]{3,45}$/i.test(registerFields.companyName) === false) {
         objAllInvalids.companyName = false;
         objAllInvalidsTxt.companyName = "Favor de ingresar un nombre de empresa";
       }
@@ -119,28 +121,72 @@ const Register = () => {
         objAllInvalids.acceptTerms = false;
         objAllInvalidsTxt.acceptTerms = "Favor de aceptar términos y condiciones"
       }
+
+      //Crea cuenta en Firebase
+      console.log("Fields: ", objAllInvalids);
+      if (objAllInvalids.email === true && objAllInvalids.password === true && objAllInvalids.confirmPassword === true && objAllInvalids.companyName === true && objAllInvalids.acceptTerms === true) {
+        //Se llama función de crear cuenta
+        console.log(credentials);
+        const response = await signup(credentials.email, credentials.password);
+        console.log("Submit: ", response);
+        if (response != "auth/email-already-in-use") {
+          //Aquí va mandar info a backend del objeto credentials
+          sendInfo(registerFields.companyName, registerFields.email).then(() => {
+            //Redirecciona a nota de verificacion de usuario
+            const str = stringify(credentials);
+            console.log("QS: ", str);
+            navigate.push("/views/verificationEmail");
+          });
+        } else {
+          objAllInvalids.email = false;
+          objAllInvalidsTxt.email = "Correo en uso";
+        }
+      }
       setIsValidField({ email: objAllInvalids.email, password: objAllInvalids.password, confirmPassword: objAllInvalids.confirmPassword, companyName: objAllInvalids.companyName, acceptTerms: objAllInvalids.acceptTerms });
       setIsValidFieldTxt({ txtEmail: objAllInvalidsTxt.email, txtPassword: objAllInvalidsTxt.password, txtConfirmPassword: objAllInvalidsTxt.confirmPassword, txtCompanyName: objAllInvalidsTxt.companyName, txtAcceptTerms: objAllInvalidsTxt.acceptTerms });
 
-      // console.log(credentials);
-      // const response = await signup(credentials.email, credentials.password);;
-      // console.log("Submit: ", response.uid);
-      // navigate.push("/views/dashboard").then(() => {
-      //   window.location.reload();
-      // });
     } catch (error) {
       // eslint-disable-next-line
       // alert(error.code)
-      console.log(error)
+      console.log(error.code)
     }
   }
-  const handleSubmitGoogle = async() => {
-    provider().then(()=>{
-      navigate.push("/views/registerCompany").then(() => {
-          window.location.reload();
-        });
+  const sendInfo = async (companyName, email) => {
+
+    var data = JSON.stringify({
+      // "name": "Tonya Larkin",
+      "company_name": companyName,
+      // "phone": "632-795-1068",
+      "email": email,
+      "created_date": 234234324324,
+      // "image": "http://placeimg.com/640/480"
+    });
+    const accessToken = getAccessToken();
+    const headers = {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    }
+    console.log("access token: ", accessToken);
+
+    await axios.post('https://us-central1-bloona-ef12e.cloudfunctions.net/freebug_pos/starting', data, {
+      headers: headers
+    }).then(function (response) {
+      console.log(response);
+    })
+      .catch(function (error) {
+        console.log(error)
+      });
+  }
+  const handleSubmitGoogle = async () => {
+    provider().then(() => {
+      //Checar si ya tiene un nombre de empresa registrado en peticion a backend
+
+
+      //De lo contrario redirigirlo a registrar su nombre de empresa
+      navigate.push("/views/registerCompany");
     });
   }
+
 
 
 
@@ -172,6 +218,7 @@ const Register = () => {
                         type="email"
                         onChange={(e) => { handleChange(e); setIsValidField({ email: true, password: true, confirmPassword: true, companyName: true, acceptTerms: true }) }}
                         className={isValidField.email === true ? 'form-control' : 'form-control is-invalid'}
+                        required
                       // invalid={isValidField.email}
                       />
                       <FormFeedback>
@@ -183,7 +230,8 @@ const Register = () => {
                       <Label htmlFor="password">Contraseña</Label>
                       <Input
                         name="password"
-                        type="text"
+                        type="password"
+                        required
                         onChange={(e) => { handleChange(e); setIsValidField({ password: true, email: true, confirmPassword: true, companyName: true, acceptTerms: true }) }}
                         className={isValidField.password === true ? 'form-control' : 'form-control is-invalid'}
                       />
@@ -197,6 +245,7 @@ const Register = () => {
                       <Input
                         name="confirmPassword"
                         type="password"
+                        required
                         onChange={(e) => { handleChange(e); setIsValidField({ password: true, email: true, confirmPassword: true, companyName: true, acceptTerms: true }) }}
                         className={isValidField.confirmPassword === true ? 'form-control' : 'form-control is-invalid'}
 
@@ -210,6 +259,7 @@ const Register = () => {
                       <Input
                         name="companyName"
                         type="text"
+                        required
                         onChange={(e) => { handleChange(e); setIsValidField({ password: true, email: true, confirmPassword: true, companyName: true, acceptTerms: true }) }}
                         className={isValidField.companyName === true ? 'form-control' : 'form-control is-invalid'}
                       />
@@ -223,6 +273,7 @@ const Register = () => {
                         type="checkbox"
                         name="acceptTerms"
                         id="acceptTerms"
+                        required
                         style={{ marginRight: "3px" }}
                         onChange={(e) => { setAcceptTerms(e.target.checked); setIsValidField({ password: true, email: true, confirmPassword: true, companyName: true, acceptTerms: true }) }}
                         className={isValidField.acceptTerms === true ? 'form-check-input' : 'form-check-input is-invalid'}
