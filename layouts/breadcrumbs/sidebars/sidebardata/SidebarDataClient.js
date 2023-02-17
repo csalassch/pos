@@ -39,7 +39,7 @@ function SidebarDataClient() {
     ],
   },
   {
-    title: t('txt_112'),
+    title: "Empresas y ubicaciones",
     href: '/views/Ubicaciones/subsidiarias',
     id: 2,
     icon: <Icon.MapPin />,

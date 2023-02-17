@@ -30,73 +30,77 @@ const ExpandedComponentSubsidiaries = () => {
         }
         ,
         {
-            name: t('txt_106'),
-            selector: row => row.staff,
-            minWidth:"4rem",
-            maxWidth:"4em",
+            name: "Ciudad,Estado",
+            selector: row => row.cityState,
+            maxWidth:"10em",
 
 
         },
         {
-            name: t('txt_107'),
-            selector: row => row.stock,
-            minWidth:"4rem",
-            maxWidth:"4em"
-        },
+            name: " ",
+            selector: row => row.options,
+            minWidth:"3rem",
+            maxWidth:"3em",
+
+
+        }
     ];
 
     const dataSubs = [
         {
             id: 1,
-            
             active:
                 <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round" ></span>
                 </label>
             ,
-            
-
-            name: "Tienda Souvenirs",
-            address: "Ladera del Cubilete 211, col. La Ladera",
-            staff:"15",
-            stock:<a href='https://www.freebug.mx/'><Icon.Box /></a>
-
+            name: "VRT Mxl",
+            cityState:"Mexicali,Baja California",
+            options:<div style={{cursor:"pointer"}}><Icon.MoreVertical size={17}/></div>            
         },
         {
             id: 2,
-            
             active:
-                <label className="switch">
+            <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round" ></span>
                 </label>
             ,
+            name: "VRT calle11",
+            address: "Calle 11 S/N local 12 C.P 21180",
+            cityState:"Mexicali,Baja California",
+            options:<div style={{cursor:"pointer"}}><Icon.MoreVertical size={17}/></div>
             
-
-            name: "Tienda Galindas",
-            address: "Ave. Galindas #180, int.1",
-            staff:"7",
-            stock:<a href='https://www.freebug.mx/'><Icon.Box /></a>
-
         },
         {
             id: 3,
-            
             active:
                 <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round" ></span>
                 </label>
             ,
-            
+            name: "VRT SLRC",
+            cityState:"San Luis Rio Colorado, Sonora",
+            options:<div style={{cursor:"pointer"}}><Icon.MoreVertical size={17}/></div>
 
-            name: "Restaurante",
-            address: "Torres Orvit",
-            staff:"5",
-            stock:<a href='https://www.freebug.mx/'><Icon.Box /></a>
+        },
+        {
+            id: 4,
+            active:
+                <label className="switch">
+                    <input type="checkbox" />
+                    <span className="slider round" ></span>
+                </label>
+            ,
+            name: "VRT Hermosillo",
+            address:"Blv. 2000 #500 Villafontana C.P. 21987",
+            cityState:"Hermosillo, Sonora",
+            options:<div style={{cursor:"pointer"}}><Icon.MoreVertical size={17}/></div>
 
-        }
+        },
+        
 
     ];
 

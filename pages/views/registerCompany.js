@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input, Form, FormFeedback } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from "axios";
 import { useRouter } from 'next/router';
 import Image from "next/image";
+import Spinner from 'react-bootstrap/Spinner';
 import { useAuth } from "@/Context/AuthContext";
 
 const RegisterCompany = () => {
     const router = useRouter();
     const { getAccessToken } = useAuth();
     const { getCurrentUser } = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const [fldCompany, setCfldCompany] = useState({
         companyName: ""
@@ -30,6 +33,7 @@ const RegisterCompany = () => {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(false);
 
         const objAllInvalids = {
             companyName: true,
@@ -42,13 +46,17 @@ const RegisterCompany = () => {
             objAllInvalidsTxt.companyName = "Favor de ingresar un nombre de empresa";
             setIsValidField({ companyName: objAllInvalids.companyName });
             setIsValidFieldTxt({ txtCompanyName: objAllInvalidsTxt.companyName });
+            setIsLoading(true);
         } else {
             //Aquí va mandar info a backend del objeto credentials
-            const userEmail=getCurrentUser().email;
+            const userEmail = getCurrentUser().email;
             sendInfo(fldCompany.companyName, userEmail).then(() => {
                 //Redirecciona a nota de verificacion de usuario
                 // const str = stringify(credentials);
                 // console.log("QS: ", str);
+                setIsDisabled(true);
+                setIsLoading(false);
+                console.log("executig routing....");
                 router.push("/views/dashboard").then(() => {
                     window.location.reload();
                 });
@@ -83,6 +91,11 @@ const RegisterCompany = () => {
                 console.log(error)
             });
     }
+    useEffect(()=>{
+        if(isLoading===false){
+            setIsDisabled(true);
+        }
+    },[isDisabled,isLoading])
     return (
         <div className="loginBox" >
             <div className="h-100 d-flex justify-content-center align-items-center"
@@ -95,13 +108,13 @@ const RegisterCompany = () => {
                             <Card className="border-0 cardLogin" style={{ backgroundColor: "white !important" }}>
                                 <h1 className='text-center mainTitle px-4 m-1' style={{ color: "#077CAB" }}><strong>Koonol</strong></h1>
                                 <div className="d-flex justify-content-center">
-                                        <Image
-                                            className='helloImage'
-                                            width={170}
-                                            height={170}
+                                    <Image
+                                        className='helloImage'
+                                        width={170}
+                                        height={170}
 
-                                            alt='helloKonool' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FregistraEmpresa1.png?alt=media&token=b7d7fdfb-a4ef-4f04-991b-4c66c47a63d9' />
-                                    </div>
+                                        alt='helloKonool' src='https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FregistraEmpresa1.png?alt=media&token=b7d7fdfb-a4ef-4f04-991b-4c66c47a63d9' />
+                                </div>
                                 <CardBody className="p-4 m-1">
                                     <h4 className="mb-0 fw-bold">Registra tu empresa</h4>
 
@@ -119,7 +132,16 @@ const RegisterCompany = () => {
                                         </FormGroup>
 
                                         <FormGroup>
-                                            <Button type="submit" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }} className="me-2">
+                                            <Button disabled={isDisabled} type="submit" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }} className="me-2">
+                                                <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                    style={{ marginRight: "5px" }}
+                                                    hidden={isLoading}
+                                                />
                                                 Registrar
                                             </Button>
                                         </FormGroup>

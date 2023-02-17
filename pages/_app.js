@@ -9,6 +9,8 @@ import { AuthProvider } from "@/Context/AuthContext"
 import "./assets/css/styles.css"
 import "./assets/scss/style.scss"
 import "./assets/scss/steps.scss"
+import 'tippy.js/dist/tippy.css'; // optional
+
 import store from '@/store/Store'
 import IndexPage from "../";
 import Router from "next/router";

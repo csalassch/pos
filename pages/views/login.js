@@ -5,11 +5,17 @@ import { Button, Label, FormGroup, Container, Row, Col, Card, CardBody, Input, F
 import 'bootstrap/dist/css/bootstrap.css';
 import * as Yup from 'yup';
 import { useAuth } from "@/Context/AuthContext";
+import Spinner from 'react-bootstrap/Spinner';
+import { useEffect } from "react";
+
 
 
 function LoginPage() {
     const { login, resetPassword } = useAuth();
     const { provider } = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingLogin, setIsLoadingLogin] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(false);
 
     const [credentials, setCredentials] = useState({
         email: "",
@@ -29,10 +35,11 @@ function LoginPage() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoadingLogin(false);
         console.log(credentials);
         const response = await login(credentials.email, credentials.password);
         console.log("Submit login: ", response.uid);
-
+        setIsLoadingLogin(false);
         router.push("/views/dashboard").then(() => {
             window.location.reload();
         });
@@ -50,20 +57,30 @@ function LoginPage() {
         router.push("/views/register");
     }
     const handleSubmitGoogle = async () => {
-        provider().then(() => {
-            router.push("/views/dashboard").then(() => {
-                window.location.reload();
-            });
+        setIsLoading(false);
+        provider().then((response) => {
+            //send user info to backend
+            console.log("Token de Google user: ", response);
+            if (response === "auth/popup-closed-by-user") {
+                setIsLoading(true);
+                setIsDisabled(false);
+            } else {
+                //redirect to dashboard
+                router.push("/views/dashboard").then(() => {
+                    window.location.reload();
+                });
+            }
+
+        }).catch((e) => {
+            console.log(e);
         });
     }
-    const initialValues = {
-        email: '',
-        password: '',
-    };
-    const validationSchema = Yup.object().shape({
-        email: Yup.string().email('Email is invalid').required('Email is required'),
-        password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-    });
+
+    useEffect(() => {
+        if (isLoading === false || isLoadingLogin===false) {
+            setIsDisabled(true);
+        }
+    }, [isDisabled, isLoading,isLoadingLogin]);
 
     return (
         <div className="loginBox" >
@@ -109,10 +126,28 @@ function LoginPage() {
                                             </a>
                                         </FormGroup>
                                         <FormGroup>
-                                            <Button type="submit" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }} className="me-2">
+                                            <Button disabled={isDisabled} type="submit" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }} className="me-2">
+                                                <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                    style={{ marginRight: "5px" }}
+                                                    hidden={isLoadingLogin}
+                                                />
                                                 Iniciar Sesión
                                             </Button>
-                                            <Button style={{ backgroundColor: "#ea4335", borderColor: "#ea4335" }} onClick={handleSubmitGoogle}>
+                                            <Button disabled={isDisabled} style={{ backgroundColor: "#ea4335", borderColor: "#ea4335" }} onClick={handleSubmitGoogle}>
+                                                <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                    style={{ marginRight: "5px" }}
+                                                    hidden={isLoading}
+                                                />
                                                 <i className="bi bi-google"></i> Google
                                             </Button>
                                         </FormGroup>

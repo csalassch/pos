@@ -13,6 +13,7 @@
     "@next/font": "13.1.2",
     "@reduxjs/toolkit": "^1.9.1",
     "@stitches/react": "^1.2.8",
+    "@tippyjs/react": "^4.2.6",
     "antd": "^5.1.5",
     "apexcharts": "^3.36.3",
     "axios": "^1.2.2",

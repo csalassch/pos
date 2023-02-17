@@ -2,14 +2,26 @@
 import { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import Select from 'react-select';
-import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
+import {
+    Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader,
+    UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
+} from 'reactstrap';
 import Papa from "papaparse";
+import SimpleBar from 'simplebar-react';
 import useTranslation from '@/hooks/useTranslation';
 import DataTable from 'react-data-table-component';
 import Transactions from '../Transactions/transactions';
 import TotalRegistries from '../TotalRegistries/totalRegistries';
 import Badge from 'react-bootstrap/Badge';
 import ExpandedComponentSubsidiaries from './ExpandedComponentSubsidiaries';
+import TwoColumnSubsidiarias from '../twoColumn/TwoColumnSubsidiarias';
+import TwoColumnSucursales from '../twoColumn/TwoColumnSucursales';
+import FiltersDropdown from './FiltersDropdown';
+import DropdownToggleMatriz from './DropdownToggle';
+import Tippy from '@tippyjs/react';
 
 const SubsidiariesComp = () => {
     const { t } = useTranslation();
@@ -18,6 +30,7 @@ const SubsidiariesComp = () => {
 
 
     const [modal, setModal] = useState(false);
+    const [modalSucursal, setModalSucursal] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
     // const [lista, setLista] = useState([{}]);
     const [lista, setLista] = useState([{ id: '', nombre: '', urlImage: '', sku: '', precio: 0, active: false }]);
@@ -163,79 +176,62 @@ const SubsidiariesComp = () => {
     let columnsTable = [];
     const dataTable = [];
     const columns = [
-        
-        
+
+
+        // {
+        //     name: t('txt_017'),
+        //     selector: row => row.active,
+        //     minWidth: "5rem",
+        //     maxWidth: "5em"
+        // }
+        // ,
         {
-            name: t('txt_017'),
-            selector: row => row.active,
-            minWidth:"5rem",
-            maxWidth:"5em"
-        }
-        ,
-        {
-            name:  t('txt_031'),
-            selector: row => row.logo,
-            minWidth:"7rem",
-            maxWidth:"7em"
-        }
-        ,
-        {
-            name:  t('txt_032'),
+            name: "Empresa",
             selector: row => row.matriz,
-            maxWidth:"10em"
+            maxWidth: "50em"
         }
         ,
 
         {
-            name: t('txt_008'),
-            selector: row => row.name,
-            maxWidth:"10em"
-        },
-        {
-            name: t('txt_033'),
-            selector: row => row.website,
-            maxWidth:"5em",
-            minWidth:"5rem",
+            name: "Propietario",
+            selector: row => row.owner,
+            maxWidth: "50em"
+        }
+        ,
 
-        },
         {
-            name: t('txt_034'),
-            selector: row => row.currency,
-            minWidth:"5rem",
-            maxWidth:"5em"
-        },
+            name: "Sitio web",
+            selector: row => row.website,
+            maxWidth: "50em"
+        }
+        , {
+            name: " ",
+            selector: row => row.options,
+            minWidth: "5rem",
+            maxWidth: "5em",
+        }
     ];
 
     const dataSubs = [
         {
             id: 1,
-            
             active:
                 <label className="switch">
                     <input type="checkbox" />
                     <span className="slider round" ></span>
                 </label>
             ,
-            logo: <img id="imageProductRetrieved2"
-                alt="..."
-                className=" img-fluid rounded shadow-lg"
-                src="https://picsum.photos/seed/picsum/200/300"
-                style={{ width: "40px" }}
-            ></img>,
-            matriz:"Freebug Magdiel Elienai Jiménez Tabla S.A de C.V",
-
-            name: "Sucursal Centro Sur Querétaro",
-            website: <a href='https://www.freebug.mx/'><Icon.Globe /></a>,
-            currency: <h6><Badge className='badgeCurrency'>
-                MXN
-            </Badge></h6>
-
+            matriz: "Freebug Magdiel Elienai Jiménez Tabla S.A de C.V",
+            owner: "Victor Hugo Torres",
+            website: <p className='link-info'>www.zaveriamexico.com</p>,
+            options: (
+                <Tippy theme='light'content={<div><button>botoncito</button></div>}>
+                    <button className='ref-button'>My button</button>
+                </Tippy>
+            )
+            // options:<DropdownToggleMatriz/>
         }
-
     ];
-
-
-
     async function columnsAndData(listaFilled) {
         columnsTable = [
             {
@@ -307,39 +303,48 @@ const SubsidiariesComp = () => {
             );
         }
     }
-
     let searchPlacehorlder = t('txt_078');
     const [isSSR, setIsSSR] = useState(true);
-
     useEffect(() => {
         setIsSSR(false);
     }, []);
     return (
         <Row>
-            <Col md="8">
+            <Col md="12">
                 <div className="d-flex align-items-stretch">
                     <div className="p-1 align-self-stretch">
-                        <Button title={t('txt_071')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />{t('txt_029')}</Button>
+                        <Button title={t('txt_071')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />Empresa</Button>
                     </div>
                     <div className="p-1 align-self-stretch">
-                        <Button title={t('txt_072')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />{t('txt_030')}</Button>
+                        <Button title={t('txt_072')} className='btn btn-icon-N' onClick={() => { setModalSucursal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />Ubicación</Button>
                     </div>
-                    
-                    
-                    <div className="p-1 align-self-stretch" style={{ marginLeft: "auto" }}>
+                    {/* <div className="p-1 align-self-stretch" style={{ marginLeft: "auto" }}>
                         <Button title={t('txt_024')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon-N mb-3' type="button"><Icon.Filter style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('txt_024')}</Button>
-                    </div>
+                    </div> */}
+                    <div className="p-1 align-self-stretch" style={{ marginLeft: "auto" }}>
+                        <UncontrolledDropdown direction='down' className="mx-1 ">
+                            <DropdownToggle className="btn btn-icon-N p-1 border-0 btn-header">
+                                <Icon.Filter size={18} /> Filtrar
+                            </DropdownToggle>
+                            <DropdownMenu className="ddWidth">
+                                <SimpleBar style={{ maxHeight: '350px' }}>
+                                    <FiltersDropdown />
+                                </SimpleBar>
+                                <DropdownItem divider />
+                                <div className="p-1 px-3">
+                                    Filtros Avanzados
+                                </div>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                    </div >
                     <div className="p-1 align-self-stretch">
                         <Input className='searchBar' type="text" placeholder={searchPlacehorlder} style={{ border: "none" }} />
                     </div>
                 </div>
-
                 <Collapse isOpen={showFilters} style={{ marginTop: "10px" }}>
                     <Row style={{ marginBottom: "10px" }}>
-
                         <Col >
                             <FormGroup id='name'>
-
                                 <Label className='headingCard' htmlFor="exampleFile">{t('txt_008')}</Label>
                                 <Select
                                     label="Single select"
@@ -348,19 +353,15 @@ const SubsidiariesComp = () => {
                                 />
                             </FormGroup>
                         </Col>
-
                     </Row>
                     <Row>
                         <Col>
                             <div className='d-flex justify-content-end mb-2'>
-
                                 <Button type="submit" className="btn btn-success" style={{ backgroundColor: "#077CAB", borderColor: "#077CAB" }}>{t('txt_068')}</Button>
                             </div>
                             {/* <Icon.Plus className='btn btn-icon' style={{ marginRight: "0px", verticalAlign: "middle", position: "relative" }} /> */}
-
                         </Col>
                     </Row>
-
                 </Collapse>
                 <Card className='border-0'>
                     {/* <CardHeader style={{ backgroundColor: "white" }}>
@@ -370,59 +371,52 @@ const SubsidiariesComp = () => {
                                 </Col>
                             </div>
                         </Row>
-
                     </CardHeader> */}
                     <CardBody>
                         <div>
-                            
                             <Row className='d-flex justify-content-center'>
                                 <Col>
-                                    
                                     {/* DataTable component */}
                                     <div className='container-fluid'>
                                         {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
-
                                         {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedComponentSubsidiaries} />}
+                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedComponentSubsidiaries} responsive />}
                                     </div>
-
-
                                 </Col>
-
                             </Row>
-                            <Modal isOpen={modal} toggle={() => { setModal(false); setisEdited(false); }}>
+                            <Modal size='lg' isOpen={modal} toggle={() => { setModal(false); setisEdited(false); }}>
                                 <ModalHeader toggle={() => { setModal(false); }} style={{ color: "#1f4f67" }}>
-                                    {isEdited === false ? <Icon.PlusCircle style={{ marginRight: "5px" }} /> : (<Icon.Edit2 style={{ marginRight: "5px" }} />)}
-                                    {isEdited === false ? t('txt_071') : t('txt_083')}
-
+                                    {/* {isEdited === false ? <Icon.PlusCircle style={{ marginRight: "5px" }} /> : (<Icon.Edit2 style={{ marginRight: "5px" }} />)} */}
+                                    {isEdited === false ? "Agregar empresa" : t('txt_083')}
                                 </ModalHeader>
-                                <ModalBody className='pb-0'>
-                                    <FormGroup>
-                                        {/* <InputGroup> */}
-                                        <Label className='labels' style={{ paddingBottom: "0px", marginBottom: "0px", fontWeight: "400" }}>{t('txt_008')}</Label>
-                                        <Input className='inputBox' style={{ marginTop: "0px" }} onChange={(e) => { setNameUnit(e.target.value); setIsValidInput(true); setVisible(false); sethiddenSuccess(false); }} />
-                                        {/* </InputGroup> */}
-                                    </FormGroup>
-                                    <div className='d-flex justify-content-end'>
-                                        <Button className='btn-icon-Modal px-2' onClick={() => { checkRepeatedValues(nameUnit).then((e) => { console.log("Returned Val: ", e); newUnit(e) }); }}>
-                                            {t('txt_014')}
-                                        </Button>
-                                    </div>
+                                <ModalBody className='pb-0 pt-0' style={{ borderTop: "none" }}>
+                                    <TwoColumnSubsidiarias />
+                                </ModalBody>
+                                <ModalFooter style={{ borderTop: "none" }}>
+                                </ModalFooter>
+                            </Modal>
+                            <Modal size='lg' isOpen={modalSucursal} toggle={() => { modalSucursal(false); }}>
+                                <ModalHeader toggle={() => { setModalSucursal(false); }} style={{ color: "#1f4f67" }}>
+                                    {/* {isEdited === false ? <Icon.PlusCircle style={{ marginRight: "5px" }} /> : (<Icon.Edit2 style={{ marginRight: "5px" }} />)} */}
+                                    Agregar Sucursal
+                                </ModalHeader>
+                                <ModalBody className='pb-0 pt-0' style={{ borderTop: "none" }}>
+                                    <TwoColumnSucursales />
                                 </ModalBody>
                                 <ModalFooter style={{ borderTop: "none" }}>
 
                                 </ModalFooter>
                             </Modal>
-                            
+
                         </div >
                     </CardBody>
                 </Card>
             </Col>
-            <Col>
+            {/* <Col>
                 <TotalRegistries txt={t('txt_035')} />
                 <Transactions />
 
-            </Col>
+            </Col> */}
         </Row >
     );
 };

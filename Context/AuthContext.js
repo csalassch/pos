@@ -25,6 +25,7 @@ export function AuthProvider({ children }) {
             // The signed-in user info.
             const user = result.user;
             console.log({ credential, token, user });
+            return user;
         })
         .catch((error) => {
             // Handle Errors here.
@@ -34,7 +35,9 @@ export function AuthProvider({ children }) {
             const email = error.email;
             // The AuthCredential type that was used.
             const credential = GoogleAuthProvider.credentialFromError(error);
+
             console.log({ errorCode, errorMessage, email, credential });
+            return errorCode;
         });
 
     const signup = (email, password) => createUserWithEmailAndPassword(auth, email, password).

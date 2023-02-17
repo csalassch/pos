@@ -29,7 +29,7 @@ class Step1 extends Component {
       name: props.getStore().name,
       user: props.getStore().user,
     };
-    
+
     // eslint-disable-next-line no-underscore-dangle
     this._validateOnDemand = true; // this flag enables onBlur validation as user fills forms
 
@@ -306,7 +306,7 @@ class Step1 extends Component {
       if (!arrCatAux.includes(e[i].key)) {
         console.log("e value: ", e[i]);
         // const objCategoryData = { label: e[i].label, value: e[i].label };
-        const objCategoryData={key:e[i].key,label:e[i].label,value:e[i].label};
+        const objCategoryData = { key: e[i].key, label: e[i].label, value: e[i].label };
         arrCatAux.push(objCategoryData);
         // arrCatAux.push(e[i].key);
       }
@@ -398,7 +398,7 @@ class Step1 extends Component {
                             style={style}
                           ></img> */}
                           <Image className='img-fluid rounded shadow-lg' id="imageProductRetrieved" alt='imageProduct' width={450} height={450} src="https://picsum.photos/seed/picsum/450/450" />
-                           
+
 
 
                         </FormGroup>
@@ -419,7 +419,7 @@ class Step1 extends Component {
                         <FormGroup id='stepsStyle'>
 
                           <Label className='labels' style={{ width: "135px" }}>Nombre</Label>
-                          <input  placeholder="Ej. Cartera" type='text' ref={(f) => {
+                          <input placeholder="Ej. Cartera" type='text' ref={(f) => {
                             this.name = f;
                           }} onChange={this.validationCheck} defaultValue={this.state.name} autoComplete='off'
                             className={`${notValidClasses.nameCls} inputBox`} required
@@ -432,8 +432,8 @@ class Step1 extends Component {
                           <input placeholder="UGG-876-789-02" type='text' ref={(f) => {
                             this.sku = f;
                           }} onChange={this.validationCheck} defaultValue={this.state.sku} autoComplete='off'
-                           className={`${notValidClasses.skuCls} inputBox`} />
-                           <div className={notValidClasses.skuValGrpCls}>{this.state.skuValMsg}</div>
+                            className={`${notValidClasses.skuCls} inputBox`} />
+                          <div className={notValidClasses.skuValGrpCls}>{this.state.skuValMsg}</div>
                         </FormGroup>
                         <FormGroup id='stepsStyle'>
                           <Label className='labels' htmlFor="exampleFile">Categorías</Label>

@@ -299,6 +299,44 @@
     @import "./layout/topbar";
     @import "./layout/rtl/rtl";
     --#{$prefix}body-bg: #f4f6f9;
+    .modal-lg{
+        --#{$prefix}modal-width: 1000px;
+    }
+
+    // Para hover de imagen de matriz en sucursales
+    .overlay {
+        position: absolute;
+        top: 0rem;
+        background: rgba(217, 225, 226, 0.609);
+        opacity: 0;
+        font-weight: 500;
+        color: #174a5b;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        transition: .5s ease;
+        margin: auto;
+        vertical-align: middle;
+        cursor: pointer;
+
+    }
+
+    .logoMatriz {
+        position: relative;
+        width: 50%;
+        max-width: 150px;
+    }
+
+    .logoMatriz:hover .overlay {
+        opacity: 1;
+    }
+
+    .list-group-item {
+        background-color: transparent !important;
+        color: #101820;
+        cursor: pointer;
+    }
+
     .btn-header {
         background-color: transparent;
         color: #6c757d;
@@ -394,7 +432,7 @@
         text-overflow: ellipsis !important;
         text-align: center;
     }
-    
+
     [role="row"] {
         display: flex;
         justify-content: space-between !important;
@@ -418,8 +456,18 @@
 
         }
     }
-    .links >a{
+
+    .links>a {
         text-decoration: none;
+    }
+    .linkMatriz{
+        color:#101820;
+        &:hover{
+            color:#174a5b;
+        }
+    }
+    .linkMatrizActive{
+        color:	#077cab;
     }
 }
 
@@ -704,13 +752,14 @@
         // font-size:15px;
 
     }
+
     .rdt_ExpanderRow,
     .rdt_Pagination,
     [role="rowgroup"],
     [role="row"],
     [role="table"] {
         background-color: transparent !important;
-        color:#d9e1e2;
+        color: #d9e1e2;
     }
 
     .gKbhqU {
@@ -921,10 +970,11 @@
     @import './layout/rtl/rtl';
     --#{$prefix}body-bg: #303a45;
     --#{$prefix}border-color:transparent !important;
-    .list-group-item{
+
+    .list-group-item {
         background-color: transparent !important;
-        color:#d9e1e2;
-        cursor:pointer;
+        color: #d9e1e2;
+        cursor: pointer;
     }
 
     .bgProfileDD {
@@ -974,13 +1024,14 @@
         background-color: #192430;
         color: #d9e1e2
     }
-    
+
     #sku>#selectInputs>*,
     #name>#selectInputs>*,
     #categories>#selectInputs>* {
         background-color: #192430 !important;
         border-color: #192430 !important;
     }
+
     .inputBox,
     #paymentConfigurationSelect3>#selectInputs3>*,
     #paymentConfigurationSelect>#selectInputs2>*,
@@ -991,14 +1042,15 @@
         background-color: #101820 !important;
         border-color: #101820 !important;
     }
-    .inputBox{
-        color:#d9e1e2;
+
+    .inputBox {
+        color: #d9e1e2;
     }
-    
-    .form-control:disabled{
+
+    .form-control:disabled {
         background-color: #243649 !important;
         border-color: #243649 !important;
-        color:#d9e1e2 !important;
+        color: #d9e1e2 !important;
     }
 
     #stepsStyle>textarea,
@@ -1035,26 +1087,28 @@
 
     #selectInputs * {
         color: #077cab;
+
         &:active {
             background-color: #101820;
-            color:#d9e1e2
-
+            color: #d9e1e2
         }
     }
+
     #selectInputs2 * {
         color: #d9e1e2;
+
         &:active {
             background-color: #101820;
-            color:#d9e1e2
-
+            color: #d9e1e2
         }
     }
+
     #selectInputs3 * {
         color: #d9e1e2;
+
         &:active {
             background-color: #101820;
-            color:#d9e1e2
-
+            color: #d9e1e2
         }
     }
 
@@ -1105,7 +1159,7 @@
         }
     }
 
-    .links >a{
+    .links>a {
         text-decoration: none;
     }
 

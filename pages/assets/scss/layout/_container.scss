@@ -88,6 +88,18 @@
       top: 13px;
     }
   }
+  .leftPartSub {
+    width: 170px;
+    min-height: calc(100vh - 200px);
+    position: relative;
+    transition: 0.1s ease-in;
+
+    .openCloseBtn {
+      position: absolute;
+      right: -42px;
+      top: 13px;
+    }
+  }
 
   .threeColumn {
     .leftPart {

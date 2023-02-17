@@ -23,7 +23,7 @@ const BreadCrumbs = () => {
   }
   if (thirdUrl === "subsidiarias") {
 
-    thirdUrl = t('txt_028');
+    thirdUrl = "Empresas y ubicaciones";
 
   }
   if (thirdUrl === "usuarios") {
@@ -85,13 +85,13 @@ const BreadCrumbs = () => {
 
         </div>
         <div >
-          <Breadcrumb>
+          {/* <Breadcrumb>
             <Breadcrumb.Item to="/" tag={location.pathname} className="text-decoration-none fw-normal" style={{ color: "#1186a2" }}>
               {t('txt_108')}
             </Breadcrumb.Item>
             {secondUrl ? <Breadcrumb.Item >{secondUrl}</Breadcrumb.Item> : ''}
             {thirdUrl ? <Breadcrumb.Item >{thirdUrl}</Breadcrumb.Item> : ''}
-          </Breadcrumb>
+          </Breadcrumb> */}
         </div>
 
 
