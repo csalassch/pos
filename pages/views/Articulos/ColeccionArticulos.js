@@ -17,6 +17,7 @@ import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 // import ComponentCard from '../../components/ComponentCard';
 // import ArticuloNuevoFormComp from '../../components/Articulos/ArticuloNuevoFormComp';
 import TableItemsComp from '@/components/Articulos/TableItemsComp';
+import { withPublic } from "@/hooks/route";
 // import { colourOptions } from '../form-pickers/Data';
 
 
@@ -113,4 +114,4 @@ const ColeccionArticulos = () => {
         </div>
     );
 };
-export default ColeccionArticulos;
+export default withPublic(ColeccionArticulos);

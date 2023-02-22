@@ -1,7 +1,8 @@
 import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 import UsuariosComp from "@/components/Usuarios/UsuariosComp";
+import { withPublic } from "@/hooks/route";
 
-const usuarios = () => {
+const Usuarios = () => {
 
     return (
         <div>
@@ -10,4 +11,4 @@ const usuarios = () => {
         </div>
     );
 };
-export default usuarios;
+export default withPublic(Usuarios);

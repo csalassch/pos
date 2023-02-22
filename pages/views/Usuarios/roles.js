@@ -1,7 +1,8 @@
 import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 import RolesComp from "@/components/Usuarios/RolesComp";
+import { withPublic } from "@/hooks/route";
 
-const subsidiarias = () => {
+const Roles = () => {
 
     return (
         <div>
@@ -10,4 +11,4 @@ const subsidiarias = () => {
         </div>
     );
 };
-export default subsidiarias;
+export default withPublic(Roles);

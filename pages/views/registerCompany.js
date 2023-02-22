@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import Image from "next/image";
 import Spinner from 'react-bootstrap/Spinner';
 import { useAuth } from "@/Context/AuthContext";
+import { withPublic } from "@/hooks/route";
+
 
 const RegisterCompany = () => {
     const router = useRouter();
@@ -162,6 +164,7 @@ export default RegisterCompany;
 RegisterCompany.getLayout = function RegisterCompany(page) {
     return (
         <>
+        
             {page}
         </>
     )

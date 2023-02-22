@@ -165,7 +165,7 @@ function LoginPage() {
     )
 }
 
-export default LoginPage
+export default LoginPage; 
 
 LoginPage.getLayout = function LoginPage(page) {
     return (

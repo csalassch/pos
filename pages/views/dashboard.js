@@ -1,4 +1,4 @@
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import { useRouter } from "next/router";
@@ -12,6 +12,7 @@ import LicenciaDescripcion from "@/components/HomeComponents/LicenciaDescripcion
 import useTranslation from "@/hooks/useTranslation";
 import Link from "next/link";
 import Image from "next/image";
+import { withPublic } from "@/hooks/route";
 
 
 function Dashboard() {
@@ -20,12 +21,13 @@ function Dashboard() {
     const seeInformationTxt = t('txt_012');
     const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
     const [isSSR, setIsSSR] = useState(true);
-    const {user,dataUser}=useAuth();
+    const { user, dataUser } = useAuth();
     const [userData, setUserData] = useState({ name: "" });
 
-    
-    
+
+
     const router = useRouter();
+
     const logout = async () => {
         try {
             await axios.post('/api/auth/logout');
@@ -208,14 +210,39 @@ function Dashboard() {
             },
         },
     };
-    useEffect(()=>{
-        setIsSSR(false);
-        console.log("user: ",dataUser)
-        if (dataUser) {
-            setUserData(dataUser);
-          }
+    const fillUserData = () => {
+        const objUser = {
+            name: "",
+            email: "",
+            phone: ""
+        }
+        // Si existe un displayName que no sea nulo, poner el nombre de la persona
+        if (dataUser.displayName != null) {
+            objUser.name = dataUser.displayName
+            
+        }
+        // De lo contrario poner el nombre o texto que este antes del @ de su correo
+        else {
+            let strEmail = dataUser.email;
+            strEmail = strEmail.split("@");
+            objUser.name = strEmail[0];
+            console.log("UserName w no displayName:", strEmail[0]);
+        }
+        // Pendiente: hacer un caso de que sea logeado con número telefónico
+        console.log("objUser: ", objUser);
+        return objUser;
+    }
 
-    },[dataUser]);
+    useEffect(async () => {
+        setIsSSR(false);
+        console.log("user: ", dataUser);
+        if (dataUser) {
+            const res=fillUserData();
+            setUserData({name:res.name});
+            console.log("RES userDATA: ",userData);
+        }
+
+    }, [dataUser]);
 
     return (
         <>
@@ -223,7 +250,7 @@ function Dashboard() {
                 <div className="boxContainer p-4 container-fluid">
 
 
-                {!isSSR &&<BreadCrumbs className="breadCrumbs" />}
+                    {!isSSR && <BreadCrumbs className="breadCrumbs" />}
                     <div className='row mt-3'>
                         <div className='col-md-6 col-sm-8'>
 
@@ -233,7 +260,7 @@ function Dashboard() {
                                     <Row>
 
                                         <Col className='col-md-8 col-sm-6'>
-                                            <h1 className="display-7 txtWelcome">{t('txt_001')}<br /><strong>{userData.email}</strong></h1>
+                                            <h1 className="display-7 txtWelcome">{t('txt_001')}<br /><strong>{userData.name}</strong></h1>
                                             <p className='lead txtWelcome'>
                                                 {t('txt_002')} Koonol
                                             </p>
@@ -344,12 +371,12 @@ function Dashboard() {
                             <h3 className='outsideCardHeadings' >{t('txt_007')}</h3>
                             <Card className="border-0">
                                 <CardBody>
-                                {!isSSR &&
-                                    <DataTable
-                                        columns={columns}
-                                        data={data}
-                                    />
-                                }
+                                    {!isSSR &&
+                                        <DataTable
+                                            columns={columns}
+                                            data={data}
+                                        />
+                                    }
 
                                 </CardBody>
                             </Card>
@@ -429,7 +456,7 @@ function Dashboard() {
 
 }
 
-export default Dashboard;
+export default withPublic(Dashboard);
 const StyledPage = styled.div`
 background-color: {({ theme }) => theme.backgroundColor };
 color: {({ theme }) => theme.fontColor };

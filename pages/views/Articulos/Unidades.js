@@ -1,9 +1,10 @@
 
 import UnidadesComp from "@/components/Articulos/UnidadesComp";
+import { withPublic } from "@/hooks/route";
 import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 
 
-const Categorias = () => {
+const Unidades = () => {
 
     //For categorias multiselect
 
@@ -93,4 +94,4 @@ const Categorias = () => {
         </div>
     );
 };
-export default Categorias;
+export default withPublic(Unidades);

@@ -1,5 +1,6 @@
 
 import SubsidiariesComp from "@/components/Ubicaciones/SubsidiariesComp";
+import { withPublic } from "@/hooks/route";
 import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 
 const subsidiarias = () => {
@@ -11,4 +12,4 @@ const subsidiarias = () => {
         </div>
     );
 };
-export default subsidiarias;
+export default withPublic(subsidiarias);

@@ -299,7 +299,8 @@
     @import "./layout/topbar";
     @import "./layout/rtl/rtl";
     --#{$prefix}body-bg: #f4f6f9;
-    .modal-lg{
+
+    .modal-lg {
         --#{$prefix}modal-width: 1000px;
     }
 
@@ -460,14 +461,20 @@
     .links>a {
         text-decoration: none;
     }
-    .linkMatriz{
-        color:#101820;
-        &:hover{
-            color:#174a5b;
+
+    .linkMatriz {
+        color: #101820;
+
+        &:hover {
+            color: #174a5b;
         }
     }
-    .linkMatrizActive{
-        color:	#077cab;
+
+    .linkMatrizActive {
+        color: #077cab;
+    }
+    #usersComp .rdt_Table >.rdt_TableHead{
+        display: none;
     }
 }
 
@@ -1038,6 +1045,7 @@
     #stepsStyle>#fileInput,
     #stepsStyle>textarea,
     #stepsStyle>input,
+    .selectInputs>*,
     #stepsStyle>#selectInputs>* {
         background-color: #101820 !important;
         border-color: #101820 !important;
@@ -1094,6 +1102,7 @@
         }
     }
 
+    .selectInputs *,
     #selectInputs2 * {
         color: #d9e1e2;
 
@@ -1162,6 +1171,8 @@
     .links>a {
         text-decoration: none;
     }
-
+    .linkMatrizActive {
+        color: #077cab;
+    }
 
 }

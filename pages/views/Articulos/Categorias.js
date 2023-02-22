@@ -1,5 +1,6 @@
 
 import CategoriesComp from "@/components/Articulos/CategoriesComp";
+import { withPublic } from "@/hooks/route";
 import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 
 
@@ -97,4 +98,4 @@ const Categorias = () => {
         </div>
     );
 };
-export default Categorias;
+export default withPublic( Categorias);

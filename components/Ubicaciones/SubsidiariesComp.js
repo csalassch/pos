@@ -224,12 +224,12 @@ const SubsidiariesComp = () => {
             matriz: "Freebug Magdiel Elienai Jiménez Tabla S.A de C.V",
             owner: "Victor Hugo Torres",
             website: <p className='link-info'>www.zaveriamexico.com</p>,
-            options: (
-                <Tippy theme='light'content={<div><button>botoncito</button></div>}>
-                    <button className='ref-button'>My button</button>
-                </Tippy>
-            )
-            // options:<DropdownToggleMatriz/>
+            // options: (
+            //     <Tippy theme='light'content={<div><button>botoncito</button></div>}>
+            //         <button className='ref-button'>My button</button>
+            //     </Tippy>
+            // )
+            options:<DropdownToggleMatriz/>
         }
     ];
     async function columnsAndData(listaFilled) {

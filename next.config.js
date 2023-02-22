@@ -16,7 +16,7 @@ const nextConfig = {
     ]
   },
   images: {
-    domains: ['firebasestorage.googleapis.com','fastly.picsum.photos','picsum.photos'],
+    domains: ['firebasestorage.googleapis.com','fastly.picsum.photos','picsum.photos','lh3.googleusercontent.com'],
   },
   // images: {
   //   remotePatterns: [

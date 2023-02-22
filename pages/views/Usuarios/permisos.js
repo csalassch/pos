@@ -1,7 +1,8 @@
 import BreadCrumbs from "@/layouts/breadcrumbs/BreadCrumbs";
 import PermisosComp from "@/components/Usuarios/PermisosComp";
+import { withPublic } from "@/hooks/route";
 
-const subsidiarias = () => {
+const Permisos = () => {
 
     return (
         <div>
@@ -10,4 +11,4 @@ const subsidiarias = () => {
         </div>
     );
 };
-export default subsidiarias;
+export default withPublic(Permisos);

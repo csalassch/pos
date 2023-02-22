@@ -3,6 +3,7 @@ import { jwtVerify } from "jose";
 
 export async function middleware(request){
     const jwt=request.cookies.get('tokenUser');
+    console.log("jwt: ",jwt);
         if(jwt===undefined){
             return NextResponse.redirect(new URL('/login',request.url));
         }
@@ -20,5 +21,5 @@ export async function middleware(request){
 }
 export const config={
     // matcher: ['/dashboard/:path*','/']
-    matcher: ['/dashboard']
+    matcher: ['/views/dashboard']
 }

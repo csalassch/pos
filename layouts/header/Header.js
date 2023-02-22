@@ -19,6 +19,10 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   ButtonGroup
 } from 'reactstrap';
 import * as Icon from 'react-feather';
@@ -36,6 +40,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import useTranslation from '@/hooks/useTranslation';
 import { useAuth } from '@/Context/AuthContext';
+import TwoColumnProfile from '@/components/twoColumn/TwoColumnProfile';
 // import { db } from '../../FirebaseConfig/firebase';
 
 // import { useAuth } from '../../Context/authContext';
@@ -47,7 +52,9 @@ const Header = ({ setModeFunc, mode }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
-  const [cookie, setCookie] = useCookies(["preferredLanguage"])
+  const [cookie, setCookie] = useCookies(["preferredLanguage"]);
+  const [openProfile, setOpenProfile] = useState(false);
+
   const { logout } = useAuth();
 
   // const { logout } = useAuth();
@@ -75,6 +82,7 @@ const Header = ({ setModeFunc, mode }) => {
   const [query, setQuery] = useState("");
   const [savedLangLabel, setSavedLangLabel] = useState("");
   const [savedLangVal, setSavedLangVal] = useState("");
+
   // const { user } = useAuth();
   const history = useRouter();
   async function languageChange(e) {
@@ -127,6 +135,7 @@ const Header = ({ setModeFunc, mode }) => {
 
 
   useEffect(() => {
+    console.log("profile click: ", openProfile);
     console.log("loaded flag: ", savedLangLabel);
     setNameOfClass("languageSelected");
     if (savedLangLabel === "" || savedLangVal === "") {
@@ -160,11 +169,11 @@ const Header = ({ setModeFunc, mode }) => {
       console.log("Change in language: ", router);
     }
 
-  }, [query, history, savedLangLabel, savedLangVal, cookie]);
+  }, [query, history, savedLangLabel, savedLangVal, cookie, openProfile]);
 
-  useEffect(()=>{
+  useEffect(() => {
     setIsSSR(false);
-});
+  });
 
 
   return (
@@ -210,18 +219,18 @@ const Header = ({ setModeFunc, mode }) => {
           </Button>
           {/* <div style={{ width: "85px", backgroundColor: "transparent" }} className='container-fluid' onClick={() => dispatch(ToggleMobileSidebar())}> */}
 
-            {!isSSR &&<Select
-              id="flagSelect"
-            
-              className='languageSelected'
-              value={[{ value: savedLangVal, label: savedLangLabel }]}
-              label="Selecciona Idioma"
-              options={options}
-              onChange={(e) => {
-                console.log("Selected: ", e.value);
-                setCoookiesLang(e);
-              }}
-            />}
+          {!isSSR && <Select
+            id="flagSelect"
+
+            className='languageSelected'
+            value={[{ value: savedLangVal, label: savedLangLabel }]}
+            label="Selecciona Idioma"
+            options={options}
+            onChange={(e) => {
+              console.log("Selected: ", e.value);
+              setCoookiesLang(e);
+            }}
+          />}
           {/* </div> */}
           {/******************************/}
           {/**********Mega DD**********/}
@@ -305,7 +314,7 @@ const Header = ({ setModeFunc, mode }) => {
               <img src="https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2Fuser1.jpg?alt=media&token=e0f78555-f833-441f-a070-1548ae18a478" alt="profile" className="rounded-circle" width="30" />
             </DropdownToggle>
             <DropdownMenu className="ddWidth profile-dd pt-0 bgProfileDD">
-              <ProfileDD setModeFunc={setModeFunc} mode={mode} />
+              <ProfileDD openProfile={openProfile} setOpenProfile={setOpenProfile} />
               <div className="p-2 px-3 bgProfileDD">
                 <Button color="danger" size="sm" onClick={handleLogout}>
                   {t('txt_082')}
@@ -315,6 +324,20 @@ const Header = ({ setModeFunc, mode }) => {
           </UncontrolledDropdown>
         </div>
       </Navbar>
+      {/* Modal de perfil de usuario */}
+      <Modal size='lg' isOpen={openProfile} toggle={() => { setOpenProfile(false) }}>
+        <ModalHeader toggle={() => {
+          setOpenProfile(false)
+        }}>
+          Mi Perfil
+        </ModalHeader>
+        <ModalBody className='pb-0 pt-0'>
+          <TwoColumnProfile/>
+        </ModalBody>
+        <ModalFooter style={{ borderTop: "none" }}>
+
+        </ModalFooter>
+      </Modal >
     </>
   );
 };
