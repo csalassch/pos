@@ -9,7 +9,12 @@ import DataTable from 'react-data-table-component';
 import Transactions from '../Transactions/transactions';
 import TotalRegistries from '../TotalRegistries/totalRegistries';
 import Badge from 'react-bootstrap/Badge';
+import UsersData from './UsersData';
+import Pagination from './Pagination';
 import ExpandedComponentUsuarios from './ExpandedComponentUsuarios';
+import Tippy from '@tippyjs/react';
+import DropdownToggleMatriz from '../Ubicaciones/DropdownToggle';
+import DropdownToggleUsers from './DropdownToggleUsers';
 
 const UsuariosComp = () => {
     const { t } = useTranslation();
@@ -18,6 +23,7 @@ const UsuariosComp = () => {
 
 
     const [modal, setModal] = useState(false);
+    const [openLocation, setOpenLocation] = useState(false);
     const [addFields, setAddFields] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
     // const [lista, setLista] = useState([{}]);
@@ -282,9 +288,10 @@ const UsuariosComp = () => {
 
     let searchPlacehorlder = t('txt_078');
     const [isSSR, setIsSSR] = useState(true);
-    const [fieldList, setFieldList] = useState([{idInterno:0}]);
+    const [fieldList, setFieldList] = useState([{ idInterno: 0 }]);
     const [counter, setCounter] = useState(1);
-
+    const [isOpen, setIsOpen] = useState([]);
+    const isOpenAux = [];
     const addPersonField = () => {
         setCounter(count => count + 1);
         console.log("contador:", counter);
@@ -293,10 +300,20 @@ const UsuariosComp = () => {
         setFieldList(fieldListAux);
         console.log("fieldList:", fieldList);
     }
+    // Get current users
+    const [pageChanged, setPageChanged] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [usersPerPage, setUsersPerPage] = useState(3);
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = UsersData().slice(indexOfFirstUser, indexOfLastUser);
+
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     useEffect(() => {
         setIsSSR(false);
-    }, [fieldList, counter]);
+    }, [fieldList, counter, isOpen, pageChanged]);
     return (
         <Row>
             <Col>
@@ -355,7 +372,79 @@ const UsuariosComp = () => {
                                         {/* <ReactDataTablePagination arrayOfObjects={arrayOfObjects} dataInOnePage={5} /> */}
 
                                         {/* {typeof window !=='undefined' ?'trueee':'false mate'} */}
-                                        {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedComponentUsuarios} />}
+                                        {/* {!isSSR && <DataTable columns={columns} data={dataSubs} pagination expandableRows expandableRowsComponent={ExpandedComponentUsuarios} />} */}
+                                        <Table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Ubicación</th>
+                                                </tr>
+                                            </thead>
+
+                                            {currentUsers.map((element, index, array) => {
+                                                console.log(array[index].users);
+                                                isOpenAux.push({
+                                                    opened: false,
+                                                    id: element.id
+                                                });
+                                                return (
+                                                    <tbody >
+                                                        <tr key={element.id}>
+                                                            <td
+                                                                style={{cursor:"pointer"}}
+                                                                onClick={() => {
+                                                                    setOpenLocation(!openLocation); isOpenAux[index].opened = typeof isOpen[index] === "undefined" ? true : !isOpen[index].opened;
+                                                                    setPageChanged(false);
+                                                                    setIsOpen(isOpenAux);
+                                                                    console.log("Pagechanged val: ", pageChanged);
+                                                                    console.log("dio click a: ", isOpen);
+                                                                }}>
+                                                                    {typeof isOpen[index] === "undefined" ? <Icon.ChevronRight/> : pageChanged===false? isOpen[index].opened ?  <Icon.ChevronDown/>: <Icon.ChevronRight/>:<Icon.ChevronRight/>}{element.ubicacion}</td>
+                                                        </tr>
+                                                        <Collapse id={element.id} isOpen={typeof isOpen[index] === "undefined" ? isOpenAux[index].opened : pageChanged === false ? isOpen[index].opened : false}>
+                                                            <Table>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Estado</th>
+                                                                        <th>ID</th>
+                                                                        <th>Nombre</th>
+                                                                        <th>Correo</th>
+                                                                        <th>Fecha de registro</th>
+                                                                        <th>Roles</th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {array[index].users.map((child) => {
+                                                                        return (
+                                                                            <tr>
+                                                                                <td>{child.active}</td>
+                                                                                <td>{child.id}</td>
+                                                                                <td>{child.name}</td>
+                                                                                <td>{child.email}</td>
+                                                                                <td>{child.dateCreated}</td>
+                                                                                <td>{child.roles}</td>
+                                                                                <td>
+                                                                                    <div className='d-flex justify-content-center align-items-center' style={{ cursor: "pointer" }}>
+                                                                                        <DropdownToggleUsers />
+                                                                                        {/* <Tippy trigger='click' content={<span>Tooltip</span>} interactive={true} interactiveBorder={20} delay={100}>
+                                                                                            <Icon.MoreVertical size={17} />
+                                                                                        </Tippy> */}
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        )
+                                                                    })}
+
+                                                                </tbody>
+                                                            </Table>
+                                                        </Collapse>
+
+                                                    </tbody>
+                                                )
+                                            })}
+
+                                        </Table>
+                                        <Pagination usersPerPage={usersPerPage} totalUsers={UsersData().length} paginate={paginate} pageChanged={pageChanged} setPageChanged={setPageChanged} />
                                     </div>
 
 
@@ -383,7 +472,7 @@ const UsuariosComp = () => {
                                             </FormGroup>
                                         </Col>
                                     </Row>
-                                    
+
                                     <div id='appendedFields'>
                                         {fieldList.map((msg) => (
                                             <Row key={msg.idInterno}>
@@ -425,8 +514,8 @@ const UsuariosComp = () => {
                                                         setFieldList(newList);
                                                     }}
                                                         className='d-flex justify-content-center align-items-center'
-                                                        style={{cursor:"pointer"}}
-                                                        >
+                                                        style={{ cursor: "pointer" }}
+                                                    >
                                                         <div>
                                                             <Icon.X size={17} />
                                                         </div>
