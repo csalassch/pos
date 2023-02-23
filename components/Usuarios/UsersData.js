@@ -1,6 +1,10 @@
+import { useEffect } from 'react';
 import * as Icon from 'react-feather';
 
 function UsersData() {
+    // Datos para usuarios
+    // Nombre, apellido,rol o roles, teléfono,matriz,sucursal,correo electrónico, foto de perfil
+
 
     const userData = [
         {
@@ -10,20 +14,23 @@ function UsersData() {
             users: [
                 {
                     active: true,
-                    id: "A112",
-                    name: "Magdiel Jiménez",
-                    email: "elimjt777@gmail.com",
+                    id: "AGCFRBG",
+                    name: "Adrián Aguilar Cruz",
+                    email: "adrian.aguilar@freebug.mx",
                     dateCreated: "20/12/2022",
-                    roles: "Cajero, Administrador"
+                    roles: "Chinculin, Desarrollador Jr.",
+                    image:"https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2Fuser4.jpg?alt=media&token=079dff45-3f00-4364-b458-c7fac1443213"
+
 
                 },
                 {
-                    active: true,
-                    id: "AHJISHI",
-                    name: "Magdiel Jiménez",
-                    email: "elimjt777@gmail.com",
+                    active: false,
+                    id: "RLOFRBG",
+                    name: "Ricardo López Ortiz",
+                    email: "ricardo.lopez@freebug.mx",
                     dateCreated: "20/12/2022",
-                    roles: "Cajero, Jefe mero mero"
+                    roles: "Desarrollador Jr.",
+                    image:"https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2Fuser5.jpg?alt=media&token=912b30fb-6ab3-4e88-9484-5f9388642e34"
 
                 }
             ]
@@ -35,12 +42,13 @@ function UsersData() {
             ubicacion: "Ubicación 2",
             users: [
                 {
-                    active: true,
-                    id: "A113",
-                    name: "Magdiel Jiménez",
-                    email: "elimjt777@gmail.com",
+                    active: false,
+                    id: "DBJFRBG",
+                    name: "Diego Bernardo Jiménez Tabla",
+                    email: "diego.jimenez@freebug.mx",
                     dateCreated: "20/12/2022",
-                    roles: "Cajero"
+                    roles: "Project Manager",
+                    image:"https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2Fuser4.jpg?alt=media&token=079dff45-3f00-4364-b458-c7fac1443213"
 
                 }
             ]
@@ -52,12 +60,13 @@ function UsersData() {
             ubicacion: "Ubicación 3",
             users: [
                 {
-                    active: true,
-                    id: "A11ghfghfh",
-                    name: "Magdiel Jiménez",
+                    active: false,
+                    id: "MJTFRBG",
+                    name: "Magdiel Jiménez Tabla",
                     email: "elimjt777@gmail.com",
                     dateCreated: "20/12/2022",
-                    roles: "Cajero"
+                    roles: "Chinchulina",
+                    image:"https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2FprofileMag1.jpg?alt=media&token=90a38036-93d0-4600-a393-b9cebdcda220"
 
                 }
             ]
@@ -70,12 +79,13 @@ function UsersData() {
             ubicacion: "Ubicación 4",
             users: [
                 {
-                    active: true,
-                    id: "A11ghfghfh",
-                    name: "Magdiel Jiménez",
-                    email: "elimjt777@gmail.com",
+                    active: false,
+                    id: "JTFRBG",
+                    name: "Jorge Tenorio",
+                    email: "jorge.tenorio@freebug.mx",
                     dateCreated: "20/12/2022",
-                    roles: "Cajero"
+                    roles: "Desarrollador Backend",
+                    image:"https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2Fuser5.jpg?alt=media&token=912b30fb-6ab3-4e88-9484-5f9388642e34"
 
                 }
             ]
@@ -88,12 +98,13 @@ function UsersData() {
             ubicacion: "Ubicación 5",
             users: [
                 {
-                    active: true,
-                    id: "A11ghfghfh",
-                    name: "Magdiel Jiménez",
-                    email: "elimjt777@gmail.com",
+                    active: false,
+                    id: "DMFRBG",
+                    name: "Dylan Mendoza",
+                    email: "dylan.mendoza@freebug.mx",
                     dateCreated: "20/12/2022",
-                    roles: "Cajero"
+                    roles: "desarrollador Netsuite",
+                    image:"https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2Fuser5.jpg?alt=media&token=912b30fb-6ab3-4e88-9484-5f9388642e34"
 
                 }
             ]
@@ -106,18 +117,21 @@ function UsersData() {
             users: [
                 {
                     active: true,
-                    id: "A11ghfghfh",
-                    name: "Magdiel Jiménez",
-                    email: "elimjt777@gmail.com",
+                    id: "MVRFRBG",
+                    name: "Markito Vega Ramírez",
+                    email: "marco.vega@freebug.mx",
                     dateCreated: "20/12/2022",
-                    roles: "Cajero"
+                    roles: "desarrolador Netsuite",
+                    image:"https://firebasestorage.googleapis.com/v0/b/panellicencia.appspot.com/o/images%2Fuser4.jpg?alt=media&token=079dff45-3f00-4364-b458-c7fac1443213"
 
                 }
             ]
 
         }
     ];
+    useEffect(()=>{
 
+    },[userData]);
     return userData;
 };
 

@@ -2,8 +2,15 @@
 import { useEffect, useState } from 'react';
 import * as Icon from 'react-feather';
 import Select from 'react-select';
-import { Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader } from 'reactstrap';
+import {
+    Table, Modal, ModalHeader, Alert, ModalBody, CardBody, ModalFooter, Button, Label, Row, Col, Card, Form, Input, FormGroup, Collapse, CardHeader,
+    UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
+} from 'reactstrap';
 import Papa from "papaparse";
+import SimpleBar from 'simplebar-react';
 import useTranslation from '@/hooks/useTranslation';
 import DataTable from 'react-data-table-component';
 import Transactions from '../Transactions/transactions';
@@ -15,6 +22,8 @@ import ExpandedComponentUsuarios from './ExpandedComponentUsuarios';
 import Tippy from '@tippyjs/react';
 import DropdownToggleMatriz from '../Ubicaciones/DropdownToggle';
 import DropdownToggleUsers from './DropdownToggleUsers';
+import TwoColumnEditUsers from '../twoColumn/TwoColumnEditUsers';
+import FiltersDropdownComp from '../Filters/FiltersDropdownComp';
 
 const UsuariosComp = () => {
     const { t } = useTranslation();
@@ -303,30 +312,75 @@ const UsuariosComp = () => {
     // Get current users
     const [pageChanged, setPageChanged] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage, setUsersPerPage] = useState(3);
+    const [usersPerPage, setUsersPerPage] = useState(2);
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = UsersData().slice(indexOfFirstUser, indexOfLastUser);
+    const [usersData, setUsersData] = useState(UsersData());
+    const currentUsers = usersData.slice(indexOfFirstUser, indexOfLastUser);
 
     // Change page
     const paginate = pageNumber => setCurrentPage(pageNumber);
+    // Flag for clicking edit in tooltip
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openEditAfter, setOpenEditAfter] = useState(false);
+    const [indexEdit, setIndexEdit] = useState(0);
+    const [indexEditUsers, setIndexEditUsers] = useState(0);
+    // Obj de filtros
+    const filters = [
+        {
+            id: 1,
+            filterType: 'Estado',
+            filterChildren: ['Activos','Desactivados','Pendientes']
+        },
+        {
+            id: 2,
+            filterType: 'Ubicación',
+            filterChildren: ['VRT Calle 11','VRT SLRC','+ Otros']
+        }
+    ];
 
     useEffect(() => {
         setIsSSR(false);
-    }, [fieldList, counter, isOpen, pageChanged]);
+        console.log("openEdit val: ", openEdit);
+        // Pendiente: si se pica el boton de editar, hay que volver a llamar UsersData() para que los datos se refresquen
+        console.log("Closed modal of edit", openEditAfter)
+        // if (openEditAfter === true) {
+        //     console.log("Data is being refreshed...");
+        //     setUsersData(UsersData());
+        //     setOpenEditAfter(!openEditAfter);
+        // }
+
+
+    }, [fieldList, counter, isOpen, pageChanged, openEdit, currentUsers, usersData, openEditAfter,]);
     return (
         <Row>
             <Col>
+                {/* Botón de invitar usuario */}
                 <div className="d-flex align-items-stretch">
                     <div className="p-1 align-self-stretch">
                         <Button title={t('txt_073')} className='btn btn-icon-N' onClick={() => { setModal(true) }} type="button"><Icon.Plus style={{ verticalAlign: "middle", position: "relative", width: "17px" }} />Invitar usuario</Button>
                     </div>
-
-
-
+                    {/* Boton de filtrar */}
                     <div className="p-1 align-self-stretch" style={{ marginLeft: "auto" }}>
-                        <Button title={t('txt_024')} onClick={() => { setShowFilters(!showFilters) }} className='btn btn-icon-N mb-3' type="button"><Icon.Filter style={{ marginRight: "5px", verticalAlign: "middle", position: "relative", width: "17px" }} />{t('txt_024')}</Button>
+                        <UncontrolledDropdown direction='down' className="mx-1 ">
+                            <DropdownToggle className="btn btn-icon-N p-1 border-0 btn-header">
+                                <Icon.Filter size={18} /> Filtrar
+                            </DropdownToggle>
+                            <DropdownMenu className="ddWidth">
+                                <SimpleBar style={{ maxHeight: '350px' }}>
+                                    <FiltersDropdownComp filters={filters}/>
+                                </SimpleBar>
+                                <DropdownItem divider />
+                                <div className="p-1 px-3" style={{cursor:"pointer"}}>
+                                    Filtros Avanzados
+                                </div>
+                                <div className="p-1 px-3" style={{cursor:"pointer"}}>
+                                    Borrar filtros
+                                </div>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
                     </div>
+                    {/* Campo de búsqueda */}
                     <div className="p-1 align-self-stretch">
                         <Input className='searchBar' type="text" placeholder={searchPlacehorlder} style={{ border: "none" }} />
                     </div>
@@ -390,7 +444,7 @@ const UsuariosComp = () => {
                                                     <tbody >
                                                         <tr key={element.id}>
                                                             <td
-                                                                style={{cursor:"pointer"}}
+                                                                style={{ cursor: "pointer" }}
                                                                 onClick={() => {
                                                                     setOpenLocation(!openLocation); isOpenAux[index].opened = typeof isOpen[index] === "undefined" ? true : !isOpen[index].opened;
                                                                     setPageChanged(false);
@@ -398,7 +452,7 @@ const UsuariosComp = () => {
                                                                     console.log("Pagechanged val: ", pageChanged);
                                                                     console.log("dio click a: ", isOpen);
                                                                 }}>
-                                                                    {typeof isOpen[index] === "undefined" ? <Icon.ChevronRight/> : pageChanged===false? isOpen[index].opened ?  <Icon.ChevronDown/>: <Icon.ChevronRight/>:<Icon.ChevronRight/>}{element.ubicacion}</td>
+                                                                {typeof isOpen[index] === "undefined" ? <Icon.ChevronRight color='#077cab' /> : pageChanged === false ? isOpen[index].opened ? <Icon.ChevronDown color='#077cab' /> : <Icon.ChevronRight color='#077cab' /> : <Icon.ChevronRight color='#077cab' />}{element.ubicacion}</td>
                                                         </tr>
                                                         <Collapse id={element.id} isOpen={typeof isOpen[index] === "undefined" ? isOpenAux[index].opened : pageChanged === false ? isOpen[index].opened : false}>
                                                             <Table>
@@ -414,10 +468,22 @@ const UsuariosComp = () => {
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    {array[index].users.map((child) => {
+                                                                    {array[index].users.map((child, index2, array2) => {
+                                                                        console.log("Child being analyzed: ", array[0].users[1])
                                                                         return (
                                                                             <tr>
-                                                                                <td>{child.active}</td>
+                                                                                <td>{child.active === true ?
+                                                                                    <label className="switch">
+                                                                                        <input type="checkbox" checked={true} disabled />
+                                                                                        <span className="slider round" ></span>
+                                                                                    </label>
+                                                                                    :
+                                                                                    <label className="switch">
+                                                                                        <input type="checkbox" disabled checked={false} />
+                                                                                        <span className="slider round" ></span>
+                                                                                    </label>
+                                                                                }
+                                                                                </td>
                                                                                 <td>{child.id}</td>
                                                                                 <td>{child.name}</td>
                                                                                 <td>{child.email}</td>
@@ -425,7 +491,8 @@ const UsuariosComp = () => {
                                                                                 <td>{child.roles}</td>
                                                                                 <td>
                                                                                     <div className='d-flex justify-content-center align-items-center' style={{ cursor: "pointer" }}>
-                                                                                        <DropdownToggleUsers />
+                                                                                        <DropdownToggleUsers openEdit={openEdit} setOpenEdit={setOpenEdit} indexEdit={index} setIndexEdit={setIndexEdit} indexEditUsers={index2} setIndexEditUsers={setIndexEditUsers} />
+
                                                                                         {/* <Tippy trigger='click' content={<span>Tooltip</span>} interactive={true} interactiveBorder={20} delay={100}>
                                                                                             <Icon.MoreVertical size={17} />
                                                                                         </Tippy> */}
@@ -435,9 +502,11 @@ const UsuariosComp = () => {
                                                                         )
                                                                     })}
 
+
                                                                 </tbody>
                                                             </Table>
                                                         </Collapse>
+
 
                                                     </tbody>
                                                 )
@@ -445,6 +514,19 @@ const UsuariosComp = () => {
 
                                         </Table>
                                         <Pagination usersPerPage={usersPerPage} totalUsers={UsersData().length} paginate={paginate} pageChanged={pageChanged} setPageChanged={setPageChanged} />
+                                        {/* Modal de Editar Usuario */}
+                                        <Modal size='lg' isOpen={openEdit} toggle={() => { setOpenEdit(false); setOpenEditAfter(!openEditAfter); }}>
+                                            <ModalHeader toggle={() => {
+                                                setOpenEdit(false);
+                                                setOpenEditAfter(!openEditAfter);
+                                            }}>
+                                                Editar información del usuario
+                                            </ModalHeader>
+                                            <ModalBody className='pb-0 pt-0'>
+                                                <TwoColumnEditUsers userInformation={currentUsers[indexEdit].users[indexEditUsers]} location={currentUsers[indexEdit].ubicacion} />
+                                            </ModalBody>
+                                            <ModalFooter style={{ borderTop: "none" }}></ModalFooter>
+                                        </Modal>
                                     </div>
 
 
